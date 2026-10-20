@@ -272,7 +272,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .actions > * { flex: 1; }
 .next-in { font-family: var(--f-display); font-weight: 700; font-size: 18px; color: var(--mute-chalk); font-variant-numeric: tabular-nums; }
-.share-box { width: 100%; font-family: var(--f-body); font-size: 14px; background: var(--chalk-2); color: var(--ink); border: 2px solid var(--ink); border-radius: var(--hard); padding: 8px; }
 .tier-scale { display: grid; gap: 3px; font-size: 14px; }
 .tier-scale div { display: grid; grid-template-columns: 14px 120px 1fr; gap: 10px; align-items: center; }
 .tier-scale i { width: 14px; height: 14px; }
@@ -386,7 +385,13 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 
 /* ── Trading cards ─────────────────────────────────── */
 .tcard { perspective: 800px; aspect-ratio: 5 / 7; container-type: inline-size; }
-@container (max-width: 130px) { .tcard-rar small { display: none; } .tcard-meta span { display: none; } }
+@container (max-width: 130px) { .tcard .tcard-rar small { display: none; } .tcard .tcard-meta span { display: none; } }
+@container (max-width: 90px) {
+  .tcard .tcard-meta { padding: 4px 4px 3px; }
+  .tcard .tcard-meta b { font-size: 11px; overflow-wrap: normal; hyphens: auto; }
+  .tcard .tcard-rar { padding: 2px 4px; font-size: 10px; letter-spacing: 0; }
+  .tcard .tcard-face, .tcard .tcard-back { border-width: 3px; }
+}
 .tcard-in { position: relative; height: 100%; transform-style: preserve-3d; transition: transform 600ms cubic-bezier(.3,.8,.3,1.1); }
 .tcard.flip .tcard-in { transform: rotateY(180deg); }
 .tcard-face, .tcard-back { position: absolute; inset: 0; backface-visibility: hidden; border: 5px solid var(--rar); background: var(--ink); color: var(--chalk); }
@@ -433,6 +438,92 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .cab-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
   .vault-btn { margin-top: 10px; }
 }
+/* ── Full time: the whole screen ───────────────────── */
+.sheet.full { padding: 0; display: block; background: var(--ink); }
+.ft { max-width: 1240px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top, 0px)) var(--edge) 56px; color: var(--chalk);
+  display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(320px, 1fr); gap: 22px 28px;
+  grid-template-areas: "top top" "map rows" "calls rows" "cards cards" "share share"; align-items: start; }
+.ft-top { grid-area: top; display: grid; grid-template-columns: 1fr auto; gap: 18px 28px; align-items: end; border-bottom: 3px solid var(--ink-line); padding-bottom: 20px; }
+.ft-head small { font: 700 13px var(--f-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute-ink); }
+.ft-head h2 { margin: 2px 0 6px; font: 900 clamp(64px, 11vw, 150px)/0.8 var(--f-display); text-transform: uppercase; letter-spacing: -0.01em; }
+.ft-score { display: flex; align-items: baseline; gap: 12px; }
+.ft-score b { font: 900 clamp(60px, 8vw, 110px)/0.85 var(--f-display); color: var(--gold); font-variant-numeric: tabular-nums; }
+.ft-score span { font: 700 24px var(--f-display); color: var(--mute-ink); text-transform: uppercase; }
+.ft-next { margin: 8px 0 0; color: var(--mute-ink); font-weight: 600; }
+.ft .rank { background: var(--ink-2); grid-row: span 2; align-self: stretch; }
+.ft-stats { grid-column: 1; }
+.ft .stats div { background: var(--ink-2); }
+
+.ft-map-wrap { grid-area: map; position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--sea); box-shadow: inset 0 0 0 3px var(--ink-line); }
+.ft-map { display: block; width: 100%; height: 100%; }
+.ft-sea { fill: var(--sea); }
+.ft-land { fill: var(--land); stroke: color-mix(in srgb, var(--chalk) 22%, transparent); stroke-linejoin: round; }
+.ft-arc { fill: none; stroke: var(--c); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0;
+  animation: arc-draw 900ms cubic-bezier(.5,0,.3,1) both; animation-delay: calc(var(--i) * 450ms + 400ms); }
+@keyframes arc-draw { from { stroke-dashoffset: 1; } }
+.ft-marks { animation: mark-in 300ms ease-out both; animation-delay: calc(var(--i) * 450ms + 1200ms); }
+@keyframes mark-in { from { opacity: 0; } }
+.instant .ft-arc, .instant .ft-marks { animation: none; }
+.ft-ball circle { fill: var(--chalk); stroke: var(--ink); stroke-width: 0.6; }
+.ft-ball svg { color: var(--ink); }
+.ft-flag .pole { stroke: var(--chalk); stroke-width: 1.4; stroke-linecap: round; }
+.ft-flag .cloth { fill: var(--c); stroke: var(--ink); stroke-width: 0.8; stroke-linejoin: round; }
+.ft-flag circle { fill: var(--ink); stroke: var(--chalk); stroke-width: 0.8; }
+.ft-num { fill: var(--chalk); font-family: var(--f-display); font-weight: 900; paint-order: stroke; stroke: var(--ink); stroke-width: 0.25; }
+
+.ft-rows { grid-area: rows; list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ft-row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 12px 8px 8px; background: var(--ink-2); border-left: 6px solid var(--c); }
+.ft-thumb { position: relative; width: 64px; height: 64px; display: grid; place-items: center; overflow: hidden; background: var(--ink); color: var(--mute-ink); }
+.ft-thumb svg { width: 30px; height: 30px; }
+.ft-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+.ft-thumb[data-type="team"] img { object-fit: contain; padding: 6px; background: var(--chalk); }
+.ft-who { min-width: 0; font-size: 13px; line-height: 1.35; color: var(--mute-ink); }
+.ft-who b { display: block; margin-bottom: 2px; color: var(--chalk); font: 800 20px/1 var(--f-display); text-transform: uppercase; overflow-wrap: anywhere; }
+.ft-who span { display: block; }
+.ft-said i { font-style: normal; color: var(--chalk); }
+.ft-pts { text-align: right; }
+.ft-pts b { display: block; font: 900 32px/0.9 var(--f-display); font-variant-numeric: tabular-nums; }
+.ft-tier { display: inline-block; margin: 3px 0 2px; padding: 1px 6px; background: var(--c); color: var(--ink); font: 800 13px var(--f-display); text-transform: uppercase; white-space: nowrap; }
+.ft-pts small { display: block; font-size: 12px; color: var(--mute-ink); white-space: nowrap; }
+
+.ft-calls { grid-area: calls; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ft-call { padding: 12px 14px; background: var(--ink-2); border-top: 6px solid var(--c); }
+.ft-call small { display: block; font: 700 12px var(--f-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute-ink); }
+.ft-call b { display: block; margin: 4px 0; font: 900 28px/0.95 var(--f-display); text-transform: uppercase; }
+.ft-call span { font-size: 14px; color: var(--mute-ink); }
+
+.ft-cards { grid-area: cards; }
+.ft-cards h3 { margin: 0; font: 900 34px var(--f-display); text-transform: uppercase; }
+.ft-cards p { margin: 0 0 12px; color: var(--mute-ink); }
+.ft-cardrow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.ft-cardbtn { padding: 0; background: none; transition: transform 150ms; }
+.ft-cardbtn:hover { transform: translateY(-4px); }
+.ft .tcard-in { transition-delay: calc(var(--i) * 350ms + 2200ms); }
+
+.ft-share { grid-area: share; display: grid; gap: 12px; max-width: 640px; }
+.ft-sharetext { margin: 0; padding: 14px 16px; background: var(--ink-2); border-left: 6px solid var(--gold); font: 500 15px/1.5 var(--f-body); white-space: pre-wrap; overflow-wrap: anywhere; }
+.ft .next-in { color: var(--mute-ink); }
+.ft .minor { box-shadow: inset 0 0 0 2px var(--ink-line); background: var(--ink-2); color: var(--chalk); }
+.ft .minor:hover { box-shadow: inset 0 0 0 2px var(--gold); }
+.ft .credits, .ft-geo { color: var(--mute-ink); font-size: 12px; margin: 0; }
+.ft .credits a { color: var(--chalk); }
+
+@media (max-width: 900px) {
+  .ft { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "map" "rows" "calls" "cards" "share"; gap: 18px; }
+  .ft-top { grid-template-columns: 1fr; }
+  .ft .rank { grid-row: auto; }
+  .ft-stats { grid-column: auto; }
+}
+@media (max-width: 520px) {
+  .ft-calls { grid-template-columns: 1fr; }
+  .ft-row { grid-template-columns: 52px minmax(0, 1fr) auto; gap: 10px; }
+  .ft-thumb { width: 52px; height: 52px; }
+  .ft-who b { font-size: 18px; }
+  .ft-pts b { font-size: 26px; }
+  .ft-cardrow { gap: 6px; }
+  .ft-map-wrap { aspect-ratio: 4 / 3; }
+}
+
 /* Narrow phones: the scoreboard strip has six things in it, so everything tightens up a little. */
 @media (max-width: 420px) {
   .bar { gap: 5px; padding-left: 10px; padding-right: 10px; }

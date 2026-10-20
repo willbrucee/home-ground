@@ -163,6 +163,8 @@ def score(entry, title, meta, source):
         return None  # names the answer city: gives the game away
     if entry["type"] == "athlete" and not PHOTO_FILE.search(title):
         return None  # drawings, diagrams, animations
+    if entry["type"] == "team" and source != "logo" and not re.search(r"\.jpe?g$", title, re.I):
+        return None  # a team's match photo is a photo; PNGs here are line-up diagrams and charts
     if min(meta["w"], meta["h"]) < 500:
         return None  # too small to look good
 

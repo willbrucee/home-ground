@@ -1,3 +1,35 @@
 {
- "_readme": "Picture overrides, by entry id. { \"use\": \"File name.jpg\" } picks a Commons file by hand; { \"reject\": [\"File.jpg\"] } never uses those files; { \"none\": true } moves the entry to the reserve. Then run: python3 scripts/pick_images.py"
+ "_readme": "Picture overrides, by entry id. { \"use\": \"File name.jpg\" } picks a Commons file by hand; { \"reject\": [\"File.jpg\"] } never uses those files; { \"none\": true } moves the entry to the reserve. Then run: python3 scripts/pick_images.py",
+ "wd-Q169138": {
+  "none": true,
+  "note": "Miami Heat: picked photo was a ticket stub; choose one by hand"
+ },
+ "wd-Q205973": {
+  "none": true,
+  "note": "Edmonton Oilers: picked photo was a bear in a jersey; choose one by hand"
+ },
+ "wd-Q2573367": {
+  "none": true,
+  "note": "Sydney Roosters: picked photo was an empty cricket stand; choose one by hand"
+ },
+ "wd-Q180305": {
+  "none": true,
+  "note": "AS Monaco FC: picked photo was rival club's fans; choose one by hand"
+ },
+ "wd-Q8687": {
+  "none": true,
+  "note": "Athletic Club: picked photo was a different club; choose one by hand"
+ },
+ "wd-Q219714": {
+  "none": true,
+  "note": "Philadelphia Eagles: picked photo was a radio commentator; choose one by hand"
+ },
+ "wd-Q159729": {
+  "none": true,
+  "note": "San Antonio Spurs: picked photo was unclear subject; choose one by hand"
+ },
+ "wd-Q131499": {
+  "none": true,
+  "note": "S.L. Benfica: picked photo was a 1965 team photo, too faded; choose one by hand"
+ }
 }

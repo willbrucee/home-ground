@@ -6,6 +6,7 @@ import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
 import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
+import { loadPlaces, describeSpot, worldMapHtml } from "./fulltime.js";
 import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect, cabinetHtml } from "./vault.js";
 import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, biggestSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
 
@@ -34,6 +35,7 @@ const today = dayNumber();
 const dailyKey = `hg:day:${today}`;
 let players = [];
 let countryIndex = new Map(); // lower-case country name or alias → { name, fit } of its map shape
+let countryShapes = [];       // the GeoJSON features themselves (for the Full time map)
 let mode = "daily", items = [], results = [], round = 0;
 let phase = "guess"; // "guess" → "reveal" → (next round) … → "done"
 let guess = null, hintUsed = false;
@@ -104,7 +106,8 @@ async function lockIn() {
   const pts = pointsFor(km, hintUsed);
   const before = total();
   const tier = tierFor(km);
-  results.push({ id: it.id, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
+  const at = { lat: +guess.lat.toFixed(3), lng: +guess.lng.toFixed(3) }; // kept for the Full time map
+  results.push({ id: it.id, guess: at, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
   if (mode === "daily") store.set(dailyKey, results);
   const card = collect(it.id, pts, today); // into the trophy cabinet ("new", "upgrade" or "")
   loadVault(); // fetch the Vault's facts in the background, ready for the button
@@ -302,32 +305,98 @@ function ladderHtml(rank) {
 
 let timer = null;
 let sheetKind = null; // which overlay is open, so a unit switch can redraw it
-function showSummary() {
+
+// ── Full time ───────────────────────────────────────────
+// A full-screen scorecard: the total counting up, the rank, a map of all five shots, a row per
+// round, the best and worst shot, the day's Vault cards turning over, then sharing.
+function showSummary({ instant = false } = {}) {
   sheetKind = "summary";
   const st = store.get("hg:stats", { played: 0, streak: 0, best: 0 });
+  const rank = rankFor(total());
+  const n = results.length;
+  const byPts = results.map((r, i) => i).sort((a, b) => results[b].pts - results[a].pts || results[a].km - results[b].km);
+  const best = byPts[0], worst = byPts[n - 1];
+  const thumb = (it) => it.image ? `<img src="${esc(it.image.replace(/width=\d+/, "width=160"))}" alt="${esc(it.name)}" loading="lazy" width="64" height="64" onerror="this.remove()">` : "";
   const rows = items.map((it, i) => {
-    const r = results[i];
-    return `<div class="row"><span class="sq" style="background:${tierFor(r.km).color}"></span>
-      <div class="nm"><b>${esc(it.name)}</b><span>${esc(it.city)}, ${esc(it.country)}</span></div>
-      <div class="sc">${r.pts.toLocaleString()}<small>${formatDistance(r.km)}${r.hint ? " · hint" : ""}</small></div></div>`;
+    const r = results[i], t = tierFor(r.km);
+    return `<li class="ft-row" style="--c:${t.color}">
+      <span class="ft-thumb" data-type="${it.type}">${sportIcon(it.sport)}${thumb(it)}</span>
+      <div class="ft-who"><b>${i + 1}. ${esc(it.name)}</b>
+        <span class="ft-said">You said: <i data-spot="${i}">${r.guess ? "…" : "not recorded"}</i></span>
+        <span>Actually: ${esc(it.city)}, ${esc(it.country)}</span></div>
+      <div class="ft-pts"><b>${r.pts.toLocaleString()}</b><span class="ft-tier">${t.name}</span><small>${r.inside ? "inside the city" : formatDistance(r.km)}${r.hint ? " · hint" : ""}</small></div>
+    </li>`;
   }).join("");
-  openSheet(`<div class="card" role="dialog" aria-labelledby="sumTitle">
-    <h2 id="sumTitle">${mode === "daily" ? "Full time" : mode === "replay" ? "Replay over" : "Practice over"}</h2>
-    <div class="final"><b>${total().toLocaleString()}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
-    ${ladderHtml(rankFor(total()))}
-    <div class="rows">${rows}</div>
-    ${mode === "daily" ? `<div class="stats"><div><b>${st.played}</b><span>Played</span></div><div><b>${st.streak}</b><span>Streak</span></div><div><b>${st.best.toLocaleString()}</b><span>Best</span></div></div>` : ""}
-    ${imageCredits()}
-    <div class="actions"><button class="go" id="copyBtn">Copy result</button><button class="minor" id="practiceBtn">Practice round</button></div>
-    ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : ""}
-    ${mode === "daily" ? `<div class="next-in" id="countdown"></div>` : mode === "practice" ? `<button class="minor" id="backBtn">Today's set</button>` : ""}
-    <button class="minor" id="closeBtn">Back to the map</button>
+  const callout = (i, label) => {
+    const it = items[i], r = results[i], t = tierFor(r.km);
+    return `<div class="ft-call" style="--c:${t.color}"><small>${label}</small><b>${esc(it.name)}</b>
+      <span>${r.inside ? "Inside the city" : `${formatDistance(r.km)} off`} · ${t.name} · ${r.pts.toLocaleString()} pts</span></div>`;
+  };
+  const next = LADDER.find((l) => l.min > total());
+  const title = mode === "daily" ? "Full time" : mode === "replay" ? "Replay over" : "Practice over";
+  openSheet(`<div class="ft" role="dialog" aria-labelledby="ftTitle">
+    <header class="ft-top">
+      <div class="ft-head">
+        <small>${esc($("#puzzleNo").textContent)}</small>
+        <h2 id="ftTitle">${title}</h2>
+        <div class="ft-score"><b id="ftTotal">${instant ? total().toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
+        ${next ? `<p class="ft-next">${(next.min - total()).toLocaleString()} short of ${next.name}.</p>` : `<p class="ft-next">Top of the ladder.</p>`}
+      </div>
+      ${ladderHtml(rank)}
+      ${mode === "daily" ? `<div class="stats ft-stats"><div><b>${st.streak}</b><span>Streak</span></div><div><b>${st.played}</b><span>Played</span></div><div><b>${st.best.toLocaleString()}</b><span>Best</span></div></div>` : ""}
+    </header>
+    <section class="ft-map-wrap" id="ftMap" aria-label="Today's shots on the map"></section>
+    <ol class="ft-rows">${rows}</ol>
+    ${n > 1 ? `<div class="ft-calls">${callout(best, "Best shot")}${best !== worst ? callout(worst, "Worst shot") : ""}</div>` : ""}
+    <section class="ft-cards"><h3>Today's cards</h3><p>Tap a card to open its Vault.</p>
+      <div class="ft-cardrow">${items.map((it, i) => `<button class="ft-cardbtn" data-round="${i}" aria-label="${esc(it.name)}: open the Vault">${cardHtml(it, results[i].pts, { flip: !instant, i })}</button>`).join("")}</div>
+    </section>
+    <section class="ft-share">
+      <pre class="ft-sharetext" id="shareText">${esc(shareText())}</pre>
+      <div class="actions"><button class="go" id="copyBtn">Copy result</button></div>
+      ${mode === "daily" ? `<div class="next-in" id="countdown"></div>` : ""}
+      <div class="actions ft-more"><button class="minor" id="practiceBtn">Practice round</button>
+        ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : `<button class="minor" id="backBtn">Today's set</button>`}
+        <button class="minor" id="closeBtn">Back to the map</button></div>
+      ${imageCredits()}
+      <p class="ft-geo">Place names: GeoNames (CC BY 4.0).</p>
+    </section>
   </div>`);
+  $("#sheet").classList.add("full");
   $("#copyBtn").onclick = copyResult;
   $("#practiceBtn").onclick = startPractice;
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
   $("#closeBtn").onclick = hideSheet;
   if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
+  document.querySelectorAll(".ft-cardbtn").forEach((b) => (b.onclick = () => showVault(+b.dataset.round, { back: true })));
+
+  // the map, sized to the space it got
+  const mapEl = $("#ftMap");
+  mapEl.innerHTML = worldMapHtml(items.map((it, i) => ({
+    guess: results[i].guess, answer: { lat: it.lat, lng: it.lng }, color: tierFor(results[i].km).color, sport: it.sport,
+  })), countryShapes, mapEl.clientWidth, mapEl.clientHeight);
+  if (instant) mapEl.classList.add("instant");
+
+  // "You said: near Lyon, France" once the town list has loaded
+  loadPlaces().then(() => document.querySelectorAll("[data-spot]").forEach((el) => {
+    const r = results[+el.dataset.spot];
+    if (r?.guess) el.textContent = describeSpot(r.guess, countryShapes);
+  }));
+
+  // the total counts up; then the cards turn over one by one (CSS staggers them)
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!instant && !reduce) {
+    const start = performance.now(), to = total();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / 1400), el = $("#ftTotal");
+      if (!el) return;
+      el.textContent = Math.round(to * (1 - (1 - t) ** 3)).toLocaleString();
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  } else $("#ftTotal").textContent = total().toLocaleString();
+  requestAnimationFrame(() => setTimeout(() => document.querySelectorAll(".ft .tcard.flip").forEach((c) => c.classList.remove("flip")), 50));
+
   if ($("#countdown")) {
     const tick = () => {
       const n = new Date(), m = new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1);
@@ -342,7 +411,7 @@ function showSummary() {
 
 // The Vault for one round: the card you won and the five levels of facts.
 let vaultRound = 0;
-async function showVault(i) {
+async function showVault(i, { back = false } = {}) {
   await loadVault();
   sheetKind = "vault"; vaultRound = i;
   const it = items[i], r = results[i];
@@ -350,9 +419,9 @@ async function showVault(i) {
     <div class="vault-head">${cardHtml(it, r.pts)}
       <div><h2 id="vaultTitle">The Vault</h2><small>${esc(it.name)} · ${levelFor(r.pts) + 1} of 5 levels unlocked with ${r.pts.toLocaleString()} points</small></div></div>
     ${vaultHtml(it, r)}
-    <div class="actions"><button class="go" id="closeBtn">Back to the map</button></div>
+    <div class="actions"><button class="go" id="closeBtn">${back ? "Back to full time" : "Back to the map"}</button></div>
   </div>`);
-  $("#closeBtn").onclick = hideSheet;
+  $("#closeBtn").onclick = back ? () => showSummary({ instant: true }) : hideSheet;
 }
 
 function showCabinet() {
@@ -368,29 +437,24 @@ function showCabinet() {
 function copyResult() {
   const text = shareText();
   try {
-    navigator.clipboard.writeText(text).then(() => toast("Result copied"), () => fallbackCopy(text));
-  } catch { fallbackCopy(text); }
+    navigator.clipboard.writeText(text).then(() => toast("Result copied"), fallbackCopy);
+  } catch { fallbackCopy(); }
 }
-// If the clipboard is blocked, show the text in a box so it can be copied by hand.
-function fallbackCopy(text, { quiet = false } = {}) {
-  const card = $("#sheet .card");
-  let ta = $("#shareTa");
-  if (!ta) {
-    ta = document.createElement("textarea");
-    ta.id = "shareTa"; ta.rows = 4; ta.readOnly = true; ta.className = "share-box";
-    card.insertBefore(ta, card.querySelector(".actions"));
-  }
-  ta.value = text;
-  if (quiet) return; // just refreshing the text (e.g. after a unit switch)
-  ta.focus(); ta.select();
-  toast("Copy blocked. Select the text above instead.");
+// If the clipboard is blocked, select the result text on screen so it can be copied by hand.
+function fallbackCopy() {
+  const pre = $("#shareText");
+  if (!pre) return;
+  const range = document.createRange();
+  range.selectNodeContents(pre);
+  getSelection().removeAllRanges(); getSelection().addRange(range);
+  toast("Copy blocked. The result is selected: copy it from there.");
 }
 function toast(msg) {
   const t = $("#toast");
   t.textContent = msg; t.hidden = false;
   clearTimeout(toast.t); toast.t = setTimeout(() => (t.hidden = true), 1800);
 }
-function openSheet(html) { const s = $("#sheet"); s.innerHTML = html; s.hidden = false; s.querySelector("button")?.focus({ preventScroll: true }); }
+function openSheet(html) { const s = $("#sheet"); s.classList.remove("full"); s.innerHTML = html; s.hidden = false; s.scrollTop = 0; s.querySelector("button")?.focus({ preventScroll: true }); }
 function hideSheet() { $("#sheet").hidden = true; sheetKind = null; clearInterval(timer); }
 
 // "under 25 km", "25–150 km", ..., "5,000 km +" in the player's unit. Thresholds themselves stay in km.
@@ -439,9 +503,8 @@ function revealCountry() {
 // km ⇄ miles: redraw everything that shows a distance. Nothing is recalculated; scores stay as they were.
 $("#unitBtn").onclick = () => {
   toggleUnit();
-  const shareOpen = $("#shareTa")?.value;
   renderAll(); // header, clue, rail (including the result card)
-  if (sheetKind === "summary") { showSummary(); if (shareOpen) fallbackCopy(shareText(), { quiet: true }); }
+  if (sheetKind === "summary") showSummary({ instant: true });
   if (sheetKind === "help") showHelp();
   if (sheetKind === "vault") showVault(vaultRound);
 };
@@ -471,7 +534,8 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catc
 async function boot() {
   const [playersRes, countriesRes] = await Promise.all([fetch("data/players.json"), fetch("data/countries.geojson"), loadFacts()]);
   players = await playersRes.json();
-  for (const f of (await countriesRes.json()).features) {
+  countryShapes = (await countriesRes.json()).features;
+  for (const f of countryShapes) {
     const { name, aliases, fit } = f.properties;
     for (const key of [name.toLowerCase(), ...aliases]) countryIndex.set(key, { name, fit });
   }
