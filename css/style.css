@@ -26,6 +26,7 @@
   --t-frozen: #e3f4ff;
 
   /* ── Card rarities (the Vault): always with ink text on top ── */
+  --plate: #ffffff;    /* behind team logos */
   --r-bronze: #d08a52;
   --r-silver: #c3ccd3;
   --r-gold: #ffc928;
@@ -148,14 +149,19 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 @keyframes deal { from { opacity: 0; transform: translateX(-24px) rotate(-1.5deg); } to { opacity: 1; transform: none; } }
 
 /* Picture of the athlete or team: a fixed-size frame (so nothing jumps when it loads). */
-.portrait { position: relative; margin: 0; width: 132px; aspect-ratio: 1; max-width: 100%; background: var(--ink); box-shadow: 4px 4px 0 var(--gold); }
+.portrait { position: relative; margin: 0; width: 132px; aspect-ratio: 1; max-width: 100%; background: var(--ink); overflow: hidden; border-radius: var(--hard); }
 .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; opacity: 0; transition: opacity 250ms; }
 .portrait img.loaded { opacity: 1; }
 .portrait img:not([src]) { visibility: hidden; }  /* no picture: nothing drawn, not even a broken-image icon */
-.portrait[data-kind="team"] img { object-fit: contain; padding: 12px; background: var(--chalk); }
+/* logos sit on a plain white plate with room around them, so a logo with its own white background blends in */
+.portrait[data-kind="team"] { background: var(--plate); box-shadow: inset 0 0 0 1px var(--chalk-2); }
+.portrait[data-kind="team"] img { object-fit: contain; padding: 14%; background: var(--plate); }
+.portrait[data-kind="team"] .initials { color: var(--mute-chalk); }
 .initials { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 4px; font-family: var(--f-display); font-weight: 900; font-size: 44px; line-height: 1; color: var(--gold); }
 .initials svg { width: 26px; height: 26px; opacity: 0.8; }
-.credit-btn { position: absolute; right: -8px; bottom: -8px; width: 22px; height: 22px; border-radius: var(--hard); background: var(--ink); color: var(--chalk); box-shadow: 0 0 0 2px var(--chalk); font: 700 12px/1 var(--f-body); }
+/* the picture credit: a small round "i" tucked inside the corner */
+.credit-btn { position: absolute; right: 5px; bottom: 5px; width: 20px; height: 20px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 70%, transparent); color: var(--chalk); font: italic 700 12px/20px Georgia, serif; text-align: center; }
+.credit-btn:hover, .credit-btn[aria-expanded="true"] { background: var(--ink); }
 .credit { position: absolute; left: 0; top: calc(100% + 12px); z-index: 2; width: 250px; padding: 8px 10px; background: var(--ink); color: var(--chalk); font-size: 12px; line-height: 1.4; }
 .credit a, .credits a { color: inherit; }
 
@@ -326,7 +332,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .who { font-size: clamp(30px, 9vw, 42px); margin-top: 8px; }
   .ticket.folded .who { font-size: 26px; }
   .ticket-body { grid-template-columns: 84px 1fr; gap: 12px; margin-top: 10px; padding-top: 10px; }
-  .portrait { width: 84px; box-shadow: 3px 3px 0 var(--gold); }
+  .portrait { width: 84px; }
   .initials { font-size: 30px; }
   .initials svg { width: 18px; height: 18px; }
   .credit { width: min(250px, 70vw); }
@@ -403,7 +409,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .tcard-face { display: grid; grid-template-rows: 1fr auto auto; overflow: hidden; }
 .tcard-pic { position: relative; overflow: hidden; background: var(--ink-2); min-height: 0; }
 .tcard-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
-.tcard[data-type="team"] .tcard-pic img { object-fit: contain; padding: 10%; background: var(--chalk); }
+.tcard[data-type="team"] .tcard-pic img { object-fit: contain; padding: 12%; background: var(--plate); }
 .tcard-pic .noimg { position: absolute; inset: 0; display: grid; place-items: center; color: var(--mute-ink); }
 .tcard-pic img { position: relative; }
 .tcard-pic .noimg svg { width: 40%; height: auto; }
@@ -478,7 +484,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .ft-thumb { position: relative; width: 64px; height: 64px; display: grid; place-items: center; overflow: hidden; background: var(--ink); color: var(--mute-ink); }
 .ft-thumb svg { width: 30px; height: 30px; }
 .ft-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
-.ft-thumb[data-type="team"] img { object-fit: contain; padding: 6px; background: var(--chalk); }
+.ft-thumb[data-type="team"] img { object-fit: contain; padding: 8px; background: var(--plate); }
 .ft-who { min-width: 0; font-size: 13px; line-height: 1.35; color: var(--mute-ink); }
 .ft-who b { display: block; margin-bottom: 2px; color: var(--chalk); font: 800 20px/1 var(--f-display); text-transform: uppercase; overflow-wrap: anywhere; }
 .ft-who span { display: block; }
