@@ -1,0 +1,3 @@
+{
+ "_readme": "Picture overrides, by entry id. { \"use\": \"File name.jpg\" } picks a Commons file by hand; { \"reject\": [\"File.jpg\"] } never uses those files; { \"none\": true } moves the entry to the reserve. Then run: python3 scripts/pick_images.py"
+}

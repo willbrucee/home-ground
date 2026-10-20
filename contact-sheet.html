@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Ground contact sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* A page for checking every picture at a glance. Not part of the game. */
+  body { overflow: auto; height: auto; padding: 20px var(--edge) 60px; }
+  h1 { margin: 0; font-family: var(--f-display); font-weight: 900; font-size: 52px; line-height: 0.9; text-transform: uppercase; }
+  .intro { color: var(--mute-ink); max-width: 75ch; }
+  .intro code { color: var(--chalk); }
+  .controls { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 0; background: var(--ink); }
+  .controls button, .controls select { padding: 6px 10px; border-radius: var(--hard); background: var(--ink-2); color: var(--chalk); box-shadow: inset 0 0 0 1px var(--ink-line); font: 600 14px var(--f-body); }
+  .controls button[aria-pressed="true"] { background: var(--gold); color: var(--ink); }
+  .summary { color: var(--mute-ink); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .cell { background: var(--chalk); color: var(--ink); display: grid; grid-template-rows: auto 1fr; }
+  .cell.low { box-shadow: 0 0 0 4px var(--t-scorching); }
+  .cell.reserve { box-shadow: 0 0 0 4px var(--mute-ink); opacity: 0.85; }
+  .pic { aspect-ratio: 1; background: var(--ink); position: relative; }
+  .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+  .cell[data-type="team"] .pic img { object-fit: contain; padding: 10px; background: var(--chalk-2); }
+  .flag { position: absolute; left: 6px; top: 6px; padding: 2px 6px; background: var(--t-scorching); color: var(--ink); font: 800 13px var(--f-display); text-transform: uppercase; }
+  .meta { padding: 8px 10px 10px; font-size: 12px; line-height: 1.35; }
+  .meta b { display: block; font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 1; text-transform: uppercase; }
+  .meta code { user-select: all; background: var(--chalk-2); padding: 0 3px; }
+  .meta a { color: var(--pitch); }
+</style>
+</head>
+<body>
+<h1>Contact sheet</h1>
+<p class="intro">Every picture the game will show. Red-framed ones are low-confidence picks worth a look; grey ones are in the reserve
+(no usable picture, so they're out of the game). To change one, add it to <code>data/images.json</code>, e.g.
+<code>"wd-Q615": { "use": "Better file.jpg" }</code>, <code>{ "reject": ["Bad file.jpg"] }</code> or <code>{ "none": true }</code>,
+then run <code>python3 scripts/pick_images.py</code>. Click an id to select it for copying.</p>
+<div class="controls">
+  <button data-show="all" aria-pressed="true">All</button>
+  <button data-show="low" aria-pressed="false">To check</button>
+  <button data-show="reserve" aria-pressed="false">Reserve</button>
+  <select id="sport" aria-label="Sport"><option value="">Every sport</option></select>
+  <span class="summary" id="summary"></span>
+</div>
+<div class="grid" id="grid"></div>
+<script>
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+let all = [], show = "all";
+
+const cell = (e) => {
+  const reserve = !!e.reserveReason, low = e.imageConfidence === "low";
+  const img = e.image ? `<img loading="lazy" alt="${esc(e.name)}" src="${esc(e.image.replace(/width=\d+/, "width=300"))}">` : "";
+  return `<div class="cell${low ? " low" : ""}${reserve ? " reserve" : ""}" data-type="${e.type}">
+    <div class="pic">${img}${low ? '<span class="flag">Check</span>' : ""}</div>
+    <div class="meta"><b>${esc(e.name)}</b>${esc(e.sport)} · ${esc(e.type)}<br>
+      ${reserve ? `Reserve: ${esc(e.reserveReason)}` : `${esc(e.imageSource)} · ${esc(e.imageLicense)} · <a href="${esc(e.imagePage)}" target="_blank" rel="noopener">file</a>`}<br>
+      <code>${esc(e.id)}</code></div></div>`;
+};
+
+function render() {
+  const sport = document.getElementById("sport").value;
+  const list = all.filter((e) => (!sport || e.sport === sport) &&
+    (show === "all" ? !e.reserveReason : show === "low" ? e.imageConfidence === "low" && !e.reserveReason : !!e.reserveReason));
+  document.getElementById("grid").innerHTML = list.map(cell).join("");
+  const inGame = all.filter((e) => !e.reserveReason);
+  document.getElementById("summary").textContent =
+    `${list.length} shown · ${inGame.length} in the game, ${inGame.filter((e) => e.imageConfidence === "low").length} to check · ${all.length - inGame.length} in reserve`;
+}
+
+Promise.all([fetch("data/players.json").then((r) => r.json()), fetch("data/reserve.json").then((r) => (r.ok ? r.json() : [])).catch(() => [])])
+  .then(([players, reserve]) => {
+    all = [...players, ...reserve];
+    const sports = [...new Set(all.map((e) => e.sport))].sort();
+    document.getElementById("sport").innerHTML += sports.map((s) => `<option>${esc(s)}</option>`).join("");
+    render();
+  });
+document.querySelectorAll("[data-show]").forEach((b) => b.onclick = () => {
+  show = b.dataset.show;
+  document.querySelectorAll("[data-show]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  render();
+});
+document.getElementById("sport").onchange = render;
+</script>
+</body>
+</html>
