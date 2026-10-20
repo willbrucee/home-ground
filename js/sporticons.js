@@ -23,8 +23,15 @@ const ICONS = {
   "MMA": `<path d="M8.3 3h7.4L21 8.3v7.4L15.7 21H8.3L3 15.7V8.3z"/>`,
 };
 
+// A few sports read better on the small map pin as a different object.
+const PIN_ICONS = {
+  "Formula 1": `<path d="M3.5 16a8.5 8.5 0 0 1 17 0v2.5h-17z"/><path d="M10 11.5h10.2M10 11.5v3.5h10.4"/>`, // helmet and visor
+  "Ice hockey": `<ellipse cx="12" cy="10" rx="8" ry="3.5"/><path d="M4 10v4c0 1.9 3.6 3.5 8 3.5s8-1.6 8-3.5v-4"/>`, // puck
+};
+
 // Returns the inline <svg> markup for a sport (stroke-only, inherits colour from CSS).
-export function sportIcon(sport) {
-  const body = ICONS[sport] || ball;
+// { pin: true } picks the map-pin version where there is one.
+export function sportIcon(sport, { pin = false } = {}) {
+  const body = (pin && PIN_ICONS[sport]) || ICONS[sport] || ball;
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
 }

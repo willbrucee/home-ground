@@ -44,7 +44,7 @@ window.homeGround = { map: gameMap.map }; // handy for poking at the map from th
 function placeGuess(p) {
   if (phase !== "guess") return;
   guess = p;
-  gameMap.setGuess(p);
+  gameMap.setGuess(p, items[round].sport);
   renderRail();
 }
 

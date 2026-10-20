@@ -2,6 +2,7 @@
 // rounds only change the data inside a few layers, which is what keeps it smooth.
 import { SATELLITE, PROJECTION } from "./config.js";
 import { greatCircle, circle } from "./geo.js";
+import { sportIcon } from "./sporticons.js";
 
 const EMPTY = { type: "FeatureCollection", features: [] };
 const NO_COUNTRY = ["==", ["get", "name"], ""]; // a filter that matches nothing
@@ -120,8 +121,9 @@ export function createMap(container, { onPick }) {
   });
 
   // Markers are plain HTML elements pinned to a map position. We create two and reuse them.
+  // The guess pin: a small badge with the current round's sport icon (a generic ball if there's none).
   const guessEl = document.createElement("div");
-  guessEl.className = "pin pin-guess";
+  guessEl.className = "pin-guess";
   const guessMarker = new maplibregl.Marker({ element: guessEl });
   // The answer pin has an inner head (which does the bounce) and a ring (which pulses).
   // We animate these children, never the marker element itself: MapLibre positions markers with
@@ -132,15 +134,26 @@ export function createMap(container, { onPick }) {
   const answerMarker = new maplibregl.Marker({ element: answerEl });
 
   let animation = 0;
+  let guessShown = false; // is the guess pin on the map right now?
   let highlightRun = 0;
 
   return {
     map,
     ready,
 
-    setGuess(p) {
-      if (p) guessMarker.setLngLat([p.lng, p.lat]).addTo(map);
-      else guessMarker.remove();
+    setGuess(p, sport) {
+      if (!p) { guessMarker.remove(); guessShown = false; return; }
+      if (guessEl.dataset.sport !== sport) {
+        guessEl.dataset.sport = sport;
+        guessEl.innerHTML = `<span class="ball">${sportIcon(sport, { pin: true })}</span>`;
+      }
+      const placing = !guessShown; // first drop this round (not just moving it)
+      guessMarker.setLngLat([p.lng, p.lat]).addTo(map);
+      guessShown = true;
+      if (placing) { // a little pop when it lands; animate the inner span, never the marker element itself
+        const ball = guessEl.firstElementChild;
+        ball.classList.remove("pop"); void ball.offsetWidth; ball.classList.add("pop");
+      }
     },
 
     // The reveal, in three beats:
@@ -247,6 +260,7 @@ export function createMap(container, { onPick }) {
       animation++; // cancels any reveal still running
       await ready;
       guessMarker.remove();
+      guessShown = false;
       answerMarker.remove();
       answerEl.classList.remove("landed");
       map.getSource("arc").setData(EMPTY);

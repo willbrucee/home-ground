@@ -154,7 +154,11 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
 .maplibregl-ctrl-top-right { z-index: 4; }
 
 /* Pins. --tier is set from JavaScript to the result colour. */
-.pin-guess { width: 16px; height: 16px; border-radius: 50%; border: 3px solid #fff; background: var(--guess); box-shadow: 0 1px 6px rgba(0, 0, 0, 0.55); }
+.pin-guess { width: 30px; height: 30px; }
+.pin-guess .ball { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; color: var(--guess); border: 2.5px solid var(--guess); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55); }
+.pin-guess svg { width: 19px; height: 19px; }
+.pin-guess .ball.pop { animation: guess-pop 260ms cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes guess-pop { from { transform: scale(0.4); } to { transform: scale(1); } }
 .pin-answer { width: 22px; height: 22px; position: relative; }
 .pin-answer .head, .pin-answer .ring { position: absolute; inset: 0; border-radius: 50%; }
 .pin-answer .head { background: var(--tier, var(--answer)); border: 3px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 0 16px 3px var(--tier, var(--answer)); }
