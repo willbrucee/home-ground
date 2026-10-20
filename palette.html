@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Ground palette</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* This page reads the palette straight from css/style.css, so it can't drift out of date. */
+  body { overflow: auto; height: auto; padding: 24px var(--edge) 48px; }
+  h1 { font-family: var(--f-display); font-weight: 900; font-size: 56px; line-height: 0.9; text-transform: uppercase; margin: 0 0 6px; }
+  h2 { font-family: var(--f-display); font-weight: 800; font-size: 26px; text-transform: uppercase; margin: 32px 0 10px; }
+  p { color: var(--mute-ink); max-width: 70ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+  .sw { background: var(--ink-2); }
+  .sw i { display: block; height: 84px; }
+  .sw div { padding: 8px 10px; font-size: 13px; }
+  .sw b { display: block; font-family: var(--f-display); font-size: 19px; text-transform: uppercase; }
+  table { border-collapse: collapse; font-size: 14px; }
+  td, th { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--ink-line); }
+  .sample { padding: 4px 10px; font-weight: 600; }
+  .pass { color: var(--t-warm); font-weight: 700; }
+  .fail { color: var(--t-scorching); font-weight: 700; }
+</style>
+</head>
+<body>
+<h1>Home Ground palette</h1>
+<p>Every colour in the game is one of these CSS variables, defined once in <code>css/style.css</code>. Contrast is worked out live
+(WCAG 2.1). AA needs 4.5:1 for body text and 3:1 for large text (24 px+, or 19 px+ bold).</p>
+<h2>Core</h2><div class="grid" id="core"></div>
+<h2>Result tiers</h2><div class="grid" id="tiers"></div>
+<h2>Text pairings used in the game</h2>
+<table><thead><tr><th>Text</th><th>On</th><th>Sample</th><th>Ratio</th><th>Used for</th><th>AA</th></tr></thead><tbody id="pairs"></tbody></table>
+<script>
+const v = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+// WCAG relative luminance and contrast ratio
+const lum = (hex) => {
+  const n = parseInt(hex.slice(1), 16), c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((x) => {
+    x /= 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+};
+const ratio = (a, b) => { const [x, y] = [lum(v(a)), lum(v(b))].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+
+const core = { "--ink": "Dark base", "--ink-2": "Raised ink", "--ink-line": "Hairlines", "--chalk": "Off-white", "--chalk-2": "Chalk shade",
+  "--mute-ink": "Quiet text on ink", "--mute-chalk": "Quiet text on chalk", "--gold": "Key moments", "--pitch": "Pitch green", "--sea": "Map ocean", "--land": "Map land (fallback)" };
+const tiers = { "--t-bullseye": "Hole in one", "--t-scorching": "Top corner", "--t-hot": "Slam dunk", "--t-warm": "On the board", "--t-cool": "Off the pace", "--t-cold": "Air ball", "--t-frozen": "Own goal" };
+const card = (k, label) => `<div class="sw"><i style="background:var(${k})"></i><div><b>${label}</b>${k} · ${v(k)}</div></div>`;
+document.getElementById("core").innerHTML = Object.entries(core).map(([k, l]) => card(k, l)).join("");
+document.getElementById("tiers").innerHTML = Object.entries(tiers).map(([k, l]) => card(k, l)).join("");
+
+// [text, background, what it's used for, large text?]
+const pairs = [
+  ["--chalk", "--ink", "Body text on panels", false], ["--mute-ink", "--ink", "Labels on the scoreboard", false],
+  ["--gold", "--ink", "Score digits, honours label", true], ["--ink", "--chalk", "Ticket text", false],
+  ["--mute-chalk", "--chalk", "Secondary ticket text", false], ["--pitch", "--chalk", "'Team' / 'Athlete' label", false],
+  ["--chalk", "--pitch", "Lit ladder rung", false], ["--ink", "--gold", "Big buttons, tape strip", true],
+  ["--mute-ink", "--ink-2", "Readout labels in their wells", false], ["--chalk", "--ink-2", "Readout digits", true],
+  ...Object.entries(tiers).map(([k, l]) => ["--ink", k, `Ink text on ${l}`, true]),
+  ...Object.entries(tiers).map(([k, l]) => [k, "--ink", `${l} distance and stamp on ink`, true]),
+];
+document.getElementById("pairs").innerHTML = pairs.map(([fg, bg, use, large]) => {
+  const r = ratio(fg, bg), ok = r >= (large ? 3 : 4.5);
+  return `<tr><td>${fg}</td><td>${bg}</td><td><span class="sample" style="color:var(${fg});background:var(${bg})">Home Ground 123</span></td>
+    <td>${r.toFixed(1)}:1</td><td>${use}${large ? " (large)" : ""}</td><td class="${ok ? "pass" : "fail"}">${ok ? "Pass" : "Fail"}</td></tr>`;
+}).join("");
+</script>
+</body>
+</html>

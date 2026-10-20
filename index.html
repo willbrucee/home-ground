@@ -6,64 +6,69 @@
 <title>Home Ground</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,800&family=Barlow:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="board">
-  <div class="wrap">
-    <div class="brand">
-      <!-- logo: a pin dropped on a pitch's centre circle -->
-      <svg class="mark" viewBox="0 0 34 34" aria-hidden="true">
-        <circle cx="17" cy="17" r="15.5" fill="none" stroke="#ffc928" stroke-width="2"/>
-        <path d="M1.5 17h31" stroke="#ffc928" stroke-opacity="0.35" stroke-width="1.5"/>
-        <path d="M17 7.5a6.5 6.5 0 0 0-6.5 6.5c0 4.8 6.5 11.5 6.5 11.5s6.5-6.7 6.5-11.5A6.5 6.5 0 0 0 17 7.5z" fill="#ffc928"/>
-        <circle cx="17" cy="14" r="2.4" fill="#0e1714"/>
-      </svg>
-      <div><span class="wordmark">Home Ground</span><small><span id="puzzleNo">Daily #—</span> <span class="streak" id="streak" hidden></span></small></div>
-    </div>
-    <ol class="tracker" id="tracker" aria-label="Rounds"></ol>
-    <div class="scores">
-      <div class="readout"><span>Score</span><b id="total">0</b></div>
-      <div class="readout"><span>Distance <button class="unit" id="unitBtn">km</button></span><b id="distTotal">0</b></div>
-    </div>
-    <button class="iconbtn" id="helpBtn" aria-label="How to play">?</button>
-  </div>
-</header>
-
-<section class="clue">
-  <div class="wrap">
-    <article class="qcard" id="qcard">
-      <div class="qmain">
-        <div class="tags"><span class="tag dark" id="kindLbl">Athlete</span><span class="tag" id="sportLbl">—</span><span class="roundno" id="roundLbl">Round 1 of 5</span></div>
-        <h1 class="who" id="who">Loading…</h1>
-        <p class="ask" id="ask"></p>
-      </div>
-      <!-- athlete photo or team logo; falls back to an initials badge -->
-      <figure class="portrait" id="portrait">
-        <span class="initials" id="initials" aria-hidden="true"></span>
-        <img id="portraitImg" alt="" width="96" height="96" loading="lazy" decoding="async">
-        <button class="credit-btn" id="creditBtn" aria-label="Image credit" aria-expanded="false" hidden>i</button>
-        <figcaption class="credit" id="credit" hidden></figcaption>
-      </figure>
-    </article>
-  </div>
-</section>
-
+<!-- The map fills the whole screen. Everything else floats over it. -->
 <main class="stage">
   <div id="map" aria-label="Map. Drag to pan, scroll or pinch to zoom, tap to drop your pin."></div>
   <canvas id="fx" aria-hidden="true"></canvas>
   <div id="flash" aria-hidden="true"></div>
-  <div class="sheet" id="sheet" hidden></div>
-  <div class="toast" id="toast" hidden></div>
-  <div class="esri-mark" aria-hidden="true">Powered by Esri</div>
 </main>
 
-<footer class="rail">
-  <div class="wrap" id="rail"></div>
-</footer>
+<!-- Slim scoreboard strip -->
+<header class="bar">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 34 34" aria-hidden="true">
+      <circle cx="17" cy="17" r="15.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M1.5 17h31" stroke="currentColor" stroke-opacity="0.35" stroke-width="1.5"/>
+      <path d="M17 7.5a6.5 6.5 0 0 0-6.5 6.5c0 4.8 6.5 11.5 6.5 11.5s6.5-6.7 6.5-11.5A6.5 6.5 0 0 0 17 7.5z" fill="currentColor"/>
+      <circle cx="17" cy="14" r="2.4" fill="var(--ink)"/>
+    </svg>
+    <span class="wordmark">Home Ground</span>
+    <span class="dayno" id="puzzleNo">Daily #—</span>
+  </div>
+  <ol class="tracker" id="tracker" aria-label="Rounds"></ol>
+  <div class="board" role="group" aria-label="Scoreboard">
+    <div class="readout"><span>Score</span><b id="total">0</b></div>
+    <div class="readout"><span>Off<span class="long"> by</span> <button class="unit" id="unitBtn">km</button></span><b id="distTotal">0</b></div>
+    <div class="readout streak" id="streakBox" hidden><span>Streak</span><b id="streak">0</b></div>
+  </div>
+  <button class="square" id="helpBtn" aria-label="How to play">?</button>
+</header>
+
+<!-- The question: a matchday ticket. Top-left on desktop, a bottom sheet on phones. Collapsible. -->
+<article class="ticket" id="ticket" aria-live="polite">
+  <button class="collapse" id="collapseBtn" aria-expanded="true" aria-controls="ticketBody">
+    <span class="sr">Hide the question</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+  </button>
+  <div class="ticket-top">
+    <span class="roundno" id="roundLbl">Round 1 of 5</span>
+    <span class="tape" id="sportLbl">—</span>
+    <span class="kind" id="kindLbl">Athlete</span>
+  </div>
+  <h1 class="who" id="who">Loading…</h1>
+  <div class="ticket-body" id="ticketBody">
+    <!-- athlete photo or team logo; falls back to an initials badge -->
+    <figure class="portrait" id="portrait">
+      <span class="initials" id="initials" aria-hidden="true"></span>
+      <img id="portraitImg" alt="" width="160" height="160" loading="lazy" decoding="async">
+      <button class="credit-btn" id="creditBtn" aria-label="Image credit" aria-expanded="false" hidden>i</button>
+      <figcaption class="credit" id="credit" hidden></figcaption>
+    </figure>
+    <p class="ask" id="ask"></p>
+  </div>
+</article>
+
+<!-- Guess controls, then (after a guess) the result panel. Filled in by game.js. -->
+<section class="dock" id="dock" aria-live="polite"></section>
+
+<div class="sheet" id="sheet" hidden></div>
+<div class="toast" id="toast" hidden></div>
+<div class="esri-mark" aria-hidden="true">Powered by Esri</div>
 
 <script src="vendor/maplibre-gl.js"></script>
 <script type="module" src="js/game.js"></script>

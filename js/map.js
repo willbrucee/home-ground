@@ -3,25 +3,26 @@
 import { SATELLITE, PROJECTION } from "./config.js";
 import { greatCircle, circle } from "./geo.js";
 import { sportIcon } from "./sporticons.js";
+import { color, withAlpha } from "./palette.js";
 
 const EMPTY = { type: "FeatureCollection", features: [] };
 const NO_COUNTRY = ["==", ["get", "name"], ""]; // a filter that matches nothing
-const HIGHLIGHT = "#ffc928";
-const HIDDEN_LINE = ["step", ["line-progress"], "rgba(0,0,0,0)", 0.5, "rgba(0,0,0,0)"];
+const CLEAR = "rgba(0,0,0,0)"; // fully transparent (not a palette colour: it's "no colour")
+const HIDDEN_LINE = ["step", ["line-progress"], CLEAR, 0.5, CLEAR];
 
 // Ease-in-out: slow start, quick middle, slow finish.
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 function buildStyle(projection) {
   const sources = {};
-  const layers = [{ id: "ocean", type: "background", paint: { "background-color": "#0b2a3a" } }];
+  const layers = [{ id: "ocean", type: "background", paint: { "background-color": color("--sea") } }];
 
   // Country shapes. Drawn plainly underneath the imagery: normally the tiles cover them, but if tiles
   // can't load (offline, blocked, or a page that doesn't allow outside images) the map still works.
   sources.countries = { type: "geojson", data: "data/countries.geojson" };
   layers.push(
-    { id: "land", type: "fill", source: "countries", paint: { "fill-color": "#3b5444" } },
-    { id: "borders", type: "line", source: "countries", paint: { "line-color": "#8fa898", "line-width": 0.6, "line-opacity": 0.6 } },
+    { id: "land", type: "fill", source: "countries", paint: { "fill-color": color("--land") } },
+    { id: "borders", type: "line", source: "countries", paint: { "line-color": color("--mute-ink"), "line-width": 0.6, "line-opacity": 0.6 } },
   );
 
   // Satellite imagery on top of those plain shapes.
@@ -31,19 +32,19 @@ function buildStyle(projection) {
   // "Reveal country" highlight: the same shapes again, drawn over the imagery, but filtered to
   // show nothing until a country is picked. A gold tint plus a dark-edged gold outline reads on any ground.
   layers.push(
-    { id: "country-fill", type: "fill", source: "countries", filter: NO_COUNTRY, paint: { "fill-color": HIGHLIGHT, "fill-opacity": 0 } },
+    { id: "country-fill", type: "fill", source: "countries", filter: NO_COUNTRY, paint: { "fill-color": color("--gold"), "fill-opacity": 0 } },
     { id: "country-casing", type: "line", source: "countries", filter: NO_COUNTRY,
-      layout: { "line-join": "round" }, paint: { "line-color": "#0b1418", "line-width": 4, "line-opacity": 0 } },
+      layout: { "line-join": "round" }, paint: { "line-color": color("--ink"), "line-width": 4, "line-opacity": 0 } },
     { id: "country-line", type: "line", source: "countries", filter: NO_COUNTRY,
-      layout: { "line-join": "round" }, paint: { "line-color": HIGHLIGHT, "line-width": 2, "line-opacity": 0 } },
+      layout: { "line-join": "round" }, paint: { "line-color": color("--gold"), "line-width": 2, "line-opacity": 0 } },
   );
 
   // The city area: everything inside this circle counts as "in the city" (a Bullseye).
   // A soft fill plus a dashed white ring, shown on the reveal.
   sources.city = { type: "geojson", data: EMPTY };
   layers.push(
-    { id: "city-fill", type: "fill", source: "city", paint: { "fill-color": "#ffffff", "fill-opacity": 0 } },
-    { id: "city-ring", type: "line", source: "city", paint: { "line-color": "#ffffff", "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0 } },
+    { id: "city-fill", type: "fill", source: "city", paint: { "fill-color": color("--chalk"), "fill-opacity": 0 } },
+    { id: "city-ring", type: "line", source: "city", paint: { "line-color": color("--chalk"), "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0 } },
   );
 
   // The result line, drawn as three stacked layers: a soft glow, a dark outline, then the coloured core.
@@ -69,7 +70,9 @@ function buildStyle(projection) {
   };
 }
 
-export function createMap(container, { onPick }) {
+// insets(): how much of each screen edge is covered by the overlays (header, ticket, dock), in pixels.
+// The camera keeps results inside the open part of the map.
+export function createMap(container, { onPick, insets = () => ({ top: 0, right: 0, bottom: 0, left: 0 }) }) {
   const flat = PROJECTION === "mercator" || new URLSearchParams(location.search).has("flat");
   const rect = container.getBoundingClientRect();
 
@@ -77,7 +80,7 @@ export function createMap(container, { onPick }) {
     container,
     style: buildStyle(flat ? "mercator" : "globe"),
     center: [15, 25],
-    zoom: fitWorldZoom(rect),
+    zoom: fitWorldZoom(openArea(rect, insets())),
     minZoom: 0.3,
     maxZoom: 12,
     renderWorldCopies: true, // flat map: lets you keep panning east/west past the date line
@@ -162,7 +165,7 @@ export function createMap(container, { onPick }) {
     //   3. the answer pin drops in with a bounce and a pulsing ring
     // Resolves when it's all done. Calling reset() part-way through cancels it cleanly.
     // `lineEnd` is where the line stops (the city's edge); `radiusKm` is the city area to outline.
-    async showResult(guess, answer, { color = "#ffffff", onProgress = () => {}, drawMs = 1000, radiusKm = 0, lineEnd = answer } = {}) {
+    async showResult(guess, answer, { color: lineColor = color("--chalk"), onProgress = () => {}, drawMs = 1000, radiusKm = 0, lineEnd = answer } = {}) {
       await ready;
       const run = ++animation; // if this number changes, a newer call has taken over and we stop
       const still = () => run === animation;
@@ -171,18 +174,18 @@ export function createMap(container, { onPick }) {
       const coords = greatCircle(guess, lineEnd);
       const area = radiusKm > 0 ? circle(answer, radiusKm) : null;
       map.getSource("arc").setData({ type: "Feature", geometry: { type: "LineString", coordinates: coords } });
-      setLineProgress(map, 0, color);
-      answerEl.style.setProperty("--tier", color);
-      guessEl.style.setProperty("--tier", color);
+      setLineProgress(map, 0, lineColor);
+      answerEl.style.setProperty("--tier", lineColor);
+      guessEl.style.setProperty("--tier", lineColor);
 
       // Frame the guess and the whole city area together.
-      await frame(map, area ? [...coords, ...area.geometry.coordinates[0]] : coords, quick);
+      await frame(map, area ? [...coords, ...area.geometry.coordinates[0]] : coords, quick, insets());
       if (!still()) return;
 
       // The city area fades in first, so the player sees the target before the line arrives.
       if (area) {
         map.getSource("city").setData(area);
-        map.setPaintProperty("city-ring", "line-color", color);
+        map.setPaintProperty("city-ring", "line-color", lineColor);
         await fade(map, quick, (t) => {
           map.setPaintProperty("city-fill", "fill-opacity", 0.16 * t);
           map.setPaintProperty("city-ring", "line-opacity", 0.9 * t);
@@ -192,13 +195,13 @@ export function createMap(container, { onPick }) {
 
       // Beat 2: draw the line. One update per screen frame, using requestAnimationFrame.
       await new Promise((resolve) => {
-        if (quick) { setLineProgress(map, 1, color); onProgress(1); return resolve(); }
+        if (quick) { setLineProgress(map, 1, lineColor); onProgress(1); return resolve(); }
         const start = performance.now();
         const tick = (now) => {
           if (!still()) return resolve();
           const t = Math.min(1, Math.max(0, (now - start) / drawMs)); // never below 0 (see fade)
           const eased = easeInOut(t);
-          setLineProgress(map, eased, color);
+          setLineProgress(map, eased, lineColor);
           onProgress(eased);
           if (t < 1) requestAnimationFrame(tick); else resolve();
         };
@@ -220,7 +223,7 @@ export function createMap(container, { onPick }) {
       const run = ++highlightRun;
       const filter = ["==", ["get", "name"], name];
       for (const id of ["country-fill", "country-casing", "country-line"]) map.setFilter(id, filter);
-      if (fit) frameCountry(map, fit, container);
+      if (fit) frameCountry(map, fit, container, insets());
 
       // strength 0..1 controls how loud the highlight is
       const paint = (strength) => {
@@ -267,14 +270,28 @@ export function createMap(container, { onPick }) {
       map.getSource("city").setData(EMPTY);
       map.setPaintProperty("city-fill", "fill-opacity", 0);
       map.setPaintProperty("city-ring", "line-opacity", 0);
-      setLineProgress(map, 0, "#fff");
+      setLineProgress(map, 0, color("--chalk"));
       this.clearCountry();
-      const worldZoom = fitWorldZoom(container.getBoundingClientRect());
+      const worldZoom = fitWorldZoom(openArea(container.getBoundingClientRect(), insets()));
       if (map.getZoom() > worldZoom + 0.3) map.easeTo({ zoom: worldZoom, duration: reduceMotion() ? 0 : 900 });
     },
 
 
   };
+}
+
+// The part of the map not covered by overlays (never smaller than 160 px each way).
+function openArea(rect, ins) {
+  return { width: Math.max(160, rect.width - ins.left - ins.right), height: Math.max(160, rect.height - ins.top - ins.bottom) };
+}
+
+// Padding for fitBounds: the covered edges plus a margin, trimmed so it can never exceed the map.
+function paddingFor(rect, ins, margin) {
+  const p = { top: ins.top + margin, bottom: ins.bottom + margin, left: ins.left + margin, right: ins.right + margin };
+  const squeeze = (a, b, size) => { const over = p[a] + p[b] - (size - 120); if (over > 0) { p[a] -= over / 2; p[b] -= over / 2; } };
+  squeeze("top", "bottom", rect.height);
+  squeeze("left", "right", rect.width);
+  return p;
 }
 
 // Zoom level at which the whole globe fits the box with a little margin.
@@ -300,7 +317,7 @@ function fade(map, quick, paint, ms, still) {
 }
 
 // Brings a country into view, unless the player can already see it well (or is zoomed in inside it).
-function frameCountry(map, [w, s, e, n], container) {
+function frameCountry(map, [w, s, e, n], container, ins) {
   const sw = map.project([w, s]), ne = map.project([e, n]);
   const rect = container.getBoundingClientRect();
   const onScreen = (p) => p.x >= 0 && p.y >= 0 && p.x <= rect.width && p.y <= rect.height;
@@ -308,29 +325,29 @@ function frameCountry(map, [w, s, e, n], container) {
   const c = map.getCenter();
   const insideIt = c.lng >= w && c.lng <= e && c.lat >= s && c.lat <= n;
   if ((onScreen(sw) && onScreen(ne) && widthPx >= 70) || (insideIt && widthPx > rect.width)) return;
-  const pad = Math.min(80, rect.width * 0.12);
-  map.fitBounds([[w, s], [e, n]], { padding: pad, maxZoom: 6, duration: reduceMotion() ? 0 : 1000 });
+  const padding = paddingFor(rect, ins, Math.min(60, rect.width * 0.08));
+  map.fitBounds([[w, s], [e, n]], { padding, maxZoom: 6, duration: reduceMotion() ? 0 : 1000 });
 }
 
 // Shows the line up to `progress` (0..1) in `color`, and hides the rest.
 function setLineProgress(map, progress, color) {
   const gradient = progress <= 0 ? HIDDEN_LINE
     : progress >= 1 ? ["step", ["line-progress"], color, 1, color]
-    : ["step", ["line-progress"], color, progress, "rgba(0,0,0,0)"];
+    : ["step", ["line-progress"], color, progress, CLEAR];
   map.setPaintProperty("arc-core", "line-gradient", gradient);
   map.setPaintProperty("arc-glow", "line-gradient", gradient);
   // The outline is always dark, whatever the colour, so the line stands out on light and dark ground.
   const casing = progress <= 0 ? HIDDEN_LINE
-    : ["step", ["line-progress"], "rgba(8,14,20,0.9)", Math.min(progress, 1), progress >= 1 ? "rgba(8,14,20,0.9)" : "rgba(0,0,0,0)"];
+    : ["step", ["line-progress"], withAlpha("--ink", 0.9), Math.min(progress, 1), progress >= 1 ? withAlpha("--ink", 0.9) : CLEAR];
   map.setPaintProperty("arc-casing", "line-gradient", casing);
 }
 
 // Glides the camera so the whole line is in view. Resolves when the camera stops.
-function frame(map, coords, quick) {
+function frame(map, coords, quick, ins) {
   const bounds = coords.reduce((b, c) => b.extend(c), new maplibregl.LngLatBounds(coords[0], coords[0]));
   const el = map.getContainer();
-  const pad = Math.min(90, el.clientWidth * 0.14);
-  const padding = { top: pad, bottom: pad * 2.6, left: pad, right: pad }; // extra room at the bottom for the result card
+  const rect = el.getBoundingClientRect();
+  const padding = paddingFor(rect, ins, Math.min(60, rect.width * 0.08)); // keep clear of the overlays
   const lngSpan = bounds.getEast() - bounds.getWest();
   const duration = quick ? 0 : 1100;
   return new Promise((resolve) => {
@@ -340,7 +357,9 @@ function frame(map, coords, quick) {
       // Very long lines (most of the way round the world): just centre the middle of the line.
       // (offset, not padding: padding given to easeTo would stick around for every later move)
       const mid = coords[Math.floor(coords.length / 2)];
-      map.easeTo({ center: mid, zoom: fitWorldZoom(el.getBoundingClientRect()), offset: [0, -pad * 0.8], duration });
+      // shift the centre into the open area (offset, not padding: easeTo would keep the padding for later moves)
+      const offset = [(ins.left - ins.right) / 2, (ins.top - ins.bottom) / 2];
+      map.easeTo({ center: mid, zoom: fitWorldZoom(openArea(rect, ins)), offset, duration });
     } else {
       map.fitBounds(bounds, { padding, maxZoom: 8, duration });
     }

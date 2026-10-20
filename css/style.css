@@ -1,46 +1,38 @@
-/* Layout: one-screen app. Scoreboard band on top, the clue, the map filling the middle,
-   and an action rail at the bottom that turns into a stat card after each guess. */
+/* Home Ground. A matchday broadcast over a full-screen satellite map.
+   Every colour comes from the palette below; nothing else in this file (or the JS) uses a raw colour.
+   See palette.html for the swatches and contrast checks. */
 
 :root {
-  /* colour: a warm stone page, raised white cards, a deep pitch-green scoreboard */
-  --bg: #e6e2d9;
-  --panel: #fbfaf6;
-  --ink: #14191a;
-  --muted: #5d625e;
-  --line: #d5cfc2;
-  --board: #0e1714;        /* scoreboard band and result card */
-  --board-2: #15211c;      /* raised parts of the board */
-  --board-ink: #f1f4ef;
-  --board-muted: #8fa298;
-  --lamp: #ffc928;         /* scoreboard gold */
-  --guess: #2f5bff;
-  --answer: #e8245f;
-  --shadow: 0 1px 2px rgba(30, 24, 10, 0.07), 0 6px 18px rgba(30, 24, 10, 0.08);
+  /* ── Palette ─────────────────────────────────────── */
+  --ink: #0e1714;          /* dark base: scoreboard, panels, body text on chalk */
+  --ink-2: #18251f;        /* raised ink (readout wells, hover) */
+  --ink-line: #2c3d35;     /* hairlines on ink */
+  --chalk: #f4efe4;        /* warm off-white: the ticket, text on ink */
+  --chalk-2: #e4ddcd;      /* chalk shade: tape shadow, image well */
+  --mute-ink: #9fb2a7;     /* secondary text on ink */
+  --mute-chalk: #575c55;   /* secondary text on chalk */
+  --gold: #ffc928;         /* primary accent, for key moments only */
+  --pitch: #1f6b42;        /* secondary accent: pitch green */
+  --sea: #0a2230;          /* map: the ocean behind the imagery */
+  --land: #33503f;         /* map: plain land, only seen if imagery fails */
 
-  /* type: condensed display face for names and numbers, plain sans for reading */
+  /* the seven result tiers (ink text sits on each one) */
+  --t-bullseye: #ffc928;
+  --t-scorching: #ff5a2a;
+  --t-hot: #ff8f24;
+  --t-warm: #f2d64b;
+  --t-cool: #86cdf3;
+  --t-cold: #4a94ef;
+  --t-frozen: #e3f4ff;
+
+  /* ── Type ────────────────────────────────────────── */
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --f-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* type scale (px): 12 · 14 · 16 · 20 · 28 · 40 · 56 */
-  --t-xs: 12px; --t-sm: 14px; --t-md: 16px; --t-lg: 20px; --t-xl: 28px; --t-2xl: 40px; --t-3xl: 56px;
-
-  /* spacing scale */
-  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0c110f; --panel: #151c19; --ink: #e8eee9; --muted: #95a59c; --line: #27322d;
-    --board: #070c0a; --board-2: #101a16; --board-ink: #eef3ee; --board-muted: #8a9c92;
-    --guess: #6f8dff; --answer: #ff5c8d;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 18px rgba(0, 0, 0, 0.35);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0c110f; --panel: #151c19; --ink: #e8eee9; --muted: #95a59c; --line: #27322d;
-  --board: #070c0a; --board-2: #101a16; --board-ink: #eef3ee; --board-muted: #8a9c92;
-  --guess: #6f8dff; --answer: #ff5c8d;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 18px rgba(0, 0, 0, 0.35);
+  /* ── Layout ──────────────────────────────────────── */
+  --bar-h: 58px;           /* height of the scoreboard strip */
+  --edge: max(16px, env(safe-area-inset-left, 0px));
+  --hard: 2px;             /* corner radius: blocks are hard-edged on purpose */
   color-scheme: dark;
 }
 
@@ -48,122 +40,181 @@
 [hidden] { display: none !important; }
 html, body { height: 100%; }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--f-body); font-size: var(--t-md); line-height: 1.4;
-  display: flex; flex-direction: column; overflow: hidden;
+  margin: 0; overflow: hidden; background: var(--ink); color: var(--chalk);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.4;
   -webkit-font-smoothing: antialiased;
 }
-button { font: inherit; color: inherit; cursor: pointer; }
-button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
-.num { font-family: var(--f-display); font-variant-numeric: tabular-nums; }
-.wrap {
-  width: 100%; max-width: 820px; margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-}
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* ── Scoreboard band ─────────────────────────────── */
-/* Depth comes from three cheap layers: fine diagonal lines, a faint pitch marking (halfway line
-   and centre circle) on the right, and a gold stripe along the bottom edge. */
-.board {
-  position: relative; color: var(--board-ink);
-  padding-top: env(safe-area-inset-top, 0px);
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120' viewBox='0 0 240 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='2'%3E%3Ccircle cx='120' cy='60' r='46'/%3E%3Cpath d='M120 0v120'/%3E%3Ccircle cx='120' cy='60' r='3' fill='%23ffffff' fill-opacity='0.06'/%3E%3C/g%3E%3C/svg%3E") right 8% center / auto 100% no-repeat,
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 7px),
-    linear-gradient(180deg, var(--board-2), var(--board));
-  box-shadow: inset 0 -3px 0 var(--lamp), 0 2px 10px rgba(0, 0, 0, 0.18);
-}
-.board .wrap {
-  display: grid; grid-template-columns: auto 1fr auto auto; grid-template-areas: "brand tracker scores help";
-  align-items: center; gap: var(--s-4); padding-block: 10px 13px;
-}
-.brand { grid-area: brand; display: flex; align-items: center; gap: 10px; min-width: 0; }
-.brand .mark { width: 34px; height: 34px; flex: none; }
-.wordmark { display: block; font-family: var(--f-display); font-weight: 800; font-size: 24px; line-height: 0.9; letter-spacing: 0.06em; text-transform: uppercase; }
-.brand small { display: block; font-size: var(--t-xs); font-weight: 500; color: var(--board-muted); margin-top: 3px; letter-spacing: 0.03em; white-space: nowrap; }
+/* ── The map, full-bleed ───────────────────────────── */
+/* The map container must have a real size and no CSS transforms (they break MapLibre's click maths). */
+.stage { position: fixed; inset: 0; }
+#map { position: absolute; inset: 0; background: var(--sea); }
+#map .maplibregl-canvas { cursor: crosshair; }
+.maplibregl-ctrl-top-right { top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 8px); right: max(8px, env(safe-area-inset-right, 0px)); }
+.maplibregl-ctrl-group { border-radius: var(--hard) !important; background: var(--ink) !important; box-shadow: none !important; border: 2px solid var(--ink); }
+.maplibregl-ctrl-group button + button { border-top: 1px solid var(--ink-line) !important; }
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(1); }
 
-/* Round tracker: numbered chips. Done = filled with the tier colour; now = gold outline. */
-.tracker { grid-area: tracker; justify-self: center; display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+/* ── Scoreboard strip ──────────────────────────────── */
+.bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  height: calc(var(--bar-h) + env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px);
+  padding-left: var(--edge); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; align-items: center; gap: 18px;
+  background: var(--ink); border-bottom: 3px solid var(--gold);
+}
+.brand { display: flex; align-items: center; gap: 9px; color: var(--gold); min-width: 0; }
+.brand .mark { width: 30px; height: 30px; flex: none; }
+.wordmark { font-family: var(--f-display); font-weight: 900; font-size: 24px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--chalk); line-height: 1; white-space: nowrap; }
+.dayno { font-family: var(--f-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mute-ink); white-space: nowrap; }
+
+/* Round tracker: jersey numbers. Played rounds take their tier colour; the current one is chalk. */
+.tracker { display: flex; gap: 4px; margin: 0 0 0 auto; padding: 0; list-style: none; }
 .chip {
-  width: 28px; height: 28px; display: grid; place-items: center; border-radius: 5px;
-  font-family: var(--f-display); font-weight: 700; font-size: 15px; color: var(--board-muted);
-  background: rgba(255, 255, 255, 0.04); border: 1.5px solid rgba(255, 255, 255, 0.14);
-  transition: background-color 300ms, border-color 300ms, color 300ms;
+  width: 34px; height: 38px; display: grid; place-items: center; border-radius: var(--hard);
+  font-family: var(--f-display); font-weight: 900; font-size: 22px; line-height: 1; color: var(--mute-ink);
+  background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--ink-line);
+  transition: background-color 300ms, color 300ms;
 }
-.chip[data-state="done"] { background: var(--c); border-color: var(--c); color: #0d1418; }
-.chip[data-state="now"] { border-color: var(--lamp); color: var(--lamp); box-shadow: 0 0 0 3px rgba(255, 201, 40, 0.18); }
+.chip[data-state="done"] { background: var(--c); color: var(--ink); box-shadow: none; }
+.chip[data-state="now"] { background: var(--chalk); color: var(--ink); box-shadow: none; transform: translateY(-2px); }
 
-/* Scoreboard readouts: a small label over gold digits in a recessed panel. */
-.scores { grid-area: scores; display: flex; gap: 6px; }
-.readout {
-  display: grid; gap: 1px; min-width: 76px; padding: 4px 10px 5px; border-radius: 6px;
-  background: rgba(0, 0, 0, 0.35); box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.05);
+/* Readouts: label above big digits, in recessed wells. Score is the gold one. */
+.board { display: flex; gap: 2px; }
+.readout { display: grid; padding: 4px 12px 5px; min-width: 84px; background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--ink-line); }
+.readout:first-child { border-radius: var(--hard) 0 0 var(--hard); }
+.readout:last-child { border-radius: 0 var(--hard) var(--hard) 0; }
+.readout span { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute-ink); }
+.readout b { font-family: var(--f-display); font-weight: 800; font-size: 28px; line-height: 0.95; text-align: right; font-variant-numeric: tabular-nums; color: var(--chalk); }
+.readout:first-child b { color: var(--gold); }
+.unit { padding: 0 5px; border-radius: var(--hard); box-shadow: inset 0 0 0 1px var(--mute-ink); font-size: 11px; font-weight: 700; line-height: 15px; color: var(--chalk); letter-spacing: 0.06em; }
+.unit:hover { box-shadow: inset 0 0 0 1px var(--gold); color: var(--gold); }
+.square { width: 38px; height: 38px; flex: none; border-radius: var(--hard); background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--ink-line); font-family: var(--f-display); font-weight: 900; font-size: 20px; }
+.square:hover { box-shadow: inset 0 0 0 2px var(--gold); }
+
+/* ── The question: a matchday ticket ───────────────── */
+/* Chalk with a pitch-green stub edge, notches cut out at the perforation, and a gold tape strip. */
+.ticket {
+  --perf: 104px; /* where the perforation (and its notches) sits */
+  position: fixed; z-index: 8; left: var(--edge); top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 18px);
+  width: min(440px, calc(100vw - 2 * var(--edge)));
+  padding: 16px 20px 18px 22px; color: var(--ink); background: var(--chalk);
+  border-left: 8px solid var(--pitch);
+  /* two notches at the perforation, like a torn-off ticket (#0000/#000 here are mask alpha, not colours) */
+  -webkit-mask: radial-gradient(circle 10px at 0 var(--perf), #0000 97%, #000) left / 51% 100% no-repeat,
+                radial-gradient(circle 10px at 100% var(--perf), #0000 97%, #000) right / 51% 100% no-repeat;
+          mask: radial-gradient(circle 10px at 0 var(--perf), #0000 97%, #000) left / 51% 100% no-repeat,
+                radial-gradient(circle 10px at 100% var(--perf), #0000 97%, #000) right / 51% 100% no-repeat;
+  filter: drop-shadow(0 6px 0 color-mix(in srgb, var(--ink) 35%, transparent));
 }
-.readout span { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--board-muted); }
-.readout b { font-family: var(--f-display); font-weight: 700; font-size: 26px; line-height: 1; color: var(--lamp); font-variant-numeric: tabular-nums; text-align: right; text-shadow: 0 0 10px rgba(255, 201, 40, 0.3); }
-.unit { border: 1px solid rgba(255, 255, 255, 0.22); background: none; color: var(--board-ink); border-radius: 4px; padding: 0 5px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; line-height: 15px; }
-.unit:hover { border-color: var(--lamp); color: var(--lamp); }
-.iconbtn { grid-area: help; width: 30px; height: 30px; background: none; border: 1px solid rgba(241, 245, 240, 0.25); border-radius: 50%; font-weight: 600; color: var(--board-ink); }
-
-/* ── Question card ─────────────────────────────── */
-.clue .wrap { padding-block: var(--s-3); }
-.qcard {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-3); align-items: center;
-  background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
-  padding: var(--s-3) var(--s-4); position: relative; overflow: hidden;
+.ticket-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-right: 40px; }
+.roundno { font-family: var(--f-display); font-weight: 800; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute-chalk); }
+.kind { font-family: var(--f-display); font-weight: 800; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pitch); }
+/* tape strip with the sport and its icon */
+.tape {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px 3px 9px;
+  background: var(--gold); color: var(--ink); font-family: var(--f-display); font-weight: 800; font-size: 16px; letter-spacing: 0.03em;
+  transform: rotate(-2deg); clip-path: polygon(3% 0, 100% 4%, 97% 100%, 0 94%);
 }
-/* a thin gold edge on the left, like a broadcast name strap */
-.qcard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--lamp); }
-.qmain { min-width: 0; display: grid; gap: 4px; }
-.tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.tag { white-space: nowrap; font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.04em; padding: 2px 9px; border-radius: 999px; background: var(--bg); color: var(--ink); border: 1px solid var(--line); }
-.tag { display: inline-flex; align-items: center; gap: 5px; }
-.tag svg { width: 14px; height: 14px; flex: none; color: var(--ink); }
-.tag.dark { background: var(--ink); color: var(--panel); border-color: var(--ink); }
-.roundno { font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-left: 2px; }
-/* The player's name is set like a broadcast caption: condensed, heavy, upper case. */
-.who { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(30px, 7.5vw, 52px); line-height: 0.95; text-transform: uppercase; letter-spacing: 0.005em; text-wrap: balance; overflow-wrap: break-word; }
-.ask { margin: 0; color: var(--muted); font-size: var(--t-sm); }
+.tape svg { width: 16px; height: 16px; flex: none; }
+/* The name, set big like a broadcast caption. */
+.who {
+  margin: 10px 0 0; font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(40px, 4.6vw, 64px); line-height: 0.86; letter-spacing: -0.005em;
+  text-wrap: balance; overflow-wrap: break-word;
+}
+.ticket-body { display: grid; grid-template-columns: 132px 1fr; gap: 16px; align-items: end; margin-top: 18px; padding-top: 16px; border-top: 2px dashed var(--chalk-2); }
+.ask { margin: 0; font-size: 15px; line-height: 1.35; color: var(--mute-chalk); }
+.ask b { display: block; margin-bottom: 2px; font-family: var(--f-display); font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: 0.02em; color: var(--ink); text-transform: uppercase; }
+/* collapse: the ticket folds down to its top row and the name */
+.collapse { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; display: grid; place-items: center; border-radius: var(--hard); background: var(--ink); color: var(--chalk); }
+.collapse svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 200ms; }
+.ticket.folded .ticket-body { display: none; }
+.ticket.folded .collapse svg { transform: rotate(180deg); }
+.ticket.folded .who { font-size: clamp(30px, 3.2vw, 40px); }
+/* new round: the ticket slides in */
+.ticket.enter { animation: deal 380ms cubic-bezier(0.2, 0.8, 0.3, 1) both; }
+@keyframes deal { from { opacity: 0; transform: translateX(-24px) rotate(-1.5deg); } to { opacity: 1; transform: none; } }
 
-/* Picture of the athlete or team: a fixed-size framed square (so nothing jumps when it loads). */
-.portrait { position: relative; margin: 0; width: 96px; height: 96px; flex: none; border-radius: 10px; background: var(--board); box-shadow: inset 0 0 0 2px var(--lamp), var(--shadow); }
-.portrait img { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); border-radius: 8px; object-fit: cover; object-position: 50% 18%; background: #fff; }
-.portrait img { opacity: 0; transition: opacity 250ms; }
+/* Picture of the athlete or team: a fixed-size frame (so nothing jumps when it loads). */
+.portrait { position: relative; margin: 0; width: 132px; aspect-ratio: 1; max-width: 100%; background: var(--ink); box-shadow: 4px 4px 0 var(--gold); }
+.portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; opacity: 0; transition: opacity 250ms; }
 .portrait img.loaded { opacity: 1; }
 .portrait img:not([src]) { visibility: hidden; }  /* no picture: nothing drawn, not even a broken-image icon */
-.portrait[data-kind="team"] img { object-fit: contain; padding: 8px; }  /* logos are shown whole */
-.initials { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2px; font-family: var(--f-display); font-weight: 800; font-size: 32px; line-height: 1; letter-spacing: 0.04em; color: var(--lamp); }
-.initials svg { width: 22px; height: 22px; opacity: 0.75; }
-.credit-btn { position: absolute; right: -6px; bottom: -6px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--panel); background: var(--ink); color: var(--panel); font: 700 12px/1 var(--f-body); }
-.credit { position: absolute; right: 0; top: calc(100% + 10px); z-index: 7; width: 240px; padding: 8px 10px; border-radius: 8px; background: var(--ink); color: var(--panel); font-size: var(--t-xs); line-height: 1.4; box-shadow: var(--shadow); }
+.portrait[data-kind="team"] img { object-fit: contain; padding: 12px; background: var(--chalk); }
+.initials { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 4px; font-family: var(--f-display); font-weight: 900; font-size: 44px; line-height: 1; color: var(--gold); }
+.initials svg { width: 26px; height: 26px; opacity: 0.8; }
+.credit-btn { position: absolute; right: -8px; bottom: -8px; width: 22px; height: 22px; border-radius: var(--hard); background: var(--ink); color: var(--chalk); box-shadow: 0 0 0 2px var(--chalk); font: 700 12px/1 var(--f-body); }
+.credit { position: absolute; left: 0; top: calc(100% + 12px); z-index: 2; width: 250px; padding: 8px 10px; background: var(--ink); color: var(--chalk); font-size: 12px; line-height: 1.4; }
 .credit a, .credits a { color: inherit; }
-.qcard { overflow: visible; }  /* let the credit popover hang below the card */
-.qcard::before { border-radius: 12px 0 0 12px; }
-/* New round: the card's contents slide up and fade in. */
-.qcard.enter .qmain > * { animation: rise 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both; }
-.qcard.enter .qmain > :nth-child(2) { animation-delay: 50ms; }
-.qcard.enter .qmain > :nth-child(3) { animation-delay: 100ms; }
-@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-/* ── Map stage ──────────────────────────────────── */
-.stage { position: relative; flex: 1; min-height: 0; }
-/* The map container must have a real size and no CSS transforms (they break MapLibre's click maths). */
-#map { position: absolute; inset: 0; background: #05121a; }
-#map .maplibregl-canvas { cursor: crosshair; }
-.maplibregl-ctrl-top-right { z-index: 4; }
+/* ── The dock: guess controls ──────────────────────── */
+.dock {
+  position: fixed; z-index: 9; left: 50%; transform: translateX(-50%);
+  bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100vw - 2 * var(--edge));
+}
+.status { padding: 8px 12px; background: var(--ink); color: var(--chalk); font-size: 14px; max-width: 280px; }
+.status b { color: var(--gold); font-weight: 700; }
+/* The big button. Gold only once a pin is down: that's the moment that matters. */
+.go {
+  min-width: 260px; height: 64px; padding: 0 28px; border-radius: var(--hard);
+  font-family: var(--f-display); font-weight: 900; font-size: 30px; letter-spacing: 0.02em;
+  background: var(--gold); color: var(--ink); box-shadow: 0 6px 0 var(--ink);
+  transition: transform 120ms, box-shadow 120ms;
+}
+.go:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--ink); }
+.go:disabled { background: var(--ink); color: var(--mute-ink); box-shadow: inset 0 0 0 2px var(--ink-line); cursor: not-allowed; font-size: 22px; }
+/* small secondary action */
+.minor { padding: 8px 12px; border-radius: var(--hard); background: var(--chalk); color: var(--ink); font-family: var(--f-display); font-weight: 800; font-size: 17px; letter-spacing: 0.02em; white-space: nowrap; box-shadow: 0 4px 0 var(--ink); }
+.minor span { color: var(--mute-chalk); }
+.minor:hover { background: var(--chalk-2); }
 
-/* Pins. --tier is set from JavaScript to the result colour. */
-.pin-guess { width: 30px; height: 30px; }
-.pin-guess .ball { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; color: var(--guess); border: 2.5px solid var(--guess); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55); }
-.pin-guess svg { width: 19px; height: 19px; }
+/* ── The result: a scoreboard panel ────────────────── */
+/* An ink block with a thick tier-coloured edge, a huge distance, and the tier stamped on. */
+.dock.result-mode { left: var(--edge); transform: none; width: min(680px, calc(100vw - 2 * var(--edge))); max-width: none; }
+.result {
+  position: relative; width: 100%; display: grid; grid-template-columns: auto auto 1fr; gap: 0 28px; align-items: end;
+  padding: 18px 22px 20px 26px; background: var(--ink); color: var(--chalk); border-left: 12px solid var(--tier);
+  box-shadow: 0 8px 0 color-mix(in srgb, var(--ink) 35%, transparent);
+  animation: slam 300ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+@keyframes slam { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+.stat { display: grid; }
+.stat b { font-family: var(--f-display); font-weight: 900; font-size: 64px; line-height: 0.85; font-variant-numeric: tabular-nums; }
+.stat.big b { font-size: 108px; color: var(--tier); }
+.stat span { margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute-ink); }
+/* the tier, stamped on at an angle */
+.stamp {
+  justify-self: end; align-self: start; padding: 4px 12px; border: 3px solid var(--tier); color: var(--tier);
+  font-family: var(--f-display); font-weight: 900; font-size: 26px; line-height: 1; text-transform: uppercase; letter-spacing: 0.03em;
+  transform: rotate(-6deg); animation: stamp 420ms 250ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+@keyframes stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.8); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
+.result .sports { grid-column: 1 / -1; margin-top: 10px; color: var(--tier); font-family: var(--f-display); font-weight: 700; font-size: 20px; }
+.result .sports:empty { display: none; }
+.result .place { grid-column: 1 / 3; margin-top: 12px; font-family: var(--f-display); font-weight: 800; font-size: 26px; line-height: 1; text-transform: uppercase; }
+.result .place small { display: block; margin-top: 3px; font-family: var(--f-body); font-weight: 500; font-size: 14px; text-transform: none; color: var(--mute-ink); }
+.result .line { grid-column: 1 / 3; margin-top: 6px; font-size: 15px; color: var(--chalk); }
+.result .honours { grid-column: 1 / -1; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--ink-line); font-size: 14px; color: var(--chalk); }
+.result .honours span { margin-right: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.result .next { grid-column: 3; grid-row: 4 / 6; justify-self: end; align-self: end; min-width: 0; height: 56px; font-size: 24px; padding: 0 22px; background: var(--tier); }
+
+/* ── Pins ──────────────────────────────────────────── */
+/* Guess pin: a chalk badge with the round's sport icon. --tier is set from JS after the guess. */
+.pin-guess { width: 34px; height: 34px; }
+.pin-guess .ball { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: var(--chalk); color: var(--ink); box-shadow: 0 0 0 3px var(--ink), 0 4px 10px color-mix(in srgb, var(--ink) 50%, transparent); }
+.pin-guess svg { width: 21px; height: 21px; }
 .pin-guess .ball.pop { animation: guess-pop 260ms cubic-bezier(0.3, 1.6, 0.5, 1); }
 @keyframes guess-pop { from { transform: scale(0.4); } to { transform: scale(1); } }
-.pin-answer { width: 22px; height: 22px; position: relative; }
+.pin-answer { width: 24px; height: 24px; position: relative; }
 .pin-answer .head, .pin-answer .ring { position: absolute; inset: 0; border-radius: 50%; }
-.pin-answer .head { background: var(--tier, var(--answer)); border: 3px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 0 16px 3px var(--tier, var(--answer)); }
-.pin-answer .ring { border: 2px solid var(--tier, var(--answer)); opacity: 0; }
-/* Drop in from above, overshoot slightly, settle. */
+.pin-answer .head { background: var(--tier, var(--gold)); box-shadow: 0 0 0 3px var(--ink), 0 0 18px 4px var(--tier, var(--gold)); }
+.pin-answer .ring { border: 2px solid var(--tier, var(--gold)); opacity: 0; }
+/* drop in from above, overshoot slightly, settle (the inner parts move, never the marker element) */
 .pin-answer.landed .head { animation: pin-drop 620ms cubic-bezier(0.3, 0.7, 0.4, 1) both; }
 .pin-answer.landed .ring { animation: pin-pulse 1.6s ease-out 500ms 3; }
 @keyframes pin-drop {
@@ -173,12 +224,9 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
   88% { transform: translateY(0) scale(1.03, 0.97); }
   100% { transform: translateY(0) scale(1); }
 }
-@keyframes pin-pulse {
-  0% { transform: scale(1); opacity: 0.9; }
-  100% { transform: scale(3.2); opacity: 0; }
-}
+@keyframes pin-pulse { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(3.2); opacity: 0; } }
 
-/* Effects layer: sits over the map but lets every click through to it. */
+/* ── Effects layer (over the map, never blocks clicks) ── */
 #fx, #flash { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
 #flash { opacity: 0; }
 .flash-pulse { animation: flash-pulse 900ms ease-out; }
@@ -191,132 +239,110 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
 }
 @keyframes flash-fade { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
 
-/* ── Action rail / result card ──────────────────── */
-.rail { border-top: 1px solid var(--line); background: var(--panel); padding-bottom: env(safe-area-inset-bottom, 0px); transition: background-color 200ms; }
-.rail .wrap { padding-block: var(--s-3); display: flex; align-items: center; gap: var(--s-4); min-height: 72px; }
-.status { color: var(--muted); font-size: var(--t-sm); min-width: 0; }
-.primary { margin-left: auto; background: var(--ink); color: var(--bg); border: 0; border-radius: 8px; padding: 11px 22px; font-family: var(--f-display); font-weight: 700; font-size: var(--t-lg); letter-spacing: 0.02em; white-space: nowrap; }
-.primary:disabled { opacity: 0.3; cursor: not-allowed; }
-/* Smaller, secondary action next to "Lock it in" */
-.secondary { background: none; border: 1.5px solid var(--line); border-radius: 8px; padding: 8px 12px; font-family: var(--f-display); font-weight: 700; font-size: var(--t-md); letter-spacing: 0.02em; white-space: nowrap; color: var(--ink); }
-.secondary span { color: var(--muted); font-weight: 600; }
-.secondary:hover { border-color: var(--ink); }
-.rail .secondary { margin-left: auto; }
-.rail .secondary + .primary { margin-left: 0; }
-.status b { color: var(--ink); }
+/* ── Overlays (help, scorecard) ────────────────────── */
+.sheet { position: fixed; inset: 0; z-index: 20; display: flex; overflow-y: auto; background: color-mix(in srgb, var(--ink) 82%, transparent); padding: calc(var(--bar-h) + 20px) var(--edge) 24px; }
+.card { position: relative; margin: auto; width: 100%; max-width: 560px; padding: 26px 28px 28px; background: var(--chalk); color: var(--ink); border-top: 10px solid var(--pitch); display: grid; gap: 16px; box-shadow: 10px 10px 0 color-mix(in srgb, var(--ink) 45%, transparent); }
+.card h2 { margin: 0; font-family: var(--f-display); font-weight: 900; font-size: 56px; line-height: 0.85; text-transform: uppercase; }
+.card p { margin: 0; line-height: 1.5; max-width: 60ch; }
+.card .go { min-width: 0; height: 56px; font-size: 26px; box-shadow: 0 5px 0 var(--ink); }
+.card .minor { box-shadow: inset 0 0 0 2px var(--ink); background: transparent; }
+.final { display: flex; align-items: baseline; gap: 10px; }
+.final b { font-family: var(--f-display); font-weight: 900; font-size: 88px; line-height: 0.85; font-variant-numeric: tabular-nums; }
+.final span { font-family: var(--f-display); font-weight: 700; font-size: 22px; color: var(--mute-chalk); }
+.rows { display: grid; border-top: 3px solid var(--ink); }
+.row { display: grid; grid-template-columns: 10px 1fr auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--chalk-2); }
+.row .sq { width: 10px; align-self: stretch; }
+.row .nm { min-width: 0; }
+.row .nm b { display: block; font-family: var(--f-display); font-weight: 800; font-size: 20px; line-height: 1.05; text-transform: uppercase; }
+.row .nm span { font-size: 13px; color: var(--mute-chalk); }
+.row .sc { text-align: right; font-family: var(--f-display); font-weight: 900; font-size: 26px; font-variant-numeric: tabular-nums; line-height: 1; }
+.row .sc small { display: block; font-family: var(--f-body); font-weight: 500; font-size: 12px; color: var(--mute-chalk); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.stats div { padding: 8px 10px; background: var(--ink); color: var(--chalk); }
+.stats b { display: block; font-family: var(--f-display); font-weight: 900; font-size: 32px; font-variant-numeric: tabular-nums; line-height: 1; }
+.stats span { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute-ink); }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.actions > * { flex: 1; }
+.next-in { font-family: var(--f-display); font-weight: 700; font-size: 18px; color: var(--mute-chalk); font-variant-numeric: tabular-nums; }
+.share-box { width: 100%; font-family: var(--f-body); font-size: 14px; background: var(--chalk-2); color: var(--ink); border: 2px solid var(--ink); border-radius: var(--hard); padding: 8px; }
+.tier-scale { display: grid; gap: 3px; font-size: 14px; }
+.tier-scale div { display: grid; grid-template-columns: 14px 120px 1fr; gap: 10px; align-items: center; }
+.tier-scale i { width: 14px; height: 14px; }
+.tier-scale b { font-family: var(--f-display); font-weight: 800; font-size: 18px; text-transform: uppercase; }
+.tier-scale span { color: var(--mute-chalk); font-variant-numeric: tabular-nums; }
+.credits { font-size: 12px; color: var(--mute-chalk); }
+.credits summary { cursor: pointer; font-weight: 700; }
+.credits ul { margin: 6px 0 0; padding-left: 16px; display: grid; gap: 4px; }
 
-/* After a guess the rail becomes a dark stat card with a stripe in the tier colour. */
-.rail.is-result { background: var(--board); color: var(--board-ink); border-top: 4px solid var(--tier); }
-.rail.is-result .primary { background: var(--tier); color: #0d1418; }
-.result { flex: 1; min-width: 0; display: grid; grid-template-columns: auto auto 1fr; gap: 0 var(--s-5); align-items: end; }
-.stat { display: grid; }
-.stat b { font-family: var(--f-display); font-weight: 700; font-size: var(--t-2xl); line-height: 1; font-variant-numeric: tabular-nums; }
-.stat.big b { font-size: var(--t-3xl); color: var(--tier); }
-.stat span { font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--board-muted); }
-.tier-badge { justify-self: start; align-self: start; background: var(--tier); color: #0d1418; font-family: var(--f-display); font-weight: 700; font-size: var(--t-md); letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 8px; border-radius: 3px; }
-.result .place { grid-column: 1 / -1; margin-top: var(--s-2); font-weight: 600; font-size: var(--t-md); }
-.result .place small { font-weight: 400; color: var(--board-muted); }
-.result .line { grid-column: 1 / -1; color: var(--board-muted); font-size: var(--t-sm); }
-.result .sports { grid-column: 1 / -1; color: var(--tier); font-size: var(--t-sm); font-weight: 600; min-height: 0; }
-.result .sports:empty { display: none; }
-/* The honours line: the player's or team's achievements, from Wikidata */
-.result .honours { grid-column: 1 / -1; margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: var(--t-sm); color: var(--board-ink); animation: rise 400ms 900ms both; }
-.result .honours span { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lamp); margin-right: 6px; }
-
-/* Streak pill in the header */
-.streak { display: inline-block; margin-left: 4px; padding: 0 6px; border-radius: 999px; background: rgba(255, 201, 40, 0.14); color: var(--lamp); font-weight: 600; }
-
-/* ── Scorecard: the ladder ── */
-.rank { display: grid; grid-template-columns: 1fr auto; gap: var(--s-4); align-items: center; padding: var(--s-3) var(--s-4); border-radius: 10px; background: var(--board); color: var(--board-ink); position: relative; overflow: hidden; }
-.rank-title small { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--board-muted); }
-.rank-title b { display: block; font-family: var(--f-display); font-weight: 800; font-size: var(--t-2xl); line-height: 1; color: var(--lamp); animation: rise 400ms calc(var(--steps) * 160ms + 200ms) both; }
-.ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; min-width: 150px; }
-.rung { display: flex; justify-content: space-between; gap: 10px; padding: 2px 8px; border-radius: 4px; font-size: var(--t-xs); color: var(--board-muted); background: rgba(255, 255, 255, 0.04); }
-.rung small { font-variant-numeric: tabular-nums; opacity: 0.7; }
-/* climbing: each reached rung lights up in turn, bottom first */
+/* the ladder (scorecard) */
+.rank { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; padding: 14px 16px; background: var(--ink); color: var(--chalk); position: relative; overflow: hidden; }
+.rank-title small { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute-ink); }
+.rank-title b { display: block; font-family: var(--f-display); font-weight: 900; font-size: 44px; line-height: 0.9; text-transform: uppercase; color: var(--gold); animation: rise 400ms calc(var(--steps) * 160ms + 200ms) both; }
+.ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; min-width: 160px; }
+.rung { display: flex; justify-content: space-between; gap: 10px; padding: 2px 8px; font-size: 12px; color: var(--mute-ink); background: var(--ink-2); }
+.rung small { font-variant-numeric: tabular-nums; }
 .rung.lit { animation: rung-on 220ms calc(var(--i) * 160ms) both; }
-.rung.here { box-shadow: inset 0 0 0 1.5px var(--lamp); font-weight: 700; }
-@keyframes rung-on { from { background: rgba(255, 255, 255, 0.04); color: var(--board-muted); } to { background: rgba(255, 201, 40, 0.2); color: var(--board-ink); } }
-
-/* Captain and Hall of Fame: a light sweep across the panel once the climb finishes;
-   Hall of Fame also gets slow gold rays behind the title. */
-.rank.big::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 233, 160, 0.35) 50%, transparent 65%); transform: translateX(-100%); animation: sweep 1100ms calc(var(--steps) * 160ms + 400ms) ease-out both; pointer-events: none; }
+.rung.here { box-shadow: inset 0 0 0 2px var(--gold); font-weight: 700; }
+@keyframes rung-on { from { background: var(--ink-2); color: var(--mute-ink); } to { background: var(--pitch); color: var(--chalk); } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.rank.big::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, color-mix(in srgb, var(--gold) 35%, transparent) 50%, transparent 65%); transform: translateX(-100%); animation: sweep 1100ms calc(var(--steps) * 160ms + 400ms) ease-out both; pointer-events: none; }
 @keyframes sweep { to { transform: translateX(100%); } }
-.rank-hof { background: radial-gradient(circle at 25% 50%, rgba(255, 201, 40, 0.25), transparent 60%), var(--board); }
-.rank-hof::before { content: ""; position: absolute; left: 25%; top: 50%; width: 420px; height: 420px; margin: -210px 0 0 -210px; background: repeating-conic-gradient(rgba(255, 201, 40, 0.12) 0 8deg, transparent 8deg 24deg); border-radius: 50%; animation: rays 2.4s ease-out both; pointer-events: none; }
+.rank-hof::before { content: ""; position: absolute; left: 25%; top: 50%; width: 420px; height: 420px; margin: -210px 0 0 -210px; background: repeating-conic-gradient(color-mix(in srgb, var(--gold) 14%, transparent) 0 8deg, transparent 8deg 24deg); border-radius: 50%; animation: rays 2.4s ease-out both; pointer-events: none; }
 @keyframes rays { from { transform: rotate(-40deg) scale(0.4); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
-.rank-captain .rank-title b::after { content: "C"; display: inline-grid; place-items: center; width: 1.1em; height: 1.1em; margin-left: 10px; border: 3px solid var(--lamp); border-radius: 6px; font-size: 0.6em; vertical-align: 0.15em; animation: pop 450ms calc(var(--steps) * 160ms + 500ms) cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.rank-captain .rank-title b::after { content: "C"; display: inline-grid; place-items: center; width: 1.1em; height: 1.1em; margin-left: 10px; border: 3px solid var(--gold); font-size: 0.6em; vertical-align: 0.15em; animation: pop 450ms calc(var(--steps) * 160ms + 500ms) cubic-bezier(0.3, 1.6, 0.5, 1) both; }
 @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
 
-/* ── Overlays ───────────────────────────────────── */
-.sheet { position: absolute; inset: 0; background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(3px); display: flex; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px)); overflow-y: auto; z-index: 6; }
-.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; width: 100%; max-width: 440px; margin: auto; padding: var(--s-5); display: grid; gap: var(--s-4); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2); }
-.card h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: var(--t-2xl); line-height: 1; }
-.card p { margin: 0; line-height: 1.5; max-width: 60ch; }
-.final { display: flex; align-items: baseline; gap: var(--s-2); }
-.final b { font-family: var(--f-display); font-weight: 700; font-size: var(--t-3xl); line-height: 1; font-variant-numeric: tabular-nums; }
-.final span { color: var(--muted); }
-.rows { display: grid; border-top: 1px solid var(--line); }
-.row { display: grid; grid-template-columns: 12px 1fr auto; gap: var(--s-3); align-items: center; padding: var(--s-2) 0; border-bottom: 1px solid var(--line); }
-.row .sq { width: 12px; height: 12px; border-radius: 3px; }
-.row .nm { min-width: 0; }
-.row .nm b { display: block; font-weight: 600; }
-.row .nm span { font-size: var(--t-sm); color: var(--muted); }
-.row .sc { text-align: right; font-family: var(--f-display); font-weight: 700; font-size: var(--t-lg); font-variant-numeric: tabular-nums; line-height: 1.1; }
-.row .sc small { display: block; font-family: var(--f-body); font-weight: 400; font-size: var(--t-xs); color: var(--muted); }
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); }
-.stats b { display: block; font-family: var(--f-display); font-weight: 700; font-size: var(--t-xl); font-variant-numeric: tabular-nums; line-height: 1; }
-.stats span { font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-.actions { display: flex; gap: var(--s-2); flex-wrap: wrap; }
-.actions .primary { margin-left: 0; flex: 1; font-size: var(--t-lg); }
-.ghost { flex: 1; background: none; border: 1.5px solid var(--ink); border-radius: 8px; padding: 9px 16px; font-family: var(--f-display); font-weight: 700; font-size: var(--t-lg); letter-spacing: 0.02em; white-space: nowrap; }
-.ghost.quiet { border-color: var(--line); }
-.next { font-size: var(--t-sm); color: var(--muted); font-variant-numeric: tabular-nums; }
-.share-box { width: 100%; font-family: var(--f-body); font-size: var(--t-sm); background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
-.tier-scale { display: grid; gap: var(--s-1); font-size: var(--t-sm); }
-.tier-scale div { display: grid; grid-template-columns: 12px 84px 1fr; gap: var(--s-2); align-items: center; }
-.tier-scale i { width: 12px; height: 12px; border-radius: 3px; }
-.tier-scale b { font-weight: 600; }
-.tier-scale span { color: var(--muted); font-variant-numeric: tabular-nums; }
-/* Image credits list on the scorecard */
-.credits { font-size: var(--t-xs); color: var(--muted); }
-.credits summary { cursor: pointer; font-weight: 600; }
-.credits ul { margin: 6px 0 0; padding-left: 16px; display: grid; gap: 4px; }
-/* Phones collapse the full map credit behind an (i); this keeps "Powered by Esri" visible. */
-.esri-mark { display: none; position: absolute; left: max(8px, env(safe-area-inset-left, 0px)); bottom: 6px; z-index: 2; font-size: 10.5px; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); pointer-events: none; }
-.toast { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: var(--t-sm); z-index: 9; }
+.toast { position: fixed; z-index: 30; left: 50%; top: calc(var(--bar-h) + 16px); transform: translateX(-50%); padding: 8px 14px; background: var(--gold); color: var(--ink); font-weight: 700; font-size: 14px; }
+.esri-mark { display: none; position: fixed; z-index: 2; left: var(--edge); bottom: 6px; font-size: 10.5px; color: var(--chalk); text-shadow: 0 1px 2px var(--ink); pointer-events: none; }
 
-/* ── Phones ─────────────────────────────────────── */
-@media (max-width: 620px) {
-  /* header stacks: logo + help on top, tracker + readouts underneath */
-  .board .wrap { grid-template-columns: 1fr auto auto; grid-template-areas: "brand brand help" "tracker scores scores"; gap: var(--s-2) var(--s-3); }
-  .tracker { justify-self: start; gap: 4px; }
-  .chip { width: 24px; height: 24px; font-size: 13px; }
-  .readout { min-width: 64px; padding: 3px 8px 4px; }
-  .readout b { font-size: 22px; }
-  .wordmark { font-size: 21px; }
-  .brand .mark { width: 30px; height: 30px; }
-  .qcard { padding: var(--s-3); grid-template-columns: minmax(0, 1fr) 72px; }
-  .portrait { width: 72px; height: 72px; }
-  .initials { font-size: 24px; }
-  .initials svg { width: 17px; height: 17px; }
-  .credit { width: min(240px, 70vw); }
-  .rail .wrap { flex-wrap: wrap; row-gap: var(--s-2); }
-  .rail .status { flex-basis: 100%; }
-  .rail .secondary { margin-left: 0; }
-  .rail .secondary + .primary { margin-left: auto; }
-  .esri-mark { display: block; }
-  .rail .wrap { gap: var(--s-3); }
-  .result { gap: 0 var(--s-4); }
-  .stat b { font-size: var(--t-xl); }
-  .stat.big b { font-size: var(--t-2xl); }
-  .primary { padding: 10px 16px; font-size: 18px; }
-}
-@media (max-width: 420px) {
+/* ── Phones ────────────────────────────────────────── */
+@media (max-width: 720px) {
+  :root { --bar-h: 52px; }
+  .bar { gap: 8px; }
+  .wordmark, .dayno { display: none; }
+  .brand .mark { width: 28px; height: 28px; }
+  .chip { width: 26px; height: 32px; font-size: 18px; }
+  .readout { min-width: 0; padding: 3px 8px 4px; }
+  .readout b { font-size: 21px; }
+  .readout span { font-size: 9.5px; gap: 4px; white-space: nowrap; }
+  .readout .long { display: none; }
+  .square { width: 34px; height: 34px; }
+
+  /* the ticket becomes a bottom sheet, sitting on top of the dock */
+  .ticket {
+    --perf: 86px;
+    left: 0; right: 0; top: auto; width: auto; bottom: var(--dock-h, 88px);
+    padding: 12px var(--edge) 14px; border-left: 0; border-top: 6px solid var(--pitch);
+    -webkit-mask: none; mask: none; filter: none;
+  }
+  .who { font-size: clamp(30px, 9vw, 42px); margin-top: 8px; }
+  .ticket.folded .who { font-size: 26px; }
+  .ticket-body { grid-template-columns: 84px 1fr; gap: 12px; margin-top: 10px; padding-top: 10px; }
+  .portrait { width: 84px; box-shadow: 3px 3px 0 var(--gold); }
+  .initials { font-size: 30px; }
+  .initials svg { width: 18px; height: 18px; }
+  .credit { width: min(250px, 70vw); }
+  .ask { font-size: 14px; }
+  .ask b { font-size: 18px; }
+  .tape { font-size: 14px; }
+
+  .dock { left: 0; right: 0; transform: none; width: auto; max-width: none; bottom: 0; padding: 10px var(--edge) calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--ink); justify-content: space-between; }
+  .dock .status { display: none; }
+  .go { min-width: 0; flex: 1; height: 56px; font-size: 26px; box-shadow: none; }
+  .go:disabled { font-size: 19px; }
+  .minor { box-shadow: none; font-size: 15px; }
+
+  .dock.result-mode { left: 0; width: auto; padding: 0; }
+  .result { grid-template-columns: auto 1fr auto; gap: 0 16px; padding: 14px var(--edge) calc(14px + env(safe-area-inset-bottom, 0px)); border-left: 0; border-top: 8px solid var(--tier); box-shadow: none; }
+  .stat.big b { font-size: 68px; }
+  .stat b { font-size: 40px; }
+  .stamp { font-size: 18px; padding: 3px 8px; }
+  .result .place { font-size: 20px; }
+  .result .next { grid-column: 1 / -1; grid-row: auto; justify-self: stretch; margin-top: 12px; height: 52px; }
+  .esri-mark { display: block; bottom: auto; top: calc(var(--bar-h) + 8px); }
+  .card { padding: 20px 18px 22px; }
+  .card h2 { font-size: 44px; }
+  .final b { font-size: 68px; }
   .rank { grid-template-columns: 1fr; }
-  .rank-title b { font-size: var(--t-xl); }
-}
-@media (max-width: 360px) {
-  .board .wrap { grid-template-areas: "brand brand help" "tracker tracker tracker" "scores scores scores"; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

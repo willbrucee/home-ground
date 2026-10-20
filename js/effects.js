@@ -2,6 +2,8 @@
 // Plain canvas, no libraries. The loop only runs while particles are alive, so it costs nothing when idle.
 // Every effect is done within about 1.8 seconds.
 
+import { color } from "./palette.js";
+
 let canvas, ctx, particles = [], running = false, dpr = 1;
 
 export function initEffects(el) {
@@ -26,7 +28,7 @@ export function playEffect(tier, at) {
 
   if (tier.effect === "confetti") {
     // A burst of paper confetti and sparkles from the pin, plus a quick flash of the whole stage.
-    const colors = [tier.color, "#ffffff", "#ffe58a", "#ff8a1f", "#7cc8f2"];
+    const colors = [tier.color, color("--chalk"), color("--gold"), color("--t-hot"), color("--t-cool")];
     for (let i = 0; i < 90; i++) {
       const angle = rand(-Math.PI, 0); // upwards half-circle
       const speed = rand(4, 11);
@@ -35,7 +37,7 @@ export function playEffect(tier, at) {
     }
     for (let i = 0; i < 24; i++) {
       particles.push({ kind: "spark", x: at.x + rand(-40, 40), y: at.y + rand(-50, 20), vx: 0, vy: -0.3, g: 0, drag: 1,
-        life: rand(0.5, 1.2), delay: rand(0, 0.5), size: rand(2, 4), color: "#fff6c9" });
+        life: rand(0.5, 1.2), delay: rand(0, 0.5), size: rand(2, 4), color: color("--chalk") });
     }
     flash(tier.color, "pulse");
   } else if (tier.effect === "embers") {
@@ -43,7 +45,7 @@ export function playEffect(tier, at) {
     for (let i = 0; i < Math.round(55 * s); i++) {
       particles.push({ kind: "ember", x: at.x + rand(-26, 26), y: at.y + rand(-6, 10), vx: rand(-0.6, 0.6), vy: rand(-2.6, -1),
         g: -0.015, drag: 0.99, wobble: rand(0, 6), life: rand(0.8, 1.6), delay: rand(0, 0.35), size: rand(1.5, 3.4),
-        color: Math.random() < 0.5 ? tier.color : "#ffd27a" });
+        color: Math.random() < 0.5 ? tier.color : color("--t-warm") });
     }
     particles.push({ kind: "glow", x: at.x, y: at.y, life: 1.1, size: 70 + 40 * s, color: tier.color });
     flash(tier.color, "heat");
@@ -54,9 +56,9 @@ export function playEffect(tier, at) {
     // Snowflakes drift down over the map; the colder the result, the more of them, plus frosted edges.
     for (let i = 0; i < Math.round(60 * s); i++) {
       particles.push({ kind: "snow", x: rand(0, w), y: rand(-h * 0.3, h * 0.6), vx: rand(-0.4, 0.4), vy: rand(0.8, 2),
-        g: 0, drag: 1, wobble: rand(0, 6), life: rand(1.1, 1.8), delay: rand(0, 0.3), size: rand(1.5, 3.5) + s, color: "#f4fbff" });
+        g: 0, drag: 1, wobble: rand(0, 6), life: rand(1.1, 1.8), delay: rand(0, 0.3), size: rand(1.5, 3.5) + s, color: color("--t-frozen") });
     }
-    if (s >= 0.7) flash("#dff3ff", "frost");
+    if (s >= 0.7) flash(color("--t-frozen"), "frost");
   }
   if (!running) { running = true; last = performance.now(); requestAnimationFrame(loop); }
 }

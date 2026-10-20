@@ -4,15 +4,18 @@
 //
 // share: the emoji used in the copy-and-paste result. There's no light-blue square emoji,
 // so Air ball uses purple and Own goal uses white; the tier names are written out in the share text too.
+// Colours come from the palette in css/style.css (--t-bullseye etc.), so there's one source of truth.
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
 export const TIERS = [
-  { key: "bullseye", name: "Hole in one", maxKm: 25, color: "#ffc928", share: "🎯", effect: "confetti" },
-  { key: "scorching", name: "Top corner", maxKm: 150, color: "#ff4d1f", share: "🟥", effect: "embers", strength: 1 },
-  { key: "hot", name: "Slam dunk", maxKm: 500, color: "#ff8a1f", share: "🟧", effect: "embers", strength: 0.55 },
-  { key: "warm", name: "On the board", maxKm: 1200, color: "#f5d547", share: "🟨", effect: "glow" },
-  { key: "cool", name: "Off the pace", maxKm: 2500, color: "#7cc8f2", share: "🟦", effect: "frost", strength: 0.35 },
-  { key: "cold", name: "Air ball", maxKm: 5000, color: "#2f7fe0", share: "🟪", effect: "frost", strength: 0.7 },
-  { key: "frozen", name: "Own goal", maxKm: Infinity, color: "#dff3ff", share: "⬜", effect: "frost", strength: 1 },
-];
+  { key: "bullseye", name: "Hole in one", maxKm: 25, share: "🎯", effect: "confetti" },
+  { key: "scorching", name: "Top corner", maxKm: 150, share: "🟥", effect: "embers", strength: 1 },
+  { key: "hot", name: "Slam dunk", maxKm: 500, share: "🟧", effect: "embers", strength: 0.55 },
+  { key: "warm", name: "On the board", maxKm: 1200, share: "🟨", effect: "glow" },
+  { key: "cool", name: "Off the pace", maxKm: 2500, share: "🟦", effect: "frost", strength: 0.35 },
+  { key: "cold", name: "Air ball", maxKm: 5000, share: "🟪", effect: "frost", strength: 0.7 },
+  { key: "frozen", name: "Own goal", maxKm: Infinity, share: "⬜", effect: "frost", strength: 1 },
+].map((t) => ({ ...t, color: css(`--t-${t.key}`) }));
 
 export function tierFor(km) {
   return TIERS.find((t) => km < t.maxKm);

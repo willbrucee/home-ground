@@ -37,7 +37,23 @@ let mode = "daily", items = [], results = [], round = 0;
 let phase = "guess"; // "guess" → "reveal" → (next round) … → "done"
 let guess = null, hintUsed = false;
 
-const gameMap = createMap($("#map"), { onPick: placeGuess });
+const gameMap = createMap($("#map"), { onPick: placeGuess, insets: coveredEdges });
+
+// How much of each screen edge the overlays cover, so the camera frames results in the open map.
+function coveredEdges() {
+  const h = innerHeight, w = innerWidth;
+  const bar = $(".bar").getBoundingClientRect(), dock = $("#dock").getBoundingClientRect(), ticket = $("#ticket").getBoundingClientRect();
+  const phone = matchMedia("(max-width: 720px)").matches;
+  const ticketShown = !$("#ticket").hidden;
+  return {
+    top: bar.bottom,
+    // on phones the ticket sits on top of the dock at the bottom
+    bottom: h - Math.min(dock.height ? dock.top : h, phone && ticketShown ? ticket.top : h),
+    // on desktop the ticket runs down the left-hand side
+    left: !phone && ticketShown ? ticket.right : 0,
+    right: Math.min(60, w * 0.05), // room for the zoom buttons
+  };
+}
 initEffects($("#fx"));
 window.homeGround = { map: gameMap.map }; // handy for poking at the map from the browser console
 
@@ -45,7 +61,7 @@ function placeGuess(p) {
   if (phase !== "guess") return;
   guess = p;
   gameMap.setGuess(p, items[round].sport);
-  renderRail();
+  renderDock();
 }
 
 function startDaily() {
@@ -69,10 +85,11 @@ function beginRound() {
   phase = "guess"; guess = null; hintUsed = false;
   clearEffects();
   gameMap.reset();
+  setFolded(store.get("hg:folded", false)); // the player's choice; phones re-open it for each new name
   renderAll();
-  // replay the card's fade-in for the new name
-  const card = $("#qcard");
-  card.classList.remove("enter"); void card.offsetWidth; card.classList.add("enter");
+  // deal the ticket in for the new name
+  const t = $("#ticket");
+  t.classList.remove("enter"); void t.offsetWidth; t.classList.add("enter");
 }
 async function lockIn() {
   if (phase !== "guess" || !guess) return;
@@ -88,6 +105,7 @@ async function lockIn() {
   results.push({ id: it.id, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km) });
   if (mode === "daily") store.set(dailyKey, results);
   phase = "reveal";
+  setFolded(true); // fold the ticket to just the name, to make room for the result
   renderAll();
 
   // Numbers start at 0 and count up in step with the line drawing across the map.
@@ -134,8 +152,8 @@ function renderAll() {
   // Streak: days in a row with the daily set finished. It's still "alive" until a full day is missed.
   const st = store.get("hg:stats", { streak: 0, last: null });
   const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
-  $("#streak").hidden = streak < 1;
-  $("#streak").textContent = `${streak}-day streak`;
+  $("#streakBox").hidden = streak < 1;
+  $("#streak").textContent = streak;
   // Round tracker: numbered chips; finished rounds take their tier colour, the current one is outlined.
   $("#tracker").innerHTML = Array.from({ length: ROUNDS }, (_, i) => {
     const r = results[i];
@@ -148,55 +166,61 @@ function renderAll() {
   renderUnitButton();
 
   const it = items[Math.min(round, ROUNDS - 1)];
-  $("#roundLbl").textContent = phase === "done" ? "Full time" : `Round ${round + 1} of ${ROUNDS}`;
+  $("#roundLbl").textContent = phase === "done" ? "Full time" : `Round ${round + 1} / ${ROUNDS}`;
   $("#unitBtn").title = "Switch km / miles";
   $("#kindLbl").textContent = it.type === "team" ? "Team" : "Athlete";
   // the sport's icon next to its name (sportIcon returns trusted, hand-written SVG)
   $("#sportLbl").innerHTML = `${sportIcon(it.sport)}<span>${esc(it.sport)}</span>`;
   $("#who").textContent = phase === "done" ? `${total().toLocaleString()} points` : it.name;
-  $("#ask").textContent = phase === "done" ? "Scorecard's in. Open it to share your result."
-    : it.type === "team" ? "Home city. Pin the place they play home games." : "Birthplace. Pin the city on the map.";
+  $("#ask").innerHTML = phase === "done" ? "<b>Full time</b>The scorecard's in."
+    : it.type === "team" ? "<b>Where's home?</b>Pin the city they play in." : "<b>Where were they born?</b>Pin the city on the map.";
   if (phase === "done") { $("#kindLbl").textContent = mode === "practice" ? "Practice" : "Daily set"; $("#sportLbl").textContent = `${ROUNDS} rounds`; }
 
   renderPortrait(phase === "done" ? null : it);
-  renderRail();
+  renderDock();
 }
 
-function renderRail() {
-  const rail = $("#rail");
-  const footer = rail.parentElement;
-  footer.classList.toggle("is-result", phase === "reveal");
+// The dock: big "lock it in" button while guessing, the result panel after.
+function renderDock() {
+  const dock = $("#dock");
+  dock.classList.toggle("result-mode", phase === "reveal");
   if (phase === "guess") {
     const it = items[round];
-    const status = hintUsed ? `<b>Country: ${esc(it.country)}.</b> Half points now.`
-      : guess ? "Pin down. Tap somewhere else to move it." : "Drag to pan, pinch or scroll to zoom, tap to drop a pin.";
-    rail.innerHTML = `<div class="status">${status}</div>
-      ${hintUsed ? "" : `<button class="secondary" id="hintBtn" title="Shows the country on the map. Halves this round's points.">Reveal country <span>(−50%)</span></button>`}
-      <button class="primary" id="lockBtn" ${guess ? "" : "disabled"}>Lock it in</button>`;
+    dock.innerHTML = `
+      ${hintUsed ? `<div class="status"><b>Country: ${esc(it.country)}.</b> Half points now.</div>`
+        : `<button class="minor" id="hintBtn" title="Shows the country on the map. Halves this round's points.">Reveal country <span>−50%</span></button>`}
+      <button class="go" id="lockBtn" ${guess ? "" : "disabled"}>${guess ? "Lock it in" : "Drop a pin first"}</button>`;
     $("#lockBtn").onclick = lockIn;
     if (!hintUsed) $("#hintBtn").onclick = revealCountry;
   } else if (phase === "reveal") {
-    // The stat card: tier, the distance (big), the score, then the answer and a one-line reaction.
+    // The scoreboard panel: huge distance, the points, the tier stamped on, then the answer.
     const it = items[round], r = results[round];
     const t = tierFor(r.km);
-    footer.style.setProperty("--tier", t.color);
-    rail.innerHTML = `<div class="result">
+    dock.style.setProperty("--tier", t.color);
+    dock.innerHTML = `<div class="result">
         <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
-        <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>pts${r.hint ? " · hint" : ""}</span></div>
-        <div class="tier-badge">${t.name}</div>
+        <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>points${r.hint ? " · hint" : ""}</span></div>
+        <div class="stamp">${t.name}</div>
         <div class="sports">${r.inside ? "" : esc(sportsDistance(r.km, r.sports))}</div>
         <div class="place">${esc(it.city)} <small>${esc(it.country)}${it.hint ? ` · ${esc(it.hint.replace(/^Home ground: /, ""))}` : ""}</small></div>
         <div class="line">${r.inside ? "Inside the city limits. " : ""}${esc(r.line || "")}</div>
+        <button class="go next" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>
         ${it.achievement ? `<div class="honours"><span>Honours</span> ${esc(it.achievement)}</div>` : ""}
-      </div>
-      <button class="primary" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>`;
+      </div>`;
     $("#nextBtn").onclick = nextRound;
     $("#nextBtn").focus({ preventScroll: true });
   } else {
-    rail.innerHTML = `<div class="status">${mode === "daily" ? "That's today's five. Back tomorrow for a new set." : mode === "replay" ? "Replay over." : "Practice round over."}</div>
-      <button class="primary" id="sumBtn">Scorecard</button>`;
+    dock.innerHTML = `<div class="status">${mode === "daily" ? "That's today's five. New set tomorrow." : mode === "replay" ? "Replay over." : "Practice over."}</div>
+      <button class="go" id="sumBtn">Scorecard</button>`;
     $("#sumBtn").onclick = showSummary;
   }
+}
+
+// Fold the ticket down to just the name (the player can do this to see more map).
+function setFolded(folded) {
+  $("#ticket").classList.toggle("folded", folded);
+  $("#collapseBtn").setAttribute("aria-expanded", String(!folded));
+  $("#collapseBtn .sr").textContent = folded ? "Show the question" : "Hide the question";
 }
 
 // ── picture of the athlete / team ─────────────────────
@@ -208,6 +232,7 @@ function renderPortrait(it) {
   $("#portrait").hidden = !it;
   credit.hidden = true;
   creditBtn.setAttribute("aria-expanded", "false");
+  $("#ticket").classList.toggle("done", !it);
   if (!it) return;
   if (img.dataset.for === it.id) return; // already showing this one
   img.dataset.for = it.id;
@@ -286,10 +311,10 @@ function showSummary() {
     <div class="rows">${rows}</div>
     ${mode === "daily" ? `<div class="stats"><div><b>${st.played}</b><span>Played</span></div><div><b>${st.streak}</b><span>Streak</span></div><div><b>${st.best.toLocaleString()}</b><span>Best</span></div></div>` : ""}
     ${imageCredits()}
-    <div class="actions"><button class="primary" id="copyBtn">Copy result</button><button class="ghost" id="practiceBtn">Practice round</button></div>
-    ${mode !== "practice" ? `<button class="ghost" id="replayBtn">Replay today's set</button>` : ""}
-    ${mode === "daily" ? `<div class="next" id="countdown"></div>` : mode === "practice" ? `<button class="ghost" id="backBtn">Today's set</button>` : ""}
-    <button class="ghost quiet" id="closeBtn">Back to the map</button>
+    <div class="actions"><button class="go" id="copyBtn">Copy result</button><button class="minor" id="practiceBtn">Practice round</button></div>
+    ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : ""}
+    ${mode === "daily" ? `<div class="next-in" id="countdown"></div>` : mode === "practice" ? `<button class="minor" id="backBtn">Today's set</button>` : ""}
+    <button class="minor" id="closeBtn">Back to the map</button>
   </div>`);
   $("#copyBtn").onclick = copyResult;
   $("#practiceBtn").onclick = startPractice;
@@ -359,7 +384,7 @@ function showHelp() {
       <li>Photos and logos: Wikimedia Commons. Each picture's author and licence are behind the (i) on it.</li>
       <li>Map engine: MapLibre GL JS</li>
     </ul></details>
-    <div class="actions"><button class="primary" id="gotIt">Start</button></div>
+    <div class="actions"><button class="go" id="gotIt">Kick off</button></div>
   </div>`);
   $("#gotIt").onclick = hideSheet;
   store.set("hg:seenHelp", true);
@@ -391,6 +416,14 @@ function renderUnitButton() {
   $("#unitBtn").textContent = u;
   $("#unitBtn").setAttribute("aria-label", `Distances in ${u === "km" ? "kilometres" : "miles"}. Switch to ${u === "km" ? "miles" : "kilometres"}`);
 }
+$("#collapseBtn").onclick = () => {
+  const fold = !$("#ticket").classList.contains("folded");
+  setFolded(fold);
+  store.set("hg:folded", fold);
+};
+// Phones: the ticket sits just above the dock, so it needs to know the dock's height.
+new ResizeObserver(() => document.documentElement.style.setProperty("--dock-h", `${$("#dock").offsetHeight}px`)).observe($("#dock"));
+
 $("#creditBtn").onclick = () => {
   const open = $("#credit").hidden;
   $("#credit").hidden = !open;
