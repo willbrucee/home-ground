@@ -56,6 +56,11 @@ ALIASES = {
     "korea, south": "South Korea", "republic of korea": "South Korea",
     "russian federation": "Russia",
     "federated states of micronesia": "Micronesia",
+    "united states virgin islands": "U.S. Virgin Is.", "us virgin islands": "U.S. Virgin Is.",
+    "british virgin islands": "British Virgin Is.",
+    "cayman islands": "Cayman Is.",
+    "turks and caicos islands": "Turks and Caicos Is.",
+    "northern mariana islands": "N. Mariana Is.",
 }
 
 NEAR_KM = 30  # coastal towns can sit just outside the simplified coastline; accept anything this close

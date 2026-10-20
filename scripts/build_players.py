@@ -36,13 +36,14 @@ from validate_players import validate  # noqa: E402
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "players.json"
 MANUAL = ROOT / "data" / "players.manual.json"
+EXCLUDE = ROOT / "data" / "exclude.json"  # Wikidata ids to leave out, with a reason for each
 ENDPOINT = "https://query.wikidata.org/sparql"
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 CACHE = ROOT / "scripts" / ".cache"
 IMAGE_WIDTH = 400  # pixels; Commons makes a small copy of this width for us
 
 # Wikidata asks every script to identify itself with a way to contact the owner. Put your own details here.
-USER_AGENT = "HomeGroundGame/0.1 (set-your-contact-here)"
+USER_AGENT = "HomeGroundGame/0.1 (https://github.com/willbrucee/home-ground)"
 
 # Athletes: (occupation ID, expected label, sport name shown in the game, how many to take, min sitelinks)
 ATHLETE_SPORTS = [
@@ -217,7 +218,10 @@ def fetch_teams(where, sport, limit, min_links):
         }} ORDER BY DESC(?sl) LIMIT {limit * 2}
       }}
       OPTIONAL {{ ?t wdt:P115 ?venue . ?venue wdt:P625 ?vcoord .
-                  OPTIONAL {{ ?venue wdt:P131 ?vcity . }} OPTIONAL {{ ?venue wdt:P17 ?vcountry . }} }}
+                  # the stadium's town. Skip states/provinces (e.g. "Texas"), which some stadiums list too.
+                  OPTIONAL {{ ?venue wdt:P131 ?vcity . FILTER NOT EXISTS {{ ?vcity wdt:P31 wd:Q35657 . }}
+                              FILTER NOT EXISTS {{ ?vcity wdt:P31 wd:Q10864048 . }} }}
+                  OPTIONAL {{ ?venue wdt:P17 ?vcountry . }} }}
       OPTIONAL {{ ?t wdt:P159 ?hq . ?hq wdt:P625 ?hqcoord . OPTIONAL {{ ?hq wdt:P17 ?hqcountry . }} }}
       OPTIONAL {{ ?t wdt:P154 ?img . }}  # logo
       SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,mul". }}
@@ -309,29 +313,62 @@ def km_between(lat1, lng1, lat2, lng2):
 
 
 def commons_credits(files):
-    """Author and licence for each Commons file, 50 files per request."""
-    out = {}
-    files = sorted(set(files))
-    for i in range(0, len(files), 50):
-        batch = files[i:i + 50]
+    """Author and licence for each Commons file, 50 files per request. Answers are cached, and we go
+    slowly: Commons answers "429 Too Many Requests" if asked too fast."""
+    cache_file = CACHE / "commons.json"
+    cache = json.loads(cache_file.read_text()) if cache_file.exists() else {}
+    todo = sorted(set(files) - set(cache))
+    for i in range(0, len(todo), 50):
+        batch = todo[i:i + 50]
         params = urllib.parse.urlencode({
             "action": "query", "format": "json", "prop": "imageinfo", "iiprop": "extmetadata",
             "iiextmetadatafilter": "Artist|LicenseShortName", "titles": "|".join("File:" + f for f in batch),
+            "maxlag": 5,
         })
-        req = urllib.request.Request(f"{COMMONS_API}?{params}", headers={"User-Agent": USER_AGENT})
-        try:
-            with urllib.request.urlopen(req, timeout=60) as r:
-                pages = json.load(r)["query"]["pages"].values()
-        except (urllib.error.URLError, OSError) as err:
-            print(f"   Commons request failed ({err}); those pictures are left out")
+        pages = None
+        for attempt in range(5):
+            req = urllib.request.Request(f"{COMMONS_API}?{params}", headers={"User-Agent": USER_AGENT})
+            try:
+                with urllib.request.urlopen(req, timeout=60) as r:
+                    pages = json.load(r)["query"]["pages"].values()
+                break
+            except (urllib.error.URLError, OSError, KeyError) as err:
+                retry_after = getattr(err, "headers", None) and err.headers.get("Retry-After")
+                wait = int(retry_after) if retry_after and retry_after.isdigit() else 10 * 2 ** attempt
+                print(f"   Commons busy ({err}); waiting {wait}s")
+                time.sleep(wait)
+        if pages is None:
+            print(f"   gave up on {len(batch)} pictures for now; run the script again to fill them in")
             continue
+        # Commons may normalise titles (e.g. first letter upper case), so map them back.
         for page in pages:
             meta = (page.get("imageinfo") or [{}])[0].get("extmetadata", {})
             author = re.sub(r"<[^>]+>", "", meta.get("Artist", {}).get("value", "")).strip()  # Commons gives HTML
             license_ = meta.get("LicenseShortName", {}).get("value", "").strip()
-            out[page["title"].removeprefix("File:")] = (author or "Unknown author", license_)
-        time.sleep(1)
-    return out
+            cache[page["title"].removeprefix("File:")] = [author or "Unknown author", license_]
+        CACHE.mkdir(exist_ok=True)
+        cache_file.write_text(json.dumps(cache, ensure_ascii=False))
+        print(f"   credits: {min(i + 50, len(todo))}/{len(todo)}")
+        time.sleep(3)
+    return {f: tuple(v) for f, v in cache.items()}
+
+
+def review_flags(entries):
+    """Asks Wikidata which athletes have held public office (P39) or been convicted of a crime (P1399).
+    Those are usually famous for something other than sport, so they're listed for a person to check."""
+    ids = [e["id"][3:] for e in entries if e["id"].startswith("wd-") and e["type"] == "athlete"]
+    flagged = {}
+    for i in range(0, len(ids), 200):
+        rows = sparql(f"""SELECT ?p ?office ?convicted WHERE {{
+          VALUES ?p {{ {' '.join('wd:' + q for q in ids[i:i + 200])} }}
+          BIND(EXISTS {{ ?p wdt:P39 ?x . }} AS ?office)
+          BIND(EXISTS {{ ?p wdt:P1399 ?y . }} AS ?convicted)
+        }}""")
+        for r in rows:
+            reasons = [why for key, why in (("office", "held public office"), ("convicted", "convicted of a crime")) if val(r, key) == "true"]
+            if reasons:
+                flagged["wd-" + qid(val(r, "p"))] = reasons
+    return flagged
 
 
 def attach_images(entries, manual_lookup):
@@ -348,8 +385,12 @@ def attach_images(entries, manual_lookup):
         if not f:
             continue
         # Anti-cheat: a file called "Old Trafford Manchester.jpg" would give the answer away.
-        city_words = [w for w in re.split(r"[ ,/-]+", plain(e["city"])) if len(w) > 3]
-        if any(w in plain(f) for w in city_words):
+        # Whole words only ("Port" mustn't match "portrait"), and words already in the name don't
+        # count: "Los Angeles Lakers logo.svg" reveals nothing the name hasn't already.
+        name_words = set(re.findall(r"[a-z]+", plain(e["name"])))
+        city_words = [w for w in re.findall(r"[a-z]+", plain(e["city"])) if len(w) > 3 and w not in name_words]
+        file_words = set(re.findall(r"[a-z]+", plain(f)))
+        if any(w in file_words for w in city_words):
             dropped_for_city.append(f"{e['name']}: {f}")
             continue
         author, license_ = credits.get(f, (None, None))
@@ -363,7 +404,7 @@ def attach_images(entries, manual_lookup):
         e["imagePage"] = f"https://commons.wikimedia.org/wiki/File:{quoted}"
         # Logos can carry text such as "Ajax Amsterdam". If the team's name doesn't already
         # contain its city, list the logo so a person can glance at it.
-        if e["type"] == "team" and not any(w in plain(e["name"]) for w in city_words):
+        if e["type"] == "team" and city_words:
             logos_to_check.append(f"{e['name']} ({e['city']}): {e['imagePage']}")
     with_image = sum("image" in e for e in entries)
     print(f"Pictures: {with_image} of {len(entries)} entries have one.")
@@ -419,6 +460,13 @@ def main():
             seen.add(e["id"])
             unique.append(e)
 
+    # Leave out anyone on the exclude list (people who aren't really known for sport, wrong matches...).
+    exclude = json.loads(EXCLUDE.read_text()) if EXCLUDE.exists() else {}
+    before = len(unique)
+    unique = [e for e in unique if e["id"] not in exclude]
+    if before != len(unique):
+        print(f"\nLeft out {before - len(unique)} entries listed in {EXCLUDE.name}.")
+
     # Hand-written entries win over Wikidata ones with the same id or the same name.
     manual = json.loads(MANUAL.read_text()) if MANUAL.exists() else []
     manual_names = {(m["name"].lower(), m["type"]) for m in manual}
@@ -427,6 +475,16 @@ def main():
     for e in unique:
         e.pop("_sitelinks", None)
     combined = manual + unique
+
+    try:
+        flagged = review_flags(unique)
+    except QueryFailed:
+        flagged = {}
+    if flagged:
+        print(f"\nPlease review these {len(flagged)} athletes (add any that don't belong to {EXCLUDE.name}):")
+        for e in unique:
+            if e["id"] in flagged:
+                print(f"   {e['id']:<12} {e['name']} ({e['sport']}): {', '.join(flagged[e['id']])}")
 
     print("\nFinding pictures…")
     try:
