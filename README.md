@@ -73,10 +73,13 @@ Every entry in `data/players.json` has this shape:
 - `radius_km` is how big the city is: any guess within this distance of the centre counts as "inside the
   city" (0 km off, a hole in one). It's the radius of a circle with the city's area on Wikidata, or an
   estimate from its population, kept between 8 and 60 km.
-- `difficulty` is 1 (household name), 2 (well known) or 3 (fans will know). Each day uses three 1s and
-  two 2s (change `ROUND_DIFFICULTY` in `js/config.js`).
-- `fame` is sitelinks plus an achievement bonus (see below). `achievement` is built from Wikidata's
-  awards and "winner of" records; it's shown as "Honours" after each guess.
+- `display_name` is what the question card shows before the guess. For teams it's the name without the
+  place ("Dodgers", not "Los Angeles Dodgers"); the full `name` appears only after the guess.
+- `difficulty` is 1 (household name) or 2 (well known). Each day uses four 1s and one 2
+  (change `ROUND_DIFFICULTY` in `js/config.js`).
+- `fame` combines Wikipedia language editions and page views (see below). `achievement` is built from
+  Wikidata's awards and "winner of" records; it's shown as "Honours" after each guess.
+- `imageFocus` is where the face is ("52% 30%", a CSS object-position), so crops never cut the head off.
 - The four `image…` fields are optional and come as a set (see Pictures below).
 - `id` must be unique and must never change once the game is live. The daily order is built from ids.
 - `country` must match a shape in `data/countries.geojson` (directly or via the aliases in
@@ -91,14 +94,20 @@ Every entry in `data/players.json` has this shape:
 {
   "exclude": { "Q154373": "why it's out (for you)" },
   "include": [ { "id": "Q615", "type": "athlete", "sport": "Football", "note": "Lionel Messi" } ],
-  "no_image": [ "Q81888" ]
+  "display_names": { "Q7156": "Blaugrana" }
 }
 ```
 
 - **exclude**: Wikidata ids to leave out, whatever their fame.
-- **include**: ids to add even if they wouldn't make the cut. Find the id on wikidata.org (the "Q" number
-  in the page address). The build fetches their birthplace or stadium, achievements and picture.
-- **no_image**: ids that should show the initials badge instead of their picture.
+- **include**: ids to add whatever their fame (they skip the fame cut-off). Find the id on wikidata.org (the
+  "Q" number in the page address). The build fetches their birthplace or stadium, achievements and picture.
+- **display_names**: a team's pre-guess name chosen by hand. Use a nickname recorded on Wikidata (P1449).
+
+The household names live in `data/seeds.json` (names only, per sport). Each is looked up on Wikidata and kept
+only if the name leads to exactly one person of that sport; the build lists the ones that don't.
+
+Pictures are changed in `data/images.json` (see Pictures below), or with the Reject buttons on
+`contact-sheet.html`.
 
 Then run the build (below) and commit the new `players.json`.
 
@@ -107,10 +116,15 @@ Then run the build (below) and commit the new `players.json`.
 Run these in order:
 
 ```sh
+sh scripts/build_all.sh             # all of the below, in order
 python3 scripts/build_players.py    # who's in: data/players.json and data/review.csv (resets data/reserve.json)
 python3 scripts/pick_images.py      # a picture for each; entries without a good one go to data/reserve.json
 python3 scripts/build_vault.py      # the Vault's facts: data/vault.json
+python3 scripts/spellcheck.py       # spelling and grammar in everything a player can read
 ```
+
+Picture checks need `pip install opencv-python-headless` and `apt install tesseract-ocr`; the spell check needs
+`pip install codespell` and `apt install aspell aspell-en`. The face models are downloaded on first use.
 
 Add `--fresh` to any of them to ignore the cache. `scripts/build_places.py` (the town list for the Full time
 screen, from GeoNames cities15000) only needs running if you want a newer copy.
@@ -120,24 +134,21 @@ Wikidata's query service is often busy. The scripts retry, and cache every answe
 APIs rate-limit us quickly, so pageviews and article intros are asked for through the Wikidata query
 service (its MWAPI bridge).
 
-**Who gets in.** Candidates are each sport's best-known people and its top leagues' teams. To stay in,
-an entry must clear **both** fame bars:
+**Who gets in.** Small and famous beats big and obscure: the pool is about 250–400 entries.
 
-- **Sitelinks**: Wikipedia language editions with an article on them (Messi 227). Athletes 25+, teams 15+,
-  lower for sports big in only a few countries (`SITELINK_BAR`).
-- **Pageviews**: English Wikipedia views over the **last 60 days** (Wikipedia only reports 60 days through
-  this route). Athletes 30,000+, teams 40,000+, lower for sports mostly followed outside the English-speaking
-  world (`VIEWS_BAR`).
-
-Then athletes need a **major win** in their sport (a headline title or individual award, an Olympic medal,
-a hall of fame, 5+ honours, or, because Wikidata's trophy records are patchy, a star of the sport by
-description with a huge readership). People born before 1965 must also be legends (50+ sitelinks or
-40,000+ views).
+1. **Household names** from `data/seeds.json`, checked against Wikidata. They're in whatever the numbers say.
+2. **The rest of each sport's places** (25–40 per sport) go to the most famous others, and only if they clear
+   **both** bars: Wikipedia language editions (sitelinks; athletes 40+, teams 30+, lower for sports big in only
+   a few countries: `SITELINK_BAR`) and English Wikipedia views over the **last 60 days** (athletes 80,000+,
+   teams 100,000+, lower for sports mostly followed outside the English-speaking world: `VIEWS_BAR`). Athletes
+   also need a major win in their sport. (Twelve months of views would be better, but Wikipedia's pageview
+   API refuses requests from the build machine; the 60-day figure comes through the Wikidata query service.)
+3. **Teams** come from the top of the biggest leagues, and need a display name that doesn't give the city
+   away (see Anti-cheat below). Teams without one are listed in `data/no-nickname.json` and left out.
 
 - **Fame score** combines both signals (their geometric mean, so you need both), plus a small bonus for honours.
-- **Balance**: each sport and league keeps only its top N by fame.
-- **Difficulty**: over the whole pool, the top 35% by fame are 1, the next 40% are 2, the rest 3. Each day
-  has two 1s, two 2s and a 3, in that order (`ROUND_DIFFICULTY` in `js/config.js`).
+- **Difficulty**: every seed, everyone at least as famous as the typical seed, and the most famous 60% of teams
+  are 1; everyone else is 2.
 
 The minimums and quotas are in the lists at the top of `scripts/build_players.py`. Each line also has
 the Wikidata id and its expected label, which is checked at the start of every run, so a wrong id gets
@@ -166,14 +177,51 @@ the first slots, day 2 the next, and so on, so nothing repeats until the whole g
 new order starts. Everyone computes the same order, so everyone gets the same five. Adding players slots
 them into the order without reshuffling the others, though days that haven't happened yet can shift.
 
-### Pictures and anti-cheat
+### Pictures
 
-Pictures are left out automatically when the file name mentions the answer city (e.g. "Old Trafford
-Manchester.jpg"). The script can't read text inside a picture, though, so it prints a list of team
-logos whose team name doesn't already include the city. Glance through those for crests that
-spell out the city ("Ajax Amsterdam" style) and add any that do to `no_image` in `data/overrides.json`.
+`scripts/pick_images.py` looks for the picture we want: one player, face clearly visible and big in frame,
+in kit, playing or celebrating, sharp, landscape.
 
-Without a picture, the game shows an initials badge with a small icon for the sport, never a broken image.
+- **Candidates**: Commons files whose structured data says they depict the person (`haswbstatement:P180=Q…`),
+  their Commons category (P373) and their main image (P18). Free licences and photos only, 800 px wide or more.
+- **Words**: out if the title or description says portrait, headshot, press conference, signing, premiere, red
+  carpet, wax, statue, caricature, autograph and the like; points for match, game, playing, final, race, serve,
+  goal, celebrates.
+- **Looking at it**: OpenCV's face detector (YuNet) needs exactly one dominant face, at least 8% of the
+  picture's height, with no rival faces of similar size, and the face must be sharp (variance of the
+  Laplacian). OpenCV's face recogniser (SFace) compares the face with their main Wikidata portrait, so a
+  photo where the biggest face is the coach is turned down.
+- The best one wins, and its face position is saved as `imageFocus`. No passing picture: the entry goes
+  to `data/reserve.json` instead of being shown with a poor one.
+- **Teams**: their logo, or a clear match photo, or the reserve.
+
+`contact-sheet.html` shows every chosen picture, with the face marked, low-confidence ones flagged, and a
+Reject button that writes to `data/images.json`.
+
+### Anti-cheat
+
+Nothing shown before the guess may name the answer's city, region or country:
+
+- Teams show their `display_name`: the name with every place word taken out (the city, the regions it's
+  in, its country, nearby big towns, and districts like Chelsea or Essendon), or a Wikidata nickname.
+  The full name appears after the guess.
+- The picture credit (author, licence, Commons file name) is only offered after the guess.
+- `pick_images.py` reads the text in every chosen picture (tesseract OCR) and turns down any that names the
+  place, and any logo with text other than the team's own nickname. What it turned down is listed in
+  `data/image-rejects.csv`.
+- File names and descriptions that name the answer city rule a picture out too.
+
+### Ranks
+
+The daily total earns a rank: Wooden spoon, Reserve (1,500+), Starter (2,600+), All-star (3,400+), Captain
+(4,200+), Hall of Fame (4,800+). The points curve (1,000 within 25 km of the city's edge, then a long, gentle
+fall) and these thresholds come from `python3 scripts/simulate_ranks.py`, which plays 5,000 games each for a
+casual, a good and an expert player on the real pool.
+
+### Tests
+
+`node tests/map-accuracy.js` (with the site served on port 8765) plots Pittsburgh, Sydney and Rosario on the
+Full time map and checks each marker sits on its coordinate at zooms 2, 5, 8 and 11.
 
 ### Licences
 
@@ -193,3 +241,5 @@ Without a picture, the game shows an initials badge with a small icon for the sp
 - Country shapes: [Natural Earth](https://www.naturalearthdata.com) (public domain), via world-atlas (ISC).
 - Player and team data: [Wikidata](https://www.wikidata.org) (CC0).
 - Player photos and team logos: [Wikimedia Commons](https://commons.wikimedia.org); each picture's author and licence are shown in the game.
+- Town names on the Full time screen: [GeoNames](https://www.geonames.org) cities15000 (CC BY 4.0).
+- Face detection and recognition (build only): OpenCV Zoo's YuNet and SFace models (Apache 2.0).

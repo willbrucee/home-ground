@@ -13,7 +13,7 @@ const HIDDEN_LINE = ["step", ["line-progress"], CLEAR, 0.5, CLEAR];
 // Ease-in-out: slow start, quick middle, slow finish.
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-function buildStyle(projection) {
+export function buildStyle(projection) {
   const sources = {};
   const layers = [{ id: "ocean", type: "background", paint: { "background-color": color("--sea") } }];
 

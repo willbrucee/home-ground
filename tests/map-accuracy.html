@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- Debug page: plots known coordinates on the Full time map, for tests/map-accuracy.js to check. -->
+<html lang="en"><head><meta charset="utf-8"><title>Map accuracy check</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../vendor/maplibre-gl.css"><link rel="stylesheet" href="../css/style.css">
+<style> body { overflow: hidden; } #m { position: fixed; inset: 0; } </style></head>
+<body><div id="m"></div>
+<script src="../vendor/maplibre-gl.js"></script>
+<script type="module">
+  import { createSummaryMap } from "../js/summarymap.js";
+  // Known places: Pittsburgh (the Point, where the rivers meet), Sydney (the Opera House), Rosario (the
+  // Monumento a la Bandera). The first two make an arc across the date line.
+  window.PLACES = { pittsburgh: { lat: 40.44, lng: -79.99 }, sydney: { lat: -33.87, lng: 151.21 }, rosario: { lat: -32.94, lng: -60.65 } };
+  const P = window.PLACES;
+  window.summary = createSummaryMap(document.getElementById("m"), [
+    { guess: P.pittsburgh, answer: P.sydney, color: "#ff5a2a", sport: "Ice hockey", label: "15,140 km" },
+    { guess: P.rosario, answer: P.rosario, color: "#ffc928", sport: "Football", label: "0 km", inside: true },
+  ], { animate: false });
+</script></body></html>

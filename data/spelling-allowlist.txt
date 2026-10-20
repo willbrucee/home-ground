@@ -63,3 +63,11 @@ messi
 internazionale
 sur
 claude
+essendon
+opencv
+sface
+yunet
+headshot
+pageview
+pre
+tesseract

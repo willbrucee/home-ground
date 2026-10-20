@@ -39,6 +39,33 @@ def rounded(ring):
     return out
 
 
+def split_at_antimeridian(poly):
+    """Russia's far east and Fiji come with rings that hop between +180° and -180° (a seam left over from
+    the map data). Drawn on a flat map, each hop is a stripe right across the world. Cut the ring at every
+    hop and close each side's part into its own polygon."""
+    outer = poly[0]
+    if not any(abs(a[0] - b[0]) > 180 for a, b in zip(outer, outer[1:])):
+        return [poly]
+    runs, run = [], [outer[0]]
+    for a, b in zip(outer, outer[1:]):
+        if abs(a[0] - b[0]) > 180:
+            runs.append(run)
+            run = []
+        run.append(b)
+    runs.append(run)
+    if len(runs) > 1 and (runs[0][0][0] > 0) == (runs[-1][-1][0] > 0):
+        runs[0] = runs.pop() + runs[0]  # the ring's start and end are on the same side: one run
+    sides = {}
+    for r in runs:
+        side = sum(x for x, _ in r) > 0
+        sides.setdefault(side, []).extend(r)
+    out = []
+    for pts in sides.values():
+        if len(pts) >= 3:
+            out.append([pts + [pts[0]]])
+    return out
+
+
 def main():
     aliases = {}
     for alias, target in ALIASES.items():
@@ -48,6 +75,7 @@ def main():
     for c in load_countries():
         polys = [[rounded(r) for r in poly] for poly in c["polys"]]
         polys = [p for p in polys if len(p[0]) >= 4]
+        polys = [piece for poly in polys for piece in split_at_antimeridian(poly)]
         biggest = max(c["polys"], key=lambda poly: ring_area(poly[0]))[0]
         xs, ys = [x for x, _ in biggest], [y for _, y in biggest]
         features.append({
