@@ -14,7 +14,9 @@
   "Q151414": "George Marshall: US general and statesman",
   "Q298920": "Charles M. Schulz: cartoonist",
   "Q221048": "Jackie Robinson: listed under athletics, he's a baseball player",
-  "Q4120019": "John David Washington: actor"
+  "Q4120019": "John David Washington: actor",
+  "Q17466583": "Naomi Osaka: born in Osaka, so her name gives the answer away",
+  "Q219912": "Fausto Coppi: born in Castellania Coppi, so his name gives the answer away"
  },
  "include": [
   {
@@ -504,5 +506,19 @@
    "note": "Crusaders"
   }
  ],
- "no_image": []
+ "no_image": [],
+ "display_names": {
+  "_readme": "Team display names chosen by hand (shown before the guess, so no place names). Only nicknames recorded on Wikidata (P1449).",
+  "Q7156": "Blaugrana",
+  "Q8682": "Los Blancos",
+  "Q1543": "Rossoneri",
+  "Q2739": "Giallorossi",
+  "Q2641": "Partenopei",
+  "Q128446": "Dragões",
+  "Q131499": "As Águias",
+  "Q8687": "Los Leones",
+  "Q50602": "The Citizens",
+  "Q251090": "Bombers",
+  "Q3286027": "Sea Eagles"
+ }
 }

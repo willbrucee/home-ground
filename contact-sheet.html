@@ -29,6 +29,11 @@
   .meta b { display: block; font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 1; text-transform: uppercase; }
   .meta code { user-select: all; background: var(--chalk-2); padding: 0 3px; }
   .meta a { color: var(--pitch); }
+  .focus { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 2px solid var(--gold); border-radius: 50%; box-shadow: 0 0 0 1px var(--ink); pointer-events: none; }
+  .reject { position: absolute; right: 6px; top: 6px; padding: 2px 8px; background: var(--ink); color: var(--chalk); font: 800 13px var(--f-display); text-transform: uppercase; border-radius: var(--hard); }
+  .cell.rejected { opacity: 0.35; }
+  .cell.rejected .reject { background: var(--t-scorching); color: var(--ink); }
+  #saveBtn { background: var(--t-scorching); color: var(--ink); }
 </style>
 </head>
 <body>
@@ -36,24 +41,41 @@
 <p class="intro">Every picture the game will show. Red-framed ones are low-confidence picks worth a look; grey ones are in the reserve
 (no usable picture, so they're out of the game). To change one, add it to <code>data/images.json</code>, e.g.
 <code>"wd-Q615": { "use": "Better file.jpg" }</code>, <code>{ "reject": ["Bad file.jpg"] }</code> or <code>{ "none": true }</code>,
-then run <code>python3 scripts/pick_images.py</code>. Click an id to select it for copying.</p>
+then run <code>python3 scripts/pick_images.py</code>. Or press <b>Reject</b> on any picture, then <b>Save rejections</b>: it adds
+them to <code>data/images.json</code> for you (Chrome and Edge write the file directly; other browsers download the merged file).
+Faces are marked where the crop will centre.</p>
 <div class="controls">
   <button data-show="all" aria-pressed="true">All</button>
   <button data-show="low" aria-pressed="false">To check</button>
   <button data-show="reserve" aria-pressed="false">Reserve</button>
   <select id="sport" aria-label="Sport"><option value="">Every sport</option></select>
+  <button id="saveBtn" hidden>Save rejections</button>
   <span class="summary" id="summary"></span>
 </div>
 <div class="grid" id="grid"></div>
 <script>
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 let all = [], show = "all";
+// pending rejections: { "wd-Q615": ["File name.jpg"] }, kept in this browser until saved
+let pending = {};
+try { pending = JSON.parse(localStorage.getItem("hg:rejects")) || {}; } catch {}
+const keepPending = () => {
+  try { localStorage.setItem("hg:rejects", JSON.stringify(pending)); } catch {}
+  const n = Object.values(pending).flat().length;
+  document.getElementById("saveBtn").hidden = !n;
+  document.getElementById("saveBtn").textContent = `Save ${n} rejection${n === 1 ? "" : "s"}`;
+};
+const fileOf = (e) => e.imagePage ? decodeURIComponent(e.imagePage.split("File:")[1]).replace(/_/g, " ") : "";
 
 const cell = (e) => {
   const reserve = !!e.reserveReason, low = e.imageConfidence === "low";
-  const img = e.image ? `<img loading="lazy" alt="${esc(e.name)}" src="${esc(e.image.replace(/width=\d+/, "width=300"))}">` : "";
-  return `<div class="cell${low ? " low" : ""}${reserve ? " reserve" : ""}" data-type="${e.type}">
-    <div class="pic">${img}${low ? '<span class="flag">Check</span>' : ""}</div>
+  const img = e.image ? `<img loading="lazy" alt="${esc(e.name)}" src="${esc(e.image.replace(/width=\d+/, "width=300"))}"${e.imageFocus ? ` style="object-position:${esc(e.imageFocus)}"` : ""}>` : "";
+  const [fx, fy] = (e.imageFocus || "").split(" ");
+  const rejected = (pending[e.id] || []).includes(fileOf(e));
+  return `<div class="cell${low ? " low" : ""}${reserve ? " reserve" : ""}${rejected ? " rejected" : ""}" data-type="${e.type}" data-id="${esc(e.id)}">
+    <div class="pic">${img}${low ? '<span class="flag">Check</span>' : ""}
+      ${e.imageFocus && e.type === "athlete" ? `<span class="focus" style="left:${esc(fx)};top:${esc(fy)}"></span>` : ""}
+      ${e.image ? `<button class="reject">${rejected ? "Undo" : "Reject"}</button>` : ""}</div>
     <div class="meta"><b>${esc(e.name)}</b>${esc(e.sport)} · ${esc(e.type)}<br>
       ${reserve ? `Reserve: ${esc(e.reserveReason)}` : `${esc(e.imageSource)} · ${esc(e.imageLicense)} · <a href="${esc(e.imagePage)}" target="_blank" rel="noopener">file</a>`}<br>
       <code>${esc(e.id)}</code></div></div>`;
@@ -82,6 +104,39 @@ document.querySelectorAll("[data-show]").forEach((b) => b.onclick = () => {
   render();
 });
 document.getElementById("sport").onchange = render;
+document.getElementById("grid").addEventListener("click", (ev) => {
+  const btn = ev.target.closest(".reject");
+  if (!btn) return;
+  const id = btn.closest(".cell").dataset.id, e = all.find((x) => x.id === id), file = fileOf(e);
+  const list = new Set(pending[id] || []);
+  list.has(file) ? list.delete(file) : list.add(file);
+  if (list.size) pending[id] = [...list]; else delete pending[id];
+  keepPending(); render();
+});
+// Merge the rejections into data/images.json: write it in place where the browser allows, else download it.
+document.getElementById("saveBtn").onclick = async () => {
+  const merge = (current) => {
+    for (const [id, files] of Object.entries(pending)) {
+      const o = current[id] || (current[id] = {});
+      o.reject = [...new Set([...(o.reject || []), ...files])];
+    }
+    return JSON.stringify(current, null, 1) + "\n";
+  };
+  try {
+    if (window.showOpenFilePicker) {
+      const [handle] = await showOpenFilePicker({ types: [{ description: "data/images.json", accept: { "application/json": [".json"] } }] });
+      const text = merge(JSON.parse(await (await handle.getFile()).text()));
+      const w = await handle.createWritable(); await w.write(text); await w.close();
+    } else {
+      const text = merge(await (await fetch("data/images.json")).json());
+      const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([text], { type: "application/json" })), download: "images.json" });
+      a.click();
+    }
+    pending = {}; keepPending(); render();
+    alert("Saved. Now run: python3 scripts/pick_images.py");
+  } catch (err) { if (err.name !== "AbortError") alert("Couldn't save: " + err.message); }
+};
+keepPending();
 </script>
 </body>
 </html>

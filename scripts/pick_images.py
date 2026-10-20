@@ -39,6 +39,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 PLAYERS = ROOT / "data" / "players.json"
 RESERVE = ROOT / "data" / "reserve.json"
 OVERRIDES = ROOT / "data" / "images.json"
+ANSWER_WORDS = ROOT / "data" / "answer-words.json"  # place names per entry, written by build_players.py
 WIDTH = 600  # Commons serves a resized copy this wide
 
 FREE_LICENCE = re.compile(r"^(cc[ -]?by|cc0|public domain|pd\b|pd-|attribution)", re.I)
@@ -201,16 +202,56 @@ def score(entry, title, meta, source):
     return round(s, 1)
 
 
+# Athlete photos: the look we want is one player, face clearly visible and big in frame, in kit,
+# playing or celebrating, sharp, landscape. These words in a file's title or description rule it out…
+NOT_ACTION = re.compile(r"portrait|head ?shot|press conference|news conference|signing|premiere|red carpet|\bwax\b|"
+                        r"tussaud|statue|sculpture|bust\b|caricature|autograph|mural|stamp|coin|banknote|grave|tomb|"
+                        r"drawing|painting|cartoon|poster|award ceremony|gala|interview|visit|meets|with fans|selfie", re.I)
+# …and these suggest the moment we want.
+PREFER = re.compile(r"\b(match|game|playing|plays|during|final|race|serve|serving|goal|celebrat\w*|scores|in action|"
+                    r"vs\.?|versus|dunk|swing|tee shot|bowling|batting|pitching|lap)\b", re.I)
+MIN_WIDTH = 800
+
+
+def athlete_text_score(entry, title, meta, source):
+    """Points from the file's name, description and shape. None = never use it."""
+    text = plain(f"{title} {meta['desc']}")
+    city_words = [w for w in re.findall(r"[a-z]+", plain(entry["city"])) if len(w) > 3]
+    name_words = set(re.findall(r"[a-z]+", plain(entry["name"])))
+    words = set(re.findall(r"[a-z]+", text))
+    if not FREE_LICENCE.search(meta["licence"]) or not re.search(r"\.jpe?g$", title, re.I):
+        return None  # needs a free licence, and to be a photo
+    if meta["w"] < MIN_WIDTH or meta["w"] < meta["h"] * 0.8:
+        return None  # too small, or a tall strip
+    if NOT_ACTION.search(text):
+        return None
+    if any(w in words and w not in name_words for w in city_words):
+        return None  # names the answer city
+    s = {"depicts": 4, "category": 2, "p18": 0}[source]  # "depicts" = Commons says it's them
+    surname = [w for w in re.findall(r"[a-z]+", plain(entry["name"])) if len(w) > 2]
+    if surname and surname[-1] in set(re.findall(r"[a-z]+", plain(title))):
+        s += 1
+    s += min(len(set(m.group(0).lower() for m in PREFER.finditer(text))), 3) * 2
+    if re.search(SPORT_TERMS.get(entry["sport"], r"$^"), text, re.I):
+        s += 1
+    s -= min(len(set(m.group(0).lower() for m in NOT_SPORT.finditer(text))), 2) * 6
+    s += 2 if meta["w"] >= meta["h"] * 1.2 else 0
+    return s
+
+
 def pick_for_athlete(entry, refs, rejects):
+    """Candidates from Commons files that depict them (structured data, P180), their Commons category and
+    their main image; scored on text, then looked at: exactly one big face, sharp, landscape."""
+    import imagecheck
     q = entry["id"][3:]
     cands = {}  # title -> (meta, source)
+    for t, m in mwapi_files(f'mwapi:generator "search" ; mwapi:gsrsearch {mw(f"haswbstatement:P180={q} filetype:bitmap")} ; '
+                            f'mwapi:gsrnamespace "6" ; mwapi:gsrlimit "80" ;', limit=80).items():
+        cands[t] = (m, "depicts")
     if refs.get("cat"):
         for t, m in mwapi_files(f'mwapi:generator "categorymembers" ; mwapi:gcmtitle {mw("Category:" + refs["cat"])} ; '
                                 f'mwapi:gcmtype "file" ; mwapi:gcmlimit "100" ;', limit=100).items():
-            cands[t] = (m, "category")
-    for t, m in mwapi_files(f'mwapi:generator "search" ; mwapi:gsrsearch {mw(entry["name"] + " " + entry["sport"])} ; '
-                            f'mwapi:gsrnamespace "6" ; mwapi:gsrlimit "40" ;', limit=40).items():
-        cands.setdefault(t, (m, "search"))
+            cands.setdefault(t, (m, "category"))
     if refs.get("p18") and refs["p18"] not in cands:
         for t, m in one_file(refs["p18"]).items():
             cands[t] = (m, "p18")
@@ -218,11 +259,33 @@ def pick_for_athlete(entry, refs, rejects):
     for t, (m, src) in cands.items():
         if t in rejects:
             continue
-        sc = score(entry, t, m, src)
+        sc = athlete_text_score(entry, t, m, src)
         if sc is not None:
             scored.append((sc, t, m, src))
     scored.sort(key=lambda x: -x[0])
-    return scored
+    # Whose face is it? Their main Wikidata image (usually a clear portrait) is the reference.
+    ref = None
+    if refs.get("p18"):
+        info = imagecheck.look(refs["p18"])
+        if info and info["faces"] and not [f for f in info["faces"][1:] if f[3] >= info["faces"][0][3] * 0.6]:
+            ref = imagecheck.face_print(refs["p18"], info["faces"][0])
+    # look properly at the best twenty
+    out = []
+    for sc, t, m, src in scored[:20]:
+        info = imagecheck.look(t)
+        points, why, focus = imagecheck.judge_photo(info)
+        if why:
+            continue
+        verified = None
+        if ref:
+            likeness = imagecheck.same_face(ref, imagecheck.face_print(t, info["faces"][0]))
+            if likeness < 0.30:
+                continue  # the big face in it is someone else (a coach, a team-mate)
+            verified = likeness >= 0.363
+            points += 3 if verified else 0
+        out.append((round(sc + points * 1.5, 1), t, dict(m, focus=focus, verified=verified), src))
+    out.sort(key=lambda x: -x[0])
+    return out
 
 
 def pick_for_team(entry, refs, rejects):
@@ -261,7 +324,7 @@ def main():
                 return [(99, t, m, "chosen by hand") for t, m in meta.items()]
             if e["type"] == "team":
                 return cached(f"img-team-{e['id']}", lambda: pick_for_team(e, refs.get(e["id"][3:], {}), rejects), fresh)
-            return cached(f"img-ath-{e['id']}", lambda: pick_for_athlete(e, refs.get(e["id"][3:], {}), rejects), fresh)
+            return cached(f"img2-ath-{e['id']}", lambda: pick_for_athlete(e, refs.get(e["id"][3:], {}), rejects), fresh)
         except QueryFailed:
             return None
 
@@ -274,9 +337,37 @@ def main():
             if n % 50 == 0:
                 print(f"   {n}/{len(todo)}")
 
+    # Read the text in each entry's candidates (best first) until one doesn't give the answer away.
+    import imagecheck
+    answer_words = json.loads(ANSWER_WORDS.read_text()) if ANSWER_WORDS.exists() else {}
+
+    def vet(e):
+        picks = found.get(e["id"]) or []
+        rejects = set(overrides.get(e["id"], {}).get("reject", []))
+        words = answer_words.get(e["id"], [e["city"], e["country"]]) + ([e["name"]] if e["type"] == "team" else [])
+        turned_down = []
+        for p in [p for p in picks if p[1] not in rejects][:8]:
+            if p[3] == "chosen by hand":
+                return p, turned_down
+            text = imagecheck.ocr(p[1])
+            why = imagecheck.gives_away(text, words)
+            if not why and p[3] == "logo":
+                extra = imagecheck.foreign_text(text, [e.get("display_name") or e["name"]])
+                why = f"logo has other text ({', '.join(extra[:3])})" if extra else None
+            if why:
+                turned_down.append((p[1], why))
+                continue
+            return p, turned_down
+        return None, turned_down
+
+    print("Reading the text in the pictures (OCR)…")
+    with ThreadPoolExecutor(max_workers=6) as workers:
+        vetted = dict(zip([e["id"] for e in pool], workers.map(vet, pool)))
+    ocr_log = []
+
     keep, removed = [], []
     for e in pool:
-        for k in ("image", "imageAuthor", "imageLicense", "imagePage", "imageSource", "imageConfidence"):
+        for k in ("image", "imageAuthor", "imageLicense", "imagePage", "imageSource", "imageConfidence", "imageFocus"):
             e.pop(k, None)
         ov = overrides.get(e["id"], {})
         if ov.get("none"):
@@ -285,19 +376,26 @@ def main():
         if picks is None:
             print(f"   {e['name']}: Wikidata too busy, kept as it was; rerun later")
             keep.append(e); continue
-        rejects = set(ov.get("reject", []))
-        picks = [p for p in picks if p[1] not in rejects]
-        if not picks:
-            removed.append((e, "no usable picture")); continue
-        sc, title, meta, src = picks[0]
+        chosen, turned_down = vetted.get(e["id"], (None, []))
+        ocr_log += [(e["name"], t, why) for t, why in turned_down]
+        if not chosen:
+            removed.append((e, "no usable picture" + (" (text in the others names the place)" if turned_down else ""))); continue
+        sc, title, meta, src = chosen
         quoted = urllib.parse.quote(title.replace(" ", "_"))
         e["image"] = f"https://commons.wikimedia.org/wiki/Special:FilePath/{quoted}?width={WIDTH}"
         e["imageAuthor"] = meta["author"]
         e["imageLicense"] = meta["licence"]
         e["imagePage"] = f"https://commons.wikimedia.org/wiki/File:{quoted}"
         e["imageSource"] = src
+        if meta.get("focus"):
+            e["imageFocus"] = meta["focus"]  # CSS object-position that keeps the face in the crop
         # "low" = worth a human look on the contact sheet
-        e["imageConfidence"] = "high" if src in ("logo", "chosen by hand") or (sc >= 9 and ACTION.search(plain(title + " " + meta["desc"]))) else "low"
+        if e["type"] == "athlete":  # sure it's them (depicts) and clearly playing, or else worth a look
+            text = plain(title + " " + meta["desc"])
+            playing = bool(PREFER.search(text) or re.search(SPORT_TERMS.get(e["sport"], r"$^"), text, re.I))
+            e["imageConfidence"] = "high" if src == "chosen by hand" or (meta.get("verified") and playing) else "low"
+        else:
+            e["imageConfidence"] = "high" if src in ("logo", "chosen by hand") or (sc >= 9 and ACTION.search(plain(title + " " + meta["desc"]))) else "low"
         # A team with no free logo needs a clear match photo; a doubtful one (a scan, a chart, an empty
         # stand) is worse than none, so the team sits out until a picture is chosen by hand.
         if e["type"] == "team" and e["imageConfidence"] == "low":
@@ -305,6 +403,12 @@ def main():
         keep.append(e)
 
     PLAYERS.write_text(json.dumps(keep, ensure_ascii=False, indent=1) + "\n")
+    with open(ROOT / "data" / "image-rejects.csv", "w", newline="", encoding="utf-8") as f:  # for checking by eye
+        import csv
+        w = csv.writer(f)
+        w.writerow(["entry", "file", "why"])
+        w.writerows(ocr_log)
+    print(f"{len(ocr_log)} pictures turned down because of their text (see data/image-rejects.csv).")
     RESERVE.write_text(json.dumps([dict(e, reserveReason=why) for e, why in removed], ensure_ascii=False, indent=1) + "\n")
 
     by_sport = {}
