@@ -1,11 +1,12 @@
 // Game flow: load players, pick today's five, handle guesses and the scorecard.
 import { ROUNDS } from "./config.js";
 import { createMap } from "./map.js";
-import { distanceKm } from "./geo.js";
+import { distanceKm, pointAlong } from "./geo.js";
 import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
-import { TIERS, tierFor, reactionFor } from "./tiers.js";
+import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
-import { getUnit, toggleUnit, formatNumber, formatDistance } from "./units.js";
+import { sportIcon } from "./sporticons.js";
+import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, biggestSportsUnit, sportsDistance } from "./units.js";
 
 const $ = (s) => document.querySelector(s);
 
@@ -16,7 +17,10 @@ const store = {
 };
 
 // ── scoring ─────────────────────────────────────────────
-// 1000 points within 25 km, then it falls away smoothly: ~920 at 100 km, ~435 at 1,000 km.
+// The answer is a whole city: a circle of radius_km around its centre (see the build script).
+// Scores use the distance to the edge of that circle, so any guess inside the city is 0 km off.
+const DEFAULT_RADIUS_KM = 8;
+// 1000 points within 25 km of the city's edge, then it falls away smoothly: ~920 at 100 km, ~435 at 1,000 km.
 function pointsFor(km, hintUsed) {
   const p = km <= 25 ? 1000 : Math.round(1000 * Math.exp(-km / 1200));
   return hintUsed ? Math.round(p / 2) : p;
@@ -69,11 +73,14 @@ async function lockIn() {
   if (phase !== "guess" || !guess) return;
   const it = items[round];
   const answer = { lat: it.lat, lng: it.lng };
-  const km = distanceKm(guess, answer);
+  const radius = it.radius_km || DEFAULT_RADIUS_KM;
+  const rawKm = distanceKm(guess, answer);       // to the city centre (shown on the card)
+  const km = Math.max(0, rawKm - radius);         // to the city's edge: used for points, tier and sharing
+  const inside = km === 0;
   const pts = pointsFor(km, hintUsed);
   const before = total();
   const tier = tierFor(km);
-  results.push({ id: it.id, km, pts, hint: hintUsed, line: reactionFor(tier) });
+  results.push({ id: it.id, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km) });
   if (mode === "daily") store.set(dailyKey, results);
   phase = "reveal";
   renderAll();
@@ -87,7 +94,9 @@ async function lockIn() {
     $("#distTotal").textContent = formatNumber(kmBefore + km * t);
   };
   show(0);
-  await gameMap.showResult(guess, answer, { color: tier.color, onProgress: show });
+  // The line stops at the city's edge (or doesn't appear at all if the pin is already inside).
+  const lineEnd = inside ? guess : pointAlong(guess, answer, rawKm - radius);
+  await gameMap.showResult(guess, answer, { color: tier.color, onProgress: show, radiusKm: radius, lineEnd });
   if (phase !== "reveal" || results.length !== round + 1) return; // player already moved on
   show(1); // land on the exact numbers
   playEffect(tier, gameMap.toScreen(answer));
@@ -117,6 +126,11 @@ function renderAll() {
   $("#puzzleNo").textContent = mode === "daily"
     ? `Daily #${today + 1} · ${new Date().toLocaleDateString(undefined, { day: "numeric", month: "short" })}`
     : "Practice round";
+  // Streak: days in a row with the daily set finished. It's still "alive" until a full day is missed.
+  const st = store.get("hg:stats", { streak: 0, last: null });
+  const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
+  $("#streak").hidden = streak < 1;
+  $("#streak").textContent = `${streak}-day streak`;
   // Round tracker: numbered chips; finished rounds take their tier colour, the current one is outlined.
   $("#tracker").innerHTML = Array.from({ length: ROUNDS }, (_, i) => {
     const r = results[i];
@@ -161,11 +175,13 @@ function renderRail() {
     const t = tierFor(r.km);
     footer.style.setProperty("--tier", t.color);
     rail.innerHTML = `<div class="result">
-        <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${getUnit()} off</span></div>
+        <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
         <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>pts${r.hint ? " · hint" : ""}</span></div>
         <div class="tier-badge">${t.name}</div>
+        <div class="sports">${r.inside ? "" : esc(sportsDistance(r.km, r.sports))}</div>
         <div class="place">${esc(it.city)} <small>${esc(it.country)}${it.hint ? ` · ${esc(it.hint.replace(/^Home ground: /, ""))}` : ""}</small></div>
-        <div class="line">${esc(r.line || "")}</div>
+        <div class="line">${r.inside ? "Inside the city limits. " : ""}${esc(r.line || "")}</div>
+        ${it.achievement ? `<div class="honours"><span>Honours</span> ${esc(it.achievement)}</div>` : ""}
       </div>
       <button class="primary" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>`;
     $("#nextBtn").onclick = nextRound;
@@ -190,7 +206,9 @@ function renderPortrait(it) {
   if (img.dataset.for === it.id) return; // already showing this one
   img.dataset.for = it.id;
 
-  initials.textContent = it.name.split(/[\s-]+/).filter((w) => /^\p{L}/u.test(w)).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  // Fallback badge: initials over a small icon for the sport.
+  const letters = it.name.split(/[\s-]+/).filter((w) => /^\p{L}/u.test(w)).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  initials.innerHTML = `<b>${esc(letters)}</b>${sportIcon(it.sport)}`;
   $("#portrait").dataset.kind = it.type; // logos are shown whole, photos are cropped to the face
   img.classList.remove("loaded");
   img.removeAttribute("src");
@@ -213,11 +231,14 @@ function creditLine(it) {
 function shareText() {
   const head = mode === "daily" ? `Home Ground #${today + 1}` : "Home Ground (practice)";
   const tiers = results.map((r) => tierFor(r.km));
+  const km = totalKm();
+  const done = results.length === ROUNDS;
   return [
-    `${head} · ${total().toLocaleString()}/${(ROUNDS * 1000).toLocaleString()}`,
+    `${head} · ${total().toLocaleString()}/${(ROUNDS * 1000).toLocaleString()}${done ? ` · ${rankFor(total()).name}` : ""}`,
     tiers.map((t) => t.share).join(""),
     tiers.map((t) => t.name).join(" · "),
     results.map((r) => formatDistance(r.km)).join(" · "),
+    km > 0 ? `${formatDistance(km)} off in total, ${sportsDistance(km, biggestSportsUnit(km))}` : "Every pin inside the city.",
   ].join("\n");
 }
 
@@ -227,6 +248,18 @@ function imageCredits() {
   if (!withImages.length) return "";
   return `<details class="credits"><summary>Image credits</summary><ul>${withImages
     .map((it) => `<li><b>${esc(it.name)}</b>: ${creditLine(it)}</li>`).join("")}</ul></details>`;
+}
+
+// The ladder: six rungs, bottom to top. Rungs light up one by one up to the player's rank (CSS does
+// the timing through --i). Captain and Hall of Fame get an extra reveal on top.
+function ladderHtml(rank) {
+  const reached = LADDER.indexOf(rank);
+  const rungs = LADDER.map((r, i) => `<li class="rung${i <= reached ? " lit" : ""}${i === reached ? " here" : ""}" style="--i:${i}">
+      <span>${r.name}</span><small>${r.min.toLocaleString()}+</small></li>`).reverse().join("");
+  return `<div class="rank rank-${rank.key}${rank.big ? " big" : ""}" style="--steps:${reached}">
+    <div class="rank-title"><small>Today's rank</small><b>${rank.name}</b></div>
+    <ol class="ladder" aria-label="Ranks, top to bottom">${rungs}</ol>
+  </div>`;
 }
 
 let timer = null;
@@ -243,6 +276,7 @@ function showSummary() {
   openSheet(`<div class="card" role="dialog" aria-labelledby="sumTitle">
     <h2 id="sumTitle">${mode === "daily" ? "Full time" : "Practice over"}</h2>
     <div class="final"><b>${total().toLocaleString()}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
+    ${ladderHtml(rankFor(total()))}
     <div class="rows">${rows}</div>
     ${mode === "daily" ? `<div class="stats"><div><b>${st.played}</b><span>Played</span></div><div><b>${st.streak}</b><span>Streak</span></div><div><b>${st.best.toLocaleString()}</b><span>Best</span></div></div>` : ""}
     ${imageCredits()}
@@ -307,7 +341,8 @@ function showHelp() {
   openSheet(`<div class="card" role="dialog" aria-labelledby="helpTitle">
     <h2 id="helpTitle">How it works</h2>
     <p>Five names a day, the same five for everyone. Athletes go where they were born. Teams go where they play home games.</p>
-    <p>Drop a pin and lock it in. Closer means more points, up to 1,000 a round. Asking for the country halves the round.</p>
+    <p>Drop a pin and lock it in. Anywhere inside the city counts as a hole in one. Outside it, closer means more points, up to 1,000 a round. Revealing the country halves the round.</p>
+    <p>Your daily total earns a rank, from wooden spoon to Hall of Fame. Finish every day to keep your streak going.</p>
     <div class="tier-scale">${TIERS.map((t, i) => `<div><i style="background:${t.color}"></i><b>${t.name}</b><span>${tierRange(i)}</span></div>`).join("")}</div>
     <details class="credits"><summary>Credits</summary><ul>
       <li>Satellite imagery: Esri, Maxar, Earthstar Geographics and the GIS User Community</li>

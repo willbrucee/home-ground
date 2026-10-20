@@ -74,7 +74,7 @@ function flash(color, kind) {
 
 let last = 0;
 function loop(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); // seconds since the last frame (capped, in case the tab was hidden)
+  const dt = Math.min(0.05, Math.max(0, (now - last) / 1000)); // seconds since the last frame (capped, in case the tab was hidden)
   last = now;
   const k = dt * 60; // movement values above are "per frame at 60fps"; this keeps speed steady at other frame rates
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

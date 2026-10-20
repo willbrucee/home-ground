@@ -131,7 +131,8 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
 .portrait img.loaded { opacity: 1; }
 .portrait img:not([src]) { visibility: hidden; }  /* no picture: nothing drawn, not even a broken-image icon */
 .portrait[data-kind="team"] img { object-fit: contain; padding: 8px; }  /* logos are shown whole */
-.initials { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 34px; letter-spacing: 0.04em; color: var(--lamp); }
+.initials { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2px; font-family: var(--f-display); font-weight: 800; font-size: 32px; line-height: 1; letter-spacing: 0.04em; color: var(--lamp); }
+.initials svg { width: 22px; height: 22px; opacity: 0.75; }
 .credit-btn { position: absolute; right: -6px; bottom: -6px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--panel); background: var(--ink); color: var(--panel); font: 700 12px/1 var(--f-body); }
 .credit { position: absolute; right: 0; top: calc(100% + 10px); z-index: 7; width: 240px; padding: 8px 10px; border-radius: 8px; background: var(--ink); color: var(--panel); font-size: var(--t-xs); line-height: 1.4; box-shadow: var(--shadow); }
 .credit a, .credits a { color: inherit; }
@@ -210,6 +211,36 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
 .result .place { grid-column: 1 / -1; margin-top: var(--s-2); font-weight: 600; font-size: var(--t-md); }
 .result .place small { font-weight: 400; color: var(--board-muted); }
 .result .line { grid-column: 1 / -1; color: var(--board-muted); font-size: var(--t-sm); }
+.result .sports { grid-column: 1 / -1; color: var(--tier); font-size: var(--t-sm); font-weight: 600; min-height: 0; }
+.result .sports:empty { display: none; }
+/* The honours line: the player's or team's achievements, from Wikidata */
+.result .honours { grid-column: 1 / -1; margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: var(--t-sm); color: var(--board-ink); animation: rise 400ms 900ms both; }
+.result .honours span { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lamp); margin-right: 6px; }
+
+/* Streak pill in the header */
+.streak { display: inline-block; margin-left: 4px; padding: 0 6px; border-radius: 999px; background: rgba(255, 201, 40, 0.14); color: var(--lamp); font-weight: 600; }
+
+/* ── Scorecard: the ladder ── */
+.rank { display: grid; grid-template-columns: 1fr auto; gap: var(--s-4); align-items: center; padding: var(--s-3) var(--s-4); border-radius: 10px; background: var(--board); color: var(--board-ink); position: relative; overflow: hidden; }
+.rank-title small { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--board-muted); }
+.rank-title b { display: block; font-family: var(--f-display); font-weight: 800; font-size: var(--t-2xl); line-height: 1; color: var(--lamp); animation: rise 400ms calc(var(--steps) * 160ms + 200ms) both; }
+.ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; min-width: 150px; }
+.rung { display: flex; justify-content: space-between; gap: 10px; padding: 2px 8px; border-radius: 4px; font-size: var(--t-xs); color: var(--board-muted); background: rgba(255, 255, 255, 0.04); }
+.rung small { font-variant-numeric: tabular-nums; opacity: 0.7; }
+/* climbing: each reached rung lights up in turn, bottom first */
+.rung.lit { animation: rung-on 220ms calc(var(--i) * 160ms) both; }
+.rung.here { box-shadow: inset 0 0 0 1.5px var(--lamp); font-weight: 700; }
+@keyframes rung-on { from { background: rgba(255, 255, 255, 0.04); color: var(--board-muted); } to { background: rgba(255, 201, 40, 0.2); color: var(--board-ink); } }
+
+/* Captain and Hall of Fame: a light sweep across the panel once the climb finishes;
+   Hall of Fame also gets slow gold rays behind the title. */
+.rank.big::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 233, 160, 0.35) 50%, transparent 65%); transform: translateX(-100%); animation: sweep 1100ms calc(var(--steps) * 160ms + 400ms) ease-out both; pointer-events: none; }
+@keyframes sweep { to { transform: translateX(100%); } }
+.rank-hof { background: radial-gradient(circle at 25% 50%, rgba(255, 201, 40, 0.25), transparent 60%), var(--board); }
+.rank-hof::before { content: ""; position: absolute; left: 25%; top: 50%; width: 420px; height: 420px; margin: -210px 0 0 -210px; background: repeating-conic-gradient(rgba(255, 201, 40, 0.12) 0 8deg, transparent 8deg 24deg); border-radius: 50%; animation: rays 2.4s ease-out both; pointer-events: none; }
+@keyframes rays { from { transform: rotate(-40deg) scale(0.4); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
+.rank-captain .rank-title b::after { content: "C"; display: inline-grid; place-items: center; width: 1.1em; height: 1.1em; margin-left: 10px; border: 3px solid var(--lamp); border-radius: 6px; font-size: 0.6em; vertical-align: 0.15em; animation: pop 450ms calc(var(--steps) * 160ms + 500ms) cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
 
 /* ── Overlays ───────────────────────────────────── */
 .sheet { position: absolute; inset: 0; background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(3px); display: flex; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px)); overflow-y: auto; z-index: 6; }
@@ -261,7 +292,8 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
   .brand .mark { width: 30px; height: 30px; }
   .qcard { padding: var(--s-3); grid-template-columns: minmax(0, 1fr) 72px; }
   .portrait { width: 72px; height: 72px; }
-  .initials { font-size: 26px; }
+  .initials { font-size: 24px; }
+  .initials svg { width: 17px; height: 17px; }
   .credit { width: min(240px, 70vw); }
   .rail .wrap { flex-wrap: wrap; row-gap: var(--s-2); }
   .rail .status { flex-basis: 100%; }
@@ -273,6 +305,10 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
   .stat b { font-size: var(--t-xl); }
   .stat.big b { font-size: var(--t-2xl); }
   .primary { padding: 10px 16px; font-size: 18px; }
+}
+@media (max-width: 420px) {
+  .rank { grid-template-columns: 1fr; }
+  .rank-title b { font-size: var(--t-xl); }
 }
 @media (max-width: 360px) {
   .board .wrap { grid-template-areas: "brand brand help" "tracker tracker tracker" "scores scores scores"; }

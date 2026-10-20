@@ -1,0 +1,505 @@
+{
+ "_readme": "exclude: Wikidata ids to leave out, with a reason. include: ids to add whatever their fame (type is athlete or team, sport is the label shown in the game, note is just for you). no_image: ids that should show the initials badge instead of their picture.",
+ "exclude": {
+  "Q154373": "Aribert Heim: known as a Nazi war criminal, not for sport",
+  "Q9582": "Gerald Ford: known as US president; played college football only",
+  "Q7085": "Niels Bohr: physicist (played football as a young man)",
+  "Q34670": "Albert Camus: writer (goalkeeper as a young man)",
+  "Q179858": "Urho Kekkonen: Finnish president",
+  "Q23505": "George H. W. Bush: US president",
+  "Q128604": "Lester B. Pearson: Canadian prime minister",
+  "Q483437": "Sepp Blatter: football administrator",
+  "Q182609": "Jacques Rogge: IOC president",
+  "Q463531": "Jean-Baptiste Charcot: polar explorer",
+  "Q151414": "George Marshall: US general and statesman"
+ },
+ "include": [
+  {
+   "id": "Q615",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Lionel Messi"
+  },
+  {
+   "id": "Q11571",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Cristiano Ronaldo"
+  },
+  {
+   "id": "Q36159",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "LeBron James"
+  },
+  {
+   "id": "Q352159",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "Stephen Curry"
+  },
+  {
+   "id": "Q1189",
+   "type": "athlete",
+   "sport": "Athletics",
+   "note": "Usain Bolt"
+  },
+  {
+   "id": "Q11459",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Serena Williams"
+  },
+  {
+   "id": "Q1426",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Roger Federer"
+  },
+  {
+   "id": "Q10132",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Rafael Nadal"
+  },
+  {
+   "id": "Q5812",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Novak Djokovic"
+  },
+  {
+   "id": "Q85518537",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Carlos Alcaraz"
+  },
+  {
+   "id": "Q54812588",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Jannik Sinner"
+  },
+  {
+   "id": "Q17466583",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Naomi Osaka"
+  },
+  {
+   "id": "Q84056",
+   "type": "athlete",
+   "sport": "Tennis",
+   "note": "Ash Barty"
+  },
+  {
+   "id": "Q21621995",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Kylian Mbappé"
+  },
+  {
+   "id": "Q28967995",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Erling Haaland"
+  },
+  {
+   "id": "Q969725",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Harry Kane"
+  },
+  {
+   "id": "Q66241169",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Jude Bellingham"
+  },
+  {
+   "id": "Q357984",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Kevin De Bruyne"
+  },
+  {
+   "id": "Q151269",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Robert Lewandowski"
+  },
+  {
+   "id": "Q1835",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Zinedine Zidane"
+  },
+  {
+   "id": "Q12897",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Pelé"
+  },
+  {
+   "id": "Q142794",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Neymar"
+  },
+  {
+   "id": "Q26517",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Luis Suárez"
+  },
+  {
+   "id": "Q48892",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Didier Drogba"
+  },
+  {
+   "id": "Q439722",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Son Heung-min"
+  },
+  {
+   "id": "Q919634",
+   "type": "athlete",
+   "sport": "Football",
+   "note": "Sam Kerr"
+  },
+  {
+   "id": "Q4391858",
+   "type": "athlete",
+   "sport": "Baseball",
+   "note": "Shohei Ohtani"
+  },
+  {
+   "id": "Q8991894",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "Giannis Antetokounmpo"
+  },
+  {
+   "id": "Q19844712",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "Luka Dončić"
+  },
+  {
+   "id": "Q17281073",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "Nikola Jokić"
+  },
+  {
+   "id": "Q72941595",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "Victor Wembanyama"
+  },
+  {
+   "id": "Q58590",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "Yao Ming"
+  },
+  {
+   "id": "Q106298476",
+   "type": "athlete",
+   "sport": "Basketball",
+   "note": "Caitlin Clark"
+  },
+  {
+   "id": "Q9673",
+   "type": "athlete",
+   "sport": "Formula 1",
+   "note": "Lewis Hamilton"
+  },
+  {
+   "id": "Q2239218",
+   "type": "athlete",
+   "sport": "Formula 1",
+   "note": "Max Verstappen"
+  },
+  {
+   "id": "Q7520267",
+   "type": "athlete",
+   "sport": "Gymnastics",
+   "note": "Simone Biles"
+  },
+  {
+   "id": "Q39562",
+   "type": "athlete",
+   "sport": "Swimming",
+   "note": "Michael Phelps"
+  },
+  {
+   "id": "Q10993",
+   "type": "athlete",
+   "sport": "Golf",
+   "note": "Tiger Woods"
+  },
+  {
+   "id": "Q209518",
+   "type": "athlete",
+   "sport": "Ice hockey",
+   "note": "Wayne Gretzky"
+  },
+  {
+   "id": "Q2806736",
+   "type": "athlete",
+   "sport": "Ice hockey",
+   "note": "Connor McDavid"
+  },
+  {
+   "id": "Q19667998",
+   "type": "athlete",
+   "sport": "American football",
+   "note": "Patrick Mahomes"
+  },
+  {
+   "id": "Q9488",
+   "type": "athlete",
+   "sport": "Cricket",
+   "note": "Sachin Tendulkar"
+  },
+  {
+   "id": "Q213854",
+   "type": "athlete",
+   "sport": "Cricket",
+   "note": "Virat Kohli"
+  },
+  {
+   "id": "Q486359",
+   "type": "athlete",
+   "sport": "Boxing",
+   "note": "Manny Pacquiao"
+  },
+  {
+   "id": "Q20740797",
+   "type": "athlete",
+   "sport": "Athletics",
+   "note": "Armand Duplantis"
+  },
+  {
+   "id": "Q8682",
+   "type": "team",
+   "sport": "Football",
+   "note": "Real Madrid"
+  },
+  {
+   "id": "Q7156",
+   "type": "team",
+   "sport": "Football",
+   "note": "FC Barcelona"
+  },
+  {
+   "id": "Q18656",
+   "type": "team",
+   "sport": "Football",
+   "note": "Manchester United"
+  },
+  {
+   "id": "Q1130849",
+   "type": "team",
+   "sport": "Football",
+   "note": "Liverpool FC"
+  },
+  {
+   "id": "Q15789",
+   "type": "team",
+   "sport": "Football",
+   "note": "Bayern Munich"
+  },
+  {
+   "id": "Q41420",
+   "type": "team",
+   "sport": "Football",
+   "note": "Borussia Dortmund"
+  },
+  {
+   "id": "Q1422",
+   "type": "team",
+   "sport": "Football",
+   "note": "Juventus"
+  },
+  {
+   "id": "Q483020",
+   "type": "team",
+   "sport": "Football",
+   "note": "Paris Saint-Germain"
+  },
+  {
+   "id": "Q81888",
+   "type": "team",
+   "sport": "Football",
+   "note": "Ajax"
+  },
+  {
+   "id": "Q131499",
+   "type": "team",
+   "sport": "Football",
+   "note": "Benfica"
+  },
+  {
+   "id": "Q19593",
+   "type": "team",
+   "sport": "Football",
+   "note": "Celtic"
+  },
+  {
+   "id": "Q495299",
+   "type": "team",
+   "sport": "Football",
+   "note": "Galatasaray"
+  },
+  {
+   "id": "Q170703",
+   "type": "team",
+   "sport": "Football",
+   "note": "Boca Juniors"
+  },
+  {
+   "id": "Q17479",
+   "type": "team",
+   "sport": "Football",
+   "note": "Flamengo"
+  },
+  {
+   "id": "Q459090",
+   "type": "team",
+   "sport": "Football",
+   "note": "Club América"
+  },
+  {
+   "id": "Q223566",
+   "type": "team",
+   "sport": "Football",
+   "note": "Al Ahly"
+  },
+  {
+   "id": "Q247731",
+   "type": "team",
+   "sport": "Football",
+   "note": "Kaizer Chiefs"
+  },
+  {
+   "id": "Q482764",
+   "type": "team",
+   "sport": "Football",
+   "note": "Al Nassr"
+  },
+  {
+   "id": "Q16844931",
+   "type": "team",
+   "sport": "Football",
+   "note": "Inter Miami"
+  },
+  {
+   "id": "Q121783",
+   "type": "team",
+   "sport": "Basketball",
+   "note": "Los Angeles Lakers"
+  },
+  {
+   "id": "Q157376",
+   "type": "team",
+   "sport": "Basketball",
+   "note": "Golden State Warriors"
+  },
+  {
+   "id": "Q131371",
+   "type": "team",
+   "sport": "Basketball",
+   "note": "Boston Celtics"
+  },
+  {
+   "id": "Q213837",
+   "type": "team",
+   "sport": "American football",
+   "note": "Green Bay Packers"
+  },
+  {
+   "id": "Q223522",
+   "type": "team",
+   "sport": "American football",
+   "note": "Kansas City Chiefs"
+  },
+  {
+   "id": "Q204862",
+   "type": "team",
+   "sport": "American football",
+   "note": "Dallas Cowboys"
+  },
+  {
+   "id": "Q221878",
+   "type": "team",
+   "sport": "American football",
+   "note": "Seattle Seahawks"
+  },
+  {
+   "id": "Q213417",
+   "type": "team",
+   "sport": "Baseball",
+   "note": "New York Yankees"
+  },
+  {
+   "id": "Q246782",
+   "type": "team",
+   "sport": "Baseball",
+   "note": "Chicago Cubs"
+  },
+  {
+   "id": "Q1197407",
+   "type": "team",
+   "sport": "Baseball",
+   "note": "Yomiuri Giants"
+  },
+  {
+   "id": "Q203384",
+   "type": "team",
+   "sport": "Ice hockey",
+   "note": "Toronto Maple Leafs"
+  },
+  {
+   "id": "Q188143",
+   "type": "team",
+   "sport": "Ice hockey",
+   "note": "Montreal Canadiens"
+  },
+  {
+   "id": "Q205973",
+   "type": "team",
+   "sport": "Ice hockey",
+   "note": "Edmonton Oilers"
+  },
+  {
+   "id": "Q1195237",
+   "type": "team",
+   "sport": "Cricket",
+   "note": "Mumbai Indians"
+  },
+  {
+   "id": "Q1292535",
+   "type": "team",
+   "sport": "Cricket",
+   "note": "Chennai Super Kings"
+  },
+  {
+   "id": "Q249679",
+   "type": "team",
+   "sport": "Australian rules football",
+   "note": "Collingwood Magpies"
+  },
+  {
+   "id": "Q959847",
+   "type": "team",
+   "sport": "Rugby union",
+   "note": "Crusaders"
+  }
+ ],
+ "no_image": []
+}

@@ -13,8 +13,9 @@ export const ROUNDS = 5;
 // Day 1 of the daily puzzle. Changing this changes every future puzzle, so leave it alone once live.
 export const EPOCH = { year: 2026, month: 1, day: 1 };
 
-// Which difficulty each round uses (1 = household name, 3 = deep cut).
-export const ROUND_DIFFICULTY = [1, 1, 2, 2, 3];
+// Which difficulty each round uses (1 = household name, 2 = well known, 3 = fans will know).
+// Mostly household names, with a couple of harder ones.
+export const ROUND_DIFFICULTY = [1, 1, 1, 2, 2];
 
 const esriTiles = (service) =>
   `https://server.arcgisonline.com/ArcGIS/rest/services/${service}/MapServer/tile/{z}/{y}/{x}` +

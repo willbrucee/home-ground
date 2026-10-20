@@ -40,3 +40,27 @@ export function unwrap(coords) {
   }
   return coords;
 }
+
+// The point `km` along the great circle from a towards b (for stopping the result line at a city's edge).
+export function pointAlong(a, b, km) {
+  const total = distanceKm(a, b);
+  if (total < 1e-6) return { ...a };
+  const t = Math.max(0, Math.min(1, km / total)); // how far along, 0..1
+  const [lng, lat] = greatCircle(a, b, 256)[Math.round(t * 256)];
+  return { lat, lng };
+}
+
+// A ring of points `radiusKm` around a centre, as a GeoJSON polygon. Works out each point with the
+// "destination point" formula, so the circle stays round on the globe at any latitude.
+export function circle(center, radiusKm, steps = 96) {
+  const d = radiusKm / EARTH_RADIUS_KM; // angular radius
+  const lat1 = rad(center.lat), lng1 = rad(center.lng);
+  const ring = [];
+  for (let i = 0; i <= steps; i++) {
+    const bearing = (i / steps) * 2 * Math.PI;
+    const lat2 = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(bearing));
+    const lng2 = lng1 + Math.atan2(Math.sin(bearing) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(lat2));
+    ring.push([deg(lng2), deg(lat2)]);
+  }
+  return { type: "Feature", geometry: { type: "Polygon", coordinates: [unwrap(ring)] } };
+}

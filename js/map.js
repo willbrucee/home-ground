@@ -1,7 +1,7 @@
 // Everything to do with the map. The MapLibre map is created ONCE and reused for every round;
 // rounds only change the data inside a few layers, which is what keeps it smooth.
 import { SATELLITE, PROJECTION } from "./config.js";
-import { greatCircle } from "./geo.js";
+import { greatCircle, circle } from "./geo.js";
 
 const EMPTY = { type: "FeatureCollection", features: [] };
 const NO_COUNTRY = ["==", ["get", "name"], ""]; // a filter that matches nothing
@@ -35,6 +35,14 @@ function buildStyle(projection) {
       layout: { "line-join": "round" }, paint: { "line-color": "#0b1418", "line-width": 4, "line-opacity": 0 } },
     { id: "country-line", type: "line", source: "countries", filter: NO_COUNTRY,
       layout: { "line-join": "round" }, paint: { "line-color": HIGHLIGHT, "line-width": 2, "line-opacity": 0 } },
+  );
+
+  // The city area: everything inside this circle counts as "in the city" (a Bullseye).
+  // A soft fill plus a dashed white ring, shown on the reveal.
+  sources.city = { type: "geojson", data: EMPTY };
+  layers.push(
+    { id: "city-fill", type: "fill", source: "city", paint: { "fill-color": "#ffffff", "fill-opacity": 0 } },
+    { id: "city-ring", type: "line", source: "city", paint: { "line-color": "#ffffff", "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0 } },
   );
 
   // The result line, drawn as three stacked layers: a soft glow, a dark outline, then the coloured core.
@@ -140,20 +148,34 @@ export function createMap(container, { onPick }) {
     //   2. the line draws itself from the guess to the answer (onProgress gets 0 → 1 so numbers can count up)
     //   3. the answer pin drops in with a bounce and a pulsing ring
     // Resolves when it's all done. Calling reset() part-way through cancels it cleanly.
-    async showResult(guess, answer, { color = "#ffffff", onProgress = () => {}, drawMs = 1000 } = {}) {
+    // `lineEnd` is where the line stops (the city's edge); `radiusKm` is the city area to outline.
+    async showResult(guess, answer, { color = "#ffffff", onProgress = () => {}, drawMs = 1000, radiusKm = 0, lineEnd = answer } = {}) {
       await ready;
       const run = ++animation; // if this number changes, a newer call has taken over and we stop
       const still = () => run === animation;
       const quick = reduceMotion();
 
-      const coords = greatCircle(guess, answer);
+      const coords = greatCircle(guess, lineEnd);
+      const area = radiusKm > 0 ? circle(answer, radiusKm) : null;
       map.getSource("arc").setData({ type: "Feature", geometry: { type: "LineString", coordinates: coords } });
       setLineProgress(map, 0, color);
       answerEl.style.setProperty("--tier", color);
       guessEl.style.setProperty("--tier", color);
 
-      await frame(map, coords, quick);
+      // Frame the guess and the whole city area together.
+      await frame(map, area ? [...coords, ...area.geometry.coordinates[0]] : coords, quick);
       if (!still()) return;
+
+      // The city area fades in first, so the player sees the target before the line arrives.
+      if (area) {
+        map.getSource("city").setData(area);
+        map.setPaintProperty("city-ring", "line-color", color);
+        await fade(map, quick, (t) => {
+          map.setPaintProperty("city-fill", "fill-opacity", 0.16 * t);
+          map.setPaintProperty("city-ring", "line-opacity", 0.9 * t);
+        }, 350, still);
+        if (!still()) return;
+      }
 
       // Beat 2: draw the line. One update per screen frame, using requestAnimationFrame.
       await new Promise((resolve) => {
@@ -161,7 +183,7 @@ export function createMap(container, { onPick }) {
         const start = performance.now();
         const tick = (now) => {
           if (!still()) return resolve();
-          const t = Math.min(1, (now - start) / drawMs);
+          const t = Math.min(1, Math.max(0, (now - start) / drawMs)); // never below 0 (see fade)
           const eased = easeInOut(t);
           setLineProgress(map, eased, color);
           onProgress(eased);
@@ -200,7 +222,7 @@ export function createMap(container, { onPick }) {
       const PULSES = 3, MS = 1500, start = performance.now();
       const tick = (now) => {
         if (run !== highlightRun) return; // a newer call (or a clear) took over
-        const t = Math.min(1, (now - start) / MS);
+        const t = Math.min(1, Math.max(0, (now - start) / MS));
         // sin² gives smooth 0 → 1 → 0 bumps, one per pulse
         paint(t < 1 ? Math.sin(t * PULSES * Math.PI) ** 2 : 0);
         if (t < 1) requestAnimationFrame(tick);
@@ -228,6 +250,9 @@ export function createMap(container, { onPick }) {
       answerMarker.remove();
       answerEl.classList.remove("landed");
       map.getSource("arc").setData(EMPTY);
+      map.getSource("city").setData(EMPTY);
+      map.setPaintProperty("city-fill", "fill-opacity", 0);
+      map.setPaintProperty("city-ring", "line-opacity", 0);
       setLineProgress(map, 0, "#fff");
       this.clearCountry();
       const worldZoom = fitWorldZoom(container.getBoundingClientRect());
@@ -243,6 +268,21 @@ export function createMap(container, { onPick }) {
 function fitWorldZoom(rect) {
   const want = 0.42 * Math.max(200, Math.min(rect.width, rect.height));
   return Math.max(0.3, Math.log2((want * 2 * Math.PI) / 512));
+}
+
+// Runs paint(t) with t going 0 → 1 over `ms`, one step per frame. Stops early if still() turns false.
+function fade(map, quick, paint, ms, still) {
+  if (quick) { paint(1); return Promise.resolve(); }
+  return new Promise((resolve) => {
+    const start = performance.now();
+    const tick = (now) => {
+      if (!still()) return resolve();
+      const t = Math.min(1, Math.max(0, (now - start) / ms)); // a frame can be stamped just before `start`
+      paint(t);
+      if (t < 1) requestAnimationFrame(tick); else resolve();
+    };
+    requestAnimationFrame(tick);
+  });
 }
 
 // Brings a country into view, unless the player can already see it well (or is zoomed in inside it).
