@@ -3485,17 +3485,6 @@
   "difficulty": 3
  },
  {
-  "id": "wd-Q9582",
-  "name": "Gerald Ford",
-  "sport": "American football",
-  "type": "athlete",
-  "city": "Gerald R. Ford Birthsite and Gardens",
-  "country": "United States",
-  "lat": 41.2453,
-  "lng": -95.96,
-  "difficulty": 1
- },
- {
   "id": "wd-Q40531",
   "name": "John Wayne",
   "sport": "American football",
@@ -5024,17 +5013,6 @@
   "country": "Canada",
   "lat": 44.1575,
   "lng": -77.2939,
-  "difficulty": 2
- },
- {
-  "id": "wd-Q154373",
-  "name": "Aribert Heim",
-  "sport": "Ice hockey",
-  "type": "athlete",
-  "city": "Bad Radkersburg",
-  "country": "Austria",
-  "lat": 46.6897,
-  "lng": 15.9886,
   "difficulty": 2
  },
  {
