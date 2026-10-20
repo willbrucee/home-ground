@@ -30,6 +30,7 @@
 (WCAG 2.1). AA needs 4.5:1 for body text and 3:1 for large text (24 px+, or 19 px+ bold).</p>
 <h2>Core</h2><div class="grid" id="core"></div>
 <h2>Result tiers</h2><div class="grid" id="tiers"></div>
+<h2>Card rarities</h2><div class="grid" id="rarities"></div>
 <h2>Text pairings used in the game</h2>
 <table><thead><tr><th>Text</th><th>On</th><th>Sample</th><th>Ratio</th><th>Used for</th><th>AA</th></tr></thead><tbody id="pairs"></tbody></table>
 <script>
@@ -48,6 +49,8 @@ const tiers = { "--t-bullseye": "Hole in one", "--t-scorching": "Top corner", "-
 const card = (k, label) => `<div class="sw"><i style="background:var(${k})"></i><div><b>${label}</b>${k} · ${v(k)}</div></div>`;
 document.getElementById("core").innerHTML = Object.entries(core).map(([k, l]) => card(k, l)).join("");
 document.getElementById("tiers").innerHTML = Object.entries(tiers).map(([k, l]) => card(k, l)).join("");
+const rarities = { "--r-bronze": "Bronze card", "--r-silver": "Silver card", "--r-gold": "Gold card", "--r-platinum": "Platinum card", "--r-legend": "Legend card" };
+document.getElementById("rarities").innerHTML = Object.entries(rarities).map(([k, l]) => card(k, l)).join("");
 
 // [text, background, what it's used for, large text?]
 const pairs = [
@@ -58,6 +61,8 @@ const pairs = [
   ["--mute-ink", "--ink-2", "Readout labels in their wells", false], ["--chalk", "--ink-2", "Readout digits", true],
   ...Object.entries(tiers).map(([k, l]) => ["--ink", k, `Ink text on ${l}`, true]),
   ...Object.entries(tiers).map(([k, l]) => [k, "--ink", `${l} distance and stamp on ink`, true]),
+  ...Object.entries(rarities).map(([k, l]) => ["--ink", k, `Ink text on a ${l}`, false]),
+  ...Object.entries(rarities).map(([k, l]) => [k, "--ink", `${l} label on ink`, true]),
 ];
 document.getElementById("pairs").innerHTML = pairs.map(([fg, bg, use, large]) => {
   const r = ratio(fg, bg), ok = r >= (large ? 3 : 4.5);

@@ -6,6 +6,7 @@ import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
 import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
+import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect, cabinetHtml } from "./vault.js";
 import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, biggestSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
 
 const $ = (s) => document.querySelector(s);
@@ -105,6 +106,8 @@ async function lockIn() {
   const tier = tierFor(km);
   results.push({ id: it.id, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
   if (mode === "daily") store.set(dailyKey, results);
+  const card = collect(it.id, pts, today); // into the trophy cabinet ("new", "upgrade" or "")
+  loadVault(); // fetch the Vault's facts in the background, ready for the button
   phase = "reveal";
   setFolded(true); // fold the ticket to just the name, to make room for the result
   renderAll();
@@ -124,6 +127,7 @@ async function lockIn() {
   if (phase !== "reveal" || results.length !== round + 1) return; // player already moved on
   show(1); // land on the exact numbers
   playEffect(tier, gameMap.toScreen(answer));
+  if (card) toast(`${card === "new" ? "New card" : "Card upgraded"}: ${LEVELS[levelFor(pts)].card}`);
 }
 function nextRound() {
   round++;
@@ -207,8 +211,10 @@ function renderDock() {
         <div class="line">${r.inside ? "Inside the city limits. " : ""}${esc(r.line || "")}</div>
         <button class="go next" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>
         ${it.achievement ? `<div class="honours"><span>Honours</span> ${esc(it.achievement)}</div>` : ""}
+        <button class="vault-btn" id="vaultBtn" style="--rar:var(--r-${rarityKey(r.pts)})"><i>${LEVELS[levelFor(r.pts)].card}</i>Open the Vault · ${levelFor(r.pts) + 1} of 5 unlocked</button>
       </div>`;
     $("#nextBtn").onclick = nextRound;
+    $("#vaultBtn").onclick = () => showVault(round);
     $("#nextBtn").focus({ preventScroll: true });
   } else {
     dock.innerHTML = `<div class="status">${mode === "daily" ? "That's today's five. New set tomorrow." : mode === "replay" ? "Replay over." : "Practice over."}</div>
@@ -334,6 +340,31 @@ function showSummary() {
   }
 }
 
+// The Vault for one round: the card you won and the five levels of facts.
+let vaultRound = 0;
+async function showVault(i) {
+  await loadVault();
+  sheetKind = "vault"; vaultRound = i;
+  const it = items[i], r = results[i];
+  openSheet(`<div class="card vault-card" role="dialog" aria-labelledby="vaultTitle" style="--rar:var(--r-${rarityKey(r.pts)})">
+    <div class="vault-head">${cardHtml(it, r.pts)}
+      <div><h2 id="vaultTitle">The Vault</h2><small>${esc(it.name)} · ${levelFor(r.pts) + 1} of 5 levels unlocked with ${r.pts.toLocaleString()} points</small></div></div>
+    ${vaultHtml(it, r)}
+    <div class="actions"><button class="go" id="closeBtn">Back to the map</button></div>
+  </div>`);
+  $("#closeBtn").onclick = hideSheet;
+}
+
+function showCabinet() {
+  sheetKind = "cabinet";
+  openSheet(`<div class="card cab-card" role="dialog" aria-labelledby="cabTitle">
+    <h2 id="cabTitle">Trophy cabinet</h2>
+    ${cabinetHtml(players)}
+    <div class="actions"><button class="go" id="closeBtn">Back to the map</button></div>
+  </div>`);
+  $("#closeBtn").onclick = hideSheet;
+}
+
 function copyResult() {
   const text = shareText();
   try {
@@ -381,7 +412,7 @@ function showHelp() {
     <details class="credits"><summary>Credits</summary><ul>
       <li>Satellite imagery: Esri, Maxar, Earthstar Geographics and the GIS User Community</li>
       <li>Country shapes: Natural Earth</li>
-      <li>Players and teams: Wikidata</li>
+      <li>Players and teams: Wikidata. Vault facts: Wikidata and Wikipedia (summaries CC BY-SA 4.0)</li>
       <li>Photos and logos: Wikimedia Commons. Each picture's author and licence are behind the (i) on it.</li>
       <li>Map engine: MapLibre GL JS</li>
     </ul></details>
@@ -395,6 +426,7 @@ function showHelp() {
 $("#sheet").addEventListener("click", (e) => { if (e.target.id === "sheet") hideSheet(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) hideSheet(); });
 $("#helpBtn").onclick = showHelp;
+$("#cabinetBtn").onclick = showCabinet;
 // "Show country": costs half the round's points, names the country and lights it up on the map.
 function revealCountry() {
   if (phase !== "guess" || hintUsed) return;
@@ -411,6 +443,7 @@ $("#unitBtn").onclick = () => {
   renderAll(); // header, clue, rail (including the result card)
   if (sheetKind === "summary") { showSummary(); if (shareOpen) fallbackCopy(shareText(), { quiet: true }); }
   if (sheetKind === "help") showHelp();
+  if (sheetKind === "vault") showVault(vaultRound);
 };
 function renderUnitButton() {
   const u = getUnit();

@@ -25,6 +25,13 @@
   --t-cold: #4a94ef;
   --t-frozen: #e3f4ff;
 
+  /* ── Card rarities (the Vault): always with ink text on top ── */
+  --r-bronze: #d08a52;
+  --r-silver: #c3ccd3;
+  --r-gold: #ffc928;
+  --r-platinum: #8fe0dc;
+  --r-legend: #ff5a2a;
+
   /* ── Type ────────────────────────────────────────── */
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --f-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -345,5 +352,95 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .card h2 { font-size: 44px; }
   .final b { font-size: 68px; }
   .rank { grid-template-columns: 1fr; }
+}
+/* ── The Vault: five levels of facts, unlocked by score ── */
+.vault-btn { grid-column: 1 / -1; justify-self: start; margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px;
+  background: var(--ink-2); color: var(--chalk); box-shadow: inset 0 0 0 1px var(--ink-line); border-radius: var(--hard);
+  font: 800 16px var(--f-display); text-transform: uppercase; letter-spacing: 0.02em; }
+.vault-btn i { padding: 2px 8px; background: var(--rar); color: var(--ink); font-style: normal; }
+.vault-btn:hover { box-shadow: inset 0 0 0 2px var(--rar); }
+.card.vault-card { border-top-color: var(--rar); max-width: 640px; }
+.vault-head { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center; }
+.vault-head .tcard { width: 120px; }
+.vault-head small { display: block; font: 700 15px var(--f-body); color: var(--mute-chalk); }
+.vault { display: grid; gap: 8px; }
+.level { padding: 12px 14px 14px; background: var(--chalk-2); border-left: 6px solid var(--rar); }
+.level h3 { display: flex; align-items: baseline; gap: 10px; margin: 0; font: 800 24px/1 var(--f-display); text-transform: uppercase; }
+.level h3 small { margin-left: auto; font: 600 13px var(--f-body); text-transform: none; color: var(--mute-chalk); }
+.level .lv { display: inline-grid; place-items: center; width: 26px; height: 26px; background: var(--ink); color: var(--chalk); font-size: 17px; }
+.level.locked { opacity: 0.45; border-left-color: var(--mute-chalk); padding-bottom: 12px; }
+.level.locked .lv { background: var(--mute-chalk); }
+.level.open { animation: level-in 420ms cubic-bezier(.2,.9,.3,1.3) both; animation-delay: calc(var(--i) * 160ms); }
+@keyframes level-in { from { opacity: 0; transform: translateX(-18px) scale(0.98); } }
+.level dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 10px 0 0; }
+.level .fact { display: contents; }
+.level dt { font: 700 13px/1.6 var(--f-body); color: var(--mute-chalk); text-transform: uppercase; letter-spacing: 0.04em; }
+.level dd { margin: 0; line-height: 1.45; }
+.level .summary { margin-top: 10px; }
+.level .links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; }
+.level a { color: var(--pitch); font-weight: 700; }
+.level .source { margin-top: 6px; font-size: 13px; color: var(--mute-chalk); }
+.level .timeline { list-style: none; margin: 10px 0 0; padding: 0 0 0 14px; border-left: 3px solid var(--ink); display: grid; gap: 4px; }
+.level .timeline b { font-family: var(--f-display); font-size: 18px; margin-right: 6px; }
+.level .dist { margin-top: 10px; font-weight: 600; }
+
+/* ── Trading cards ─────────────────────────────────── */
+.tcard { perspective: 800px; aspect-ratio: 5 / 7; container-type: inline-size; }
+@container (max-width: 130px) { .tcard-rar small { display: none; } .tcard-meta span { display: none; } }
+.tcard-in { position: relative; height: 100%; transform-style: preserve-3d; transition: transform 600ms cubic-bezier(.3,.8,.3,1.1); }
+.tcard.flip .tcard-in { transform: rotateY(180deg); }
+.tcard-face, .tcard-back { position: absolute; inset: 0; backface-visibility: hidden; border: 5px solid var(--rar); background: var(--ink); color: var(--chalk); }
+.tcard-back { display: grid; place-items: center; background: repeating-linear-gradient(135deg, var(--pitch) 0 14px, color-mix(in srgb, var(--pitch) 80%, var(--ink)) 14px 28px); transform: rotateY(180deg); }
+.tcard-back span { padding: 4px 8px; background: var(--ink); font: 900 16px var(--f-display); text-transform: uppercase; }
+.tcard.flip .tcard-back { transform: none; }
+.tcard.flip .tcard-face { transform: rotateY(180deg); }
+.tcard-face { display: grid; grid-template-rows: 1fr auto auto; overflow: hidden; }
+.tcard-pic { position: relative; overflow: hidden; background: var(--ink-2); min-height: 0; }
+.tcard-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+.tcard[data-type="team"] .tcard-pic img { object-fit: contain; padding: 10%; background: var(--chalk); }
+.tcard-pic .noimg { position: absolute; inset: 0; display: grid; place-items: center; color: var(--mute-ink); }
+.tcard-pic img { position: relative; }
+.tcard-pic .noimg svg { width: 40%; height: auto; }
+.tcard-meta { padding: 6px 8px 4px; }
+.tcard-meta b { display: block; font: 800 clamp(13px, 1.6vw, 18px)/0.95 var(--f-display); text-transform: uppercase; overflow-wrap: anywhere; }
+.tcard-meta span { font-size: 11px; color: var(--mute-ink); }
+.tcard-rar { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 3px 8px; background: var(--rar); color: var(--ink); font: 900 14px var(--f-display); text-transform: uppercase; letter-spacing: 0.04em; }
+.tcard-rar small { font-size: 13px; font-variant-numeric: tabular-nums; }
+/* Legend cards get a slow sheen */
+.rar-legend .tcard-face::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--chalk) 35%, transparent) 50%, transparent 65%) 0 0 / 250% 100%;
+  animation: sheen 3.2s ease-in-out infinite; }
+@keyframes sheen { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+
+/* ── Trophy cabinet ────────────────────────────────── */
+.card.cab-card { max-width: 900px; border-top-color: var(--gold); }
+.cab-count { display: flex; align-items: baseline; gap: 10px; }
+.cab-count b { font: 900 72px/0.85 var(--f-display); }
+.cab-count span { font: 700 22px var(--f-display); color: var(--mute-chalk); text-transform: uppercase; }
+.cab-rarities { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.cab-rarities li { display: flex; gap: 6px; align-items: baseline; padding: 4px 10px; background: var(--rar); color: var(--ink); font: 800 16px var(--f-display); text-transform: uppercase; }
+.cab-rarities b { font-size: 22px; }
+.cab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+.cabinet { display: grid; gap: 14px; }
+.cabinet .empty { color: var(--mute-chalk); }
+.trophy svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+
+@media (max-width: 720px) {
+  .vault-head { grid-template-columns: 90px 1fr; }
+  .vault-head .tcard { width: 90px; }
+  .level dl { grid-template-columns: 1fr; gap: 0; }
+  .level dd { margin-bottom: 6px; }
+  .cab-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+  .vault-btn { margin-top: 10px; }
+}
+/* Narrow phones: the scoreboard strip has six things in it, so everything tightens up a little. */
+@media (max-width: 420px) {
+  .bar { gap: 5px; padding-left: 10px; padding-right: 10px; }
+  .tracker { gap: 2px; }
+  .chip { width: 22px; font-size: 16px; }
+  .readout { padding: 3px 6px 4px; }
+  .readout b { font-size: 19px; }
+  .square { width: 30px; height: 30px; font-size: 17px; }
+  .trophy svg { width: 18px; height: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
