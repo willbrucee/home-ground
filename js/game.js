@@ -6,7 +6,9 @@ import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
 import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
-import { loadPlaces, describeSpot, worldMapHtml } from "./fulltime.js";
+import { loadPlaces, describeSpot } from "./fulltime.js";
+import { createSummaryMap } from "./summarymap.js";
+import { createLiveLadder, heroLadder } from "./ladder.js";
 import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect, cabinetHtml } from "./vault.js";
 import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, biggestSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
 
@@ -22,11 +24,18 @@ const store = {
 // The answer is a whole city: a circle of radius_km around its centre (see the build script).
 // Scores use the distance to the edge of that circle, so any guess inside the city is 0 km off.
 const DEFAULT_RADIUS_KM = 8;
-// 1000 points within 25 km of the city's edge, then it falls away smoothly: ~920 at 100 km, ~435 at 1,000 km.
+// 1000 points within 25 km of the city's edge, then a long, gentle fall: ~920 at 100 km, ~700 at 800 km,
+// ~490 at 2,500 km, ~340 at 5,000 km. Set with scripts/simulate_ranks.py so that casual, good and expert
+// players spread across the ranks (keep CURVE there in step with these numbers).
+const FULL_KM = 25, SCALE_KM = 4400, POWER = 0.6;
 function pointsFor(km, hintUsed) {
-  const p = km <= 25 ? 1000 : Math.round(1000 * Math.exp(-km / 1200));
+  const p = km <= FULL_KM ? 1000 : Math.round(1000 * Math.exp(-(((km - FULL_KM) / SCALE_KM) ** POWER)));
   return hintUsed ? Math.round(p / 2) : p;
 }
+
+// Before the guess a team shows only its nickname ("Dodgers", not "Los Angeles Dodgers"): the full
+// name often contains the answer. Full names appear from the result onwards.
+const shownName = (it, revealed) => (revealed ? it.name : it.display_name || it.name);
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -41,6 +50,7 @@ let phase = "guess"; // "guess" → "reveal" → (next round) … → "done"
 let guess = null, hintUsed = false;
 
 const gameMap = createMap($("#map"), { onPick: placeGuess, insets: coveredEdges });
+const live = createLiveLadder($("#ladderLive")); // the rank ladder that climbs during the game
 
 // How much of each screen edge the overlays cover, so the camera frames results in the open map.
 function coveredEdges() {
@@ -48,13 +58,14 @@ function coveredEdges() {
   const bar = $(".bar").getBoundingClientRect(), dock = $("#dock").getBoundingClientRect(), ticket = $("#ticket").getBoundingClientRect();
   const phone = matchMedia("(max-width: 720px)").matches;
   const ticketShown = !$("#ticket").hidden;
+  const ladder = $("#ladderLive").getBoundingClientRect(), ladderShown = !$("#ladderLive").hidden;
   return {
-    top: bar.bottom,
+    top: phone && ladderShown ? Math.max(bar.bottom, ladder.bottom) : bar.bottom, // phones: a strip under the header
     // on phones the ticket sits on top of the dock at the bottom
     bottom: h - Math.min(dock.height ? dock.top : h, phone && ticketShown ? ticket.top : h),
     // on desktop the ticket runs down the left-hand side
     left: !phone && ticketShown ? ticket.right : 0,
-    right: Math.min(60, w * 0.05), // room for the zoom buttons
+    right: !phone && ladderShown ? w - ladder.left + 8 : Math.min(60, w * 0.05), // the ladder, or the zoom buttons
   };
 }
 initEffects($("#fx"));
@@ -106,6 +117,7 @@ async function lockIn() {
   const pts = pointsFor(km, hintUsed);
   const before = total();
   const tier = tierFor(km);
+  const played = results.length + 1;
   const at = { lat: +guess.lat.toFixed(3), lng: +guess.lng.toFixed(3) }; // kept for the Full time map
   results.push({ id: it.id, guess: at, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
   if (mode === "daily") store.set(dailyKey, results);
@@ -114,6 +126,7 @@ async function lockIn() {
   phase = "reveal";
   setFolded(true); // fold the ticket to just the name, to make room for the result
   renderAll();
+  live.set(before, played - 1); // the ladder climbs from where it was, in step with the count-up
 
   // Numbers start at 0 and count up in step with the line drawing across the map.
   const kmBefore = totalKm() - km;
@@ -122,6 +135,7 @@ async function lockIn() {
     $("#ptsNow").textContent = Math.round(pts * t).toLocaleString();
     $("#total").textContent = Math.round(before + pts * t).toLocaleString();
     $("#distTotal").textContent = formatNumber(kmBefore + km * t);
+    live.progress(before, before + pts, t, played);
   };
   show(0);
   // The line stops at the city's edge (or doesn't appear at all if the pin is already inside).
@@ -171,6 +185,8 @@ function renderAll() {
   }).join("");
   $("#total").textContent = total().toLocaleString();
   $("#distTotal").textContent = formatNumber(totalKm());
+  $("#ladderLive").hidden = phase === "done";
+  if (phase !== "reveal") live.set(total(), results.length);
   renderUnitButton();
 
   const it = items[Math.min(round, ROUNDS - 1)];
@@ -179,12 +195,14 @@ function renderAll() {
   $("#kindLbl").textContent = it.type === "team" ? "Team" : "Athlete";
   // the sport's icon next to its name (sportIcon returns trusted, hand-written SVG)
   $("#sportLbl").innerHTML = `${sportIcon(it.sport)}<span>${esc(it.sport)}</span>`;
-  $("#who").textContent = phase === "done" ? `${total().toLocaleString()} points` : it.name;
+  const revealed = phase !== "guess";
+  $("#who").textContent = phase === "done" ? `${total().toLocaleString()} points` : shownName(it, revealed);
+  document.title = phase === "done" ? "Full time · Home Ground" : `${shownName(it, revealed)} · Home Ground`;
   $("#ask").innerHTML = phase === "done" ? "<b>Full time</b>The scorecard's in."
     : it.type === "team" ? "<b>Where's home?</b>Pin the city they play in." : "<b>Where were they born?</b>Pin the city on the map.";
   if (phase === "done") { $("#kindLbl").textContent = mode === "practice" ? "Practice" : "Daily set"; $("#sportLbl").textContent = `${ROUNDS} rounds`; }
 
-  renderPortrait(phase === "done" ? null : it);
+  renderPortrait(phase === "done" ? null : it, revealed);
   renderDock();
 }
 
@@ -237,18 +255,21 @@ function setFolded(folded) {
 // The box has a fixed size, so nothing shifts when the picture arrives. Until it has loaded (or if
 // there is none, or it fails) the box shows an initials badge, so a broken image is never visible.
 // The img stays in the layout but transparent while loading: a lazy image that's display:none never loads.
-function renderPortrait(it) {
+function renderPortrait(it, revealed) {
   const img = $("#portraitImg"), initials = $("#initials"), creditBtn = $("#creditBtn"), credit = $("#credit");
   $("#portrait").hidden = !it;
   credit.hidden = true;
   creditBtn.setAttribute("aria-expanded", "false");
   $("#ticket").classList.toggle("done", !it);
   if (!it) return;
-  if (img.dataset.for === it.id) return; // already showing this one
+  // The credit (author, licence, file name) can name the place, so it's only offered after the guess.
+  const showCredit = () => { creditBtn.hidden = phase === "guess" || !img.classList.contains("loaded"); };
+  img.alt = shownName(it, revealed);
+  if (img.dataset.for === it.id) { showCredit(); return; } // already showing this one
   img.dataset.for = it.id;
 
   // Fallback badge: initials over a small icon for the sport.
-  const letters = it.name.split(/[\s-]+/).filter((w) => /^\p{L}/u.test(w)).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  const letters = shownName(it, false).split(/[\s-]+/).filter((w) => /^\p{L}/u.test(w)).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   initials.innerHTML = `<b>${esc(letters)}</b>${sportIcon(it.sport)}`;
   $("#portrait").dataset.kind = it.type; // logos are shown whole, photos are cropped to the face
   img.classList.remove("loaded");
@@ -256,9 +277,9 @@ function renderPortrait(it) {
   creditBtn.hidden = true;
   if (!it.image) return;
 
-  img.alt = it.name;
-  img.onload = () => { if (img.dataset.for === it.id) { img.classList.add("loaded"); creditBtn.hidden = false; } };
+  img.onload = () => { if (img.dataset.for === it.id) { img.classList.add("loaded"); showCredit(); } };
   img.onerror = () => { img.classList.remove("loaded"); img.removeAttribute("src"); creditBtn.hidden = true; };
+  img.style.objectPosition = it.imageFocus || ""; // the face's spot, so the crop never cuts off the head
   img.src = it.image;
   credit.innerHTML = creditLine(it);
 }
@@ -291,35 +312,27 @@ function imageCredits() {
     .map((it) => `<li><b>${esc(it.name)}</b>: ${creditLine(it)}</li>`).join("")}</ul></details>`;
 }
 
-// The ladder: six rungs, bottom to top. Rungs light up one by one up to the player's rank (CSS does
-// the timing through --i). Captain and Hall of Fame get an extra reveal on top.
-function ladderHtml(rank) {
-  const reached = LADDER.indexOf(rank);
-  const rungs = LADDER.map((r, i) => `<li class="rung${i <= reached ? " lit" : ""}${i === reached ? " here" : ""}" style="--i:${i}">
-      <span>${r.name}</span><small>${r.min.toLocaleString()}+</small></li>`).reverse().join("");
-  return `<div class="rank rank-${rank.key}${rank.big ? " big" : ""}" style="--steps:${reached}">
-    <div class="rank-title"><small>Today's rank</small><b>${rank.name}</b></div>
-    <ol class="ladder" aria-label="Ranks, top to bottom">${rungs}</ol>
-  </div>`;
-}
-
 let timer = null;
 let sheetKind = null; // which overlay is open, so a unit switch can redraw it
 
 // ── Full time ───────────────────────────────────────────
 // A full-screen scorecard: the total counting up, the rank, a map of all five shots, a row per
 // round, the best and worst shot, the day's Vault cards turning over, then sharing.
+let cancelHero = () => {}; // stops a running ladder climb (reopening the screen starts a fresh one)
+let summaryMap = null;      // the Full time map; removed (markers, animations and all) before it's drawn again
+function dropSummaryMap() { summaryMap?.destroy(); summaryMap = null; }
 function showSummary({ instant = false } = {}) {
+  cancelHero();
+  dropSummaryMap();
   sheetKind = "summary";
   const st = store.get("hg:stats", { played: 0, streak: 0, best: 0 });
-  const rank = rankFor(total());
   const n = results.length;
   const byPts = results.map((r, i) => i).sort((a, b) => results[b].pts - results[a].pts || results[a].km - results[b].km);
   const best = byPts[0], worst = byPts[n - 1];
-  const thumb = (it) => it.image ? `<img src="${esc(it.image.replace(/width=\d+/, "width=160"))}" alt="${esc(it.name)}" loading="lazy" width="64" height="64" onerror="this.remove()">` : "";
+  const thumb = (it) => it.image ? `<img src="${esc(it.image.replace(/width=\d+/, "width=160"))}" alt="${esc(it.name)}" loading="lazy" width="64" height="64"${it.imageFocus ? ` style="object-position:${esc(it.imageFocus)}"` : ""} onerror="this.remove()">` : "";
   const rows = items.map((it, i) => {
     const r = results[i], t = tierFor(r.km);
-    return `<li class="ft-row" style="--c:${t.color}">
+    return `<li class="ft-row" style="--c:${t.color}" data-round="${i}" tabindex="0" title="Show this round on the map">
       <span class="ft-thumb" data-type="${it.type}">${sportIcon(it.sport)}${thumb(it)}</span>
       <div class="ft-who"><b>${i + 1}. ${esc(it.name)}</b>
         <span class="ft-said">You said: <i data-spot="${i}">${r.guess ? "…" : "not recorded"}</i></span>
@@ -342,10 +355,13 @@ function showSummary({ instant = false } = {}) {
         <div class="ft-score"><b id="ftTotal">${instant ? total().toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
         ${next ? `<p class="ft-next">${(next.min - total()).toLocaleString()} short of ${next.name}.</p>` : `<p class="ft-next">Top of the ladder.</p>`}
       </div>
-      ${ladderHtml(rank)}
       ${mode === "daily" ? `<div class="stats ft-stats"><div><b>${st.streak}</b><span>Streak</span></div><div><b>${st.played}</b><span>Played</span></div><div><b>${st.best.toLocaleString()}</b><span>Best</span></div></div>` : ""}
     </header>
-    <section class="ft-map-wrap" id="ftMap" aria-label="Today's shots on the map"></section>
+    <section class="ft-hero" id="ftHero" aria-label="Today's rank"></section>
+    <section class="ft-map-wrap" aria-label="Today's shots on the map">
+      <div class="ft-map" id="ftMap"></div>
+      <button class="minor ft-showall" id="showAllBtn">Show all</button>
+    </section>
     <ol class="ft-rows">${rows}</ol>
     ${n > 1 ? `<div class="ft-calls">${callout(best, "Best shot")}${best !== worst ? callout(worst, "Worst shot") : ""}</div>` : ""}
     <section class="ft-cards"><h3>Today's cards</h3><p>Tap a card to open its Vault.</p>
@@ -363,6 +379,8 @@ function showSummary({ instant = false } = {}) {
     </section>
   </div>`);
   $("#sheet").classList.add("full");
+  // the ladder climbs rung by rung, then the rank is stamped on (straight to the end when replayed)
+  cancelHero = instant ? (heroLadder($("#ftHero"), total(), { instant: true }), () => {}) : heroLadder($("#ftHero"), total());
   $("#copyBtn").onclick = copyResult;
   $("#practiceBtn").onclick = startPractice;
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
@@ -370,12 +388,20 @@ function showSummary({ instant = false } = {}) {
   if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
   document.querySelectorAll(".ft-cardbtn").forEach((b) => (b.onclick = () => showVault(+b.dataset.round, { back: true })));
 
-  // the map, sized to the space it got
-  const mapEl = $("#ftMap");
-  mapEl.innerHTML = worldMapHtml(items.map((it, i) => ({
+  // the map: the game's satellite map with every shot on it. Click a round (in the list or on the map)
+  // to fly to it; "Show all" goes back to the whole picture.
+  summaryMap = createSummaryMap($("#ftMap"), items.map((it, i) => ({
     guess: results[i].guess, answer: { lat: it.lat, lng: it.lng }, color: tierFor(results[i].km).color, sport: it.sport,
-  })), countryShapes, mapEl.clientWidth, mapEl.clientHeight);
-  if (instant) mapEl.classList.add("instant");
+    label: formatDistance(results[i].km), inside: results[i].inside,
+  })), { animate: !instant });
+  const pick = (i) => document.querySelectorAll(".ft-row").forEach((row) => row.classList.toggle("picked", +row.dataset.round === i));
+  $("#ftMap").addEventListener("roundselect", (ev) => pick(ev.detail));
+  document.querySelectorAll(".ft-row").forEach((row) => {
+    const go = () => { summaryMap?.selectRound(+row.dataset.round); $("#ftMap").scrollIntoView({ behavior: "smooth", block: "nearest" }); };
+    row.onclick = go;
+    row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
+  });
+  $("#showAllBtn").onclick = () => summaryMap?.showAll();
 
   // "You said: near Lyon, France" once the town list has loaded
   loadPlaces().then(() => document.querySelectorAll("[data-spot]").forEach((el) => {
@@ -454,8 +480,8 @@ function toast(msg) {
   t.textContent = msg; t.hidden = false;
   clearTimeout(toast.t); toast.t = setTimeout(() => (t.hidden = true), 1800);
 }
-function openSheet(html) { const s = $("#sheet"); s.classList.remove("full"); s.innerHTML = html; s.hidden = false; s.scrollTop = 0; s.querySelector("button")?.focus({ preventScroll: true }); }
-function hideSheet() { $("#sheet").hidden = true; sheetKind = null; clearInterval(timer); }
+function openSheet(html) { cancelHero(); dropSummaryMap(); const s = $("#sheet"); s.classList.remove("full"); s.innerHTML = html; s.hidden = false; s.scrollTop = 0; s.querySelector("button")?.focus({ preventScroll: true }); }
+function hideSheet() { cancelHero(); dropSummaryMap(); $("#sheet").hidden = true; sheetKind = null; clearInterval(timer); }
 
 // "under 25 km", "25–150 km", ..., "5,000 km +" in the player's unit. Thresholds themselves stay in km.
 function tierRange(i) {

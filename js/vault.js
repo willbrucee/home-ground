@@ -88,7 +88,7 @@ export function cardHtml(it, pts, { flip = false, i = 0 } = {}) {
   const rar = rarityKey(pts);
   // the sport's icon sits underneath, so a picture that fails to load (and removes itself) leaves the icon
   const pic = `<span class="noimg">${sportIcon(it.sport)}</span>` + (it.image
-    ? `<img src="${esc(it.image.replace(/width=\d+/, "width=300"))}" alt="${esc(it.name)}" loading="lazy" width="240" height="240" onerror="this.remove()">` : "");
+    ? `<img src="${esc(it.image.replace(/width=\d+/, "width=300"))}" alt="${esc(it.name)}" loading="lazy" width="240" height="240"${it.imageFocus ? ` style="object-position:${esc(it.imageFocus)}"` : ""} onerror="this.remove()">` : "");
   return `<div class="tcard rar-${rar}${flip ? " flip" : ""}" style="--rar:var(--r-${rar});--i:${i}" data-type="${it.type}">
     <div class="tcard-in">
       <div class="tcard-back" aria-hidden="true"><span>Home Ground</span></div>

@@ -40,16 +40,17 @@ export function reactionFor(tier, inside = false) {
 }
 
 // ── The daily ladder ─────────────────────────────────────────────────────────
-// Your total out of 5,000 earns a rank. `min` is the lowest total for that rank.
-// For a feel of the numbers: five "On the board" rounds (~500 km out each) make about 3,300.
-// `big` ranks get their own reveal on the scorecard.
+// Your total out of 5,000 earns a rank. `min` is the lowest total for that rank. The numbers come from
+// scripts/simulate_ranks.py: a casual player (typical miss ~2,500 km) mostly lands Reserve or Starter,
+// a good one (~800 km) All-star, an expert (~200 km) Captain, with Hall of Fame in a few per cent of
+// expert games. `big` ranks get their own reveal.
 export const LADDER = [
   { key: "spoon", name: "Wooden spoon", min: 0 },
-  { key: "reserve", name: "Reserve", min: 1000 },
-  { key: "starter", name: "Starter", min: 2000 },
-  { key: "allstar", name: "All-star", min: 3000 },
-  { key: "captain", name: "Captain", min: 3800, big: true },
-  { key: "hof", name: "Hall of Fame", min: 4400, big: true },
+  { key: "reserve", name: "Reserve", min: 1500 },
+  { key: "starter", name: "Starter", min: 2600 },
+  { key: "allstar", name: "All-star", min: 3400 },
+  { key: "captain", name: "Captain", min: 4200, big: true },
+  { key: "hof", name: "Hall of Fame", min: 4800, big: true },
 ];
 
 export function rankFor(total) {
