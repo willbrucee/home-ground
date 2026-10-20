@@ -40,8 +40,6 @@ REVIEW = ROOT / "data" / "review.csv"
 OVERRIDES = ROOT / "data" / "overrides.json"
 CACHE = ROOT / "scripts" / ".cache"
 ENDPOINT = "https://query.wikidata.org/sparql"
-COMMONS_API = "https://commons.wikimedia.org/w/api.php"
-IMAGE_WIDTH = 400  # pixels; Commons makes a small copy of this width for us
 
 # Wikidata and Commons ask every script to identify itself with a way to contact the owner.
 USER_AGENT = "HomeGroundGame/0.2 (https://github.com/willbrucee/home-ground)"
@@ -631,86 +629,6 @@ def build_group(kind, cands, sport, keep, details, achieved, need_achievement, i
                       "fame": fame_score(sl, pv, count), "achievement": summarise(items), "_count": count})
     group.sort(key=lambda e: -e["fame"])
     return group[:keep]
-
-
-# ── Stage 7: pictures ──────────────────────────────────────────────────────────
-def commons_credits(files, fresh):
-    """Author and licence for each Commons file, 50 per request, slowly (Commons answers 429 when hurried)."""
-    path = CACHE / "commons.json"
-    cache = json.loads(path.read_text()) if path.exists() and not fresh else {}
-    todo = sorted(set(files) - set(cache))
-    for i in range(0, len(todo), 50):
-        batch = todo[i:i + 50]
-        params = urllib.parse.urlencode({
-            "action": "query", "format": "json", "prop": "imageinfo", "iiprop": "extmetadata", "maxlag": 5,
-            "iiextmetadatafilter": "Artist|LicenseShortName", "titles": "|".join("File:" + f for f in batch),
-        })
-        pages = None
-        for attempt in range(5):
-            try:
-                req = urllib.request.Request(f"{COMMONS_API}?{params}", headers={"User-Agent": USER_AGENT})
-                with urllib.request.urlopen(req, timeout=60) as r:
-                    pages = json.load(r)["query"]["pages"].values()
-                break
-            except (urllib.error.URLError, OSError, KeyError) as err:
-                retry_after = getattr(err, "headers", None) and err.headers.get("Retry-After")
-                wait = int(retry_after) if retry_after and retry_after.isdigit() else 10 * 2 ** attempt
-                print(f"   Commons busy ({err}); waiting {wait}s")
-                time.sleep(wait)
-        if pages is None:
-            print(f"   gave up on {len(batch)} pictures for now; run the script again to fill them in")
-            continue
-        for page in pages:
-            meta = (page.get("imageinfo") or [{}])[0].get("extmetadata", {})
-            author = re.sub(r"<[^>]+>", "", meta.get("Artist", {}).get("value", "")).strip()  # Commons gives HTML
-            license_ = meta.get("LicenseShortName", {}).get("value", "").strip()
-            cache[page["title"].removeprefix("File:")] = [author or "Unknown author", license_]
-        CACHE.mkdir(exist_ok=True)
-        path.write_text(json.dumps(cache, ensure_ascii=False))
-        print(f"   picture credits: {min(i + 50, len(todo))}/{len(todo)}")
-        time.sleep(3)
-    return cache
-
-
-def attach_images(entries, fresh, no_image=()):
-    # Ids listed under "no_image" in overrides.json never get a picture (e.g. a crest that spells out the city).
-    for e in entries:
-        if e["id"][3:] in no_image:
-            e.pop("_file", None)
-    credits = commons_credits([e["_file"] for e in entries if e.get("_file")], fresh)
-    gives_away, no_licence, logos_to_check = [], [], []
-    for e in entries:
-        f = e.pop("_file", None)
-        if not f:
-            continue
-        # Anti-cheat: a file called "Old Trafford Manchester.jpg" would give the answer away.
-        # Whole words only ("Port" mustn't match "portrait"), and words already in the name don't
-        # count: "Los Angeles Lakers logo.svg" reveals nothing the name hasn't already.
-        name_words = set(re.findall(r"[a-z]+", plain(e["name"])))
-        city_words = [w for w in re.findall(r"[a-z]+", plain(e["city"])) if len(w) > 3 and w not in name_words]
-        if any(w in set(re.findall(r"[a-z]+", plain(f))) for w in city_words):
-            gives_away.append(f"{e['name']}: {f}")
-            continue
-        author, license_ = credits.get(f, (None, None))
-        if not license_:
-            no_licence.append(f"{e['name']}: {f}")
-            continue
-        quoted = urllib.parse.quote(f.replace(" ", "_"))
-        e["image"] = f"https://commons.wikimedia.org/wiki/Special:FilePath/{quoted}?width={IMAGE_WIDTH}"
-        e["imageAuthor"] = author
-        e["imageLicense"] = license_
-        e["imagePage"] = f"https://commons.wikimedia.org/wiki/File:{quoted}"
-        # Logos can carry text like "Ajax Amsterdam". If the city isn't already in the team's name,
-        # list the logo so a person can glance at it.
-        if e["type"] == "team" and city_words:
-            logos_to_check.append(f"{e['name']} ({e['city']}): {e['imagePage']}")
-    for title, items in [("Pictures left out because the file name mentions the city", gives_away),
-                         ("Pictures left out because Commons has no licence on record", no_licence),
-                         ("Logos to spot-check for the city name in the artwork", logos_to_check)]:
-        if items:
-            print(f"\n{title} ({len(items)}):")
-            for line in items:
-                print("   ", line)
 
 
 def review_flags(entries):
