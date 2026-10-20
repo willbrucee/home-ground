@@ -10,11 +10,17 @@ What it does
   3. Teams: clubs in major leagues, located at their home stadium (or headquarters if there's no stadium).
   4. Removes duplicates and anything without coordinates, runs the validator, and drops entries with errors.
   5. Merges data/players.manual.json on top (hand entries win if the same id or name exists).
+  6. Adds a picture: athlete photo (Wikidata P18) or team logo (P154), plus its author and licence
+     from Wikimedia Commons. Pictures whose file name mentions the answer city are left out.
+
+Each category's Wikidata answer is cached in scripts/.cache/, so a rerun only re-asks for what failed.
+Add --fresh to ignore the cache and fetch everything again.
 
 Needs internet access to query.wikidata.org. No extra packages. Takes a few minutes; Wikidata asks
 for a polite pace, so queries run one at a time with a pause between them.
 """
 import json
+import math
 import pathlib
 import re
 import sys
@@ -31,6 +37,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "players.json"
 MANUAL = ROOT / "data" / "players.manual.json"
 ENDPOINT = "https://query.wikidata.org/sparql"
+COMMONS_API = "https://commons.wikimedia.org/w/api.php"
+CACHE = ROOT / "scripts" / ".cache"
+IMAGE_WIDTH = 400  # pixels; Commons makes a small copy of this width for us
 
 # Wikidata asks every script to identify itself with a way to contact the owner. Put your own details here.
 USER_AGENT = "HomeGroundGame/0.1 (set-your-contact-here)"
@@ -117,6 +126,18 @@ def parse_point(wkt):
     return (float(m.group(2)), float(m.group(1))) if m else (None, None)
 
 
+def file_name(url):
+    """Wikidata gives images as .../Special:FilePath/Some_File.jpg. We keep just the file name."""
+    if not url:
+        return None
+    return urllib.parse.unquote(url.rsplit("/", 1)[-1]).replace("_", " ")
+
+
+def plain(text):
+    """Lower case without accents, for loose text comparisons."""
+    return unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode().lower()
+
+
 def slug(text):
     text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
@@ -150,16 +171,17 @@ def difficulty_by_rank(entries):
 def fetch_athletes(occupation, sport, limit, min_links):
     # The inner query finds the most-linked people first (fast); the outer one adds birthplace details.
     rows = sparql(f"""
-    SELECT ?p ?pLabel ?sl ?place ?placeLabel ?coord ?countryLabel WHERE {{
+    SELECT ?p ?pLabel ?sl ?place ?placeLabel ?coord ?countryLabel ?img WHERE {{
       {{
         SELECT ?p ?sl WHERE {{
-          ?p wdt:P106 wd:{occupation} ; wdt:P31 wd:Q5 ; wikibase:sitelinks ?sl .
+          ?p wdt:P106 wd:{occupation} ; wikibase:sitelinks ?sl .  # an occupation already implies a person
           FILTER(?sl >= {min_links})
         }} ORDER BY DESC(?sl) LIMIT {limit * 2}
       }}
       ?p wdt:P19 ?place .
       ?place wdt:P625 ?coord .
       OPTIONAL {{ ?place wdt:P17 ?country . }}
+      OPTIONAL {{ ?p wdt:P18 ?img . }}  # photo
       SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,mul". }}
     }}""")
     out = {}
@@ -176,6 +198,7 @@ def fetch_athletes(occupation, sport, limit, min_links):
             "id": f"wd-{pid}", "name": name, "sport": sport, "type": "athlete",
             "city": val(r, "placeLabel"), "country": COUNTRY_NAMES.get(country, country),
             "lat": round(lat, 4), "lng": round(lng, 4), "_sitelinks": int(val(r, "sl")),
+            "_file": file_name(val(r, "img")),
         }
     athletes = sorted(out.values(), key=lambda e: -e["_sitelinks"])[:limit]
     difficulty_by_rank(athletes)
@@ -184,7 +207,7 @@ def fetch_athletes(occupation, sport, limit, min_links):
 
 def fetch_teams(where, sport, limit, min_links):
     rows = sparql(f"""
-    SELECT ?t ?tLabel ?sl ?venueLabel ?vcoord ?vcityLabel ?vcountryLabel ?hq ?hqLabel ?hqcoord ?hqcountryLabel WHERE {{
+    SELECT ?t ?tLabel ?sl ?venueLabel ?vcoord ?vcityLabel ?vcountryLabel ?hq ?hqLabel ?hqcoord ?hqcountryLabel ?img WHERE {{
       {{
         SELECT DISTINCT ?t ?sl WHERE {{
           {where}
@@ -196,6 +219,7 @@ def fetch_teams(where, sport, limit, min_links):
       OPTIONAL {{ ?t wdt:P115 ?venue . ?venue wdt:P625 ?vcoord .
                   OPTIONAL {{ ?venue wdt:P131 ?vcity . }} OPTIONAL {{ ?venue wdt:P17 ?vcountry . }} }}
       OPTIONAL {{ ?t wdt:P159 ?hq . ?hq wdt:P625 ?hqcoord . OPTIONAL {{ ?hq wdt:P17 ?hqcountry . }} }}
+      OPTIONAL {{ ?t wdt:P154 ?img . }}  # logo
       SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,mul". }}
     }}""")
     out = {}
@@ -218,6 +242,7 @@ def fetch_teams(where, sport, limit, min_links):
             "id": f"wd-{tid}", "name": name, "sport": sport, "type": "team",
             "city": city, "country": COUNTRY_NAMES.get(country or "", country or ""),
             "lat": round(lat, 4), "lng": round(lng, 4), "_sitelinks": int(val(r, "sl")),
+            "_file": file_name(val(r, "img")),
         }
         if hint:
             entry["hint"] = hint
@@ -230,18 +255,130 @@ def fetch_teams(where, sport, limit, min_links):
 skipped = []
 
 
-def attempt(fetch, *args):
-    """Runs one category's query; if Wikidata keeps failing, note it and move on instead of stopping."""
+def attempt(fetch, *args, key, fresh):
+    """Runs one category's query, using the cached answer if we have one.
+    If Wikidata keeps failing, note it and move on instead of stopping."""
+    cached = CACHE / f"{key}.json"
+    if cached.exists() and not fresh:
+        return json.loads(cached.read_text())
     try:
-        return fetch(*args)
+        got = fetch(*args)
     except QueryFailed as err:
         print(f"   skipped: {err}")
-        skipped.append(args[-3] if fetch is fetch_teams else args[1])
+        skipped.append(key)
         return []
+    CACHE.mkdir(exist_ok=True)
+    cached.write_text(json.dumps(got, ensure_ascii=False))
+    return got
+
+
+def find_images_by_name(entries):
+    """Hand-written entries have no Wikidata id, so look their pictures up by name.
+    Names can be shared (there are several "Crusaders"), so a match only counts if the item's
+    birthplace or stadium is within 60 km of our entry. Among those, the best-known one wins."""
+    if not entries:
+        return {}
+    wanted = {(e["name"], e["type"]): e for e in entries}
+    values = " ".join('"' + n.replace('"', '\\"') + '"@en' for n, _ in wanted)
+    rows = sparql(f"""
+    SELECT ?name ?img ?sl ?kind ?c WHERE {{
+      VALUES ?name {{ {values} }}
+      ?x rdfs:label ?name ; wikibase:sitelinks ?sl .
+      {{ ?x wdt:P31 wd:Q5 ; wdt:P18 ?img ; wdt:P19/wdt:P625 ?c . BIND("athlete" AS ?kind) }}
+      UNION {{ ?x wdt:P154 ?img ; wdt:P115/wdt:P625 ?c . BIND("team" AS ?kind) }}
+      UNION {{ ?x wdt:P154 ?img ; wdt:P159/wdt:P625 ?c . BIND("team" AS ?kind) }}
+    }}""")
+    best = {}
+    for r in rows:
+        key = (val(r, "name"), val(r, "kind"))
+        e = wanted.get(key)
+        lat, lng = parse_point(val(r, "c"))
+        if not e or lat is None or km_between(lat, lng, e["lat"], e["lng"]) > 60:
+            continue
+        sl = int(val(r, "sl"))
+        if key not in best or sl > best[key][0]:
+            best[key] = (sl, file_name(val(r, "img")))
+    return {k: v[1] for k, v in best.items()}
+
+
+def km_between(lat1, lng1, lat2, lng2):
+    """Great-circle distance (haversine), in km."""
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    h = math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(math.radians(lng2 - lng1) / 2) ** 2
+    return 2 * 6371 * math.asin(math.sqrt(h))
+
+
+def commons_credits(files):
+    """Author and licence for each Commons file, 50 files per request."""
+    out = {}
+    files = sorted(set(files))
+    for i in range(0, len(files), 50):
+        batch = files[i:i + 50]
+        params = urllib.parse.urlencode({
+            "action": "query", "format": "json", "prop": "imageinfo", "iiprop": "extmetadata",
+            "iiextmetadatafilter": "Artist|LicenseShortName", "titles": "|".join("File:" + f for f in batch),
+        })
+        req = urllib.request.Request(f"{COMMONS_API}?{params}", headers={"User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                pages = json.load(r)["query"]["pages"].values()
+        except (urllib.error.URLError, OSError) as err:
+            print(f"   Commons request failed ({err}); those pictures are left out")
+            continue
+        for page in pages:
+            meta = (page.get("imageinfo") or [{}])[0].get("extmetadata", {})
+            author = re.sub(r"<[^>]+>", "", meta.get("Artist", {}).get("value", "")).strip()  # Commons gives HTML
+            license_ = meta.get("LicenseShortName", {}).get("value", "").strip()
+            out[page["title"].removeprefix("File:")] = (author or "Unknown author", license_)
+        time.sleep(1)
+    return out
+
+
+def attach_images(entries, manual_lookup):
+    """Turns each entry's file name into image fields, or drops the picture if it's unusable."""
+    files = {}
+    for e in entries:
+        f = e.pop("_file", None) or manual_lookup.get((e["name"], e["type"]))
+        if f:
+            files[e["id"]] = f
+    credits = commons_credits(files.values())
+    dropped_for_city, no_licence, logos_to_check = [], [], []
+    for e in entries:
+        f = files.get(e["id"])
+        if not f:
+            continue
+        # Anti-cheat: a file called "Old Trafford Manchester.jpg" would give the answer away.
+        city_words = [w for w in re.split(r"[ ,/-]+", plain(e["city"])) if len(w) > 3]
+        if any(w in plain(f) for w in city_words):
+            dropped_for_city.append(f"{e['name']}: {f}")
+            continue
+        author, license_ = credits.get(f, (None, None))
+        if not license_:
+            no_licence.append(f"{e['name']}: {f}")
+            continue
+        quoted = urllib.parse.quote(f.replace(" ", "_"))
+        e["image"] = f"https://commons.wikimedia.org/wiki/Special:FilePath/{quoted}?width={IMAGE_WIDTH}"
+        e["imageAuthor"] = author
+        e["imageLicense"] = license_
+        e["imagePage"] = f"https://commons.wikimedia.org/wiki/File:{quoted}"
+        # Logos can carry text such as "Ajax Amsterdam". If the team's name doesn't already
+        # contain its city, list the logo so a person can glance at it.
+        if e["type"] == "team" and not any(w in plain(e["name"]) for w in city_words):
+            logos_to_check.append(f"{e['name']} ({e['city']}): {e['imagePage']}")
+    with_image = sum("image" in e for e in entries)
+    print(f"Pictures: {with_image} of {len(entries)} entries have one.")
+    for title, items in [("Left out because the file name mentions the city", dropped_for_city),
+                         ("Left out because Commons has no licence on record", no_licence),
+                         ("Logos to spot-check for city names in the artwork", logos_to_check)]:
+        if items:
+            print(f"   {title} ({len(items)}):")
+            for line in items:
+                print("     ", line)
 
 
 def main():
     dry_run = "--dry-run" in sys.argv
+    fresh = "--fresh" in sys.argv
     if "set-your-contact-here" in USER_AGENT:
         print("Tip: put your own contact in USER_AGENT at the top of this script (Wikidata asks for it).\n")
 
@@ -253,16 +390,17 @@ def main():
         if occ not in valid:
             continue
         print(f"Athletes: {label}…")
-        got = attempt(fetch_athletes, occ, sport, limit, min_links)
+        got = attempt(fetch_athletes, occ, sport, limit, min_links, key=f"athletes-{occ}", fresh=fresh)
         print(f"   {len(got)} found")
         entries += got
-        time.sleep(2)
+        if not (CACHE / f"athletes-{occ}.json").exists() or fresh:
+            time.sleep(2)
 
     for league, label, sport, limit, min_links in LEAGUES:
         if league not in valid:
             continue
         print(f"Teams: {label}…")
-        got = attempt(fetch_teams, f"?t wdt:P118 wd:{league} .", sport, limit, min_links)
+        got = attempt(fetch_teams, f"?t wdt:P118 wd:{league} .", sport, limit, min_links, key=f"league-{league}", fresh=fresh)
         print(f"   {len(got)} found")
         entries += got
         time.sleep(2)
@@ -270,7 +408,7 @@ def main():
     club_type, label, sport, limit, min_links = WORLD_CLUBS
     if club_type in valid:
         print("Teams: famous football clubs worldwide…")
-        got = attempt(fetch_teams, f"?t wdt:P31 wd:{club_type} .", sport, limit, min_links)
+        got = attempt(fetch_teams, f"?t wdt:P31 wd:{club_type} .", sport, limit, min_links, key="world-clubs", fresh=fresh)
         print(f"   {len(got)} found")
         entries += got
 
@@ -289,6 +427,13 @@ def main():
     for e in unique:
         e.pop("_sitelinks", None)
     combined = manual + unique
+
+    print("\nFinding pictures…")
+    try:
+        manual_lookup = find_images_by_name([m for m in manual if not m.get("image")])
+    except QueryFailed:
+        manual_lookup = {}
+    attach_images(combined, manual_lookup)
 
     print("\nValidating…")
     errors, warnings = validate(combined)

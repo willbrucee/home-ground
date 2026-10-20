@@ -14,20 +14,41 @@
 
 <header class="board">
   <div class="wrap">
-    <div class="brand">Home Ground<small id="puzzleNo">Daily #—</small></div>
-    <div class="pips" id="pips" aria-label="Round results"></div>
-    <div class="total" id="total" aria-label="Total points">0</div>
-    <button class="iconbtn" id="unitBtn" aria-label="Switch distance units">km</button>
+    <div class="brand">
+      <!-- logo: a pin dropped on a pitch's centre circle -->
+      <svg class="mark" viewBox="0 0 34 34" aria-hidden="true">
+        <circle cx="17" cy="17" r="15.5" fill="none" stroke="#ffc928" stroke-width="2"/>
+        <path d="M1.5 17h31" stroke="#ffc928" stroke-opacity="0.35" stroke-width="1.5"/>
+        <path d="M17 7.5a6.5 6.5 0 0 0-6.5 6.5c0 4.8 6.5 11.5 6.5 11.5s6.5-6.7 6.5-11.5A6.5 6.5 0 0 0 17 7.5z" fill="#ffc928"/>
+        <circle cx="17" cy="14" r="2.4" fill="#0e1714"/>
+      </svg>
+      <div><span class="wordmark">Home Ground</span><small id="puzzleNo">Daily #—</small></div>
+    </div>
+    <ol class="tracker" id="tracker" aria-label="Rounds"></ol>
+    <div class="scores">
+      <div class="readout"><span>Score</span><b id="total">0</b></div>
+      <div class="readout"><span>Distance <button class="unit" id="unitBtn">km</button></span><b id="distTotal">0</b></div>
+    </div>
     <button class="iconbtn" id="helpBtn" aria-label="How to play">?</button>
   </div>
 </header>
 
 <section class="clue">
   <div class="wrap">
-    <div class="eyebrow"><span id="roundLbl">Round 1 of 5</span><span>·</span><span class="tag" id="kindLbl">Athlete</span><span>·</span><span class="tag" id="sportLbl">—</span></div>
-    <div class="who" id="who">Loading…</div>
-    <button class="hint" id="hintBtn">Show country (half points)</button>
-    <div class="ask" id="ask"></div>
+    <article class="qcard" id="qcard">
+      <div class="qmain">
+        <div class="tags"><span class="tag dark" id="kindLbl">Athlete</span><span class="tag" id="sportLbl">—</span><span class="roundno" id="roundLbl">Round 1 of 5</span></div>
+        <h1 class="who" id="who">Loading…</h1>
+        <p class="ask" id="ask"></p>
+      </div>
+      <!-- athlete photo or team logo; falls back to an initials badge -->
+      <figure class="portrait" id="portrait">
+        <span class="initials" id="initials" aria-hidden="true"></span>
+        <img id="portraitImg" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <button class="credit-btn" id="creditBtn" aria-label="Image credit" aria-expanded="false" hidden>i</button>
+        <figcaption class="credit" id="credit" hidden></figcaption>
+      </figure>
+    </article>
   </div>
 </section>
 
@@ -35,15 +56,9 @@
   <div id="map" aria-label="Map. Drag to pan, scroll or pinch to zoom, tap to drop your pin."></div>
   <canvas id="fx" aria-hidden="true"></canvas>
   <div id="flash" aria-hidden="true"></div>
-  <div class="maptools">
-    <div class="seg" role="group" aria-label="Basemap">
-      <button data-basemap="satellite" aria-pressed="true">Satellite</button>
-      <button data-basemap="relief" aria-pressed="false">Relief</button>
-    </div>
-    <div class="seg"><button id="citiesBtn" aria-pressed="true">City dots</button></div>
-  </div>
   <div class="sheet" id="sheet" hidden></div>
   <div class="toast" id="toast" hidden></div>
+  <div class="esri-mark" aria-hidden="true">Powered by Esri</div>
 </main>
 
 <footer class="rail">

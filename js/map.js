@@ -1,65 +1,41 @@
 // Everything to do with the map. The MapLibre map is created ONCE and reused for every round;
 // rounds only change the data inside a few layers, which is what keeps it smooth.
-import { BASEMAPS, DEFAULT_BASEMAP, PROJECTION } from "./config.js";
+import { SATELLITE, PROJECTION } from "./config.js";
 import { greatCircle } from "./geo.js";
 
 const EMPTY = { type: "FeatureCollection", features: [] };
+const NO_COUNTRY = ["==", ["get", "name"], ""]; // a filter that matches nothing
+const HIGHLIGHT = "#ffc928";
 const HIDDEN_LINE = ["step", ["line-progress"], "rgba(0,0,0,0)", 0.5, "rgba(0,0,0,0)"];
 
 // Ease-in-out: slow start, quick middle, slow finish.
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-// Population bands for the city dots, and the zoom level where each band appears.
-const CITY_BANDS = [
-  { id: "cities-xl", min: 3e6, max: Infinity, minzoom: 0 },
-  { id: "cities-l", min: 1e6, max: 3e6, minzoom: 2.5 },
-  { id: "cities-m", min: 3e5, max: 1e6, minzoom: 4 },
-  { id: "cities-s", min: 1e5, max: 3e5, minzoom: 5.5 },
-];
-
-function buildStyle(projection, basemap) {
+function buildStyle(projection) {
   const sources = {};
   const layers = [{ id: "ocean", type: "background", paint: { "background-color": "#0b2a3a" } }];
 
-  // Plain land shapes and borders underneath the imagery. Normally the tiles cover them; if tiles
+  // Country shapes. Drawn plainly underneath the imagery: normally the tiles cover them, but if tiles
   // can't load (offline, blocked, or a page that doesn't allow outside images) the map still works.
-  sources.land = { type: "geojson", data: "data/land.geojson" };
-  sources.borders = { type: "geojson", data: "data/borders.geojson" };
+  sources.countries = { type: "geojson", data: "data/countries.geojson" };
   layers.push(
-    { id: "land", type: "fill", source: "land", paint: { "fill-color": "#3b5444" } },
-    { id: "borders", type: "line", source: "borders", paint: { "line-color": "#8fa898", "line-width": 0.6, "line-opacity": 0.6 } },
+    { id: "land", type: "fill", source: "countries", paint: { "fill-color": "#3b5444" } },
+    { id: "borders", type: "line", source: "countries", paint: { "line-color": "#8fa898", "line-width": 0.6, "line-opacity": 0.6 } },
   );
 
-  // One raster source + layer per basemap. Only the chosen one is visible.
-  for (const [key, b] of Object.entries(BASEMAPS)) {
-    sources[key] = { type: "raster", tiles: [b.tiles], tileSize: 256, maxzoom: b.maxzoom, attribution: b.attribution };
-    layers.push({
-      id: `base-${key}`, type: "raster", source: key,
-      layout: { visibility: key === basemap ? "visible" : "none" },
-      paint: { "raster-fade-duration": 200 },
-    });
-  }
+  // Satellite imagery on top of those plain shapes.
+  sources.satellite = { type: "raster", tiles: [SATELLITE.tiles], tileSize: 256, maxzoom: SATELLITE.maxzoom, attribution: SATELLITE.attribution };
+  layers.push({ id: "satellite", type: "raster", source: "satellite", paint: { "raster-fade-duration": 200 } });
 
-  // Unlabelled city dots. Bigger cities appear first; smaller ones fade in as you zoom in.
-  sources.cities = { type: "geojson", data: "data/cities.geojson" };
-  for (const band of CITY_BANDS) {
-    const size = (small, big) => ["interpolate", ["linear"], ["get", "p"], 1e5, small, 1e7, big]; // dot size by population
-    layers.push({
-      id: band.id, type: "circle", source: "cities",
-      minzoom: band.minzoom,
-      filter: ["all", [">=", ["get", "p"], band.min], ["<", ["get", "p"], band.max]],
-      paint: {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, size(1.6, 3.6), 6, size(2.6, 6.5), 11, size(3.2, 9)],
-        "circle-color": "#fff6df",
-        "circle-stroke-color": "#1a1a1a",
-        "circle-stroke-width": 0.8,
-        // Fade in over half a zoom level instead of popping in.
-        "circle-opacity": ["interpolate", ["linear"], ["zoom"], band.minzoom, 0, band.minzoom + 0.5, 0.72],
-        "circle-stroke-opacity": ["interpolate", ["linear"], ["zoom"], band.minzoom, 0, band.minzoom + 0.5, 0.45],
-        "circle-pitch-alignment": "map", // dots lie flat on the globe's surface
-      },
-    });
-  }
+  // "Reveal country" highlight: the same shapes again, drawn over the imagery, but filtered to
+  // show nothing until a country is picked. A gold tint plus a dark-edged gold outline reads on any ground.
+  layers.push(
+    { id: "country-fill", type: "fill", source: "countries", filter: NO_COUNTRY, paint: { "fill-color": HIGHLIGHT, "fill-opacity": 0 } },
+    { id: "country-casing", type: "line", source: "countries", filter: NO_COUNTRY,
+      layout: { "line-join": "round" }, paint: { "line-color": "#0b1418", "line-width": 4, "line-opacity": 0 } },
+    { id: "country-line", type: "line", source: "countries", filter: NO_COUNTRY,
+      layout: { "line-join": "round" }, paint: { "line-color": HIGHLIGHT, "line-width": 2, "line-opacity": 0 } },
+  );
 
   // The result line, drawn as three stacked layers: a soft glow, a dark outline, then the coloured core.
   // lineMetrics lets us colour by "progress along the line" (0 at the guess, 1 at the answer),
@@ -90,7 +66,7 @@ export function createMap(container, { onPick }) {
 
   const map = new maplibregl.Map({
     container,
-    style: buildStyle(flat ? "mercator" : "globe", DEFAULT_BASEMAP),
+    style: buildStyle(flat ? "mercator" : "globe"),
     center: [15, 25],
     zoom: fitWorldZoom(rect),
     minZoom: 0.3,
@@ -116,16 +92,23 @@ export function createMap(container, { onPick }) {
 
   const ready = new Promise((resolve) => map.once("load", resolve));
 
+  // On phones the credit line starts collapsed behind its (i) button so it doesn't cover the map;
+  // a separate "Powered by Esri" label stays visible (see .esri-mark in the CSS).
+  if (rect.width < 640) {
+    map.once("load", () => {
+      const attrib = container.querySelector(".maplibregl-ctrl-attrib");
+      attrib?.classList.remove("maplibregl-compact-show");
+      attrib?.removeAttribute("open");
+    });
+  }
+
   // If the imagery can't load, MapLibre would print an error for every tile. Having our own
   // error listener stops that. After a few failures we switch the imagery off and the game carries
   // on with the plain land map underneath.
-  let tileFailures = 0, imageryOff = false;
+  let tileFailures = 0;
   map.on("error", (e) => {
-    if (!(e.sourceId in BASEMAPS)) { console.error(e.error || e); return; }
-    if (++tileFailures < 6 || imageryOff) return;
-    imageryOff = true;
-    for (const k of Object.keys(BASEMAPS)) map.setLayoutProperty(`base-${k}`, "visibility", "none");
-    document.dispatchEvent(new CustomEvent("imagery-unavailable"));
+    if (e.sourceId !== "satellite") { console.error(e.error || e); return; }
+    if (++tileFailures === 6) map.setLayoutProperty("satellite", "visibility", "none");
   });
 
   // Markers are plain HTML elements pinned to a map position. We create two and reuse them.
@@ -140,8 +123,8 @@ export function createMap(container, { onPick }) {
   answerEl.innerHTML = '<span class="ring"></span><span class="head"></span>';
   const answerMarker = new maplibregl.Marker({ element: answerEl });
 
-  let basemap = DEFAULT_BASEMAP;
   let animation = 0;
+  let highlightRun = 0;
 
   return {
     map,
@@ -195,6 +178,42 @@ export function createMap(container, { onPick }) {
       answerEl.classList.add("landed");
     },
 
+    // Tint and outline one country, pulse it 3 times (about 1.5 s), then leave a softer highlight.
+    // `name` is the shape's name in countries.geojson. Also frames the country if it's hard to see.
+    async highlightCountry(name, fit) {
+      await ready;
+      const run = ++highlightRun;
+      const filter = ["==", ["get", "name"], name];
+      for (const id of ["country-fill", "country-casing", "country-line"]) map.setFilter(id, filter);
+      if (fit) frameCountry(map, fit, container);
+
+      // strength 0..1 controls how loud the highlight is
+      const paint = (strength) => {
+        map.setPaintProperty("country-fill", "fill-opacity", 0.12 + 0.28 * strength);
+        map.setPaintProperty("country-line", "line-opacity", 0.75 + 0.25 * strength);
+        map.setPaintProperty("country-line", "line-width", 2 + 2 * strength);
+        map.setPaintProperty("country-casing", "line-opacity", 0.5 + 0.3 * strength);
+        map.setPaintProperty("country-casing", "line-width", 4 + 2 * strength);
+      };
+      if (reduceMotion()) { paint(0); return; } // a steady highlight, no flashing
+
+      const PULSES = 3, MS = 1500, start = performance.now();
+      const tick = (now) => {
+        if (run !== highlightRun) return; // a newer call (or a clear) took over
+        const t = Math.min(1, (now - start) / MS);
+        // sin² gives smooth 0 → 1 → 0 bumps, one per pulse
+        paint(t < 1 ? Math.sin(t * PULSES * Math.PI) ** 2 : 0);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    },
+
+    async clearCountry() {
+      highlightRun++;
+      await ready;
+      for (const id of ["country-fill", "country-casing", "country-line"]) map.setFilter(id, NO_COUNTRY);
+    },
+
     // Where a lat/lng currently sits on screen (in pixels from the map's top-left), for effects.
     toScreen(p) {
       const { x, y } = map.project([p.lng, p.lat]);
@@ -210,22 +229,12 @@ export function createMap(container, { onPick }) {
       answerEl.classList.remove("landed");
       map.getSource("arc").setData(EMPTY);
       setLineProgress(map, 0, "#fff");
+      this.clearCountry();
       const worldZoom = fitWorldZoom(container.getBoundingClientRect());
       if (map.getZoom() > worldZoom + 0.3) map.easeTo({ zoom: worldZoom, duration: reduceMotion() ? 0 : 900 });
     },
 
-    async setBasemap(key) {
-      basemap = key;
-      await ready; // layers don't exist until the style has loaded
-      if (imageryOff) return;
-      for (const k of Object.keys(BASEMAPS)) map.setLayoutProperty(`base-${k}`, "visibility", k === key ? "visible" : "none");
-    },
-    get basemap() { return basemap; },
 
-    async setCitiesVisible(on) {
-      await ready;
-      for (const band of CITY_BANDS) map.setLayoutProperty(band.id, "visibility", on ? "visible" : "none");
-    },
   };
 }
 
@@ -234,6 +243,19 @@ export function createMap(container, { onPick }) {
 function fitWorldZoom(rect) {
   const want = 0.42 * Math.max(200, Math.min(rect.width, rect.height));
   return Math.max(0.3, Math.log2((want * 2 * Math.PI) / 512));
+}
+
+// Brings a country into view, unless the player can already see it well (or is zoomed in inside it).
+function frameCountry(map, [w, s, e, n], container) {
+  const sw = map.project([w, s]), ne = map.project([e, n]);
+  const rect = container.getBoundingClientRect();
+  const onScreen = (p) => p.x >= 0 && p.y >= 0 && p.x <= rect.width && p.y <= rect.height;
+  const widthPx = Math.abs(ne.x - sw.x);
+  const c = map.getCenter();
+  const insideIt = c.lng >= w && c.lng <= e && c.lat >= s && c.lat <= n;
+  if ((onScreen(sw) && onScreen(ne) && widthPx >= 70) || (insideIt && widthPx > rect.width)) return;
+  const pad = Math.min(80, rect.width * 0.12);
+  map.fitBounds([[w, s], [e, n]], { padding: pad, maxZoom: 6, duration: reduceMotion() ? 0 : 1000 });
 }
 
 // Shows the line up to `progress` (0..1) in `color`, and hides the rest.

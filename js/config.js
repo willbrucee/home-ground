@@ -20,19 +20,10 @@ const esriTiles = (service) =>
   `https://server.arcgisonline.com/ArcGIS/rest/services/${service}/MapServer/tile/{z}/{y}/{x}` +
   (ESRI_API_KEY ? `?token=${ESRI_API_KEY}` : "");
 
-// Both basemaps are label-free: no city, country or road names.
-export const BASEMAPS = {
-  satellite: {
-    label: "Satellite",
-    tiles: esriTiles("World_Imagery"),
-    maxzoom: 18,
-    attribution: "Powered by Esri · Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
-  },
-  relief: {
-    label: "Relief",
-    tiles: esriTiles("World_Physical_Map"),
-    maxzoom: 8, // Esri only publishes this one to zoom 8; MapLibre stretches it beyond that.
-    attribution: "Powered by Esri · Source: US National Park Service",
-  },
+// Esri World Imagery: satellite photos with no labels (no city, country or road names).
+// The attribution line is required by Esri's terms and is shown on the map.
+export const SATELLITE = {
+  tiles: esriTiles("World_Imagery"),
+  maxzoom: 18,
+  attribution: "Powered by Esri · Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
 };
-export const DEFAULT_BASEMAP = "satellite";
