@@ -1,0 +1,65 @@
+# Words the spell check should accept: names, sports terms and technical words (one per line, any case).
+# Words in a name field (athlete, team, city, country) don't need to be here: in generated data only
+# lower-case words are checked.
+
+# sports terms
+goalscoring
+playmaker
+playmaking
+motorsport
+judoka
+sambo
+sambist
+cruiserweight
+undrafted
+trequartista
+loosehead
+rebounders
+footedness
+cyclo
+honoree
+metroplex
+mononymously
+ers
+d'or
+d'ors
+d'italia
+d'huez
+# name particles
+der
+des
+del
+della
+das
+doo
+# technical words in the README and pages
+wikidata
+wikimedia
+sitelinks
+pageviews
+maplibre
+mwapi
+geonames
+esri
+arcgis
+basemap
+netlify
+cloudflare
+isc
+apis
+json
+jpg
+wd
+hotlinking
+wcag
+css
+readme
+earthstar
+maxar
+geographics
+gis
+trafford
+messi
+internazionale
+sur
+claude

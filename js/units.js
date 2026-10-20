@@ -103,13 +103,13 @@ export function sportsDistance(km, key, { size = true } = {}) {
   return `about ${n.toLocaleString()} ${n === 1 ? u.one : u.many}${size ? ` (${formatLength(u.m)} each)` : ""}`;
 }
 
-// City-size fact: "Barcelona is about 20 km across: you were 7 Barcelonas away."
+// City-size fact: "Barcelona is about 20 km across: you were 7 city-widths away."
 export function cityFact(km, city, radiusKm) {
   if (!city || !radiusKm || km <= 0) return "";
   const across = radiusKm * 2;
   const n = km / across;
   const size = `${city} is about ${formatDistance(across)} across`;
-  if (n < 1) return `${size}: you were less than one ${city} away.`;
+  if (n < 1) return `${size}: you were less than a city-width away.`;
   const r = round2(n);
-  return `${size}: you were ${r.toLocaleString()} ${city}${r === 1 ? "" : "s"} away.`;
+  return `${size}: you were ${r.toLocaleString()} city-width${r === 1 ? "" : "s"} away.`;
 }

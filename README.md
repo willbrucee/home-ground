@@ -19,7 +19,7 @@ Any static host works for publishing: GitHub Pages, Netlify, Cloudflare Pages, i
 
 Handy URL switches: add `?flat` for a flat map instead of the globe.
 
-The claude.ai artifact preview can't load outside images, so there the game falls back to plain
+The claude.ai artefact preview can't load outside images, so there the game falls back to plain
 country shapes instead of satellite imagery. GitHub Pages and other normal hosts show the imagery.
 
 ## Project layout

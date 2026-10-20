@@ -163,6 +163,10 @@ def trim(text, n=3):
     # brackets can nest one level deep: "(Portuguese pronunciation: [ˈspɔɾ(tɨ) ...])"
     aside = r"\s*\((?:[^()]|\([^()]*\))*?(?:;|listen|pronounced|pronunciation|/|IPA|\[)(?:[^()]|\([^()]*\))*\)"
     text = re.sub(aside, "", text.split("\n")[0])
+    # pronunciation respellings left behind by the plain-text export: "( SEL-tiks)", "( DWAYN or doo-WY-ayn, born …)"
+    # (a bracket followed by a space is always one of these; real asides start straight after the bracket)
+    text = re.sub(r"\(\s+[^()]*?(?:,\s*(?=born\b)|(?=\)))", "(", text)
+    text = re.sub(r"\s*\(\s*\)", "", text)
     text = re.sub(r"\s{2,}", " ", text).strip()
     out, start = [], 0
     for m in re.finditer(r"[.!?](?=\s+[A-Z\"“])", text):
@@ -234,6 +238,7 @@ def main():
 
     OUT.write_text(json.dumps(vault, ensure_ascii=False, separators=(",", ":")) + "\n")
     print(f"Wrote {OUT}: {len(vault)} entries, {len(vault) - short} with a Wikipedia summary.")
+    print("Next: python3 scripts/spellcheck.py (or run everything with sh scripts/build_all.sh)")
 
 
 def digest(items):
