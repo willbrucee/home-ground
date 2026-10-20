@@ -56,6 +56,11 @@ function startDaily() {
   if (round >= ROUNDS) { phase = "done"; renderAll(); showSummary(); return; }
   beginRound();
 }
+// Play today's five again. Nothing is saved, so the streak, stats and today's recorded score stay as they were.
+function startReplay() {
+  mode = "replay"; items = dailyPicks(players, today); results = []; round = 0;
+  hideSheet(); beginRound();
+}
 function startPractice() {
   mode = "practice"; items = practicePicks(players); results = []; round = 0;
   hideSheet(); beginRound();
@@ -125,7 +130,7 @@ const totalKm = () => results.reduce((s, r) => s + r.km, 0);
 function renderAll() {
   $("#puzzleNo").textContent = mode === "daily"
     ? `Daily #${today + 1} · ${new Date().toLocaleDateString(undefined, { day: "numeric", month: "short" })}`
-    : "Practice round";
+    : mode === "replay" ? `Daily #${today + 1} · replay` : "Practice round";
   // Streak: days in a row with the daily set finished. It's still "alive" until a full day is missed.
   const st = store.get("hg:stats", { streak: 0, last: null });
   const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
@@ -146,11 +151,12 @@ function renderAll() {
   $("#roundLbl").textContent = phase === "done" ? "Full time" : `Round ${round + 1} of ${ROUNDS}`;
   $("#unitBtn").title = "Switch km / miles";
   $("#kindLbl").textContent = it.type === "team" ? "Team" : "Athlete";
-  $("#sportLbl").textContent = it.sport;
+  // the sport's icon next to its name (sportIcon returns trusted, hand-written SVG)
+  $("#sportLbl").innerHTML = `${sportIcon(it.sport)}<span>${esc(it.sport)}</span>`;
   $("#who").textContent = phase === "done" ? `${total().toLocaleString()} points` : it.name;
   $("#ask").textContent = phase === "done" ? "Scorecard's in. Open it to share your result."
     : it.type === "team" ? "Home city. Pin the place they play home games." : "Birthplace. Pin the city on the map.";
-  if (phase === "done") { $("#kindLbl").textContent = mode === "daily" ? "Daily set" : "Practice"; $("#sportLbl").textContent = `${ROUNDS} rounds`; }
+  if (phase === "done") { $("#kindLbl").textContent = mode === "practice" ? "Practice" : "Daily set"; $("#sportLbl").textContent = `${ROUNDS} rounds`; }
 
   renderPortrait(phase === "done" ? null : it);
   renderRail();
@@ -187,7 +193,7 @@ function renderRail() {
     $("#nextBtn").onclick = nextRound;
     $("#nextBtn").focus({ preventScroll: true });
   } else {
-    rail.innerHTML = `<div class="status">${mode === "daily" ? "That's today's five. Back tomorrow for a new set." : "Practice round over."}</div>
+    rail.innerHTML = `<div class="status">${mode === "daily" ? "That's today's five. Back tomorrow for a new set." : mode === "replay" ? "Replay over." : "Practice round over."}</div>
       <button class="primary" id="sumBtn">Scorecard</button>`;
     $("#sumBtn").onclick = showSummary;
   }
@@ -229,7 +235,7 @@ function creditLine(it) {
 }
 
 function shareText() {
-  const head = mode === "daily" ? `Home Ground #${today + 1}` : "Home Ground (practice)";
+  const head = mode === "daily" ? `Home Ground #${today + 1}` : mode === "replay" ? `Home Ground #${today + 1} (replay)` : "Home Ground (practice)";
   const tiers = results.map((r) => tierFor(r.km));
   const km = totalKm();
   const done = results.length === ROUNDS;
@@ -274,18 +280,20 @@ function showSummary() {
       <div class="sc">${r.pts.toLocaleString()}<small>${formatDistance(r.km)}${r.hint ? " · hint" : ""}</small></div></div>`;
   }).join("");
   openSheet(`<div class="card" role="dialog" aria-labelledby="sumTitle">
-    <h2 id="sumTitle">${mode === "daily" ? "Full time" : "Practice over"}</h2>
+    <h2 id="sumTitle">${mode === "daily" ? "Full time" : mode === "replay" ? "Replay over" : "Practice over"}</h2>
     <div class="final"><b>${total().toLocaleString()}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
     ${ladderHtml(rankFor(total()))}
     <div class="rows">${rows}</div>
     ${mode === "daily" ? `<div class="stats"><div><b>${st.played}</b><span>Played</span></div><div><b>${st.streak}</b><span>Streak</span></div><div><b>${st.best.toLocaleString()}</b><span>Best</span></div></div>` : ""}
     ${imageCredits()}
     <div class="actions"><button class="primary" id="copyBtn">Copy result</button><button class="ghost" id="practiceBtn">Practice round</button></div>
-    ${mode === "daily" ? `<div class="next" id="countdown"></div>` : `<button class="ghost" id="backBtn">Today's set</button>`}
+    ${mode !== "practice" ? `<button class="ghost" id="replayBtn">Replay today's set</button>` : ""}
+    ${mode === "daily" ? `<div class="next" id="countdown"></div>` : mode === "practice" ? `<button class="ghost" id="backBtn">Today's set</button>` : ""}
     <button class="ghost quiet" id="closeBtn">Back to the map</button>
   </div>`);
   $("#copyBtn").onclick = copyResult;
   $("#practiceBtn").onclick = startPractice;
+  if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
   $("#closeBtn").onclick = hideSheet;
   if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
   if ($("#countdown")) {

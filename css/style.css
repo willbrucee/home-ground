@@ -118,6 +118,8 @@ button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
 .qmain { min-width: 0; display: grid; gap: 4px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .tag { white-space: nowrap; font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.04em; padding: 2px 9px; border-radius: 999px; background: var(--bg); color: var(--ink); border: 1px solid var(--line); }
+.tag { display: inline-flex; align-items: center; gap: 5px; }
+.tag svg { width: 14px; height: 14px; flex: none; color: var(--ink); }
 .tag.dark { background: var(--ink); color: var(--panel); border-color: var(--ink); }
 .roundno { font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-left: 2px; }
 /* The player's name is set like a broadcast caption: condensed, heavy, upper case. */
