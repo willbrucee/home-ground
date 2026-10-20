@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Home Ground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="board">
+  <div class="wrap">
+    <div class="brand">Home Ground<small id="puzzleNo">Daily #—</small></div>
+    <div class="pips" id="pips" aria-label="Round results"></div>
+    <div class="total" id="total" aria-label="Total points">0</div>
+    <button class="iconbtn" id="unitBtn" aria-label="Switch distance units">km</button>
+    <button class="iconbtn" id="helpBtn" aria-label="How to play">?</button>
+  </div>
+</header>
+
+<section class="clue">
+  <div class="wrap">
+    <div class="eyebrow"><span id="roundLbl">Round 1 of 5</span><span>·</span><span class="tag" id="kindLbl">Athlete</span><span>·</span><span class="tag" id="sportLbl">—</span></div>
+    <div class="who" id="who">Loading…</div>
+    <button class="hint" id="hintBtn">Show country (half points)</button>
+    <div class="ask" id="ask"></div>
+  </div>
+</section>
+
+<main class="stage">
+  <div id="map" aria-label="Map. Drag to pan, scroll or pinch to zoom, tap to drop your pin."></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div id="flash" aria-hidden="true"></div>
+  <div class="maptools">
+    <div class="seg" role="group" aria-label="Basemap">
+      <button data-basemap="satellite" aria-pressed="true">Satellite</button>
+      <button data-basemap="relief" aria-pressed="false">Relief</button>
+    </div>
+    <div class="seg"><button id="citiesBtn" aria-pressed="true">City dots</button></div>
+  </div>
+  <div class="sheet" id="sheet" hidden></div>
+  <div class="toast" id="toast" hidden></div>
+</main>
+
+<footer class="rail">
+  <div class="wrap" id="rail"></div>
+</footer>
+
+<script src="vendor/maplibre-gl.js"></script>
+<script type="module" src="js/game.js"></script>
+</body>
+</html>
