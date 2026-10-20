@@ -14,8 +14,8 @@ export const ROUNDS = 5;
 export const EPOCH = { year: 2026, month: 1, day: 1 };
 
 // Which difficulty each round uses (1 = household name, 2 = well known, 3 = fans will know).
-// Mostly household names, with a couple of harder ones.
-export const ROUND_DIFFICULTY = [1, 1, 1, 2, 2];
+// The same shape every day: two easy, two medium, then one harder name to finish.
+export const ROUND_DIFFICULTY = [1, 1, 2, 2, 3];
 
 const key = ESRI_API_KEY ? `?token=${ESRI_API_KEY}` : "";
 

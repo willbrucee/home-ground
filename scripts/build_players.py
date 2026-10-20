@@ -50,42 +50,58 @@ USER_AGENT = "HomeGroundGame/0.2 (https://github.com/willbrucee/home-ground)"
 # Athletes: (occupation id, its expected label, sport shown in the game, how many to keep, min sitelinks)
 # The minimum is lower for sports with less worldwide coverage, so each still has enough well-known names.
 ATHLETE_SPORTS = [
-    ("Q937857", "association football player", "Football", 70, 60),
-    ("Q3665646", "basketball player", "Basketball", 40, 40),
+    ("Q937857", "association football player", "Football", 80, 60),
+    ("Q3665646", "basketball player", "Basketball", 45, 40),
     ("Q10833314", "tennis player", "Tennis", 35, 40),
-    ("Q11513337", "athletics competitor", "Athletics", 35, 40),
+    ("Q11513337", "athletics competitor", "Athletics", 20, 40),
     ("Q10841764", "Formula One driver", "Formula 1", 25, 40),
-    ("Q12299841", "cricketer", "Cricket", 25, 25),
-    ("Q19204627", "American football player", "American football", 25, 20),
-    ("Q10871364", "baseball player", "Baseball", 25, 25),
-    ("Q11774891", "ice hockey player", "Ice hockey", 25, 25),
-    ("Q11303721", "golfer", "Golf", 20, 30),
-    ("Q11338576", "boxer", "Boxing", 20, 40),
-    ("Q2309784", "sport cyclist", "Cycling", 20, 35),
-    ("Q14089670", "rugby union player", "Rugby union", 15, 20),
-    ("Q11607585", "mixed martial arts fighter", "MMA", 10, 25),
-    ("Q14373094", "rugby league player", "Rugby league", 10, 10),
-    ("Q13414980", "Australian rules football player", "Australian rules football", 10, 8),
+    ("Q12299841", "cricketer", "Cricket", 20, 25),
+    ("Q19204627", "American football player", "American football", 30, 20),
+    ("Q10871364", "baseball player", "Baseball", 22, 25),
+    ("Q11774891", "ice hockey player", "Ice hockey", 12, 25),
+    ("Q11303721", "golfer", "Golf", 12, 30),
+    ("Q11338576", "boxer", "Boxing", 18, 40),
+    ("Q2309784", "sport cyclist", "Cycling", 8, 35),
+    ("Q14089670", "rugby union player", "Rugby union", 10, 20),
+    ("Q11607585", "mixed martial arts fighter", "MMA", 8, 25),
+    ("Q14373094", "rugby league player", "Rugby league", 6, 10),
+    ("Q13414980", "Australian rules football player", "Australian rules football", 6, 8),
 ]
 
 # Teams: (league id, expected label, sport, how many to keep, min sitelinks)
 LEAGUES = [
-    ("Q9448", "Premier League", "Football", 20, 10),
-    ("Q324867", "La Liga", "Football", 12, 10),
-    ("Q15804", "Serie A", "Football", 12, 10),
-    ("Q82595", "Bundesliga", "Football", 12, 10),
-    ("Q13394", "Ligue 1", "Football", 8, 10),
-    ("Q18543", "Major League Soccer", "Football", 5, 5),
-    ("Q155223", "National Basketball Association", "Basketball", 30, 5),
-    ("Q1215884", "National Football League", "American football", 32, 5),
-    ("Q1163715", "Major League Baseball", "Baseball", 30, 5),
-    ("Q1215892", "National Hockey League", "Ice hockey", 25, 5),
-    ("Q396412", "Indian Premier League", "Cricket", 10, 5),
-    ("Q50783", "Australian Football League", "Australian rules football", 18, 5),
-    ("Q1140630", "National Rugby League", "Rugby league", 16, 5),
+    ("Q9448", "Premier League", "Football", 10, 10),
+    ("Q324867", "La Liga", "Football", 5, 10),
+    ("Q15804", "Serie A", "Football", 5, 10),
+    ("Q82595", "Bundesliga", "Football", 4, 10),
+    ("Q13394", "Ligue 1", "Football", 3, 10),
+    ("Q18543", "Major League Soccer", "Football", 2, 5),
+    ("Q155223", "National Basketball Association", "Basketball", 15, 5),
+    ("Q1215884", "National Football League", "American football", 16, 5),
+    ("Q1163715", "Major League Baseball", "Baseball", 12, 5),
+    ("Q1215892", "National Hockey League", "Ice hockey", 10, 5),
+    ("Q396412", "Indian Premier League", "Cricket", 5, 5),
+    ("Q50783", "Australian Football League", "Australian rules football", 6, 5),
+    ("Q1140630", "National Rugby League", "Rugby league", 5, 5),
 ]
 # The most famous football clubs anywhere (Boca, Flamengo, Al Ahly...), by sitelinks.
-WORLD_CLUBS = ("Q476028", "association football club", "Football", 25, 60)
+WORLD_CLUBS = ("Q476028", "association football club", "Football", 12, 60)
+
+# ── Fame bars: an entry must clear BOTH ─────────────────────────────────────────
+# sitelinks = Wikipedia language editions with an article; views = English Wikipedia views in the
+# last 60 days (for scale: Messi ~1.3M, LeBron James ~590k, Nadal ~295k, Lille OSC ~120k).
+ATHLETE_MIN_SITELINKS, ATHLETE_MIN_VIEWS = 25, 30_000   # ~500 English views a day
+TEAM_MIN_SITELINKS, TEAM_MIN_VIEWS = 15, 40_000
+# Sports with few language editions (they're big in a handful of countries) get a lower sitelinks bar.
+# English Wikipedia readers lean towards US sports and football, so sports followed mostly elsewhere
+# get a lower views bar (Eddy Merckx: 23k views in 60 days; Richie McCaw: 20k).
+SITELINK_BAR = {"Cricket": 18, "American football": 20, "Baseball": 20, "Rugby union": 18,
+                "Rugby league": 10, "Australian rules football": 8}
+VIEWS_BAR = {"Cycling": 12_000, "Athletics": 15_000, "Golf": 15_000, "Rugby union": 15_000,
+             "Rugby league": 15_000, "Australian rules football": 15_000}
+# Athletes should be from the last 25 years (born after ACTIVE_SINCE), unless they're true legends.
+ACTIVE_SINCE = 1965
+LEGEND_SITELINKS, LEGEND_VIEWS = 50, 40_000
 
 # Olympic medals are awards without a "sport" on them, so they're recognised by id.
 OLYMPIC_MEDALS = {"Q15243387": "Olympic gold medal", "Q15889641": "Olympic silver medal", "Q15889643": "Olympic bronze medal"}
@@ -101,6 +117,23 @@ BIG_TITLES = re.compile(r"ballon d'or|most valuable player|olympic gold|world ch
                         r"ligue 1|nba|stanley|grand final|ufc|heavyweight|world player|golden ball", re.I)
 SMALL_TITLES = re.compile(r"team of the|player of the month|of the week|dream team|all-|rookie|espy|\bxi\b|team$|"
                           r"best eleven|young player|goal of the|save of the|young|junior|youth|u-?\d\d", re.I)
+
+# What Wikidata's one-line description calls someone who mainly plays this sport ("Russian mixed martial
+# artist", "English cricketer"). It weeds out actors and politicians who once played a bit.
+DESC_MATCH = {
+    "Football": r"(?<!american )(?<!rules )(?<!gaelic )football(er| player| manager| coach)|soccer",
+    "Basketball": r"basketball", "Tennis": r"tennis",
+    "Athletics": r"sprinter|runner|athlete|hurdler|jumper|thrower|vaulter|decathlete|heptathlete|middle-distance|long-distance",
+    "Formula 1": r"racing driver|formula one", "Cricket": r"cricketer", "American football": r"american football|quarterback",
+    "Baseball": r"baseball|pitcher", "Ice hockey": r"ice hockey|hockey player", "Golf": r"golfer", "Boxing": r"\bboxer",
+    "Cycling": r"cyclist", "Rugby union": r"rugby union|rugby player", "MMA": r"mixed martial|\bmma\b|\bufc\b",
+    "Rugby league": r"rugby league", "Australian rules football": r"australian rules|australian football",
+}
+STAR_VIEWS, STAR_SITELINKS = 100_000, 60  # a star of their sport whose trophies just aren't on Wikidata
+
+# Individual awards that only the best get: "Wisden Cricketer of the Year", "AP NFL Offensive Player of the Year".
+MAJOR_AWARDS = re.compile(r"of the year|leading cricketer|sobers|hart memorial|cy young|heisman|golden boot|"
+                          r"golden shoe|laureus|footballer of the year|player of the year", re.I)
 
 # An athlete must have won something IN THEIR SPORT. Wikidata records a sport (P641) on most awards and
 # competitions; these patterns match its English name. (People often have several occupations: without
@@ -159,7 +192,7 @@ def sparql(query, retries=4):
         try:
             with urllib.request.urlopen(req, timeout=150) as r:  # the big candidate lists can take ~50 s
                 return json.load(r)["results"]["bindings"]
-        except (urllib.error.URLError, OSError) as err:  # HTTP errors, timeouts and dropped connections
+        except (urllib.error.URLError, OSError, ValueError) as err:  # HTTP errors, timeouts, dropped or cut-off answers
             retry_after = getattr(err, "headers", None) and err.headers.get("Retry-After")
             wait = int(retry_after) if retry_after and retry_after.isdigit() else 5 * 2 ** attempt
             print(f"   query failed ({err}); retrying in {wait}s")
@@ -504,23 +537,70 @@ def summarise(items, limit=2):
     return " · ".join(picked)
 
 
+# ── Stage 4b: the second fame signal ───────────────────────────────────────────
+def extras(ids):
+    """{qid: {"title": English Wikipedia title, "born": birth year, "desc": English description}}."""
+    out = {}
+    for batch in in_batches(ids, 150):
+        rows = sparql(f"""SELECT ?x ?title ?desc (MIN(YEAR(?b)) AS ?born) WHERE {{
+          VALUES ?x {{ {values(batch)} }}
+          OPTIONAL {{ ?a schema:about ?x ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?title . }}
+          OPTIONAL {{ ?x schema:description ?desc FILTER(LANG(?desc) = "en") }}
+          OPTIONAL {{ ?x wdt:P569 ?b . }}
+        }} GROUP BY ?x ?title ?desc""")
+        for r in rows:
+            out[qid(val(r, "x"))] = {"title": val(r, "title"), "desc": val(r, "desc") or "",
+                                     "born": int(val(r, "born")) if val(r, "born") else None}
+        time.sleep(1)
+    return out
+
+
+PV_DAYS = 60  # Wikipedia reports daily views for the last 60 days; that's our popularity window
+
+
+def pageviews(titles):
+    """{title: English Wikipedia views over the last 60 days}. Asked through the Wikidata query service
+    (MWAPI), because the pageviews API itself rate-limits us within a few calls. One row per article;
+    each day's figure is read separately and added up here."""
+    days = " ".join(f'?d{i} wikibase:apiOutput "pageviews/pvip[{i}]/text()" .' for i in range(1, PV_DAYS + 1))
+    blocks = [f"""{{ SERVICE wikibase:mwapi {{
+        bd:serviceParam wikibase:api "Generator" ; wikibase:endpoint "en.wikipedia.org" ; wikibase:limit 1 ;
+          mwapi:generator "allpages" ; mwapi:gapfrom {json.dumps(t)} ; mwapi:gapto {json.dumps(t)} ;
+          mwapi:prop "pageviews" ; mwapi:pvipdays "{PV_DAYS}" .
+        ?t wikibase:apiOutput mwapi:title . {days} }} }}""" for t in titles]
+    rows = sparql("SELECT * WHERE { " + " UNION ".join(blocks) + " }")
+    return {val(r, "t"): sum(int(val(r, f"d{i}") or 0) for i in range(1, PV_DAYS + 1)) for r in rows}
+
+
 # ── Stage 5: fame, ranking and difficulty ──────────────────────────────────────
-def fame_score(sitelinks, n_achievements):
-    # Sitelinks do most of the work; achievements add a bonus that flattens out (log) so award
-    # collectors don't outrank genuinely famous people.
-    return round(sitelinks + 8 * math.log2(1 + n_achievements), 1)
+def fame_score(sitelinks, views, n_achievements):
+    """One number from both fame signals. The geometric mean means you need BOTH to score well:
+    lots of language editions but few readers (or the reverse) stays low. Achievements add a small,
+    flattening bonus. Roughly: Messi ~370, a solid star ~100, a fan favourite ~40."""
+    both = math.sqrt(min(sitelinks, 300) / 100 * min(views, 2_000_000) / 300_000)
+    return round(100 * both + 5 * math.log2(1 + n_achievements), 1)
 
 
-def set_difficulty(group):
-    """Within one sport, the most famous 40% are difficulty 1, the next 40% are 2, the rest 3.
-    Anyone with 150+ sitelinks is a household name (1) whatever their sport."""
-    group.sort(key=lambda e: -e["fame"])
-    n = len(group)
-    for i, e in enumerate(group):
-        e["difficulty"] = 1 if i < n * 0.4 or e["_sitelinks"] >= 150 else 2 if i < n * 0.8 else 3
+def is_major(items, views=0):
+    """Has won something big: a headline title or individual award, an Olympic medal, a hall of fame, or a
+    long list of honours. Wikidata's trophy records are patchy (Tom Brady has no Super Bowls on file), so a
+    huge readership plus any honour in their sport also counts."""
+    return any((BIG_TITLES.search(i[0]) or MAJOR_AWARDS.search(i[0])) and not SMALL_TITLES.search(i[0])
+               or i[3] == "olympic" or re.search(r"hall of fame", i[0], re.I) for i in items) \
+        or sum(i[1] for i in items) >= 5 or (items and views >= 250_000)
 
 
-def build_group(kind, cands, sport, keep, details, achieved, need_achievement):
+def set_difficulty(entries):
+    """Across the whole pool: the most famous 35% are 1 (household names), the next 40% are 2
+    (well known), the rest 3 (fans will know)."""
+    entries.sort(key=lambda e: -e["fame"])
+    n = len(entries)
+    for i, e in enumerate(entries):
+        e["difficulty"] = 1 if i < n * 0.35 else 2 if i < n * 0.75 else 3
+
+
+def build_group(kind, cands, sport, keep, details, achieved, need_achievement, info, views, why_out):
+    """The entries for one sport (or league) that clear every bar, most famous first, capped at `keep`."""
     group = []
     for q, sl in cands:
         d = details.get(q)
@@ -528,15 +608,29 @@ def build_group(kind, cands, sport, keep, details, achieved, need_achievement):
             continue
         items = in_sport(achieved.get(q, []), sport)
         count = sum(i[1] for i in items)
-        if need_achievement and count == 0:
+        title = (info.get(q) or {}).get("title")
+        pv = views.get(title, 0) if title else 0
+        born = (info.get(q) or {}).get("born")
+        min_sl, min_pv = (ATHLETE_MIN_SITELINKS, ATHLETE_MIN_VIEWS) if kind == "athlete" else (TEAM_MIN_SITELINKS, TEAM_MIN_VIEWS)
+        min_sl = min(min_sl, SITELINK_BAR.get(sport, min_sl))
+        min_pv = min(min_pv, VIEWS_BAR.get(sport, min_pv))
+        reason = None
+        if sl < min_sl or pv < min_pv:
+            reason = f"fame ({sl} editions, {pv:,} views)"
+        elif need_achievement and not is_major(items, pv) and not (
+                re.search(DESC_MATCH.get(sport, "^$"), (info.get(q) or {}).get("desc", ""), re.I)
+                and (pv >= STAR_VIEWS or sl >= STAR_SITELINKS)):
+            reason = "no major win" if count else "no win in their sport"
+        elif kind == "athlete" and born and born < ACTIVE_SINCE and not (sl >= LEGEND_SITELINKS or pv >= LEGEND_VIEWS):
+            reason = f"born {born}, not a legend"
+        if reason:
+            why_out.append((d["name"], sport, reason))
             continue
         d = {k: v for k, v in d.items() if k != "_sl"}
-        group.append({"id": f"wd-{q}", **d, "sport": sport, "type": kind, "_sitelinks": sl,
-                      "fame": fame_score(sl, count), "achievement": summarise(items), "_count": count})
+        group.append({"id": f"wd-{q}", **d, "sport": sport, "type": kind, "_sitelinks": sl, "_views": pv,
+                      "fame": fame_score(sl, pv, count), "achievement": summarise(items), "_count": count})
     group.sort(key=lambda e: -e["fame"])
-    group = group[:keep]
-    set_difficulty(group)
-    return group
+    return group[:keep]
 
 
 # ── Stage 7: pictures ──────────────────────────────────────────────────────────
@@ -690,33 +784,44 @@ def main():
             d["radius_km"] = radius_km(area, pop)
         print("Achievements…")
         achieved = batched("achieve", athlete_ids + team_ids, 20, achievements, fresh)
+        print("Wikipedia titles and birth years…")
+        info = batched("extras2", athlete_ids + team_ids, 150, extras, fresh)
+        titles = sorted({i["title"] for i in info.values() if i.get("title")})
+        print(f"Pageviews for {len(titles)} articles…")
+        views = batched("views", titles, 15, pageviews, fresh)
     except QueryFailed:
         raise SystemExit("Wikidata is too busy right now. Every finished batch is cached; run the script again later.")
 
-    # Stage 5
-    entries, seen = [], set()
+    # Stage 5: every candidate (including your "include" ids) must clear the fame and achievement bars.
+    # Add "force": true to an include to let it in regardless.
+    entries, seen, why_out = [], set(), []
+    sl_of = {q: d.get("_sl", 0) for q, d in details.items()}
+    for q, inc in includes.items():  # includes join their sport's candidate list
+        for g in groups:
+            if g[0] == inc["type"] and g[1] == inc["sport"] and q not in {c for c, _ in g[3]}:
+                g[3].append([q, sl_of.get(q, 0)])
+                break
     for kind, sport, keep, cands, need in groups:
         cands = [c for c in cands if c[0] not in excluded and c[0] not in seen]
-        group = build_group(kind, cands, sport, keep, details, achieved, need)
+        group = build_group(kind, cands, sport, keep, details, achieved, need, info, views, why_out)
         seen.update(e["id"][3:] for e in group)
         print(f"   {sport} {kind}s: kept {len(group)}")
         entries += group
-
-    # Stage 6: includes (fame is still worked out for them, so the review list shows where they sit)
-    for q, inc in includes.items():
-        if q in seen or q not in details:
-            if q not in details:
-                print(f"   include {q} ({inc.get('note', '')}): no birthplace/stadium coordinates on Wikidata, skipped")
-            continue
-        items = in_sport(achieved.get(q, []), inc["sport"])
-        d = dict(details[q])
-        sl = d.pop("_sl", 0)
-        e = {"id": f"wd-{q}", **d, "sport": inc["sport"], "type": inc["type"], "_sitelinks": sl,
-             "fame": fame_score(sl, sum(i[1] for i in items)), "achievement": summarise(items),
-             "difficulty": inc.get("difficulty", 1), "_count": sum(i[1] for i in items)}
-        entries.append(e)
-        seen.add(q)
-
+    for q, inc in includes.items():  # forced includes skip the bars
+        if inc.get("force") and q not in seen and q in details:
+            d = {k: v for k, v in details[q].items() if k != "_sl"}
+            items = in_sport(achieved.get(q, []), inc["sport"])
+            pv = views.get((info.get(q) or {}).get("title"), 0)
+            entries.append({"id": f"wd-{q}", **d, "sport": inc["sport"], "type": inc["type"], "_sitelinks": sl_of.get(q, 0), "_views": pv,
+                            "fame": fame_score(sl_of.get(q, 0), pv, sum(i[1] for i in items)), "achievement": summarise(items), "_count": 0})
+            seen.add(q)
+    set_difficulty(entries)
+    (CACHE / "left-out.json").write_text(json.dumps(why_out, ensure_ascii=False))  # for tuning the bars
+    reasons = {}
+    for _, _, r in why_out:
+        key = r.split(" (")[0].split(",")[0] if not r.startswith("born") else "born before 1965, not a legend"
+        reasons[key] = reasons.get(key, 0) + 1
+    print("Left out:", ", ".join(f"{n} for {k}" for k, n in sorted(reasons.items(), key=lambda x: -x[1])))
     try:
         flagged = review_flags(entries)
     except QueryFailed:
@@ -727,8 +832,8 @@ def main():
             if e["id"] in flagged:
                 print(f"   {e['id'][3:]:<10} {e['name']} ({e['sport']}): {', '.join(flagged[e['id']])}")
 
-    print("\nPictures…")
-    attach_images(entries, fresh, set(overrides.get("no_image", [])))
+    for e in entries:
+        e.pop("_file", None)  # pictures are chosen separately by pick_images.py (run next)
 
     # Wikidata sometimes has no country for a birthplace: take it from the country shapes instead.
     missing = [e for e in entries if not e["country"]]
@@ -751,7 +856,7 @@ def main():
 
     write_review(final)
     for e in final:
-        for k in ("_sitelinks", "_count"):
+        for k in ("_sitelinks", "_count", "_views"):
             e.pop(k, None)
         if not e.get("achievement"):
             e.pop("achievement", None)
@@ -769,7 +874,8 @@ def main():
         print("Dry run: nothing written.")
         return
     OUT.write_text(json.dumps(final, ensure_ascii=False, indent=1) + "\n")
-    print(f"Wrote {OUT} and {REVIEW}")
+    (OUT.parent / "reserve.json").write_text("[]\n")  # the reserve belongs to the old list; pick_images.py refills it
+    print(f"Wrote {OUT} and {REVIEW}. Next: python3 scripts/pick_images.py (pictures).")
 
 
 def write_review(entries):
