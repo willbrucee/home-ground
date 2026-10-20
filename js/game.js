@@ -6,7 +6,7 @@ import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
 import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
-import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, biggestSportsUnit, sportsDistance } from "./units.js";
+import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, biggestSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
 
 const $ = (s) => document.querySelector(s);
 
@@ -103,7 +103,7 @@ async function lockIn() {
   const pts = pointsFor(km, hintUsed);
   const before = total();
   const tier = tierFor(km);
-  results.push({ id: it.id, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km) });
+  results.push({ id: it.id, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
   if (mode === "daily") store.set(dailyKey, results);
   phase = "reveal";
   setFolded(true); // fold the ticket to just the name, to make room for the result
@@ -202,7 +202,7 @@ function renderDock() {
         <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
         <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>points${r.hint ? " · hint" : ""}</span></div>
         <div class="stamp">${t.name}</div>
-        <div class="sports">${r.inside ? "" : esc(sportsDistance(r.km, r.sports))}</div>
+        <div class="sports">${r.inside ? "" : `${esc(sportsDistance(r.km, r.sports))}<small>${esc(cityFact(r.km, it.city, it.radius_km))}</small>`}</div>
         <div class="place">${esc(it.city)} <small>${esc(it.country)}${it.hint ? ` · ${esc(it.hint.replace(/^Home ground: /, ""))}` : ""}</small></div>
         <div class="line">${r.inside ? "Inside the city limits. " : ""}${esc(r.line || "")}</div>
         <button class="go next" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>
@@ -270,7 +270,7 @@ function shareText() {
     tiers.map((t) => t.share).join(""),
     tiers.map((t) => t.name).join(" · "),
     results.map((r) => formatDistance(r.km)).join(" · "),
-    km > 0 ? `${formatDistance(km)} off in total, ${sportsDistance(km, biggestSportsUnit(km))}` : "Every pin inside the city.",
+    km > 0 ? `${formatDistance(km)} off in total, ${sportsDistance(km, biggestSportsUnit(km), { size: false })}` : "Every pin inside the city.",
   ].join("\n");
 }
 
@@ -436,7 +436,7 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catc
 
 // ── start ───────────────────────────────────────────────
 async function boot() {
-  const [playersRes, countriesRes] = await Promise.all([fetch("data/players.json"), fetch("data/countries.geojson")]);
+  const [playersRes, countriesRes] = await Promise.all([fetch("data/players.json"), fetch("data/countries.geojson"), loadFacts()]);
   players = await playersRes.json();
   for (const f of (await countriesRes.json()).features) {
     const { name, aliases, fit } = f.properties;

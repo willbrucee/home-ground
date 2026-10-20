@@ -1,0 +1,549 @@
+{
+ "_readme": "Distance units for the result card. m = length in metres (always from the official figure in 'source'). sport = the round's sport this unit suits best. Edit freely; keys must stay unique.",
+ "units": [
+  {
+   "key": "pitch",
+   "sport": "Football",
+   "m": 105,
+   "one": "football pitch",
+   "many": "football pitches",
+   "source": "FIFA Stadium Guidelines: recommended pitch 105 m x 68 m"
+  },
+  {
+   "key": "pitch-wide",
+   "sport": "Football",
+   "m": 68,
+   "one": "football pitch width",
+   "many": "football pitch widths",
+   "source": "FIFA Stadium Guidelines: recommended pitch 105 m x 68 m"
+  },
+  {
+   "key": "goal",
+   "sport": "Football",
+   "m": 7.32,
+   "one": "football goal",
+   "many": "football goals",
+   "source": "IFAB Laws of the Game, Law 1: posts 7.32 m (8 yd) apart"
+  },
+  {
+   "key": "penalty",
+   "sport": "Football",
+   "m": 11,
+   "one": "penalty kick",
+   "many": "penalty kicks",
+   "source": "IFAB Laws of the Game, Law 1: penalty mark 11 m (12 yd) from the goal line"
+  },
+  {
+   "key": "box",
+   "sport": "Football",
+   "m": 16.5,
+   "one": "penalty area",
+   "many": "penalty areas",
+   "source": "IFAB Laws of the Game, Law 1: penalty area 16.5 m (18 yd) deep"
+  },
+  {
+   "key": "circle",
+   "sport": "Football",
+   "m": 18.3,
+   "one": "centre circle",
+   "many": "centre circles",
+   "source": "IFAB Laws of the Game, Law 1: centre circle radius 9.15 m, so 18.3 m across"
+  },
+  {
+   "key": "wembley-arch",
+   "sport": "Football",
+   "m": 315,
+   "one": "Wembley arch",
+   "many": "Wembley arches",
+   "source": "Wembley Stadium: the arch spans 315 m"
+  },
+  {
+   "key": "nba-court",
+   "sport": "Basketball",
+   "m": 28.65,
+   "one": "NBA court",
+   "many": "NBA courts",
+   "source": "NBA Official Rules, Rule 1: court 94 ft x 50 ft"
+  },
+  {
+   "key": "nba-width",
+   "sport": "Basketball",
+   "m": 15.24,
+   "one": "NBA court width",
+   "many": "NBA court widths",
+   "source": "NBA Official Rules, Rule 1: court 94 ft x 50 ft"
+  },
+  {
+   "key": "fiba-court",
+   "sport": "Basketball",
+   "m": 28,
+   "one": "FIBA court",
+   "many": "FIBA courts",
+   "source": "FIBA Official Basketball Rules, Art. 2: court 28 m x 15 m"
+  },
+  {
+   "key": "hoop",
+   "sport": "Basketball",
+   "m": 3.05,
+   "one": "basketball hoop height",
+   "many": "basketball hoop heights",
+   "source": "NBA and FIBA rules: rim 10 ft (3.05 m) above the floor"
+  },
+  {
+   "key": "three",
+   "sport": "Basketball",
+   "m": 7.24,
+   "one": "NBA three-point shot",
+   "many": "NBA three-point shots",
+   "source": "NBA Official Rules, Rule 1: three-point line 23 ft 9 in from the basket at the top of the arc"
+  },
+  {
+   "key": "free-throw",
+   "sport": "Basketball",
+   "m": 4.57,
+   "one": "free throw",
+   "many": "free throws",
+   "source": "NBA Official Rules, Rule 1: free-throw line 15 ft from the backboard"
+  },
+  {
+   "key": "tennis-court",
+   "sport": "Tennis",
+   "m": 23.77,
+   "one": "tennis court",
+   "many": "tennis courts",
+   "source": "ITF Rules of Tennis, Rule 1: court 23.77 m (78 ft) long"
+  },
+  {
+   "key": "tennis-wide",
+   "sport": "Tennis",
+   "m": 10.97,
+   "one": "doubles court width",
+   "many": "doubles court widths",
+   "source": "ITF Rules of Tennis, Rule 1: doubles court 10.97 m (36 ft) wide"
+  },
+  {
+   "key": "net",
+   "sport": "Tennis",
+   "m": 0.914,
+   "one": "tennis net height",
+   "many": "tennis net heights",
+   "source": "ITF Rules of Tennis, Rule 1: net 0.914 m (3 ft) high at the centre"
+  },
+  {
+   "key": "service",
+   "sport": "Tennis",
+   "m": 6.4,
+   "one": "service box",
+   "many": "service boxes",
+   "source": "ITF Rules of Tennis, Rule 1: service line 6.40 m (21 ft) from the net"
+  },
+  {
+   "key": "lap",
+   "sport": "Athletics",
+   "m": 400,
+   "one": "lap of a running track",
+   "many": "laps of a running track",
+   "source": "World Athletics Technical Rules: standard track 400 m"
+  },
+  {
+   "key": "hundred",
+   "sport": "Athletics",
+   "m": 100,
+   "one": "100 m sprint",
+   "many": "100 m sprints",
+   "source": "The 100 metres race distance"
+  },
+  {
+   "key": "marathon",
+   "sport": "Athletics",
+   "m": 42195,
+   "one": "marathon",
+   "many": "marathons",
+   "source": "World Athletics: marathon 42.195 km"
+  },
+  {
+   "key": "half",
+   "sport": "Athletics",
+   "m": 21097.5,
+   "one": "half marathon",
+   "many": "half marathons",
+   "source": "World Athletics: half marathon 21.0975 km"
+  },
+  {
+   "key": "steeple",
+   "sport": "Athletics",
+   "m": 3000,
+   "one": "steeplechase",
+   "many": "steeplechases",
+   "source": "The 3000 m steeplechase race distance"
+  },
+  {
+   "key": "long-jump",
+   "sport": "Athletics",
+   "m": 8.95,
+   "one": "Mike Powell long jump",
+   "many": "Mike Powell long jumps",
+   "source": "Men's long jump world record: 8.95 m, Mike Powell, Tokyo 1991"
+  },
+  {
+   "key": "high-jump",
+   "sport": "Athletics",
+   "m": 2.45,
+   "one": "Sotomayor high jump",
+   "many": "Sotomayor high jumps",
+   "source": "Men's high jump world record: 2.45 m, Javier Sotomayor, Salamanca 1993"
+  },
+  {
+   "key": "triple",
+   "sport": "Athletics",
+   "m": 18.29,
+   "one": "Jonathan Edwards triple jump",
+   "many": "Jonathan Edwards triple jumps",
+   "source": "Men's triple jump world record: 18.29 m, Jonathan Edwards, Gothenburg 1995"
+  },
+  {
+   "key": "javelin",
+   "sport": "Athletics",
+   "m": 98.48,
+   "one": "Jan Železný javelin throw",
+   "many": "Jan Železný javelin throws",
+   "source": "Men's javelin world record: 98.48 m, Jan Železný, Jena 1996"
+  },
+  {
+   "key": "hammer",
+   "sport": "Athletics",
+   "m": 86.74,
+   "one": "Yuriy Sedykh hammer throw",
+   "many": "Yuriy Sedykh hammer throws",
+   "source": "Men's hammer world record: 86.74 m, Yuriy Sedykh, Stuttgart 1986"
+  },
+  {
+   "key": "silverstone",
+   "sport": "Formula 1",
+   "m": 5891,
+   "one": "lap of Silverstone",
+   "many": "laps of Silverstone",
+   "source": "Silverstone Grand Prix circuit: 5.891 km"
+  },
+  {
+   "key": "monaco",
+   "sport": "Formula 1",
+   "m": 3337,
+   "one": "lap of Monaco",
+   "many": "laps of Monaco",
+   "source": "Circuit de Monaco: 3.337 km"
+  },
+  {
+   "key": "spa",
+   "sport": "Formula 1",
+   "m": 7004,
+   "one": "lap of Spa",
+   "many": "laps of Spa",
+   "source": "Circuit de Spa-Francorchamps: 7.004 km"
+  },
+  {
+   "key": "monza",
+   "sport": "Formula 1",
+   "m": 5793,
+   "one": "lap of Monza",
+   "many": "laps of Monza",
+   "source": "Autodromo Nazionale Monza: 5.793 km"
+  },
+  {
+   "key": "suzuka",
+   "sport": "Formula 1",
+   "m": 5807,
+   "one": "lap of Suzuka",
+   "many": "laps of Suzuka",
+   "source": "Suzuka International Racing Course: 5.807 km"
+  },
+  {
+   "key": "interlagos",
+   "sport": "Formula 1",
+   "m": 4309,
+   "one": "lap of Interlagos",
+   "many": "laps of Interlagos",
+   "source": "Autódromo José Carlos Pace (Interlagos): 4.309 km"
+  },
+  {
+   "key": "f1race",
+   "sport": "Formula 1",
+   "m": 305000,
+   "one": "Formula 1 race",
+   "many": "Formula 1 races",
+   "source": "FIA F1 Sporting Regulations: race distance is the fewest laps over 305 km (Monaco excepted)"
+  },
+  {
+   "key": "cricket-pitch",
+   "sport": "Cricket",
+   "m": 20.12,
+   "one": "cricket pitch",
+   "many": "cricket pitches",
+   "source": "MCC Laws of Cricket, Law 6: pitch 22 yd (20.12 m) between the stumps"
+  },
+  {
+   "key": "stumps",
+   "sport": "Cricket",
+   "m": 0.711,
+   "one": "set of stumps",
+   "many": "sets of stumps",
+   "source": "MCC Laws of Cricket, Law 8: stumps 28 in (71.1 cm) high"
+  },
+  {
+   "key": "gridiron",
+   "sport": "American football",
+   "m": 91.44,
+   "one": "football field",
+   "many": "football fields",
+   "source": "NFL Rule 1: 100 yd between the goal lines"
+  },
+  {
+   "key": "gridiron-full",
+   "sport": "American football",
+   "m": 109.73,
+   "one": "football field, end zones and all",
+   "many": "football fields, end zones and all",
+   "source": "NFL Rule 1: 120 yd including both 10 yd end zones"
+  },
+  {
+   "key": "first-down",
+   "sport": "American football",
+   "m": 9.144,
+   "one": "first down",
+   "many": "first downs",
+   "source": "NFL rules: 10 yd to gain for a first down"
+  },
+  {
+   "key": "gridiron-wide",
+   "sport": "American football",
+   "m": 48.77,
+   "one": "football field width",
+   "many": "football field widths",
+   "source": "NFL Rule 1: field 160 ft (53 1/3 yd) wide"
+  },
+  {
+   "key": "bases",
+   "sport": "Baseball",
+   "m": 27.43,
+   "one": "run between bases",
+   "many": "runs between bases",
+   "source": "MLB Official Baseball Rules: bases 90 ft apart"
+  },
+  {
+   "key": "mound",
+   "sport": "Baseball",
+   "m": 18.44,
+   "one": "pitch from the mound",
+   "many": "pitches from the mound",
+   "source": "MLB Official Baseball Rules: rubber 60 ft 6 in from home plate"
+  },
+  {
+   "key": "monster",
+   "sport": "Baseball",
+   "m": 11.33,
+   "one": "Green Monster",
+   "many": "Green Monsters",
+   "source": "Fenway Park: the Green Monster is 37 ft 2 in high"
+  },
+  {
+   "key": "rink",
+   "sport": "Ice hockey",
+   "m": 60.96,
+   "one": "NHL rink",
+   "many": "NHL rinks",
+   "source": "NHL Official Rules, Rule 1: rink 200 ft x 85 ft"
+  },
+  {
+   "key": "rink-wide",
+   "sport": "Ice hockey",
+   "m": 25.91,
+   "one": "NHL rink width",
+   "many": "NHL rink widths",
+   "source": "NHL Official Rules, Rule 1: rink 200 ft x 85 ft"
+  },
+  {
+   "key": "hockey-goal",
+   "sport": "Ice hockey",
+   "m": 1.83,
+   "one": "hockey net",
+   "many": "hockey nets",
+   "source": "NHL Official Rules, Rule 2: goal posts 6 ft apart"
+  },
+  {
+   "key": "golf-hole",
+   "sport": "Golf",
+   "m": 0.108,
+   "one": "golf hole",
+   "many": "golf holes",
+   "source": "R&A/USGA Rules of Golf: hole 4.25 in (108 mm) across"
+  },
+  {
+   "key": "golf-ball",
+   "sport": "Golf",
+   "m": 0.04267,
+   "one": "golf ball",
+   "many": "golf balls",
+   "source": "R&A/USGA Equipment Rules: ball at least 1.68 in (42.67 mm) across"
+  },
+  {
+   "key": "ring",
+   "sport": "Boxing",
+   "m": 6.1,
+   "one": "boxing ring",
+   "many": "boxing rings",
+   "source": "A 20 ft championship ring (inside the ropes); rules allow 16 to 24 ft"
+  },
+  {
+   "key": "velodrome",
+   "sport": "Cycling",
+   "m": 250,
+   "one": "lap of a velodrome",
+   "many": "laps of a velodrome",
+   "source": "UCI: Olympic and world championship tracks are 250 m"
+  },
+  {
+   "key": "alpe",
+   "sport": "Cycling",
+   "m": 13800,
+   "one": "climb up Alpe d'Huez",
+   "many": "climbs up Alpe d'Huez",
+   "source": "Alpe d'Huez from Le Bourg-d'Oisans: 13.8 km and 21 hairpins"
+  },
+  {
+   "key": "rugby-pitch",
+   "sport": "Rugby union",
+   "m": 100,
+   "one": "rugby pitch",
+   "many": "rugby pitches",
+   "source": "World Rugby Law 1: up to 100 m between the try lines"
+  },
+  {
+   "key": "twenty-two",
+   "sport": "Rugby union",
+   "m": 22,
+   "one": "22",
+   "many": "22s",
+   "source": "World Rugby Law 1: the 22 m line"
+  },
+  {
+   "key": "rugby-posts",
+   "sport": "Rugby union",
+   "m": 5.6,
+   "one": "rugby posts width",
+   "many": "rugby posts widths",
+   "source": "World Rugby Law 1: posts 5.6 m apart, crossbar 3 m up"
+  },
+  {
+   "key": "league-pitch",
+   "sport": "Rugby league",
+   "m": 100,
+   "one": "rugby league field",
+   "many": "rugby league fields",
+   "source": "International Rugby League Laws: 100 m between the try lines"
+  },
+  {
+   "key": "league-posts",
+   "sport": "Rugby league",
+   "m": 5.5,
+   "one": "rugby league posts width",
+   "many": "rugby league posts widths",
+   "source": "International Rugby League Laws: posts 5.5 m apart"
+  },
+  {
+   "key": "afl-posts",
+   "sport": "Australian rules football",
+   "m": 6.4,
+   "one": "AFL goal",
+   "many": "AFL goals",
+   "source": "Laws of Australian Football: goal posts 6.4 m apart"
+  },
+  {
+   "key": "centre-square",
+   "sport": "Australian rules football",
+   "m": 50,
+   "one": "centre square",
+   "many": "centre squares",
+   "source": "Laws of Australian Football: centre square 50 m x 50 m"
+  },
+  {
+   "key": "octagon",
+   "sport": "MMA",
+   "m": 9.14,
+   "one": "UFC Octagon",
+   "many": "UFC Octagons",
+   "source": "UFC: the large Octagon is 30 ft across"
+  },
+  {
+   "key": "pool",
+   "sport": "Swimming",
+   "m": 50,
+   "one": "Olympic pool length",
+   "many": "Olympic pool lengths",
+   "source": "World Aquatics: Olympic pool 50 m"
+  },
+  {
+   "key": "oche",
+   "sport": "Darts",
+   "m": 2.37,
+   "one": "darts throw",
+   "many": "darts throws",
+   "source": "WDF/PDC: oche 2.37 m (7 ft 9 1/4 in) from the board"
+  },
+  {
+   "key": "snooker",
+   "sport": "Snooker",
+   "m": 3.569,
+   "one": "snooker table",
+   "many": "snooker tables",
+   "source": "WPBSA: playing area 3569 mm x 1778 mm"
+  },
+  {
+   "key": "bowling",
+   "sport": "Bowling",
+   "m": 18.29,
+   "one": "bowling lane",
+   "many": "bowling lanes",
+   "source": "USBC: 60 ft from the foul line to the head pin"
+  },
+  {
+   "key": "badminton",
+   "sport": "Badminton",
+   "m": 13.4,
+   "one": "badminton court",
+   "many": "badminton courts",
+   "source": "BWF Laws: court 13.4 m long"
+  },
+  {
+   "key": "volleyball",
+   "sport": "Volleyball",
+   "m": 18,
+   "one": "volleyball court",
+   "many": "volleyball courts",
+   "source": "FIVB rules: court 18 m x 9 m"
+  },
+  {
+   "key": "table-tennis",
+   "sport": "Table tennis",
+   "m": 2.74,
+   "one": "table tennis table",
+   "many": "table tennis tables",
+   "source": "ITTF: table 2.74 m long"
+  },
+  {
+   "key": "squash",
+   "sport": "Squash",
+   "m": 9.75,
+   "one": "squash court",
+   "many": "squash courts",
+   "source": "World Squash: court 9.75 m long"
+  },
+  {
+   "key": "handball",
+   "sport": "Handball",
+   "m": 40,
+   "one": "handball court",
+   "many": "handball courts",
+   "source": "IHF rules: court 40 m x 20 m"
+  }
+ ]
+}
