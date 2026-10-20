@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- Source for brand/og-image.png (1200×630 share card). Rendered with a headless browser. -->
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,800;0,900;1,800&family=Barlow:wght@600&display=swap">
+<style>
+  :root { --ink: #0e1714; --ink-2: #18251f; --ink-line: #2c3d35; --chalk: #f4efe4; --gold: #ffc928; --pitch: #1f6b42; }
+  html, body { margin: 0; }
+  body { width: 1200px; height: 630px; background: var(--ink); color: var(--chalk); font-family: "Barlow", sans-serif; overflow: hidden; position: relative; }
+  /* faint pitch markings behind everything */
+  .lines { position: absolute; inset: 40px; border: 3px solid var(--ink-line); }
+  .lines::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; border-left: 3px solid var(--ink-line); }
+  .lines::after { content: ""; position: absolute; left: 50%; top: 50%; width: 180px; height: 180px; margin: -93px 0 0 -93px; border: 3px solid var(--ink-line); border-radius: 50%; }
+  .wrap { position: absolute; inset: 0; display: flex; align-items: center; gap: 56px; padding: 0 90px 40px; }
+  .logo { width: 300px; height: 300px; flex: none; filter: drop-shadow(10px 10px 0 #000a); }
+  .tape { display: inline-block; padding: 6px 14px; background: var(--gold); color: var(--ink); font: italic 800 30px "Barlow Condensed"; text-transform: uppercase; transform: rotate(-2deg); }
+  h1 { margin: 16px 0 10px; font: 900 168px/0.82 "Barlow Condensed"; text-transform: uppercase; letter-spacing: -0.01em; }
+  p { margin: 0; font: 600 32px/1.25 "Barlow"; color: #c9d3cc; max-width: 640px; }
+  .tiers { position: absolute; left: 0; right: 0; bottom: 0; height: 22px; display: flex; }
+  .tiers i { flex: 1; }
+</style></head>
+<body>
+  <div class="lines"></div>
+  <div class="wrap">
+    <img class="logo" src="logo.svg" alt="">
+    <div>
+      <span class="tape">Daily sports geography</span>
+      <h1>Home<br>Ground</h1>
+      <p>Five famous names a day. Pin the city each one calls home.</p>
+    </div>
+  </div>
+  <div class="tiers"><i style="background:#ffc928"></i><i style="background:#ff5a2a"></i><i style="background:#ff8f24"></i><i style="background:#f2d64b"></i><i style="background:#86cdf3"></i><i style="background:#4a94ef"></i><i style="background:#e3f4ff"></i></div>
+</body></html>

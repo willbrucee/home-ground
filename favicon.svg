@@ -1,0 +1,10 @@
+<!-- Home Ground logo (option C, "Pitch plan"): a top-down pitch with penalty boxes; the pin breaks out of
+     the frame from the centre spot. Colours: ink #0e1714, gold #ffc928 (see palette.html). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="3" y="3" width="58" height="58" rx="12" fill="#0e1714"/>
+  <rect x="9" y="22" width="46" height="31" rx="2" fill="none" stroke="#ffc928" stroke-width="2.5"/>
+  <path d="M32 22v31M9 31h6v13H9M55 31h-6v13h6" fill="none" stroke="#ffc928" stroke-opacity="0.5" stroke-width="2"/>
+  <circle cx="32" cy="37.5" r="6" fill="none" stroke="#ffc928" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M32 7c-6.1 0-11 4.9-11 10.9 0 8.1 11 19.6 11 19.6s11-11.5 11-19.6C43 11.9 38.1 7 32 7Z" fill="#ffc928" stroke="#0e1714" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="32" cy="18" r="4" fill="#0e1714"/>
+</svg>

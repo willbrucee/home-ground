@@ -74,7 +74,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   background: var(--ink); border-bottom: 3px solid var(--gold);
 }
 .brand { display: flex; align-items: center; gap: 9px; color: var(--gold); min-width: 0; }
-.brand .mark { width: 30px; height: 30px; flex: none; }
+.brand .mark { width: 34px; height: 34px; flex: none; }
+.brand .mark .tile { fill: var(--ink-2); stroke: var(--ink-line); stroke-width: 1.5; }
 .wordmark { font-family: var(--f-display); font-weight: 900; font-size: 24px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--chalk); line-height: 1; white-space: nowrap; }
 .dayno { font-family: var(--f-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mute-ink); white-space: nowrap; }
 
@@ -307,7 +308,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   :root { --bar-h: 52px; }
   .bar { gap: 8px; }
   .wordmark, .dayno { display: none; }
-  .brand .mark { width: 28px; height: 28px; }
+  .brand .mark { width: 30px; height: 30px; }
   .chip { width: 26px; height: 32px; font-size: 18px; }
   .readout { min-width: 0; padding: 3px 8px 4px; }
   .readout b { font-size: 21px; }
@@ -445,6 +446,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   grid-template-areas: "top top" "map rows" "calls rows" "cards cards" "share share"; align-items: start; }
 .ft-top { grid-area: top; display: grid; grid-template-columns: 1fr auto; gap: 18px 28px; align-items: end; border-bottom: 3px solid var(--ink-line); padding-bottom: 20px; }
 .ft-head small { font: 700 13px var(--f-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute-ink); }
+.ft-brand { display: flex; align-items: center; gap: 10px; }
 .ft-head h2 { margin: 2px 0 6px; font: 900 clamp(64px, 11vw, 150px)/0.8 var(--f-display); text-transform: uppercase; letter-spacing: -0.01em; }
 .ft-score { display: flex; align-items: baseline; gap: 12px; }
 .ft-score b { font: 900 clamp(60px, 8vw, 110px)/0.85 var(--f-display); color: var(--gold); font-variant-numeric: tabular-nums; }

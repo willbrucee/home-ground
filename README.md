@@ -104,30 +104,40 @@ Then run the build (below) and commit the new `players.json`.
 
 ### Rebuilding from Wikidata
 
+Run these in order:
+
 ```sh
-python3 scripts/build_players.py --dry-run   # fetch + validate, write nothing
-python3 scripts/build_players.py             # fetch + validate + write data/players.json and data/review.csv
-python3 scripts/build_players.py --fresh     # ignore the cache and fetch everything again
+python3 scripts/build_players.py    # who's in: data/players.json and data/review.csv (resets data/reserve.json)
+python3 scripts/pick_images.py      # a picture for each; entries without a good one go to data/reserve.json
+python3 scripts/build_vault.py      # the Vault's facts: data/vault.json
 ```
 
-Wikidata's query service is often busy. The script retries, and it caches every answer (in small
-batches) in `scripts/.cache/`, so if it stops, just run it again: it carries on where it left off.
-Delete `scripts/.cache/` (or use `--fresh`) when you want up-to-date data.
+Add `--fresh` to any of them to ignore the cache. `scripts/build_places.py` (the town list for the Full time
+screen, from GeoNames cities15000) only needs running if you want a newer copy.
 
-**Who gets in.** For each sport, the most famous people by "sitelinks" (the number of Wikipedia
-language editions with an article on them: Messi has 200+, a journeyman defender maybe 10), above a
-minimum that's set per sport. Then:
+Wikidata's query service is often busy. The scripts retry, and cache every answer (in small batches) in
+`scripts/.cache/`, so if one stops, just run it again: it carries on where it left off. Wikipedia's own
+APIs rate-limit us quickly, so pageviews and article intros are asked for through the Wikidata query
+service (its MWAPI bridge).
 
-- **Achievement**: athletes need at least one sports award (Wikidata P166: MVPs, Ballon d'Or, Olympic
-  medals, halls of fame…) or a "winner" record (P1346: championships, Grand Prix, tournaments).
-  Anyone with neither is dropped.
-- **Fame score** = sitelinks + 8 × log2(1 + number of achievements). The log keeps award collectors
-  from outranking genuinely famous people.
-- **Balance**: each sport keeps only its top N by fame, so no sport dominates. Teams come from each
-  sport's top leagues (plus the world's most famous football clubs), ranked the same way, so title
-  winners rise to the top.
-- **Difficulty**: within each sport, the top 40% by fame are 1, the next 40% are 2, the rest 3.
-  Anyone with 150+ sitelinks is a 1 whatever the sport.
+**Who gets in.** Candidates are each sport's best-known people and its top leagues' teams. To stay in,
+an entry must clear **both** fame bars:
+
+- **Sitelinks**: Wikipedia language editions with an article on them (Messi 227). Athletes 25+, teams 15+,
+  lower for sports big in only a few countries (`SITELINK_BAR`).
+- **Pageviews**: English Wikipedia views over the **last 60 days** (Wikipedia only reports 60 days through
+  this route). Athletes 30,000+, teams 40,000+, lower for sports mostly followed outside the English-speaking
+  world (`VIEWS_BAR`).
+
+Then athletes need a **major win** in their sport (a headline title or individual award, an Olympic medal,
+a hall of fame, 5+ honours, or, because Wikidata's trophy records are patchy, a star of the sport by
+description with a huge readership). People born before 1965 must also be legends (50+ sitelinks or
+40,000+ views).
+
+- **Fame score** combines both signals (their geometric mean, so you need both), plus a small bonus for honours.
+- **Balance**: each sport and league keeps only its top N by fame.
+- **Difficulty**: over the whole pool, the top 35% by fame are 1, the next 40% are 2, the rest 3. Each day
+  has two 1s, two 2s and a 3, in that order (`ROUND_DIFFICULTY` in `js/config.js`).
 
 The minimums and quotas are in the lists at the top of `scripts/build_players.py`. Each line also has
 the Wikidata id and its expected label, which is checked at the start of every run, so a wrong id gets

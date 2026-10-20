@@ -337,7 +337,7 @@ function showSummary({ instant = false } = {}) {
   openSheet(`<div class="ft" role="dialog" aria-labelledby="ftTitle">
     <header class="ft-top">
       <div class="ft-head">
-        <small>${esc($("#puzzleNo").textContent)}</small>
+        <small class="ft-brand"><img src="favicon.svg" width="26" height="26" alt="">Home Ground · ${esc($("#puzzleNo").textContent)}</small>
         <h2 id="ftTitle">${title}</h2>
         <div class="ft-score"><b id="ftTotal">${instant ? total().toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
         ${next ? `<p class="ft-next">${(next.min - total()).toLocaleString()} short of ${next.name}.</p>` : `<p class="ft-next">Top of the ladder.</p>`}
