@@ -1,6 +1,6 @@
 // Everything to do with the map. The MapLibre map is created ONCE and reused for every round;
 // rounds only change the data inside a few layers, which is what keeps it smooth.
-import { SATELLITE, PROJECTION } from "./config.js";
+import { SATELLITE, PROJECTION, MAP_MAX_ZOOM } from "./config.js";
 import { greatCircle, circle } from "./geo.js";
 import { sportIcon } from "./sporticons.js";
 import { color, withAlpha } from "./palette.js";
@@ -27,7 +27,8 @@ function buildStyle(projection) {
 
   // Satellite imagery on top of those plain shapes.
   sources.satellite = { type: "raster", tiles: [SATELLITE.tiles], tileSize: 256, maxzoom: SATELLITE.maxzoom, attribution: SATELLITE.attribution };
-  layers.push({ id: "satellite", type: "raster", source: "satellite", paint: { "raster-fade-duration": 200 } });
+  // no fade-in: a new tile appears at once (MapLibre shows the blurrier parent tile until it arrives)
+  layers.push({ id: "satellite", type: "raster", source: "satellite", paint: { "raster-fade-duration": 0 } });
 
   // "Reveal country" highlight: the same shapes again, drawn over the imagery, but filtered to
   // show nothing until a country is picked. A gold tint plus a dark-edged gold outline reads on any ground.
@@ -82,7 +83,11 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
     center: [15, 25],
     zoom: fitWorldZoom(openArea(rect, insets())),
     minZoom: 0.3,
-    maxZoom: 12,
+    maxZoom: MAP_MAX_ZOOM,
+    fadeDuration: 0,          // no cross-fading of labels/tiles while zooming
+    maxTileCacheSize: 600,    // keep more tiles in memory, so zooming back out doesn't re-download them
+    pixelRatio: Math.min(window.devicePixelRatio || 1, 2), // very dense screens: draw at 2× at most
+    refreshExpiredTiles: false, // tiles don't change during a game; don't re-check them
     renderWorldCopies: true, // flat map: lets you keep panning east/west past the date line
     attributionControl: { compact: rect.width < 640 }, // full credit line on wide screens, an (i) button on phones
     dragRotate: false, // no tilting or spinning the map's north; keeps it simple for players
@@ -115,12 +120,32 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
   }
 
   // If the imagery can't load, MapLibre would print an error for every tile. Having our own
-  // error listener stops that. After a few failures we switch the imagery off and the game carries
-  // on with the plain land map underneath.
-  let tileFailures = 0;
+  // error listener stops that. After a few failures we try Esri's other tile host; if that fails
+  // too, we switch the imagery off and the game carries on with the plain land map underneath.
+  let tileFailures = 0, tileTemplate = SATELLITE.tiles;
   map.on("error", (e) => {
     if (e.sourceId !== "satellite") { console.error(e.error || e); return; }
-    if (++tileFailures === 6) map.setLayoutProperty("satellite", "visibility", "none");
+    tileFailures++;
+    if (tileFailures === 6 && tileTemplate !== SATELLITE.fallbackTiles) {
+      tileTemplate = SATELLITE.fallbackTiles;
+      tileFailures = 0;
+      map.getSource("satellite").setTiles([tileTemplate]);
+    } else if (tileFailures === 6) {
+      map.setLayoutProperty("satellite", "visibility", "none");
+    }
+  });
+
+  // Preloading: ask for tiles before they're needed, so they're already in the browser's cache
+  // (and the service worker's) when the map wants them. Low priority, errors ignored.
+  const prefetch = (z, x, y) => {
+    const n = 2 ** z;
+    const url = tileTemplate.replace("{z}", z).replace("{x}", ((x % n) + n) % n).replace("{y}", y);
+    fetch(url, { mode: "cors", credentials: "omit", priority: "low" }).catch(() => {});
+  };
+  // the zoomed-out world, once the first view has finished loading
+  map.once("idle", () => {
+    const later = window.requestIdleCallback || ((f) => setTimeout(f, 300));
+    later(() => { for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) prefetch(3, x, y); });
   });
 
   // Markers are plain HTML elements pinned to a map position. We create two and reuse them.
@@ -250,6 +275,16 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
       highlightRun++;
       await ready;
       for (const id of ["country-fill", "country-casing", "country-line"]) map.setFilter(id, NO_COUNTRY);
+    },
+
+    // Preload the area around a point at the zoom levels a reveal usually passes through.
+    prefetchAround(p) {
+      for (const z of [3, 5, 7, 9]) {
+        const n = 2 ** z, lat = Math.max(-85, Math.min(85, p.lat)) * Math.PI / 180;
+        const x = Math.floor(((p.lng + 180) / 360) * n);
+        const y = Math.floor(((1 - Math.log(Math.tan(lat) + 1 / Math.cos(lat)) / Math.PI) / 2) * n); // Web Mercator tile row
+        for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) if (y + dy >= 0 && y + dy < n) prefetch(z, x + dx, y + dy);
+      }
     },
 
     // Where a lat/lng currently sits on screen (in pixels from the map's top-left), for effects.

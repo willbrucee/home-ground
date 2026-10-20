@@ -95,6 +95,7 @@ async function lockIn() {
   if (phase !== "guess" || !guess) return;
   const it = items[round];
   const answer = { lat: it.lat, lng: it.lng };
+  gameMap.prefetchAround(answer); // start loading the answer's area now; the camera heads there next
   const radius = it.radius_km || DEFAULT_RADIUS_KM;
   const rawKm = distanceKm(guess, answer);       // to the city centre (shown on the card)
   const km = Math.max(0, rawKm - radius);         // to the city's edge: used for points, tier and sharing
@@ -429,6 +430,9 @@ $("#creditBtn").onclick = () => {
   $("#credit").hidden = !open;
   $("#creditBtn").setAttribute("aria-expanded", String(open));
 };
+
+// Cache map tiles already seen (see sw.js), so a second visit and zooming back out are instant.
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 
 // ── start ───────────────────────────────────────────────
 async function boot() {
