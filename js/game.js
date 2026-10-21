@@ -199,7 +199,7 @@ function renderAll() {
   }).join("");
   $("#total").textContent = total().toLocaleString();
   $("#distTotal").textContent = formatNumber(totalKm());
-  $("#ladderLive").hidden = phase === "done";
+  $("#ladderLive").hidden = phase === "done" || !players.length;
   if (phase !== "reveal") live.set(total(), results.length);
   renderUnitButton();
 
@@ -328,7 +328,7 @@ function shareText() {
   return [
     `${head} · ${total().toLocaleString()}${done ? ` · ${rankFor(total()).name}` : ""}`,
     results.map((r) => tierFor(r.km).share).join(""),
-    "willbrucee.github.io/home-ground",
+    `willbrucee.github.io/home-ground${MODE.key === "mix" ? "" : `/?mode=${MODE.key}`}`, // a friend lands in the same game
   ].join("\n");
 }
 
@@ -397,6 +397,7 @@ function showSummary({ instant = false } = {}) {
       <div class="actions ft-more">${today > 0 || PREVIEW ? `<button class="minor" id="practiceBtn">Practice round</button>` : `<button class="minor" disabled title="Practice uses names from past days only">Practice opens tomorrow</button>`}
         ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : `<button class="minor" id="backBtn">Today's set</button>`}
         <button class="minor" id="statsLink">Your stats</button>
+        <button class="minor" id="switchLink">Switch game</button>
         <button class="minor" id="closeBtn">Back to the map</button></div>
       <div class="ft-cards"><h3>Today's cards</h3>
         <div class="ft-cardrow">${items.map((it, i) => `<button class="ft-cardbtn" data-round="${i}" aria-label="${esc(it.name)}: open the Vault">${cardHtml(it, results[i].pts)}</button>`).join("")}</div>
@@ -411,6 +412,7 @@ function showSummary({ instant = false } = {}) {
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
   $("#closeBtn").onclick = hideSheet;
   $("#statsLink").onclick = showStats;
+  $("#switchLink").onclick = showPicker;
   if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
   document.querySelectorAll(".ft-cardbtn").forEach((b) => (b.onclick = () => showVault(+b.dataset.round, { back: true })));
 
@@ -584,9 +586,10 @@ function showHelp() {
       <li>Photos and logos: Wikimedia Commons. Each picture's author and licence are behind the (i) on it.</li>
       <li>Map engine: MapLibre GL JS</li>
     </ul></details>
-    <div class="actions"><button class="go" id="gotIt">Kick off</button></div>
+    <div class="actions"><button class="go" id="gotIt">Kick off</button>${players.length ? `<button class="minor" id="helpSwitch">Switch game</button>` : ""}</div>
   </div>`);
   $("#gotIt").onclick = hideSheet;
+  if ($("#helpSwitch")) $("#helpSwitch").onclick = showPicker;
   store.set("hg:seenHelp", true);
 }
 

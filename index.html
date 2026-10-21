@@ -63,7 +63,7 @@
 </header>
 
 <!-- The question: a matchday ticket. Top-left on desktop, a bottom sheet on phones. Collapsible. -->
-<article class="ticket" id="ticket" aria-live="polite">
+<article class="ticket" id="ticket" aria-live="polite" hidden>
   <button class="collapse" id="collapseBtn" aria-expanded="true" aria-controls="ticketBody">
     <span class="sr">Hide the question</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
   </button>
@@ -90,7 +90,7 @@
 <section class="dock" id="dock" aria-live="polite"></section>
 
 <!-- The rank ladder, live: right-hand side on desktop, a strip under the header on phones. Filled in by ladder.js. -->
-<aside class="ladder-live" id="ladderLive" aria-label="Rank ladder"></aside>
+<aside class="ladder-live" id="ladderLive" aria-label="Rank ladder" hidden></aside>
 
 <div class="sheet" id="sheet" hidden></div>
 <div class="toast" id="toast" hidden></div>

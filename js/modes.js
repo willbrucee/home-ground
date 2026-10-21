@@ -4,8 +4,7 @@
 //   salt:    keeps each mode's daily order separate
 //   rounds:  what each of the five rounds draws (difficulty, and in Football which list)
 //   share:   the first words of the share text
-// Football days alternate their last round between a legend and a current player, so every day has at
-// least two of each.
+// Every Football day has at least two legends and two current players.
 import { ROUND_DIFFICULTY } from "./config.js";
 
 export const MODES = {
@@ -17,9 +16,11 @@ export const MODES = {
   football: {
     key: "football", name: "Football", share: "Home Ground Football", data: "data/football-players.json", vault: "data/football-vault.json", prefix: "hg:fb:", salt: "fb|",
     blurb: "Five footballers, legends and current stars. Pin where each was born.",
-    rounds: (day) => [
+    // easy to hard (1, 1, 2, 2, 3): two legends, two current players, and a harder legend to finish
+    // (current players are all well known, so there are no 3s among them)
+    rounds: () => [
       { d: 1, list: "legend" }, { d: 1, list: "current" }, { d: 2, list: "legend" }, { d: 2, list: "current" },
-      { d: 3, list: day % 2 ? "current" : "legend" },
+      { d: 3, list: "legend" },
     ],
   },
 };

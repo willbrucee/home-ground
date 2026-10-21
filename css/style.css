@@ -406,7 +406,7 @@ body[data-mode="football"] .bar > * { position: relative; z-index: 1; }
   :root { --bar-h: 52px; }
   .bar { gap: 8px; }
   .wordmark, .dayno { display: none; }
-  .modechip { font-size: 12px; padding: 2px 6px 3px; }
+  .modechip { display: none; } /* no room on phones: the green strip shows Football; switch from Full time or the help */
   .brand .mark { width: 30px; height: 30px; }
   .chip { width: 26px; height: 32px; font-size: 18px; }
   .readout { min-width: 0; padding: 3px 8px 4px; }
