@@ -276,7 +276,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .row .sc { text-align: right; font-family: var(--f-display); font-weight: 900; font-size: 26px; font-variant-numeric: tabular-nums; line-height: 1; }
 .row .sc small { display: block; font-family: var(--f-body); font-weight: 500; font-size: 12px; color: var(--muted); }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-.stats div { padding: 8px 10px; background: var(--surface); color: var(--text); }
+.stats div { padding: 8px 10px; background: var(--surface-2); color: var(--text); }
 .stats b { display: block; font-family: var(--f-display); font-weight: 900; font-size: 32px; font-variant-numeric: tabular-nums; line-height: 1; }
 .stats span { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .actions { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -474,6 +474,19 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .level dd { margin-bottom: 6px; }
   .vault-btn { margin-top: 10px; }
 }
+/* ── Stats (on this device) ─────────────────────────── */
+.stats-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.st-numbers { grid-template-columns: repeat(5, 1fr); }
+.stats-card h3 { margin: 0; font: 900 24px var(--f-display); text-transform: uppercase; }
+.st-hist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.st-hist li { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: center; }
+.st-name { font: 800 15px var(--f-display); text-transform: uppercase; }
+.st-bar { width: var(--w); min-width: 28px; display: flex; justify-content: flex-end; padding: 2px 8px; background: var(--surface-2);
+  border: 2px solid var(--border); border-radius: 3px; font: 900 15px var(--f-display); box-sizing: border-box; }
+.st-hist li.today .st-bar { background: var(--primary); }
+.st-note { color: var(--muted); font-size: 13px; }
+@media (max-width: 520px) { .st-numbers { grid-template-columns: repeat(3, 1fr); } .st-hist li { grid-template-columns: 96px 1fr; } }
+
 /* ── Full time: the whole screen ───────────────────── */
 /* Calm and roomy, top to bottom: score and rank, the rounds beside the map, then sharing. */
 .sheet.full { padding: 0; display: block; background: var(--bg); }

@@ -3,7 +3,7 @@ import { ROUNDS } from "./config.js";
 import { createMap } from "./map.js";
 import { distanceKm, pointAlong } from "./geo.js";
 import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
-import { TIERS, tierFor, reactionFor, rankFor } from "./tiers.js";
+import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
 import { loadPlaces, describeSpot } from "./fulltime.js";
@@ -158,7 +158,11 @@ function finish() {
       st.streak = st.last === today - 1 ? st.streak + 1 : 1;
       st.played += 1; st.last = today;
       st.best = Math.max(st.best, total());
+      st.maxStreak = Math.max(st.maxStreak || 0, st.streak);
       store.set("hg:stats", st);
+      const history = store.get("hg:history", {}); // every finished daily's total, for the stats screen
+      history[today] = total();
+      store.set("hg:history", history);
     }
   }
   renderAll(); showSummary();
@@ -371,6 +375,7 @@ function showSummary({ instant = false } = {}) {
       ${mode === "daily" ? `<p class="next-in"><span id="countdown"></span>${st.streak > 0 ? ` · ${st.streak}-day streak` : ""}</p>` : ""}
       <div class="actions ft-more">${today > 0 ? `<button class="minor" id="practiceBtn">Practice round</button>` : `<button class="minor" disabled title="Practice uses names from past days only">Practice opens tomorrow</button>`}
         ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : `<button class="minor" id="backBtn">Today's set</button>`}
+        <button class="minor" id="statsLink">Your stats</button>
         <button class="minor" id="closeBtn">Back to the map</button></div>
       <div class="ft-cards"><h3>Today's cards</h3>
         <div class="ft-cardrow">${items.map((it, i) => `<button class="ft-cardbtn" data-round="${i}" aria-label="${esc(it.name)}: open the Vault">${cardHtml(it, results[i].pts)}</button>`).join("")}</div>
@@ -384,6 +389,7 @@ function showSummary({ instant = false } = {}) {
   if ($("#practiceBtn")) $("#practiceBtn").onclick = startPractice;
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
   $("#closeBtn").onclick = hideSheet;
+  $("#statsLink").onclick = showStats;
   if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
   document.querySelectorAll(".ft-cardbtn").forEach((b) => (b.onclick = () => showVault(+b.dataset.round, { back: true })));
 
@@ -463,6 +469,37 @@ function showSummary({ instant = false } = {}) {
   }
 }
 
+// ── Stats: kept on this device only ──────────────────────
+// Games played, average, best, streaks, and how often you've finished on each rank (a histogram,
+// like Wordle's guess distribution), with today's rank picked out.
+function showStats() {
+  sheetKind = "stats";
+  const st = store.get("hg:stats", { played: 0, streak: 0, best: 0, last: null });
+  const history = store.get("hg:history", {});
+  const totals = Object.values(history);
+  const avg = totals.length ? Math.round(totals.reduce((a, b) => a + b, 0) / totals.length) : 0;
+  const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
+  const counts = LADDER.map((r) => totals.filter((t) => rankFor(t) === r).length);
+  const most = Math.max(1, ...counts);
+  const todayRank = history[today] != null ? rankFor(history[today]) : null;
+  const bars = LADDER.map((r, i) => `<li class="${r === todayRank ? "today" : ""}">
+      <span class="st-name">${r.name}</span>
+      <span class="st-bar" style="--w:${Math.max(counts[i] / most, counts[i] ? 0.08 : 0) * 100}%"><b>${counts[i]}</b></span></li>`).reverse().join("");
+  openSheet(`<div class="card stats-card" role="dialog" aria-labelledby="statsTitle">
+    <h2 id="statsTitle">Your stats</h2>
+    <div class="stats st-numbers">
+      <div><b>${totals.length}</b><span>Played</span></div><div><b>${avg.toLocaleString()}</b><span>Average</span></div>
+      <div><b>${(st.best || 0).toLocaleString()}</b><span>Best</span></div><div><b>${streak}</b><span>Streak</span></div>
+      <div><b>${st.maxStreak || streak}</b><span>Best streak</span></div>
+    </div>
+    <h3>Your ranks</h3>
+    ${totals.length ? `<ol class="st-hist" aria-label="How often you finished on each rank">${bars}</ol>` : `<p>Finish today's five to start your record.</p>`}
+    <p class="st-note">Kept on this device only.</p>
+    <div class="actions"><button class="go" id="closeBtn">Back</button></div>
+  </div>`);
+  $("#closeBtn").onclick = phase === "done" ? () => showSummary({ instant: true }) : hideSheet;
+}
+
 // The Vault for one round: the card you won and the five levels of facts.
 let vaultRound = 0;
 async function showVault(i, { back = false } = {}) {
@@ -535,6 +572,7 @@ function showHelp() {
 $("#sheet").addEventListener("click", (e) => { if (e.target.id === "sheet") hideSheet(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) hideSheet(); });
 $("#helpBtn").onclick = showHelp;
+$("#statsBtn").onclick = showStats;
 // "Show country": costs half the round's points, names the country and lights it up on the map.
 function revealCountry() {
   if (phase !== "guess" || hintUsed) return;
@@ -550,6 +588,7 @@ $("#unitBtn").onclick = () => {
   renderAll(); // header, clue, rail (including the result card)
   if (sheetKind === "summary") showSummary({ instant: true });
   if (sheetKind === "help") showHelp();
+  if (sheetKind === "stats") showStats();
   if (sheetKind === "vault") showVault(vaultRound);
 };
 function renderUnitButton() {
