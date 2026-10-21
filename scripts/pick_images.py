@@ -272,9 +272,7 @@ def pick_for_athlete(entry, refs, rejects):
     posed = sorted([c for c in scored if c[0] == 2], key=lambda c: -c[1])[:14]
     out, looked = [], []
     for tier, sc, t, m, src in action + posed:
-        if not imagecheck.worth_a_closer_look(t):
-            continue  # the face is small, or shares the picture: no need for the big copy
-        points, why, focus, stats = imagecheck.judge_photo(imagecheck.look(t))
+        points, why, focus, stats = imagecheck.judge_photo(imagecheck.look(t, 500), served_width=min(m["w"], PHOTO_WIDTH))
         looked.append((t, why))
         if why:
             continue
@@ -324,7 +322,7 @@ def main():
                 return [(99, t, m, "chosen by hand") for t, m in meta.items()]
             if e["type"] == "team":
                 return cached(f"img-team-{e['id']}", lambda: pick_for_team(e, refs.get(e["id"][3:], {}), rejects), fresh)
-            return cached(f"img4-ath-{e['id']}", lambda: pick_for_athlete(e, refs.get(e["id"][3:], {}), rejects), fresh)
+            return cached(f"img5-ath-{e['id']}", lambda: pick_for_athlete(e, refs.get(e["id"][3:], {}), rejects), fresh)
         except QueryFailed:
             return None
         except Exception as err:  # noqa: BLE001
@@ -393,7 +391,7 @@ def main():
         e["imageSource"] = src
         if e["type"] == "athlete" and src == "chosen by hand":  # your choice stands, but the face is still found
             import imagecheck
-            _, _, focus, stats = imagecheck.judge_photo(imagecheck.look(title))
+            _, _, focus, stats = imagecheck.judge_photo(imagecheck.look(title, 500), served_width=min(meta["w"], PHOTO_WIDTH))
             meta = dict(meta, focus=focus, stats=stats, tier=0)
         if meta.get("focus"):
             e["imageFocus"] = meta["focus"]  # CSS object-position that keeps the face in the crop

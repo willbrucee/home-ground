@@ -284,7 +284,7 @@ function renderPortrait(it, revealed) {
   // Photos come in three sizes so the 4:5 frame is always sharp (a landscape photo cropped to 4:5 shows
   // only its middle, so it needs more pixels than the frame's width). Logos are small and simple.
   const at = (w) => it.image.replace(/width=\d+/, `width=${w}`);
-  if (it.type === "athlete") img.srcset = `${at(640)} 640w, ${at(1000)} 1000w, ${at(1400)} 1400w`;
+  if (it.type === "athlete") img.srcset = `${at(500)} 500w, ${at(960)} 960w, ${at(1280)} 1280w`; // Commons' standard sizes
   else img.removeAttribute("srcset");
   img.src = it.image;
   credit.innerHTML = creditLine(it);

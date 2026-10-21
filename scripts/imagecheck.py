@@ -34,8 +34,19 @@ _gate = threading.Lock()
 _last = [0.0]
 
 
-def _polite():
-    """At most about two downloads a second across all threads: Commons throttles bursts."""
+_big_gate = threading.Lock()
+_big_last = [0.0]
+
+
+def _polite(width=500):
+    """Pacing. Commons serves small copies freely but limits how fast it makes new big ones for us,
+    so small copies go at about two a second and big ones (over 500 px) one every six seconds."""
+    if width > 500:
+        with _big_gate:
+            wait = _big_last[0] + 6 - time.time()
+            if wait > 0:
+                time.sleep(wait)
+            _big_last[0] = time.time()
     with _gate:
         wait = _last[0] + 0.5 - time.time()
         if wait > 0:
@@ -50,9 +61,9 @@ def download(title, width=1280):
     if not path.exists():
         url = f"https://commons.wikimedia.org/wiki/Special:FilePath/{urllib.parse.quote(title.replace(' ', '_'))}?width={width}"
         busy = 0
-        for attempt in range(5):
+        for attempt in range(7):
             try:
-                _polite()
+                _polite(width)
                 req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
                 path.write_bytes(urllib.request.urlopen(req, timeout=60).read())
                 break
@@ -60,7 +71,7 @@ def download(title, width=1280):
                 if err.code == 404:
                     return None
                 busy += err.code == 429
-                time.sleep(int(err.headers.get("Retry-After") or 0) or 10 * (attempt + 1))  # 429: back off
+                time.sleep(60 if err.code == 429 and width > 500 else int(err.headers.get("Retry-After") or 0) or 10 * (attempt + 1))  # back off
             except Exception:  # noqa: BLE001 (timeouts, dropped connections: try again a little later)
                 time.sleep(3 * (attempt + 1))
         else:
@@ -75,14 +86,14 @@ def download(title, width=1280):
         return None
 
 
-def ocr(title):
+def ocr(title, width=500):
     """All the text tesseract can find in the picture, as one string (cached)."""
     if not shutil.which("tesseract"):
         raise SystemExit("tesseract is not installed (apt install tesseract-ocr)")
     key = CACHE / (hashlib.md5(f"ocr|{title}".encode()).hexdigest() + ".json")
     if key.exists():
         return json.loads(key.read_text())["text"]
-    im = download(title)
+    im = download(title, width)
     text = ""
     if im is not None:
         # flatten transparency onto white, grey, enlarge small logos; read both normal and inverted
@@ -234,7 +245,8 @@ def look(title, width=None):
 MIN_FACE_SHARE = 0.18    # face height / picture height
 MIN_FACE_PX = 120        # face width, in the 1,000 px picture we load
 MAX_RIVAL = 0.35         # any other face must be smaller than this share of the main face
-MIN_SHARP = 120          # Laplacian variance on the face crop (160 px wide)
+MIN_SHARP = 20           # Laplacian variance on the face crop (160 px wide), measured on the 500 px copy
+                         # (about 120 on the 1,280 px copy; see the calibration note in the README)
 MIN_EYE_SPAN, MAX_YAW = 0.27, 0.42
 MIN_PITCH, MAX_PITCH = 0.32, 1.05
 MIN_EYE_LIGHT, MIN_EYE_DETAIL, MIN_EYE_BRIGHT = 0.5, 7, 1.0
@@ -250,20 +262,22 @@ def worth_a_closer_look(title):
     return main[3] / info["h"] >= MIN_FACE_SHARE * 0.9 and not [f for f in info["faces"][1:] if f[3] > main[3] * MAX_RIVAL]
 
 
-def judge_photo(info):
-    """(points, reason to reject or None, focus "x% y%", numbers for the contact sheet) for an athlete photo."""
+def judge_photo(info, served_width=1280):
+    """(points, reason to reject or None, focus "x% y%", numbers for the contact sheet) for an athlete photo.
+    `info` comes from look() on Commons' 500 px copy (Commons limits how fast it makes big copies for us);
+    face widths are scaled to the copy the game loads (`served_width`, at most the original's width)."""
     if not info:
         return 0, "couldn't open it", None, {}
     w, h, faces, m = info["w"], info["h"], info["faces"], info["main"]
     if not faces or not m:
         return 0, "no face found", None, {}
     x, y, fw, fh = faces[0][:4]
-    stats = {"faceShare": round(fh / h, 3), "facePx": round(fw), "sharp": m["sharp"], "box": [round(x / w, 3), round(y / h, 3), round(fw / w, 3), round(fh / h, 3)],
+    stats = {"faceShare": round(fh / h, 3), "facePx": round(fw * served_width / w), "sharp": m["sharp"], "box": [round(x / w, 3), round(y / h, 3), round(fw / w, 3), round(fh / h, 3)],
              "eyeSpan": m["eyeSpan"], "yaw": m["yaw"], "pitch": m["pitch"], "eyeLight": m["eyeLight"], "eyeDetail": m["eyeDetail"], "eyeBright": m["eyeBright"], "score": faces[0][14]}
     checks = [
         (faces[0][14] >= 0.85, "face not clear to the detector"),
         (fh / h >= MIN_FACE_SHARE, f"face too small ({fh / h:.0%} of the height)"),
-        (fw >= MIN_FACE_PX, f"face only {fw:.0f} px wide"),
+        (fw * served_width / w >= MIN_FACE_PX, f"face only {fw * served_width / w:.0f} px wide"),
         (not [f for f in faces[1:] if f[3] > fh * MAX_RIVAL], "another face competes"),
         (m["sharp"] >= MIN_SHARP, f"face not sharp ({m['sharp']:.0f})"),
         (m["eyeSpan"] >= MIN_EYE_SPAN and abs(m["yaw"]) <= MAX_YAW, "face turned away (profile)"),

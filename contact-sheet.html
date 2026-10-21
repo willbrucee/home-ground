@@ -48,7 +48,7 @@
 <h1>Contact sheet</h1>
 <p class="intro">Every picture the game will show, the weakest first. For athletes you see the whole photo with the face the
 checks found (gold box), the crop the question card will show, and the numbers: face height as a share of the picture (needs 18%+),
-face width in the 1,000 px file (120+), sharpness of the face (120+), eye-white brightness against the skin (1.0+) and how far
+face width in the 1,280 px file the game loads (120+), sharpness of the face on the 500 px copy (20+), eye-white brightness against the skin (1.0+) and how far
 the face is turned. Numbers close to the limit are in red. Red-framed ones are low-confidence picks worth a look; grey ones are in the reserve
 (no usable picture, so they're out of the game). To change one, add it to <code>data/images.json</code>, e.g.
 <code>"wd-Q615": { "use": "Better file.jpg" }</code>, <code>{ "reject": ["Bad file.jpg"] }</code> or <code>{ "none": true }</code>,
@@ -68,7 +68,7 @@ Faces are marked where the crop will centre.</p>
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 let all = [], show = "all", report = {};
 // How comfortably a picture clears the bars: the smallest of its margins (1 = right on the limit).
-const LIMITS = { faceShare: 0.18, facePx: 120, sharp: 120, eyeBright: 1.0 };
+const LIMITS = { faceShare: 0.18, facePx: 120, sharp: 20, eyeBright: 1.0 };
 const margin = (r) => r ? Math.min(...Object.entries(LIMITS).map(([k, v]) => (r[k] ?? v) / v), (0.42 - Math.abs(r.yaw ?? 0)) / 0.42 + 1) : 99;
 // pending rejections: { "wd-Q615": ["File name.jpg"] }, kept in this browser until saved
 let pending = {};
