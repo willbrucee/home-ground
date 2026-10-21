@@ -41,7 +41,7 @@ _big_last = [0.0]
 
 def _polite(width=500):
     """Pacing. Commons serves small copies freely but limits how fast it makes new big ones for us,
-    so small copies go at about four a second and big ones (over 500 px) one every six seconds."""
+    so small copies go at about two a second and big ones (over 500 px) one every six seconds."""
     if width > 500:
         with _big_gate:
             wait = _big_last[0] + 6 - time.time()
@@ -49,7 +49,7 @@ def _polite(width=500):
                 time.sleep(wait)
             _big_last[0] = time.time()
     with _gate:
-        wait = _last[0] + 0.25 - time.time()
+        wait = _last[0] + 0.5 - time.time()
         if wait > 0:
             time.sleep(wait)
         _last[0] = time.time()

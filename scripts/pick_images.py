@@ -330,7 +330,7 @@ def main():
                 return None  # Commons is rate-limiting us: leave this one for the next run (nothing cached)
             raise
 
-    # Four lookups at a time: much faster, still polite to Wikidata (its limit is 5 at once).
+    # Six workers; downloads still share one polite pace, so this only overlaps the waiting.
     todo = [e for e in pool if not overrides.get(e["id"], {}).get("none")]
     with ThreadPoolExecutor(max_workers=6) as workers:
         found = {}
