@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Palette preview</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+  /* Three candidate colour schemes for Home Ground, side by side. Nothing here changes the game.
+     Each option is a block of CSS variables; the mock-ups below use only those variables. */
+  .opt-a { /* Sports day: warm cream, sunny yellow, grass green, coral, sky blue, deep navy text */
+    --bg: #fff7e8; --surface: #ffffff; --surface-2: #fdf0d6; --text: #14213d; --muted: #4f5b73; --border: #14213d;
+    --primary: #ffc93c; --on-primary: #14213d; --secondary: #23804a; --on-secondary: #ffffff; --accent: #ff6b5a; --sky: #4da8da;
+    --t-bullseye: #ffc93c; --t-scorching: #ff6b5a; --t-hot: #ff9f43; --t-warm: #9ad86f; --t-cool: #4da8da; --t-cold: #2f4b9a; --t-frozen: #a9b4c6;
+  }
+  .opt-b { /* Tennis club: crisp white, court green, clay orange, lemon, dark green text */
+    --bg: #ffffff; --surface: #ffffff; --surface-2: #eef5ee; --text: #0f3324; --muted: #3f5f50; --border: #0f3324;
+    --primary: #237a40; --on-primary: #ffffff; --secondary: #b5501f; --on-secondary: #ffffff; --accent: #e4ef3f; --sky: #3aa6a0;
+    --t-bullseye: #e4ef3f; --t-scorching: #b5501f; --t-hot: #f2a65a; --t-warm: #7cc47f; --t-cool: #3aa6a0; --t-cold: #3b5f9e; --t-frozen: #b2bcb7;
+  }
+  .opt-c { /* Matchday poster: light grey-blue, bold primary blue, bright red, sunshine yellow, near-black text */
+    --bg: #e8eef6; --surface: #ffffff; --surface-2: #f3f6fb; --text: #0f1419; --muted: #46505e; --border: #0f1419;
+    --primary: #1e5bd8; --on-primary: #ffffff; --secondary: #d22b3b; --on-secondary: #ffffff; --accent: #ffd23f; --sky: #5bc0eb;
+    --t-bullseye: #ffd23f; --t-scorching: #d22b3b; --t-hot: #f77f00; --t-warm: #3bb273; --t-cool: #5bc0eb; --t-cold: #1e5bd8; --t-frozen: #9aa5b8;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 60px; font-family: "Barlow", system-ui, sans-serif; background: #f2f2f2; color: #111; }
+  h1 { margin: 0 0 6px; font: 900 44px/0.95 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+  .lead { max-width: 75ch; margin: 0 0 24px; line-height: 1.5; }
+  .options { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 24px; }
+  .opt { background: var(--bg); color: var(--text); padding: 18px; border-radius: 6px; display: grid; gap: 16px; align-content: start; }
+  .opt h2 { margin: 0; font: 900 34px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+  .opt h2 small { display: block; font: 600 14px "Barlow", sans-serif; text-transform: none; color: var(--muted); margin-top: 4px; }
+  .label { font: 700 11px "Barlow", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+
+  /* header */
+  .bar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface); border: 2px solid var(--border); border-radius: 6px; }
+  .bar .mark { width: 30px; height: 30px; }
+  .bar .wm { font: 900 20px "Barlow Condensed"; text-transform: uppercase; letter-spacing: 0.03em; }
+  .chips { display: flex; gap: 3px; margin-left: auto; }
+  .chip { width: 24px; height: 28px; display: grid; place-items: center; font: 900 15px "Barlow Condensed"; border: 2px solid var(--border); border-radius: 3px; background: var(--surface); }
+  .chip.now { background: var(--primary); color: var(--on-primary); }
+  .chip.done { color: var(--text); }
+  .readout { padding: 2px 8px; border: 2px solid var(--border); border-radius: 4px; text-align: right; }
+  .readout small { display: block; font: 700 9px "Barlow"; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .readout b { font: 900 20px/1 "Barlow Condensed"; }
+
+  /* question card over satellite imagery */
+  .mapbox { position: relative; height: 300px; border-radius: 6px; overflow: hidden;
+    background: #1b2a22 url("https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/4/5/8") center / cover; }
+  .ticket { position: absolute; left: 12px; top: 12px; width: 300px; padding: 12px; background: var(--surface); border: 2px solid var(--border);
+    border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.35); display: grid; grid-template-columns: 112px 1fr; gap: 12px; }
+  .ticket .top { grid-column: 1 / -1; display: flex; gap: 6px; align-items: center; font: 800 12px "Barlow Condensed"; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .tape { padding: 2px 7px; background: var(--primary); color: var(--on-primary); border-radius: 3px; }
+  .ticket h3 { grid-column: 1 / -1; margin: 0; font: 900 30px/0.9 "Barlow Condensed"; text-transform: uppercase; }
+  .photo { width: 112px; aspect-ratio: 4 / 5; border-radius: 4px; overflow: hidden; background: var(--surface-2); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block; }
+  .ask { align-self: end; font-size: 13px; color: var(--muted); }
+  .ask b { display: block; font: 800 17px "Barlow Condensed"; text-transform: uppercase; color: var(--text); }
+  .go { position: absolute; right: 12px; bottom: 12px; padding: 10px 18px; background: var(--primary); color: var(--on-primary); border: 2px solid var(--border);
+    border-radius: 6px; font: 900 20px "Barlow Condensed"; text-transform: uppercase; box-shadow: 0 4px 0 var(--border); }
+
+  /* ladder: steps with a ball */
+  .steps { display: flex; align-items: flex-end; gap: 4px; height: 150px; padding: 10px; background: var(--surface); border: 2px solid var(--border); border-radius: 6px; }
+  .step { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; height: 100%; position: relative; }
+  .step i { display: block; border: 2px solid var(--border); border-bottom-width: 0; border-radius: 3px 3px 0 0; background: var(--surface-2); }
+  .step.lit i { background: var(--secondary); }
+  .step.here i { background: var(--primary); }
+  .step span { font: 800 11px/1.05 "Barlow Condensed"; text-transform: uppercase; text-align: center; margin-top: 4px; }
+  .step small { font: 600 10px "Barlow"; color: var(--muted); text-align: center; }
+  .ball { position: absolute; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border);
+    box-shadow: inset -3px -3px 0 rgba(0,0,0,0.12); }
+
+  /* end screen rows */
+  .rows { display: grid; gap: 6px; }
+  .row { display: grid; grid-template-columns: 8px 1fr auto; gap: 10px; align-items: center; padding: 8px 10px 8px 0; background: var(--surface); border: 2px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .row i { align-self: stretch; background: var(--c); }
+  .row b { font: 800 17px/1 "Barlow Condensed"; text-transform: uppercase; }
+  .row .said { font-size: 12px; color: var(--muted); }
+  .row .pts { text-align: right; font: 900 22px/1 "Barlow Condensed"; }
+  .tierchip { display: inline-block; margin-top: 2px; padding: 1px 6px; border-radius: 3px; font: 800 11px "Barlow Condensed"; text-transform: uppercase; background: var(--c); color: var(--fg); border: 1px solid var(--border); }
+
+  /* tiers */
+  .tiers { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .tier { padding: 8px 4px; border-radius: 4px; border: 2px solid var(--border); background: var(--c); color: var(--fg); text-align: center; font: 800 12px/1.05 "Barlow Condensed"; text-transform: uppercase; }
+  .tier small { display: block; font: 600 9px "Barlow"; text-transform: none; margin-top: 2px; }
+  .cb { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 4px; }
+  .cb span { height: 14px; border-radius: 2px; }
+  .checks { font-size: 12px; line-height: 1.5; }
+  .checks table { width: 100%; border-collapse: collapse; }
+  .checks td { padding: 2px 4px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .pass { color: #1b7a3a; font-weight: 700; } .fail { color: #c0262d; font-weight: 700; }
+</style>
+</head>
+<body>
+<h1>Palette preview</h1>
+<p class="lead">Three lighter colour schemes for Home Ground, each on the same mock-ups: the header, the question card floating over the
+satellite map, the rank steps, the end-screen rounds and the seven result tiers. Every text-on-colour pairing is checked against WCAG AA
+below each option, and the tiers are checked to stay distinct for colour-blind players (they're also always labelled by name).
+Nothing here changes the game yet.</p>
+<div class="options" id="options"></div>
+
+<template id="mock">
+  <section class="opt">
+    <h2><span class="name"></span><small class="blurb"></small></h2>
+    <div><div class="label">Header</div>
+      <div class="bar">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="3" y="3" width="58" height="58" rx="12" fill="var(--text)"/><rect x="9" y="22" width="46" height="31" rx="2" fill="none" stroke="var(--primary)" stroke-width="2.5"/><path d="M32 22v31" stroke="var(--primary)" stroke-opacity="0.6" stroke-width="2"/><path d="M32 7c-6.1 0-11 4.9-11 10.9 0 8.1 11 19.6 11 19.6s11-11.5 11-19.6C43 11.9 38.1 7 32 7Z" fill="var(--primary)" stroke="var(--text)" stroke-width="2.5"/><circle cx="32" cy="18" r="4" fill="var(--text)"/></svg>
+        <span class="wm">Home Ground</span>
+        <span class="chips"><span class="chip done" style="background:var(--t-bullseye)">1</span><span class="chip done" style="background:var(--t-hot)">2</span><span class="chip now">3</span><span class="chip">4</span><span class="chip">5</span></span>
+        <span class="readout"><small>Score</small><b>1,742</b></span>
+      </div></div>
+    <div><div class="label">Question card over the map</div>
+      <div class="mapbox">
+        <div class="ticket"><div class="top">Round 3 / 5 <span class="tape">Football</span> Athlete</div><h3>Lionel Messi</h3>
+          <div class="photo"><img alt="" src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg?width=400" onerror="this.remove()"></div>
+          <div class="ask"><b>Where were they born?</b>Pin the city on the map.</div></div>
+        <div class="go">Lock it in</div>
+      </div></div>
+    <div><div class="label">Rank steps</div><div class="steps"></div></div>
+    <div><div class="label">End screen rounds</div><div class="rows"></div></div>
+    <div><div class="label">Result tiers (and as seen with red-green colour blindness)</div><div class="tiers"></div><div class="cb"></div></div>
+    <div class="checks"></div>
+  </section>
+</template>
+
+<script>
+const OPTIONS = [
+  { cls: "opt-a", name: "A · Sports day", blurb: "Warm cream, sunny yellow, grass green, coral and sky blue, with deep navy text." },
+  { cls: "opt-b", name: "B · Tennis club", blurb: "Crisp white, court green, clay orange and lemon, with dark green text." },
+  { cls: "opt-c", name: "C · Matchday poster", blurb: "Light grey-blue, bold blue, bright red and sunshine yellow, with near-black text." },
+];
+const TIERS = [["bullseye", "Hole in one", "under 25 km"], ["scorching", "Top corner", "25–150"], ["hot", "Slam dunk", "150–500"],
+  ["warm", "On the board", "500–1,200"], ["cool", "Off the pace", "1,200–2,500"], ["cold", "Air ball", "2,500–5,000"], ["frozen", "Own goal", "5,000 +"]];
+const RANKS = [["Wooden spoon", 0], ["Reserve", 1500], ["Starter", 2600], ["All-star", 3400], ["Captain", 4200], ["Hall of Fame", 4800]];
+
+// colour maths: WCAG contrast, and CIE Lab distance (with a red-green colour-blindness simulation)
+const rgb = (hex) => { const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+const lin = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+const lum = (hex) => { const [r, g, b] = rgb(hex).map(lin); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const onColour = (bg, dark, light) => (ratio(dark, bg) >= ratio(light, bg) ? dark : light);
+function lab(hex) {
+  const [r, g, b] = rgb(hex).map(lin);
+  const f = (t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+  const x = f((r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047), y = f(r * 0.2126 + g * 0.7152 + b * 0.0722), z = f((r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883);
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+}
+const dE = (a, b) => { const p = lab(a), q = lab(b); return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]); };
+function deutan(hex) { // Machado et al. 2009, deuteranopia (severity 1), applied in linear RGB
+  const [r, g, b] = rgb(hex).map(lin);
+  const m = [[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413], [-0.011820, 0.042940, 0.968881]];
+  const out = m.map(([a, bb, c]) => Math.min(1, Math.max(0, a * r + bb * g + c * b)));
+  const enc = (v) => Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055));
+  return "#" + out.map(enc).map((v) => v.toString(16).padStart(2, "0")).join("");
+}
+
+const host = document.getElementById("options");
+for (const o of OPTIONS) {
+  const node = document.getElementById("mock").content.firstElementChild.cloneNode(true);
+  node.classList.add(o.cls);
+  node.querySelector(".name").textContent = o.name;
+  node.querySelector(".blurb").textContent = o.blurb;
+  host.appendChild(node);
+  const v = (n) => getComputedStyle(node).getPropertyValue(n).trim();
+  const tierColour = (k) => v(`--t-${k}`);
+  const fg = (k) => onColour(tierColour(k), v("--text"), "#ffffff");
+
+  // rank steps: rising heights, the ball on All-star
+  node.querySelector(".steps").innerHTML = RANKS.map(([n, min], i) =>
+    `<div class="step${i < 3 ? " lit" : i === 3 ? " here" : ""}">${i === 3 ? `<span class="ball" style="bottom:${30 + i * 17 + 30}px"></span>` : ""}
+      <i style="height:${30 + i * 17}px"></i><span>${n}</span><small>${min.toLocaleString()}+</small></div>`).join("");
+  // end-screen rows
+  node.querySelector(".rows").innerHTML = [["bullseye", "Lionel Messi", "near Rosario, Argentina", "Rosario, Argentina", 1000],
+    ["warm", "Dodgers", "near Phoenix, United States", "Los Angeles, United States", 735],
+    ["cold", "Usain Bolt", "near Havana, Cuba", "Sherwood Content, Jamaica", 588]].map(([k, n, said, real, pts]) =>
+    `<div class="row" style="--c:${tierColour(k)};--fg:${fg(k)}"><i></i><div><b>${n}</b><div class="said">You said: ${said}<br>Actually: ${real}</div></div>
+      <div class="pts">${pts.toLocaleString()}<br><span class="tierchip">${TIERS.find((t) => t[0] === k)[1]}</span></div></div>`).join("");
+  // tiers, plus the deuteranopia simulation strip
+  node.querySelector(".tiers").innerHTML = TIERS.map(([k, n, r]) => `<div class="tier" style="--c:${tierColour(k)};--fg:${fg(k)}">${n}<small>${r}</small></div>`).join("");
+  node.querySelector(".cb").innerHTML = TIERS.map(([k]) => `<span style="background:${deutan(tierColour(k))}"></span>`).join("");
+
+  // checks
+  const pairs = [["--text", "--bg", "Body text"], ["--muted", "--bg", "Quiet text"], ["--text", "--surface", "Card text"], ["--muted", "--surface", "Quiet card text"],
+    ["--on-primary", "--primary", "Button text"], ["--on-secondary", "--secondary", "Lit step text"], ["--border", "--surface", "Card edge (3:1 for edges)", 3]];
+  const rows = pairs.map(([a, b, use, need = 4.5]) => { const r = ratio(v(a), v(b)); return [use, r, r >= need]; })
+    .concat(TIERS.map(([k, n]) => { const r = ratio(fg(k), tierColour(k)); return [`"${n}" label on its colour`, r, r >= 4.5]; }));
+  let minNormal = Infinity, minCb = Infinity;
+  for (let i = 0; i < TIERS.length; i++) for (let j = i + 1; j < TIERS.length; j++) {
+    minNormal = Math.min(minNormal, dE(tierColour(TIERS[i][0]), tierColour(TIERS[j][0])));
+    minCb = Math.min(minCb, dE(deutan(tierColour(TIERS[i][0])), deutan(tierColour(TIERS[j][0]))));
+  }
+  const fails = rows.filter((r) => !r[2]).length;
+  node.querySelector(".checks").innerHTML = `<div class="label">Checks</div>
+    <p>${fails ? `<span class="fail">${fails} pairing(s) below AA</span>` : `<span class="pass">All ${rows.length} text pairings pass WCAG AA</span>`}.
+    Closest two tiers: ΔE ${minNormal.toFixed(0)} (normal vision), ${minCb.toFixed(0)} (red-green colour blindness)
+    ${minCb >= 10 ? '<span class="pass">distinct</span>' : '<span class="fail">too close</span>'}; every tier is also labelled by name.</p>
+    <table>${rows.map(([use, r, ok]) => `<tr><td>${use}</td><td>${r.toFixed(1)}:1</td><td class="${ok ? "pass" : "fail"}">${ok ? "Pass" : "Fail"}</td></tr>`).join("")}</table>`;
+}
+</script>
+</body>
+</html>
