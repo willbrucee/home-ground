@@ -24,7 +24,7 @@ export function createSummaryMap(container, rounds, { onSelect, start = 0 } = {}
 
   const map = new maplibregl.Map({
     container,
-    style: buildStyle("mercator", { labels: "all" }), // after the game: every place name
+    style: buildStyle("mercator"),
     bounds: boundsOf([paths[start] || paths[0]]), // opens on the round it was asked for
     fitBoundsOptions: { padding: padFor(container), maxZoom: 9 },
     maxZoom: MAP_MAX_ZOOM,
@@ -36,7 +36,7 @@ export function createSummaryMap(container, rounds, { onSelect, start = 0 } = {}
   });
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-  map.on("error", (e) => { if (e.sourceId !== "satellite" && e.sourceId !== "places") console.error(e.error || e); });
+  map.on("error", (e) => { if (!["satellite", "places", "roads"].includes(e.sourceId)) console.error(e.error || e); });
 
   let gone = false, frame = 0, selected = -1, all = false;
   const markers = [];
