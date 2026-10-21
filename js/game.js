@@ -273,6 +273,7 @@ function renderPortrait(it, revealed) {
   initials.innerHTML = `<b>${esc(letters)}</b>${sportIcon(it.sport)}`;
   $("#portrait").dataset.kind = it.type; // logos are shown whole, photos are cropped to the face
   img.classList.remove("loaded");
+  img.removeAttribute("srcset");
   img.removeAttribute("src");
   creditBtn.hidden = true;
   if (!it.image) return;
@@ -280,6 +281,11 @@ function renderPortrait(it, revealed) {
   img.onload = () => { if (img.dataset.for === it.id) { img.classList.add("loaded"); showCredit(); } };
   img.onerror = () => { img.classList.remove("loaded"); img.removeAttribute("src"); creditBtn.hidden = true; };
   img.style.objectPosition = it.imageFocus || ""; // the face's spot, so the crop never cuts off the head
+  // Photos come in three sizes so the 4:5 frame is always sharp (a landscape photo cropped to 4:5 shows
+  // only its middle, so it needs more pixels than the frame's width). Logos are small and simple.
+  const at = (w) => it.image.replace(/width=\d+/, `width=${w}`);
+  if (it.type === "athlete") img.srcset = `${at(640)} 640w, ${at(1000)} 1000w, ${at(1400)} 1400w`;
+  else img.removeAttribute("srcset");
   img.src = it.image;
   credit.innerHTML = creditLine(it);
 }

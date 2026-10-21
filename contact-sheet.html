@@ -17,19 +17,27 @@
   .controls button, .controls select { padding: 6px 10px; border-radius: var(--hard); background: var(--ink-2); color: var(--chalk); box-shadow: inset 0 0 0 1px var(--ink-line); font: 600 14px var(--f-body); }
   .controls button[aria-pressed="true"] { background: var(--gold); color: var(--ink); }
   .summary { color: var(--mute-ink); font-size: 14px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
   .cell { background: var(--chalk); color: var(--ink); display: grid; grid-template-rows: auto 1fr; }
   .cell.low { box-shadow: 0 0 0 4px var(--t-scorching); }
   .cell.reserve { box-shadow: 0 0 0 4px var(--mute-ink); opacity: 0.85; }
-  .pic { aspect-ratio: 1; background: var(--ink); position: relative; }
-  .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+  /* athletes: the whole picture with the detected face boxed, and beside it the crop the game shows */
+  .pics { display: grid; grid-template-columns: 1fr 96px; gap: 4px; background: var(--ink); }
+  .pic { position: relative; background: var(--ink); min-height: 120px; }
+  .pic img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .crop { aspect-ratio: 4 / 5; align-self: center; overflow: hidden; }
+  .crop img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fullwrap { position: relative; width: 100%; }
+  .fullwrap img { width: 100%; height: auto; display: block; }
+  .facebox { position: absolute; border: 2px solid var(--gold); box-shadow: 0 0 0 1px var(--ink); pointer-events: none; }
+  .nums { display: flex; flex-wrap: wrap; gap: 2px 10px; margin-top: 4px; font: 600 11px var(--f-body); color: var(--mute-chalk); }
+  .nums .weak { color: var(--t-scorching); font-weight: 800; }
   .cell[data-type="team"] .pic img { object-fit: contain; padding: 10px; background: var(--chalk-2); }
   .flag { position: absolute; left: 6px; top: 6px; padding: 2px 6px; background: var(--t-scorching); color: var(--ink); font: 800 13px var(--f-display); text-transform: uppercase; }
   .meta { padding: 8px 10px 10px; font-size: 12px; line-height: 1.35; }
   .meta b { display: block; font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 1; text-transform: uppercase; }
   .meta code { user-select: all; background: var(--chalk-2); padding: 0 3px; }
   .meta a { color: var(--pitch); }
-  .focus { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 2px solid var(--gold); border-radius: 50%; box-shadow: 0 0 0 1px var(--ink); pointer-events: none; }
   .reject { position: absolute; right: 6px; top: 6px; padding: 2px 8px; background: var(--ink); color: var(--chalk); font: 800 13px var(--f-display); text-transform: uppercase; border-radius: var(--hard); }
   .cell.rejected { opacity: 0.35; }
   .cell.rejected .reject { background: var(--t-scorching); color: var(--ink); }
@@ -38,7 +46,10 @@
 </head>
 <body>
 <h1>Contact sheet</h1>
-<p class="intro">Every picture the game will show. Red-framed ones are low-confidence picks worth a look; grey ones are in the reserve
+<p class="intro">Every picture the game will show, the weakest first. For athletes you see the whole photo with the face the
+checks found (gold box), the crop the question card will show, and the numbers: face height as a share of the picture (needs 18%+),
+face width in the 1,000 px file (120+), sharpness of the face (120+), eye-white brightness against the skin (1.0+) and how far
+the face is turned. Numbers close to the limit are in red. Red-framed ones are low-confidence picks worth a look; grey ones are in the reserve
 (no usable picture, so they're out of the game). To change one, add it to <code>data/images.json</code>, e.g.
 <code>"wd-Q615": { "use": "Better file.jpg" }</code>, <code>{ "reject": ["Bad file.jpg"] }</code> or <code>{ "none": true }</code>,
 then run <code>python3 scripts/pick_images.py</code>. Or press <b>Reject</b> on any picture, then <b>Save rejections</b>: it adds
@@ -55,7 +66,10 @@ Faces are marked where the crop will centre.</p>
 <div class="grid" id="grid"></div>
 <script>
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-let all = [], show = "all";
+let all = [], show = "all", report = {};
+// How comfortably a picture clears the bars: the smallest of its margins (1 = right on the limit).
+const LIMITS = { faceShare: 0.18, facePx: 120, sharp: 120, eyeBright: 1.0 };
+const margin = (r) => r ? Math.min(...Object.entries(LIMITS).map(([k, v]) => (r[k] ?? v) / v), (0.42 - Math.abs(r.yaw ?? 0)) / 0.42 + 1) : 99;
 // pending rejections: { "wd-Q615": ["File name.jpg"] }, kept in this browser until saved
 let pending = {};
 try { pending = JSON.parse(localStorage.getItem("hg:rejects")) || {}; } catch {}
@@ -68,22 +82,29 @@ const keepPending = () => {
 const fileOf = (e) => e.imagePage ? decodeURIComponent(e.imagePage.split("File:")[1]).replace(/_/g, " ") : "";
 
 const cell = (e) => {
-  const reserve = !!e.reserveReason, low = e.imageConfidence === "low";
-  const img = e.image ? `<img loading="lazy" alt="${esc(e.name)}" src="${esc(e.image.replace(/width=\d+/, "width=300"))}"${e.imageFocus ? ` style="object-position:${esc(e.imageFocus)}"` : ""}>` : "";
-  const [fx, fy] = (e.imageFocus || "").split(" ");
+  const reserve = !!e.reserveReason, low = e.imageConfidence === "low", r = report[e.id];
   const rejected = (pending[e.id] || []).includes(fileOf(e));
+  const src = e.image ? e.image.replace(/width=\d+/, "width=640") : "";
+  let pics = "";
+  if (e.image && e.type === "athlete") {
+    const box = r?.box ? `<span class="facebox" style="left:${r.box[0] * 100}%;top:${r.box[1] * 100}%;width:${r.box[2] * 100}%;height:${r.box[3] * 100}%"></span>` : "";
+    pics = `<div class="pics"><div class="fullwrap"><img loading="lazy" alt="${esc(e.name)}" src="${esc(src)}">${box}</div>
+      <div class="crop"><img loading="lazy" alt="" src="${esc(src)}" style="object-position:${esc(e.imageFocus || "50% 25%")}"></div></div>`;
+  } else if (e.image) {
+    pics = `<div class="pic"><img loading="lazy" alt="${esc(e.name)}" src="${esc(src)}"></div>`;
+  }
+  const n = (k, label, fmt) => r && r[k] != null ? `<span class="${r[k] / (LIMITS[k] || 1) < 1.25 && LIMITS[k] ? "weak" : ""}">${label} ${fmt(r[k])}</span>` : "";
+  const nums = r ? `<div class="nums">${n("faceShare", "face", (v) => Math.round(v * 100) + "%")}${n("facePx", "", (v) => v + " px")}${n("sharp", "sharp", Math.round)}${n("eyeBright", "eyes", (v) => v.toFixed(2))}<span>turn ${Math.abs(r.yaw).toFixed(2)}</span><span>${r.tier === 1 ? "action" : r.tier === 2 ? "posed" : "by hand"}</span></div>` : "";
   return `<div class="cell${low ? " low" : ""}${reserve ? " reserve" : ""}${rejected ? " rejected" : ""}" data-type="${e.type}" data-id="${esc(e.id)}">
-    <div class="pic">${img}${low ? '<span class="flag">Check</span>' : ""}
-      ${e.imageFocus && e.type === "athlete" ? `<span class="focus" style="left:${esc(fx)};top:${esc(fy)}"></span>` : ""}
-      ${e.image ? `<button class="reject">${rejected ? "Undo" : "Reject"}</button>` : ""}</div>
+    <div style="position:relative">${pics}${low ? '<span class="flag">Check</span>' : ""}${e.image ? `<button class="reject">${rejected ? "Undo" : "Reject"}</button>` : ""}</div>
     <div class="meta"><b>${esc(e.name)}</b>${esc(e.sport)} · ${esc(e.type)}<br>
-      ${reserve ? `Reserve: ${esc(e.reserveReason)}` : `${esc(e.imageSource)} · ${esc(e.imageLicense)} · <a href="${esc(e.imagePage)}" target="_blank" rel="noopener">file</a>`}<br>
-      <code>${esc(e.id)}</code></div></div>`;
+      ${reserve ? `Reserve: ${esc(e.reserveReason)}` : `${esc(e.imageSource)} · ${esc(e.imageLicense)} · <a href="${esc(e.imagePage)}" target="_blank" rel="noopener">file</a>`}
+      ${nums}<code>${esc(e.id)}</code></div></div>`;
 };
 
 function render() {
   const sport = document.getElementById("sport").value;
-  const list = all.filter((e) => (!sport || e.sport === sport) &&
+  const list = all.slice().sort((a, b) => margin(report[a.id]) - margin(report[b.id])).filter((e) => (!sport || e.sport === sport) &&
     (show === "all" ? !e.reserveReason : show === "low" ? e.imageConfidence === "low" && !e.reserveReason : !!e.reserveReason));
   document.getElementById("grid").innerHTML = list.map(cell).join("");
   const inGame = all.filter((e) => !e.reserveReason);
@@ -91,8 +112,10 @@ function render() {
     `${list.length} shown · ${inGame.length} in the game, ${inGame.filter((e) => e.imageConfidence === "low").length} to check · ${all.length - inGame.length} in reserve`;
 }
 
-Promise.all([fetch("data/players.json").then((r) => r.json()), fetch("data/reserve.json").then((r) => (r.ok ? r.json() : [])).catch(() => [])])
-  .then(([players, reserve]) => {
+Promise.all([fetch("data/players.json").then((r) => r.json()), fetch("data/reserve.json").then((r) => (r.ok ? r.json() : [])).catch(() => []),
+  fetch("data/image-report.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({}))])
+  .then(([players, reserve, rep]) => {
+    report = rep;
     all = [...players, ...reserve];
     const sports = [...new Set(all.map((e) => e.sport))].sort();
     document.getElementById("sport").innerHTML += sports.map((s) => `<option>${esc(s)}</option>`).join("");

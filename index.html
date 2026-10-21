@@ -76,7 +76,8 @@
     <!-- athlete photo or team logo; falls back to an initials badge -->
     <figure class="portrait" id="portrait">
       <span class="initials" id="initials" aria-hidden="true"></span>
-      <img id="portraitImg" alt="" width="160" height="160" loading="lazy" decoding="async">
+      <img id="portraitImg" alt="" width="224" height="280" decoding="async" fetchpriority="high"
+        sizes="(max-width: 720px) 180px, 420px">
       <button class="credit-btn" id="creditBtn" aria-label="Image credit" aria-expanded="false" hidden>i</button>
       <figcaption class="credit" id="credit" hidden></figcaption>
     </figure>

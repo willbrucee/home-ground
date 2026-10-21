@@ -15,6 +15,7 @@ import subprocess
 import threading
 import time
 import urllib.parse
+import urllib.error
 import urllib.request
 
 from PIL import Image, ImageOps
@@ -25,18 +26,36 @@ from spoilers import fold, mentions_place, place_tokens
 CACHE = pathlib.Path(__file__).resolve().parent / ".cache" / "img"
 
 
-def download(title, width=800):
+_gate = threading.Lock()
+_last = [0.0]
+
+
+def _polite():
+    """At most about two downloads a second across all threads: Commons throttles bursts."""
+    with _gate:
+        wait = _last[0] + 0.5 - time.time()
+        if wait > 0:
+            time.sleep(wait)
+        _last[0] = time.time()
+
+
+def download(title, width=1280):
     """The file from Commons at `width` pixels wide, as a Pillow image (cached on disk). None if it fails."""
     CACHE.mkdir(parents=True, exist_ok=True)
     path = CACHE / (hashlib.md5(f"{title}|{width}".encode()).hexdigest() + ".img")
     if not path.exists():
         url = f"https://commons.wikimedia.org/wiki/Special:FilePath/{urllib.parse.quote(title.replace(' ', '_'))}?width={width}"
-        for attempt in range(4):
+        for attempt in range(5):
             try:
+                _polite()
                 req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
                 path.write_bytes(urllib.request.urlopen(req, timeout=60).read())
                 break
-            except Exception:  # noqa: BLE001 (busy, timeouts: try again a little later)
+            except urllib.error.HTTPError as err:
+                if err.code == 404:
+                    return None
+                time.sleep(int(err.headers.get("Retry-After") or 0) or 10 * (attempt + 1))  # 429: back off
+            except Exception:  # noqa: BLE001 (timeouts, dropped connections: try again a little later)
                 time.sleep(3 * (attempt + 1))
         else:
             return None
@@ -137,91 +156,126 @@ def _cv():
     return cv2
 
 
-def look(title):
-    """What's in the picture: {"w", "h", "faces": [[x, y, w, h, score], ...] biggest first, "sharp": float}.
-    Faces come from OpenCV's YuNet detector; "sharp" is the variance of the Laplacian over the main face
-    (or the whole picture with no face): low means blurry. Cached. None if the file can't be read."""
-    key = CACHE / (hashlib.md5(f"look3|{title}".encode()).hexdigest() + ".json")
+LOOK_WIDTH = 1280  # we judge each picture at the size the game loads it (a standard Commons thumbnail size: fast)
+
+
+def look(title, width=None):
+    """What's in the picture, judged at the size the game loads it (1,000 px wide):
+    {"w", "h", "faces": [[x, y, w, h, 10 landmark numbers, score], ...] biggest first, "main": {...}}.
+    "main" measures the biggest face: sharpness (variance of the Laplacian on the face crop), the eye
+    spacing and nose position (to tell front-on from profile, and looking down), and how bright and
+    detailed the eye areas are compared with the lower face (cap shadow, sunglasses, a visor). Cached."""
+    width = width or LOOK_WIDTH
+    key = CACHE / (hashlib.md5(f"look6|{title}|{width}".encode()).hexdigest() + ".json")
     if key.exists():
         return json.loads(key.read_text())
-    im = download(title)
+    im = download(title, width)
     if im is None:
         return None
     cv2 = _cv()
     import numpy as np
-    rgb = np.array(im.convert("RGB"))
-    bgr = rgb[:, :, ::-1].copy()
+    bgr = np.array(im.convert("RGB"))[:, :, ::-1].copy()
     h, w = bgr.shape[:2]
     if not hasattr(_local, "detector"):
-        _local.detector = cv2.FaceDetectorYN.create(str(model("face_detection_yunet_2023mar.onnx")), "", (w, h), score_threshold=0.75)
+        _local.detector = cv2.FaceDetectorYN.create(str(model("face_detection_yunet_2023mar.onnx")), "", (w, h), score_threshold=0.6)
     _local.detector.setInputSize((w, h))
     _, found = _local.detector.detect(bgr)
-    # each face: x, y, w, h, five landmark points (10 numbers), score
-    faces = sorted(([round(float(v), 1) for v in f[:14]] + [float(f[14])] for f in (found if found is not None else [])), key=lambda f: -f[3])
-    grey = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    # each face: x, y, w, h, then five landmarks (right eye, left eye, nose tip, mouth right, mouth left), score
+    faces = sorted(([round(float(v), 1) for v in f[:14]] + [round(float(f[14]), 3)] for f in (found if found is not None else [])),
+                   key=lambda f: -f[3])
+    out = {"w": w, "h": h, "faces": faces, "main": None}
     if faces:
-        x, y, fw, fh = (int(max(0, v)) for v in faces[0][:4])
-        region = grey[y:y + max(fh, 8), x:x + max(fw, 8)]
-        if region.size:
-            # judge sharpness at a common scale, so a big face isn't penalised for having more pixels
-            region = cv2.resize(region, (128, int(128 * region.shape[0] / max(region.shape[1], 1)) or 128))
-    else:
-        region = cv2.resize(grey, (800, int(800 * h / w)))
-    sharp = float(cv2.Laplacian(region, cv2.CV_64F).var()) if region.size else 0.0
-    out = {"w": w, "h": h, "faces": faces, "sharp": round(sharp, 1)}
+        grey = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY).astype("float32")
+        x, y, fw, fh = faces[0][:4]
+        (rex, rey), (lex, ley), (nx, ny), (mrx, mry), (mlx, mly) = zip(faces[0][4:14:2], faces[0][5:14:2])
+        crop = grey[int(max(0, y)):int(min(h, y + fh)), int(max(0, x)):int(min(w, x + fw))]
+        sharp = 0.0
+        if crop.size:
+            crop = cv2.resize(crop, (160, max(1, int(160 * crop.shape[0] / max(crop.shape[1], 1)))))
+            sharp = float(cv2.Laplacian(crop, cv2.CV_32F).var())
+        eye_d = max(1.0, ((lex - rex) ** 2 + (ley - rey) ** 2) ** 0.5)
+        mid_x, mid_y = (rex + lex) / 2, (rey + ley) / 2
+
+        def patch(cx, cy, r):
+            r = max(2, int(r))
+            p_ = grey[int(max(0, cy - r)):int(min(h, cy + r)), int(max(0, cx - r)):int(min(w, cx + r))]
+            return (float(p_.mean()), float(p_.std())) if p_.size else (0.0, 0.0)
+        eyes = [patch(rex, rey, eye_d * 0.18), patch(lex, ley, eye_d * 0.18)]
+        lower = patch((nx + (mrx + mlx) / 2) / 2, (ny + (mry + mly) / 2) / 2, eye_d * 0.25)  # between nose and mouth
+        import numpy as np
+
+        def brightest(cx, cy, r):  # the eye-whites and catchlights: missing behind sunglasses or a visor
+            r = max(2, int(r))
+            p_ = grey[int(max(0, cy - r)):int(min(h, cy + r)), int(max(0, cx - r)):int(min(w, cx + r))]
+            return float(np.percentile(p_, 95)) if p_.size else 0.0
+        eye_bright = min(brightest(rex, rey, eye_d * 0.22), brightest(lex, ley, eye_d * 0.22)) / max(lower[0], 1)
+        out["main"] = {
+            "sharp": round(sharp, 1),
+            "eyeSpan": round(eye_d / max(fw, 1), 3),        # ~0.4 front-on, under ~0.25 is a profile
+            "yaw": round((nx - mid_x) / eye_d, 3),           # nose left/right of the eyes' midpoint
+            "pitch": round((ny - mid_y) / eye_d, 3),         # nose below the eyes: small = looking down
+            "eyeLight": round(min(e[0] for e in eyes) / max(lower[0], 1), 3),  # eyes vs lower face brightness
+            "eyeDetail": round(min(e[1] for e in eyes), 1),  # flat and dark = sunglasses or deep shadow
+            "eyeBright": round(eye_bright, 3),               # under 1: no eye-whites brighter than the skin
+        }
     key.write_text(json.dumps(out))
     return out
 
 
+# The thresholds every athlete photo must pass (see judge_photo).
+MIN_FACE_SHARE = 0.18    # face height / picture height
+MIN_FACE_PX = 120        # face width, in the 1,000 px picture we load
+MAX_RIVAL = 0.35         # any other face must be smaller than this share of the main face
+MIN_SHARP = 120          # Laplacian variance on the face crop (160 px wide)
+MIN_EYE_SPAN, MAX_YAW = 0.27, 0.42
+MIN_PITCH, MAX_PITCH = 0.32, 1.05
+MIN_EYE_LIGHT, MIN_EYE_DETAIL, MIN_EYE_BRIGHT = 0.5, 7, 1.0
+
+
+def worth_a_closer_look(title):
+    """A quick first pass on Commons' small 500 px copy: face share and rival faces don't depend on the size,
+    so most pictures can be ruled out without downloading the big copy."""
+    info = look(title, 500)
+    if not info or not info["faces"]:
+        return False
+    main = info["faces"][0]
+    return main[3] / info["h"] >= MIN_FACE_SHARE * 0.9 and not [f for f in info["faces"][1:] if f[3] > main[3] * MAX_RIVAL]
+
+
 def judge_photo(info):
-    """(points, reason to reject or None, focus "x% y%") for an athlete photo, from look()."""
+    """(points, reason to reject or None, focus "x% y%", numbers for the contact sheet) for an athlete photo."""
     if not info:
-        return 0, "couldn't open it", None
-    w, h, faces = info["w"], info["h"], info["faces"]
-    if w < h * 0.8:
-        return 0, "tall picture (wants landscape)", None
-    if not faces:
-        return 0, "no face found", None
-    main = faces[0]
-    share = main[3] / h  # face height as a share of the picture height
-    if share < 0.08:
-        return 0, f"face too small ({share:.0%} of the height)", None
-    rivals = [f for f in faces[1:] if f[3] >= main[3] * 0.6]
-    if rivals:
-        return 0, f"{len(rivals) + 1} faces of similar size (group shot)", None
-    if info["sharp"] < 40:
-        return 0, f"blurry (sharpness {info['sharp']:.0f})", None
-    cx, cy = (main[0] + main[2] / 2) / w, (main[1] + main[3] / 2) / h
-    focus = f"{round(cx * 100)}% {round(max(0, cy - 0.08) * 100)}%"  # a little above the face, so the head has room
-    points = 0.0
-    points += 3 if 0.1 <= share <= 0.4 else 1   # big in frame, but not a passport photo
-    points += 2 if w >= h * 1.2 else 0          # landscape
-    points += min(info["sharp"], 400) / 200      # up to +2 for crisp
-    points += 1 if w >= 1200 else 0
-    return round(points, 1), None, focus
+        return 0, "couldn't open it", None, {}
+    w, h, faces, m = info["w"], info["h"], info["faces"], info["main"]
+    if not faces or not m:
+        return 0, "no face found", None, {}
+    x, y, fw, fh = faces[0][:4]
+    stats = {"faceShare": round(fh / h, 3), "facePx": round(fw), "sharp": m["sharp"], "box": [round(x / w, 3), round(y / h, 3), round(fw / w, 3), round(fh / h, 3)],
+             "eyeSpan": m["eyeSpan"], "yaw": m["yaw"], "pitch": m["pitch"], "eyeLight": m["eyeLight"], "eyeDetail": m["eyeDetail"], "eyeBright": m["eyeBright"], "score": faces[0][14]}
+    checks = [
+        (faces[0][14] >= 0.85, "face not clear to the detector"),
+        (fh / h >= MIN_FACE_SHARE, f"face too small ({fh / h:.0%} of the height)"),
+        (fw >= MIN_FACE_PX, f"face only {fw:.0f} px wide"),
+        (not [f for f in faces[1:] if f[3] > fh * MAX_RIVAL], "another face competes"),
+        (m["sharp"] >= MIN_SHARP, f"face not sharp ({m['sharp']:.0f})"),
+        (m["eyeSpan"] >= MIN_EYE_SPAN and abs(m["yaw"]) <= MAX_YAW, "face turned away (profile)"),
+        (MIN_PITCH <= m["pitch"] <= MAX_PITCH, "looking down or up"),
+        (m["eyeLight"] >= MIN_EYE_LIGHT and m["eyeDetail"] >= MIN_EYE_DETAIL and m["eyeBright"] >= MIN_EYE_BRIGHT,
+         "eyes hidden (shadow, sunglasses or visor)"),
+        (x >= w * 0.01 and x + fw <= w * 0.99 and y - fh * 0.15 >= 0 and y + fh <= h * 0.99, "face cut off by the edge"),
+    ]
+    for ok, why in checks:
+        if not ok:
+            return 0, why, None, stats
+    cx, cy = (x + fw / 2) / w, (y + fh / 2) / h
+    focus = f"{round(cx * 100)}% {round(max(0, cy - 0.05) * 100)}%"
+    points = min(fh / h, 0.5) * 10 + min(m["sharp"], 600) / 150 + (1 - abs(m["yaw"])) * 2
+    return round(points, 2), None, focus, stats
 
 
-def face_print(title, face):
-    """A face's fingerprint (SFace feature vector) for comparing who it is. Cached."""
-    key = CACHE / (hashlib.md5(f"print|{title}|{face[:4]}".encode()).hexdigest() + ".json")
-    if key.exists():
-        return json.loads(key.read_text())
-    cv2 = _cv()
-    import numpy as np
-    im = download(title)
-    if im is None:
-        return None
-    bgr = np.array(im.convert("RGB"))[:, :, ::-1].copy()
-    if not hasattr(_local, "recogniser"):
-        _local.recogniser = cv2.FaceRecognizerSF.create(str(model("face_recognition_sface_2021dec.onnx")), "")
-    crop = _local.recogniser.alignCrop(bgr, np.array(face, dtype=np.float32))
-    vec = _local.recogniser.feature(crop).flatten().tolist()
-    key.write_text(json.dumps(vec))
-    return vec
+WATERMARK = re.compile(r"©|copyright|\bphoto\b|www\.|\.com\b|getty|shutterstock|alamy|reuters|\bafp\b|imago|dreamstime", re.I)
 
 
-def same_face(a, b):
-    """Cosine similarity of two face fingerprints: SFace says 0.363+ is the same person."""
-    import numpy as np
-    a, b = np.array(a), np.array(b)
-    return float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-9))
+def has_watermark(title):
+    """Text laid over the picture: a copyright line, an agency name or a web address."""
+    return bool(WATERMARK.search(ocr(title)))

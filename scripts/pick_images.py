@@ -40,7 +40,9 @@ PLAYERS = ROOT / "data" / "players.json"
 RESERVE = ROOT / "data" / "reserve.json"
 OVERRIDES = ROOT / "data" / "images.json"
 ANSWER_WORDS = ROOT / "data" / "answer-words.json"  # place names per entry, written by build_players.py
-WIDTH = 600  # Commons serves a resized copy this wide
+WIDTH = 600         # logos: Commons serves a resized copy this wide
+PHOTO_WIDTH = 1280  # athlete photos: large enough to stay sharp in the 4:5 card frame (a standard Commons size)
+REPORT = ROOT / "data" / "image-report.json"  # face box and numbers per picture, for contact-sheet.html
 
 FREE_LICENCE = re.compile(r"^(cc[ -]?by|cc0|public domain|pd\b|pd-|attribution)", re.I)
 PHOTO_FILE = re.compile(r"\.(jpe?g|png|webp)$", re.I)
@@ -202,46 +204,50 @@ def score(entry, title, meta, source):
     return round(s, 1)
 
 
-# Athlete photos: the look we want is one player, face clearly visible and big in frame, in kit,
-# playing or celebrating, sharp, landscape. These words in a file's title or description rule it out…
-NOT_ACTION = re.compile(r"portrait|head ?shot|press conference|news conference|signing|premiere|red carpet|\bwax\b|"
-                        r"tussaud|statue|sculpture|bust\b|caricature|autograph|mural|stamp|coin|banknote|grave|tomb|"
-                        r"drawing|painting|cartoon|poster|award ceremony|gala|interview|visit|meets|with fans|selfie", re.I)
-# …and these suggest the moment we want.
+# Athlete photos. First choice: a sharp action shot with the face big and clear. Second choice: a sharp,
+# close head-and-shoulders photo. Otherwise the athlete sits out. These are never used…
+NEVER = re.compile(r"\bwax\b|tussaud|statue|sculpture|\bbust\b|caricature|mural|stamp|coin|banknote|grave|tomb|"
+                   r"drawing|painting|cartoon|poster|autograph|signature|team photo|squad|line-?up", re.I)
+# …these mark a posed picture (allowed, but only as the second choice)…
+POSED = re.compile(r"portrait|head ?shot|press conference|news conference|signing|premiere|red carpet|award|gala|"
+                   r"interview|visit|meets|reception|ceremony|launch", re.I)
+# …and these the moment we want most.
 PREFER = re.compile(r"\b(match|game|playing|plays|during|final|race|serve|serving|goal|celebrat\w*|scores|in action|"
-                    r"vs\.?|versus|dunk|swing|tee shot|bowling|batting|pitching|lap)\b", re.I)
-MIN_WIDTH = 800
+                    r"vs\.?|versus|dunk|swing|tee shot|bowling|batting|pitching|lap|fight|bout|round)\b", re.I)
+MIN_LONG_SIDE = 1000
 
 
 def athlete_text_score(entry, title, meta, source):
-    """Points from the file's name, description and shape. None = never use it."""
+    """(tier, points) from the file's name, description, size and source; None = never use it.
+    tier 1 = looks like an action shot, tier 2 = posed or unclear."""
     text = plain(f"{title} {meta['desc']}")
     city_words = [w for w in re.findall(r"[a-z]+", plain(entry["city"])) if len(w) > 3]
     name_words = set(re.findall(r"[a-z]+", plain(entry["name"])))
     words = set(re.findall(r"[a-z]+", text))
     if not FREE_LICENCE.search(meta["licence"]) or not re.search(r"\.jpe?g$", title, re.I):
-        return None  # needs a free licence, and to be a photo
-    if meta["w"] < MIN_WIDTH or meta["w"] < meta["h"] * 0.8:
-        return None  # too small, or a tall strip
-    if NOT_ACTION.search(text):
+        return None  # a free licence, and a photo
+    if max(meta["w"], meta["h"]) < MIN_LONG_SIDE or NEVER.search(text):
         return None
     if any(w in words and w not in name_words for w in city_words):
         return None  # names the answer city
-    s = {"depicts": 4, "category": 2, "p18": 0}[source]  # "depicts" = Commons says it's them
     surname = [w for w in re.findall(r"[a-z]+", plain(entry["name"])) if len(w) > 2]
-    if surname and surname[-1] in set(re.findall(r"[a-z]+", plain(title))):
-        s += 1
-    s += min(len(set(m.group(0).lower() for m in PREFER.finditer(text))), 3) * 2
-    if re.search(SPORT_TERMS.get(entry["sport"], r"$^"), text, re.I):
-        s += 1
-    s -= min(len(set(m.group(0).lower() for m in NOT_SPORT.finditer(text))), 2) * 6
-    s += 2 if meta["w"] >= meta["h"] * 1.2 else 0
-    return s
+    named = bool(surname) and surname[-1] in words
+    # Who it is comes from Commons, never from the face: "depicts" says so, or their own category or
+    # Wikidata image plus their name in the file's title or description.
+    if source == "category" and not named:
+        return None
+    s = {"depicts": 4, "category": 2, "p18": 2}[source] + (1 if named else 0)
+    action = bool(PREFER.search(text) or re.search(SPORT_TERMS.get(entry["sport"], r"$^"), text, re.I))
+    tier = 1 if action and not POSED.search(text) else 2
+    s += min(len(set(m.group(0).lower() for m in PREFER.finditer(text))), 3)
+    s -= min(len(set(m.group(0).lower() for m in NOT_SPORT.finditer(text))), 2) * 4
+    return tier, s
 
 
 def pick_for_athlete(entry, refs, rejects):
     """Candidates from Commons files that depict them (structured data, P180), their Commons category and
-    their main image; scored on text, then looked at: exactly one big face, sharp, landscape."""
+    their main Wikidata image; ranked by the words, then looked at properly (imagecheck.judge_photo).
+    Returns passing pictures best first: action shots before posed ones."""
     import imagecheck
     q = entry["id"][3:]
     cands = {}  # title -> (meta, source)
@@ -259,31 +265,25 @@ def pick_for_athlete(entry, refs, rejects):
     for t, (m, src) in cands.items():
         if t in rejects:
             continue
-        sc = athlete_text_score(entry, t, m, src)
-        if sc is not None:
-            scored.append((sc, t, m, src))
-    scored.sort(key=lambda x: -x[0])
-    # Whose face is it? Their main Wikidata image (usually a clear portrait) is the reference.
-    ref = None
-    if refs.get("p18"):
-        info = imagecheck.look(refs["p18"])
-        if info and info["faces"] and not [f for f in info["faces"][1:] if f[3] >= info["faces"][0][3] * 0.6]:
-            ref = imagecheck.face_print(refs["p18"], info["faces"][0])
-    # look properly at the best twenty
-    out = []
-    for sc, t, m, src in scored[:20]:
-        info = imagecheck.look(t)
-        points, why, focus = imagecheck.judge_photo(info)
+        r = athlete_text_score(entry, t, m, src)
+        if r is not None:
+            scored.append((r[0], r[1], t, m, src))
+    action = sorted([c for c in scored if c[0] == 1], key=lambda c: -c[1])[:28]
+    posed = sorted([c for c in scored if c[0] == 2], key=lambda c: -c[1])[:14]
+    out, looked = [], []
+    for tier, sc, t, m, src in action + posed:
+        if not imagecheck.worth_a_closer_look(t):
+            continue  # the face is small, or shares the picture: no need for the big copy
+        points, why, focus, stats = imagecheck.judge_photo(imagecheck.look(t))
+        looked.append((t, why))
         if why:
             continue
-        verified = None
-        if ref:
-            likeness = imagecheck.same_face(ref, imagecheck.face_print(t, info["faces"][0]))
-            if likeness < 0.30:
-                continue  # the big face in it is someone else (a coach, a team-mate)
-            verified = likeness >= 0.363
-            points += 3 if verified else 0
-        out.append((round(sc + points * 1.5, 1), t, dict(m, focus=focus, verified=verified), src))
+        if imagecheck.has_watermark(t):
+            looked[-1] = (t, "text over the picture (watermark)")
+            continue
+        out.append(((2 - tier) * 100 + sc + points, t, dict(m, focus=focus, tier=tier, stats=stats), src))
+        if len(out) >= 2:
+            break  # candidates come best-described first: two that pass is plenty (and spares Commons)
     out.sort(key=lambda x: -x[0])
     return out
 
@@ -324,13 +324,13 @@ def main():
                 return [(99, t, m, "chosen by hand") for t, m in meta.items()]
             if e["type"] == "team":
                 return cached(f"img-team-{e['id']}", lambda: pick_for_team(e, refs.get(e["id"][3:], {}), rejects), fresh)
-            return cached(f"img2-ath-{e['id']}", lambda: pick_for_athlete(e, refs.get(e["id"][3:], {}), rejects), fresh)
+            return cached(f"img4-ath-{e['id']}", lambda: pick_for_athlete(e, refs.get(e["id"][3:], {}), rejects), fresh)
         except QueryFailed:
             return None
 
     # Four lookups at a time: much faster, still polite to Wikidata (its limit is 5 at once).
     todo = [e for e in pool if not overrides.get(e["id"], {}).get("none")]
-    with ThreadPoolExecutor(max_workers=4) as workers:
+    with ThreadPoolExecutor(max_workers=3) as workers:
         found = {}
         for n, (e, picks) in enumerate(zip(todo, workers.map(picks_for, todo)), 1):
             found[e["id"]] = picks
@@ -365,7 +365,7 @@ def main():
         vetted = dict(zip([e["id"] for e in pool], workers.map(vet, pool)))
     ocr_log = []
 
-    keep, removed = [], []
+    keep, removed, report = [], [], {}
     for e in pool:
         for k in ("image", "imageAuthor", "imageLicense", "imagePage", "imageSource", "imageConfidence", "imageFocus"):
             e.pop(k, None)
@@ -382,18 +382,21 @@ def main():
             removed.append((e, "no usable picture" + (" (text in the others names the place)" if turned_down else ""))); continue
         sc, title, meta, src = chosen
         quoted = urllib.parse.quote(title.replace(" ", "_"))
-        e["image"] = f"https://commons.wikimedia.org/wiki/Special:FilePath/{quoted}?width={WIDTH}"
+        e["image"] = f"https://commons.wikimedia.org/wiki/Special:FilePath/{quoted}?width={PHOTO_WIDTH if e['type'] == 'athlete' else WIDTH}"
         e["imageAuthor"] = meta["author"]
         e["imageLicense"] = meta["licence"]
         e["imagePage"] = f"https://commons.wikimedia.org/wiki/File:{quoted}"
         e["imageSource"] = src
+        if e["type"] == "athlete" and src == "chosen by hand":  # your choice stands, but the face is still found
+            import imagecheck
+            _, _, focus, stats = imagecheck.judge_photo(imagecheck.look(title))
+            meta = dict(meta, focus=focus, stats=stats, tier=0)
         if meta.get("focus"):
             e["imageFocus"] = meta["focus"]  # CSS object-position that keeps the face in the crop
         # "low" = worth a human look on the contact sheet
-        if e["type"] == "athlete":  # sure it's them (depicts) and clearly playing, or else worth a look
-            text = plain(title + " " + meta["desc"])
-            playing = bool(PREFER.search(text) or re.search(SPORT_TERMS.get(e["sport"], r"$^"), text, re.I))
-            e["imageConfidence"] = "high" if src == "chosen by hand" or (meta.get("verified") and playing) else "low"
+        if e["type"] == "athlete":  # an action shot that Commons says depicts them; posed shots get a look
+            e["imageConfidence"] = "high" if src == "chosen by hand" or (meta.get("tier") == 1 and src == "depicts") else "low"
+            report[e["id"]] = {"file": title, "source": src, "tier": meta.get("tier"), **(meta.get("stats") or {})}
         else:
             e["imageConfidence"] = "high" if src in ("logo", "chosen by hand") or (sc >= 9 and ACTION.search(plain(title + " " + meta["desc"]))) else "low"
         # A team with no free logo needs a clear match photo; a doubtful one (a scan, a chart, an empty
@@ -402,7 +405,12 @@ def main():
             removed.append((e, "no logo and no clear match photo")); continue
         keep.append(e)
 
+    # difficulty over the final pool: the most famous 70% are 1 (household names), the rest 2
+    keep.sort(key=lambda e: -e.get("fame", 0))
+    for k, e in enumerate(keep):
+        e["difficulty"] = 1 if k < len(keep) * 0.7 else 2
     PLAYERS.write_text(json.dumps(keep, ensure_ascii=False, indent=1) + "\n")
+    REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=0) + "\n")
     with open(ROOT / "data" / "image-rejects.csv", "w", newline="", encoding="utf-8") as f:  # for checking by eye
         import csv
         w = csv.writer(f)
@@ -417,8 +425,13 @@ def main():
         s[0] += 1
         s[1] += e["imageConfidence"] == "low"
     print(f"\n{len(keep)} entries with a picture ({sum(v[1] for v in by_sport.values())} low-confidence), {len(removed)} moved to the reserve.")
-    for sport, (n, low) in sorted(by_sport.items(), key=lambda x: -x[1][0]):
-        print(f"   {sport:<26} {n:>4}  ({low} to check)")
+    out_by_sport = {}
+    for e, _ in removed:
+        out_by_sport[e["sport"]] = out_by_sport.get(e["sport"], 0) + 1
+    print(f"   {'sport':<26} {'in':>4} {'out':>4}")
+    for sport in sorted(set(by_sport) | set(out_by_sport), key=lambda x: -by_sport.get(x, [0])[0]):
+        n, low = by_sport.get(sport, [0, 0])
+        print(f"   {sport:<26} {n:>4} {out_by_sport.get(sport, 0):>4}  ({low} to check)")
     for e, why in removed:
         print(f"   reserve: {e['name']} ({e['sport']}): {why}")
 

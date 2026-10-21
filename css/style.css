@@ -135,7 +135,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   font-size: clamp(40px, 4.6vw, 64px); line-height: 0.86; letter-spacing: -0.005em;
   text-wrap: balance; overflow-wrap: break-word;
 }
-.ticket-body { display: grid; grid-template-columns: 132px 1fr; gap: 16px; align-items: end; margin-top: 18px; padding-top: 16px; border-top: 2px dashed var(--chalk-2); }
+.ticket-body { display: grid; grid-template-columns: 224px 1fr; gap: 16px; align-items: end; margin-top: 18px; padding-top: 16px; border-top: 2px dashed var(--chalk-2); }
 .ask { margin: 0; font-size: 15px; line-height: 1.35; color: var(--mute-chalk); }
 .ask b { display: block; margin-bottom: 2px; font-family: var(--f-display); font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: 0.02em; color: var(--ink); text-transform: uppercase; }
 /* collapse: the ticket folds down to its top row and the name */
@@ -149,7 +149,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 @keyframes deal { from { opacity: 0; transform: translateX(-24px) rotate(-1.5deg); } to { opacity: 1; transform: none; } }
 
 /* Picture of the athlete or team: a fixed-size frame (so nothing jumps when it loads). */
-.portrait { position: relative; margin: 0; width: 132px; aspect-ratio: 1; max-width: 100%; background: var(--ink); overflow: hidden; border-radius: var(--hard); }
+/* the picture: a 4:5 frame, about 280 px tall on desktop, cropped around the face (imageFocus) */
+.portrait { position: relative; margin: 0; width: 224px; aspect-ratio: 4 / 5; max-width: 100%; background: var(--ink); overflow: hidden; border-radius: var(--hard); }
 .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; opacity: 0; transition: opacity 250ms; }
 .portrait img.loaded { opacity: 1; }
 .portrait img:not([src]) { visibility: hidden; }  /* no picture: nothing drawn, not even a broken-image icon */
@@ -363,8 +364,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   }
   .who { font-size: clamp(30px, 9vw, 42px); margin-top: 8px; }
   .ticket.folded .who { font-size: 26px; }
-  .ticket-body { grid-template-columns: 84px 1fr; gap: 12px; margin-top: 10px; padding-top: 10px; }
-  .portrait { width: 84px; }
+  .ticket-body { grid-template-columns: 112px 1fr; gap: 12px; margin-top: 10px; padding-top: 10px; }
+  .portrait { width: 112px; }
   .initials { font-size: 30px; }
   .initials svg { width: 18px; height: 18px; }
   .credit { width: min(250px, 70vw); }
