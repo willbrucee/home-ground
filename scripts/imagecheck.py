@@ -26,6 +26,10 @@ from spoilers import fold, mentions_place, place_tokens
 CACHE = pathlib.Path(__file__).resolve().parent / ".cache" / "img"
 
 
+class CommonsBusy(Exception):
+    """Commons kept refusing downloads (rate limit): try this entry again on the next run."""
+
+
 _gate = threading.Lock()
 _last = [0.0]
 
@@ -45,6 +49,7 @@ def download(title, width=1280):
     path = CACHE / (hashlib.md5(f"{title}|{width}".encode()).hexdigest() + ".img")
     if not path.exists():
         url = f"https://commons.wikimedia.org/wiki/Special:FilePath/{urllib.parse.quote(title.replace(' ', '_'))}?width={width}"
+        busy = 0
         for attempt in range(5):
             try:
                 _polite()
@@ -54,10 +59,13 @@ def download(title, width=1280):
             except urllib.error.HTTPError as err:
                 if err.code == 404:
                     return None
+                busy += err.code == 429
                 time.sleep(int(err.headers.get("Retry-After") or 0) or 10 * (attempt + 1))  # 429: back off
             except Exception:  # noqa: BLE001 (timeouts, dropped connections: try again a little later)
                 time.sleep(3 * (attempt + 1))
         else:
+            if busy:
+                raise CommonsBusy(title)
             return None
     try:
         im = Image.open(io.BytesIO(path.read_bytes()))

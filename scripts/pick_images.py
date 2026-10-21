@@ -327,6 +327,10 @@ def main():
             return cached(f"img4-ath-{e['id']}", lambda: pick_for_athlete(e, refs.get(e["id"][3:], {}), rejects), fresh)
         except QueryFailed:
             return None
+        except Exception as err:  # noqa: BLE001
+            if type(err).__name__ == "CommonsBusy":
+                return None  # Commons is rate-limiting us: leave this one for the next run (nothing cached)
+            raise
 
     # Four lookups at a time: much faster, still polite to Wikidata (its limit is 5 at once).
     todo = [e for e in pool if not overrides.get(e["id"], {}).get("none")]
