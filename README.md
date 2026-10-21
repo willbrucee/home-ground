@@ -26,7 +26,7 @@ country shapes instead of satellite imagery. GitHub Pages and other normal hosts
 
 ```
 index.html              page structure
-css/style.css           all styling
+css/style.css           all styling; every colour is a CSS variable on :root (palette.html shows them)
 js/config.js            settings: Esri key, globe/flat, rounds, difficulty per round, satellite tiles
 js/game.js              game flow, scoring, scorecard, share text
 js/map.js               the MapLibre map: satellite, country highlight, pins, result line
@@ -35,6 +35,10 @@ js/geo.js               distance and great-circle maths
 js/units.js             km / miles display (everything is stored in km)
 js/tiers.js             result tiers, colours and reaction lines
 js/effects.js           the short celebration effects
+js/climb.js             "The Climb": the rank staircase (in game and at full time)
+js/summarymap.js        the Full time map, one round at a time
+js/vault.js             the Vault and the card collection
+js/palette.js           reads the CSS colour variables for the map and canvas
 data/players.json       the player/team list the game loads (generated, see below)
 data/overrides.json     your additions and removals (merged in by the build)
 data/review.csv         every entry sorted by fame, for checking by eye (generated)
@@ -179,24 +183,27 @@ them into the order without reshuffling the others, though days that haven't hap
 
 ### Pictures
 
-`scripts/pick_images.py` looks for the picture we want: one player, face clearly visible and big in frame,
-in kit, playing or celebrating, sharp, landscape.
+`scripts/pick_images.py` looks for a picture where the face is clear: first a sharp action shot with a big
+face, then a sharp, close head-and-shoulders shot. Anything less and the athlete goes to the reserve.
 
 - **Candidates**: Commons files whose structured data says they depict the person (`haswbstatement:P180=Q…`),
-  their Commons category (P373) and their main image (P18). Free licences and photos only, 800 px wide or more.
-- **Words**: out if the title or description says portrait, headshot, press conference, signing, premiere, red
-  carpet, wax, statue, caricature, autograph and the like; points for match, game, playing, final, race, serve,
-  goal, celebrates.
-- **Looking at it**: OpenCV's face detector (YuNet) needs exactly one dominant face, at least 8% of the
-  picture's height, with no rival faces of similar size, and the face must be sharp (variance of the
-  Laplacian). OpenCV's face recogniser (SFace) compares the face with their main Wikidata portrait, so a
-  photo where the biggest face is the coach is turned down.
-- The best one wins, and its face position is saved as `imageFocus`. No passing picture: the entry goes
-  to `data/reserve.json` instead of being shown with a poor one.
-- **Teams**: their logo, or a clear match photo, or the reserve.
+  their Commons category (P373, file name must include their name) and their main image (P18). Free licences,
+  photos only, 1,000 px or more on the long side. Who is in the picture comes from this metadata only; faces
+  are never used to identify anyone.
+- **Words**: out if the title or description says press conference, signing, premiere, red carpet, wax,
+  statue, caricature, autograph and the like; points for match, game, playing, final, race, serve, goal.
+- **Looking at it** (OpenCV's YuNet face detector): one dominant face (no other face over 35% of its size),
+  at least 18% of the picture's height and 120 px wide as served; sharp (variance of the Laplacian on the
+  face); both eyes visible and lit (no profile, looking down, cap shadow, sunglasses or visor); not cut off
+  at the edge. tesseract turns down text overlays and watermarks.
+- **Commons rate limits**: new renders of big thumbnails often get HTTP 429, so every check runs on the
+  500 px copy and the pixel limits are scaled to the width the game serves (1,280 px). The game asks for
+  Commons' standard 500/960/1280 widths, which are usually already cached.
+- The best one wins, and its face position is saved as `imageFocus` (the crop's object-position).
+- **Teams**: their logo, large and clean, with no place name in it (OCR), or the reserve.
 
-`contact-sheet.html` shows every chosen picture, with the face marked, low-confidence ones flagged, and a
-Reject button that writes to `data/images.json`.
+`contact-sheet.html` shows every chosen picture, worst first, with the face box and the numbers, and a
+Reject button that writes to `data/images.json`. The run's numbers are in `data/image-report.json`.
 
 ### Anti-cheat
 
@@ -217,6 +224,15 @@ The daily total earns a rank: Wooden spoon, Reserve (1,500+), Starter (2,600+), 
 (4,200+), Hall of Fame (4,800+). The points curve (1,000 within 25 km of the city's edge, then a long, gentle
 fall) and these thresholds come from `python3 scripts/simulate_ranks.py`, which plays 5,000 games each for a
 casual, a good and an expert player on the real pool.
+
+"The Climb" (`js/climb.js`) draws the ranks as a staircase with every name and threshold showing: a small
+one during the game ("1,350 to Captain"), and the big one at full time.
+
+### Stats
+
+The chart button opens your stats: games played, average, best, streak, best streak and how often you've
+reached each rank. They're kept in this browser's local storage only (`hg:history`, `hg:stats`); nothing is
+sent anywhere.
 
 ### Tests
 
