@@ -3,7 +3,7 @@
 
 const CACHE = "hg-tiles-v1";
 const MAX_TILES = 2000; // roughly 40 MB; the oldest are dropped beyond this
-const TILE_HOSTS = ["clarity.maptiles.arcgis.com", "server.arcgisonline.com"];
+const TILE_HOSTS = ["clarity.maptiles.arcgis.com", "server.arcgisonline.com", "services.arcgisonline.com", "basemaps.arcgis.com"]; // imagery, place names, map font
 
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));
