@@ -338,7 +338,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .ladder-live[hidden] { display: none; }
 
 /* the hero of the Full time screen */
-.ft-hero { grid-area: hero; justify-self: center; width: min(880px, 100%); }
+.ft-hero { justify-self: center; width: min(880px, 100%); }
 .climb-hero { display: grid; grid-template-columns: minmax(0, 600px) minmax(170px, 1fr); gap: 20px 28px; align-items: end; }
 .climb-hero .cl-side { display: grid; gap: 10px; justify-items: start; padding-bottom: 54px; }
 .cl-rank { margin: 0; opacity: 0; transition: opacity 300ms; }
@@ -350,6 +350,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 @keyframes stamp-in { from { transform: scale(1.6); opacity: 0; } }
 .cl-skip { padding: 4px 10px; background: none; color: var(--muted); font: 700 13px var(--f-body); text-decoration: underline; }
 .cl-skip[hidden] { display: none; }
+.ft .cl-skip { display: none; } /* the end screen has its own "Skip animation" */
 
 /* Phones */
 @media (max-width: 720px) {
@@ -488,97 +489,89 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .vault-btn { margin-top: 10px; }
 }
 /* ── Full time: the whole screen ───────────────────── */
+/* Calm and roomy, top to bottom: score and rank, the rounds beside the map, then sharing. */
 .sheet.full { padding: 0; display: block; background: var(--bg); }
-.ft { max-width: 1240px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top, 0px)) var(--edge) 56px; color: var(--text);
-  display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(320px, 1fr); gap: 22px 28px;
-  grid-template-areas: "top top" "hero hero" "map rows" "calls rows" "cards cards" "share share"; align-items: start; }
-.ft-top { grid-area: top; display: grid; grid-template-columns: 1fr auto; gap: 18px 28px; align-items: end; border-bottom: 3px solid var(--line); padding-bottom: 20px; }
-.ft-head small { font: 700 13px var(--f-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-.ft-brand { display: flex; align-items: center; gap: 10px; }
-.ft-head h2 { margin: 2px 0 6px; font: 900 clamp(64px, 11vw, 150px)/0.8 var(--f-display); text-transform: uppercase; letter-spacing: -0.01em; }
-.ft-score { display: flex; align-items: baseline; gap: 12px; }
-.ft-score b { font: 900 clamp(60px, 8vw, 110px)/0.85 var(--f-display); color: var(--text); font-variant-numeric: tabular-nums; }
-.ft-score span { font: 700 24px var(--f-display); color: var(--muted); text-transform: uppercase; }
-.ft-next { margin: 8px 0 0; color: var(--muted); font-weight: 600; }
-.ft-stats { grid-column: 1; }
-.ft .stats div { background: var(--surface-2); }
+.ft { max-width: 1180px; margin: 0 auto; padding: calc(32px + env(safe-area-inset-top, 0px)) var(--edge) 72px; color: var(--text);
+  display: grid; gap: 48px; }
+.ft-top { display: grid; justify-items: center; text-align: center; gap: 4px; }
+.ft-brand { display: flex; align-items: center; gap: 10px; font: 700 13px var(--f-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ft-top h2 { margin: 6px 0 0; font: 900 clamp(48px, 7vw, 84px)/0.9 var(--f-display); text-transform: uppercase; }
+.ft-score { display: flex; align-items: baseline; gap: 10px; }
+.ft-score b { font: 900 clamp(52px, 7vw, 88px)/0.9 var(--f-display); font-variant-numeric: tabular-nums; }
+.ft-score span { font: 700 22px var(--f-display); color: var(--muted); text-transform: uppercase; }
+.ft-skip { margin-top: 6px; padding: 4px 10px; background: none; color: var(--muted); font: 700 14px var(--f-body); text-decoration: underline; }
 
-.ft-map-wrap { grid-area: map; position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--sea); box-shadow: inset 0 0 0 3px var(--line); }
-.ft-map { position: absolute; inset: 0; }
-.ft-showall { position: absolute; left: 10px; top: 10px; z-index: 2; }
-/* markers on the Full time map: a dot exactly on the spot, and a badge (centred on it, or fanned out on a
-   leader line when markers crowd together) */
-.sm-pin { position: relative; width: 0; height: 0; cursor: pointer; transition: opacity 250ms; }
-.sm-hidden { opacity: 0; pointer-events: none; }
-.sm-dim { opacity: 0.35; }
-.sm-dot { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--surface); box-shadow: 0 0 0 2px var(--border); }
-.sm-answer .sm-dot { background: var(--c); }
-.sm-leader { position: absolute; left: 0; top: -1px; height: 2px; width: var(--len, 0); background: var(--surface); box-shadow: 0 0 0 1px var(--border);
-  transform-origin: 0 50%; transform: rotate(var(--ang, 0rad)); display: none; }
-.sm-fanned .sm-leader { display: block; }
-.sm-badge { position: absolute; left: var(--dx, 0px); top: var(--dy, 0px); transform: translate(-50%, -50%); display: flex; align-items: center; gap: 0; }
-.sm-ball, .sm-flag { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; box-shadow: 0 0 0 2px var(--border), 0 3px 8px color-mix(in srgb, var(--border) 50%, transparent); }
-.sm-ball { background: var(--surface); color: var(--text); }
-.sm-ball svg { width: 17px; height: 17px; }
-.sm-flag { background: var(--c); }
-.sm-flag::before { content: ""; width: 10px; height: 12px; margin-left: 3px; border-left: 2px solid var(--border); background: linear-gradient(var(--border), var(--border)) 2px 1px / 7px 6px no-repeat; }
-.sm-badge b { margin-left: -4px; padding: 0 5px; min-width: 18px; text-align: center; background: var(--surface); color: var(--text); font: 900 13px/18px var(--f-display); border-radius: 2px; box-shadow: 0 0 0 1px var(--c, var(--surface)); }
-.sm-dist { padding: 1px 7px; background: var(--surface); color: var(--c); font: 800 13px/1.4 var(--f-display); text-transform: uppercase; white-space: nowrap; border-radius: 2px; box-shadow: 0 0 0 1px var(--c); transition: opacity 250ms; }
-.sm-dist.sm-hidden { opacity: 0; }
-.ft-row { cursor: pointer; }
-.ft-row:hover, .ft-row.picked { background: color-mix(in srgb, var(--c) 18%, var(--surface-2)); }
-.ft-row:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-
-.ft-rows { grid-area: rows; list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.ft-row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 12px 8px 8px; background: var(--surface-2); border-left: 6px solid var(--c); }
-.ft-thumb { position: relative; width: 64px; height: 64px; display: grid; place-items: center; overflow: hidden; background: var(--surface); color: var(--muted); }
-.ft-thumb svg { width: 30px; height: 30px; }
-.ft-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
-.ft-thumb[data-type="team"] img { object-fit: contain; padding: 8px; background: var(--plate); }
-.ft-who { min-width: 0; font-size: 13px; line-height: 1.35; color: var(--muted); }
-.ft-who b { display: block; margin-bottom: 2px; color: var(--text); font: 800 20px/1 var(--f-display); text-transform: uppercase; overflow-wrap: anywhere; }
+/* the rounds and the map side by side; they fade in after the climb */
+.ft-rounds { display: grid; grid-template-columns: minmax(300px, 400px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.ft:not(.settled):not(.list-in) .ft-rounds, .ft:not(.settled):not(.list-in) .ft-share { opacity: 0; }
+.ft-rounds, .ft-share { transition: opacity 500ms ease-out; }
+.ft-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ft-row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 14px; cursor: pointer;
+  background: var(--surface); border: 2px solid var(--line); border-radius: 6px; }
+.ft-row:hover { border-color: var(--border); }
+.ft-row.picked { border-color: var(--border); box-shadow: 4px 4px 0 var(--border); }
+.ft-row:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+.ft-num { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c); color: var(--c-ink);
+  border: 2px solid var(--border); font: 900 18px var(--f-display); }
+.ft-who { min-width: 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.ft-who b { display: block; margin-bottom: 2px; color: var(--text); font: 800 19px/1.05 var(--f-display); text-transform: uppercase; overflow-wrap: anywhere; }
 .ft-who span { display: block; }
 .ft-said i { font-style: normal; color: var(--text); }
 .ft-pts { text-align: right; }
-.ft-pts b { display: block; font: 900 32px/0.9 var(--f-display); font-variant-numeric: tabular-nums; }
-.ft-tier { display: inline-block; margin: 3px 0 2px; padding: 1px 6px; background: var(--c); color: var(--text); font: 800 13px var(--f-display); text-transform: uppercase; white-space: nowrap; }
+.ft-pts b { display: block; font: 900 28px/0.95 var(--f-display); font-variant-numeric: tabular-nums; }
+.ft-tier { display: inline-block; margin: 3px 0 2px; padding: 1px 6px; border-radius: 3px; background: var(--c); color: var(--c-ink);
+  font: 800 12px var(--f-display); text-transform: uppercase; white-space: nowrap; }
 .ft-pts small { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; }
 
-.ft-calls { grid-area: calls; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.ft-call { padding: 12px 14px; background: var(--surface-2); border-top: 6px solid var(--c); }
-.ft-call small { display: block; font: 700 12px var(--f-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-.ft-call b { display: block; margin: 4px 0; font: 900 28px/0.95 var(--f-display); text-transform: uppercase; }
-.ft-call span { font-size: 14px; color: var(--muted); }
+.ft-mapcol { display: grid; gap: 10px; position: sticky; top: 16px; }
+.ft-map-wrap { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 6px; background: var(--sea); border: 2px solid var(--border); }
+.ft-map { position: absolute; inset: 0; }
+.ft-mapnav { display: flex; align-items: center; gap: 8px; }
+.ft-mapnav span { flex: 1; text-align: center; font: 800 16px var(--f-display); text-transform: uppercase; }
+.ft-mapnav .minor { box-shadow: none; border: 2px solid var(--border); }
+.ft-mapnav #showAllBtn[aria-pressed="true"] { background: var(--primary); }
 
-.ft-cards { grid-area: cards; }
-.ft-cards h3 { margin: 0; font: 900 34px var(--f-display); text-transform: uppercase; }
-.ft-cards p { margin: 0 0 12px; color: var(--muted); }
-.ft-cardrow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
-.ft-cardbtn { padding: 0; background: none; transition: transform 150ms; }
-.ft-cardbtn:hover { transform: translateY(-4px); }
-.ft .tcard-in { transition-delay: calc(var(--i) * 350ms + 2200ms); }
+/* markers on the Full time map: a hollow numbered circle for your pin, a filled one with a flag for the answer */
+.sm-pin { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border-radius: 50%; cursor: pointer;
+  font: 900 15px var(--f-display); line-height: 1; transition: opacity 200ms; } /* (MapLibre positions markers itself: no position or transform here) */
+.sm-guess { background: var(--surface); color: var(--text); border: 4px solid var(--c); box-shadow: 0 0 0 2px var(--border); }
+.sm-answer { background: var(--c); color: var(--c-ink); border: 2px solid var(--border); }
+.sm-flag { position: absolute; right: -9px; top: -13px; width: 13px; height: 15px; border-left: 2px solid var(--border);
+  background: linear-gradient(var(--c), var(--c)) 0 0 / 10px 8px no-repeat; }
+.sm-flag::after { content: ""; position: absolute; left: 0; top: 0; width: 10px; height: 8px; border: 1.5px solid var(--border); border-left: 0; }
+.sm-faint { width: 16px; height: 16px; font-size: 10px; opacity: 0.3; border-width: 2px; box-shadow: none; }
+.sm-faint .sm-flag { display: none; }
+.sm-plain { width: 18px; height: 18px; font-size: 11px; border-width: 2px; box-shadow: none; }
+.sm-plain .sm-flag { display: none; }
+.sm-dist { padding: 2px 8px; border-radius: 4px; background: var(--surface); color: var(--text); border: 2px solid var(--c);
+  font: 800 14px/1.3 var(--f-display); text-transform: uppercase; white-space: nowrap; box-shadow: 0 2px 6px color-mix(in srgb, var(--border) 30%, transparent); }
+.sm-dist[hidden] { display: none; }
 
-.ft-share { grid-area: share; display: grid; gap: 12px; max-width: 640px; }
-.ft-sharetext { margin: 0; padding: 14px 16px; background: var(--surface-2); border-left: 6px solid var(--primary); font: 500 15px/1.5 var(--f-body); white-space: pre-wrap; overflow-wrap: anywhere; }
-.ft .next-in { color: var(--muted); }
-.ft .minor { box-shadow: inset 0 0 0 2px var(--line); background: var(--surface-2); color: var(--text); }
-.ft .minor:hover { box-shadow: inset 0 0 0 2px var(--primary); }
+/* sharing, the countdown and the day's cards: quieter, at the bottom */
+.ft-share { display: grid; gap: 14px; justify-items: center; text-align: center; max-width: 560px; margin: 0 auto; width: 100%; }
+.ft-sharetext { margin: 0; width: 100%; padding: 14px 16px; background: var(--surface); border: 2px solid var(--line); border-radius: 6px;
+  font: 600 16px/1.6 var(--f-body); white-space: pre-wrap; overflow-wrap: anywhere; text-align: left; }
+.ft-share .actions { width: 100%; }
+.ft .next-in { margin: 0; color: var(--muted); }
+.ft .minor { background: var(--surface); color: var(--text); }
+.ft-cards { width: 100%; margin-top: 24px; }
+.ft-cards h3 { margin: 0 0 10px; font: 900 24px var(--f-display); text-transform: uppercase; }
+.ft-cards p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+.ft-cardrow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.ft-cardbtn { padding: 0; background: none; }
 .ft .credits, .ft-geo { color: var(--muted); font-size: 12px; margin: 0; }
-.ft .credits a { color: var(--text); }
 
 @media (max-width: 900px) {
-  .ft { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "hero" "map" "rows" "calls" "cards" "share"; gap: 18px; }
-  .ft-top { grid-template-columns: 1fr; }
-  .ft-stats { grid-column: auto; }
+  .ft { gap: 36px; }
+  .ft-rounds { grid-template-columns: minmax(0, 1fr); }
+  .ft-mapcol { position: static; order: -1; } /* phones: the map first, the list below it */
 }
 @media (max-width: 520px) {
-  .ft-calls { grid-template-columns: 1fr; }
-  .ft-row { grid-template-columns: 52px minmax(0, 1fr) auto; gap: 10px; }
-  .ft-thumb { width: 52px; height: 52px; }
-  .ft-who b { font-size: 18px; }
-  .ft-pts b { font-size: 26px; }
+  .ft-row { grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; padding: 10px; }
+  .ft-num { width: 30px; height: 30px; font-size: 16px; }
+  .ft-who b { font-size: 17px; }
+  .ft-pts b { font-size: 24px; }
   .ft-cardrow { gap: 6px; }
-  .ft-map-wrap { aspect-ratio: 4 / 3; }
 }
 
 @media (max-width: 720px) {

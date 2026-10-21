@@ -3,7 +3,7 @@ import { ROUNDS } from "./config.js";
 import { createMap } from "./map.js";
 import { distanceKm, pointAlong } from "./geo.js";
 import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
-import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
+import { TIERS, tierFor, reactionFor, rankFor } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
 import { loadPlaces, describeSpot } from "./fulltime.js";
@@ -320,73 +320,67 @@ let timer = null;
 let sheetKind = null; // which overlay is open, so a unit switch can redraw it
 
 // ── Full time ───────────────────────────────────────────
-// A full-screen scorecard: the total counting up, the rank, a map of all five shots, a row per
-// round, the best and worst shot, the day's Vault cards turning over, then sharing.
+// A calm, full-screen scorecard, top to bottom: the total and the rank (the Climb), the five rounds in
+// words, the map (one round at a time), then sharing and the countdown. One thing moves at a time: the
+// climb, then the rank's stamp, then the list fades in and the map appears. Then everything is still.
 let hero = null; // the end screen's staircase; stopped before the screen is drawn again
 const cancelHero = () => { hero?.stop(); hero = null; };
 let summaryMap = null;      // the Full time map; removed (markers, animations and all) before it's drawn again
 function dropSummaryMap() { summaryMap?.destroy(); summaryMap = null; }
+let ftTimers = [];          // the sequence's pending steps, cancelled if the screen is closed or redrawn
 function showSummary({ instant = false } = {}) {
   cancelHero();
   dropSummaryMap();
+  ftTimers.forEach(clearTimeout); ftTimers = [];
   sheetKind = "summary";
+  const calm = instant || matchMedia("(prefers-reduced-motion: reduce)").matches;
   const st = store.get("hg:stats", { played: 0, streak: 0, best: 0 });
-  const n = results.length;
-  const byPts = results.map((r, i) => i).sort((a, b) => results[b].pts - results[a].pts || results[a].km - results[b].km);
-  const best = byPts[0], worst = byPts[n - 1];
-  const thumb = (it) => it.image ? `<img src="${esc(it.image.replace(/width=\d+/, "width=160"))}" alt="${esc(it.name)}" loading="lazy" width="64" height="64"${it.imageFocus ? ` style="object-position:${esc(it.imageFocus)}"` : ""} onerror="this.remove()">` : "";
   const rows = items.map((it, i) => {
     const r = results[i], t = tierFor(r.km);
-    return `<li class="ft-row" style="--c:${t.color}" data-round="${i}" tabindex="0" title="Show this round on the map">
-      <span class="ft-thumb" data-type="${it.type}">${sportIcon(it.sport)}${thumb(it)}</span>
-      <div class="ft-who"><b>${i + 1}. ${esc(it.name)}</b>
+    return `<li class="ft-row" style="--c:${t.color};--c-ink:${t.ink}" data-round="${i}" tabindex="0" aria-label="Round ${i + 1}: show it on the map">
+      <span class="ft-num">${i + 1}</span>
+      <div class="ft-who"><b>${esc(it.name)}</b>
         <span class="ft-said">You said: <i data-spot="${i}">${r.guess ? "…" : "not recorded"}</i></span>
         <span>Actually: ${esc(it.city)}, ${esc(it.country)}</span></div>
       <div class="ft-pts"><b>${r.pts.toLocaleString()}</b><span class="ft-tier">${t.name}</span><small>${r.inside ? "inside the city" : formatDistance(r.km)}${r.hint ? " · hint" : ""}</small></div>
     </li>`;
   }).join("");
-  const callout = (i, label) => {
-    const it = items[i], r = results[i], t = tierFor(r.km);
-    return `<div class="ft-call" style="--c:${t.color}"><small>${label}</small><b>${esc(it.name)}</b>
-      <span>${r.inside ? "Inside the city" : `${formatDistance(r.km)} off`} · ${t.name} · ${r.pts.toLocaleString()} pts</span></div>`;
-  };
-  const next = LADDER.find((l) => l.min > total());
   const title = mode === "daily" ? "Full time" : mode === "replay" ? "Replay over" : "Practice over";
-  openSheet(`<div class="ft" role="dialog" aria-labelledby="ftTitle">
+  openSheet(`<div class="ft${calm ? " settled" : ""}" role="dialog" aria-labelledby="ftTitle">
     <header class="ft-top">
-      <div class="ft-head">
-        <small class="ft-brand"><img src="favicon.svg" width="26" height="26" alt="">Home Ground · ${esc($("#puzzleNo").textContent)}</small>
-        <h2 id="ftTitle">${title}</h2>
-        <div class="ft-score"><b id="ftTotal">${instant ? total().toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
-        ${next ? `<p class="ft-next">${(next.min - total()).toLocaleString()} short of ${next.name}.</p>` : `<p class="ft-next">Top of the ladder.</p>`}
-      </div>
-      ${mode === "daily" ? `<div class="stats ft-stats"><div><b>${st.streak}</b><span>Streak</span></div><div><b>${st.played}</b><span>Played</span></div><div><b>${st.best.toLocaleString()}</b><span>Best</span></div></div>` : ""}
+      <small class="ft-brand"><img src="favicon.svg" width="26" height="26" alt="">Home Ground · ${esc($("#puzzleNo").textContent)}</small>
+      <h2 id="ftTitle">${title}</h2>
+      <div class="ft-score"><b id="ftTotal">${calm ? total().toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
+      ${calm ? "" : `<button class="ft-skip" id="skipAnim" type="button">Skip animation</button>`}
     </header>
     <section class="ft-hero" id="ftHero" aria-label="Today's rank"></section>
-    <section class="ft-map-wrap" aria-label="Today's shots on the map">
-      <div class="ft-map" id="ftMap"></div>
-      <button class="minor ft-showall" id="showAllBtn">Show all</button>
-    </section>
-    <ol class="ft-rows">${rows}</ol>
-    ${n > 1 ? `<div class="ft-calls">${callout(best, "Best shot")}${best !== worst ? callout(worst, "Worst shot") : ""}</div>` : ""}
-    <section class="ft-cards"><h3>Today's cards</h3><p>Tap a card to open its Vault.</p>
-      <div class="ft-cardrow">${items.map((it, i) => `<button class="ft-cardbtn" data-round="${i}" aria-label="${esc(it.name)}: open the Vault">${cardHtml(it, results[i].pts, { flip: !instant, i })}</button>`).join("")}</div>
+    <section class="ft-rounds" aria-label="Your five rounds">
+      <ol class="ft-rows">${rows}</ol>
+      <div class="ft-mapcol">
+        <div class="ft-map-wrap"><div class="ft-map" id="ftMap"></div></div>
+        <div class="ft-mapnav">
+          <button class="minor" id="prevRound" aria-label="Previous round">‹</button>
+          <span id="mapLabel">Round 1 of ${ROUNDS}</span>
+          <button class="minor" id="nextRoundBtn" aria-label="Next round">›</button>
+          <button class="minor" id="showAllBtn">Show all</button>
+        </div>
+      </div>
     </section>
     <section class="ft-share">
       <pre class="ft-sharetext" id="shareText">${esc(shareText())}</pre>
       <div class="actions"><button class="go" id="copyBtn">Copy result</button></div>
-      ${mode === "daily" ? `<div class="next-in" id="countdown"></div>` : ""}
+      ${mode === "daily" ? `<p class="next-in"><span id="countdown"></span>${st.streak > 0 ? ` · ${st.streak}-day streak` : ""}</p>` : ""}
       <div class="actions ft-more">${today > 0 ? `<button class="minor" id="practiceBtn">Practice round</button>` : `<button class="minor" disabled title="Practice uses names from past days only">Practice opens tomorrow</button>`}
         ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : `<button class="minor" id="backBtn">Today's set</button>`}
         <button class="minor" id="closeBtn">Back to the map</button></div>
+      <div class="ft-cards"><h3>Today's cards</h3>
+        <div class="ft-cardrow">${items.map((it, i) => `<button class="ft-cardbtn" data-round="${i}" aria-label="${esc(it.name)}: open the Vault">${cardHtml(it, results[i].pts)}</button>`).join("")}</div>
+        <p>Tap a card to open its Vault.</p></div>
       ${imageCredits()}
       <p class="ft-geo">Place names: GeoNames (CC BY 4.0).</p>
     </section>
   </div>`);
   $("#sheet").classList.add("full");
-  // the ladder climbs rung by rung, then the rank is stamped on (straight to the end when replayed)
-  hero = createClimb($("#ftHero"));
-  hero.climb(0, total(), ROUNDS, { instant }); // about three seconds, once; straight to the end when reopened
   $("#copyBtn").onclick = copyResult;
   if ($("#practiceBtn")) $("#practiceBtn").onclick = startPractice;
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
@@ -394,40 +388,69 @@ function showSummary({ instant = false } = {}) {
   if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
   document.querySelectorAll(".ft-cardbtn").forEach((b) => (b.onclick = () => showVault(+b.dataset.round, { back: true })));
 
-  // the map: the game's satellite map with every shot on it. Click a round (in the list or on the map)
-  // to fly to it; "Show all" goes back to the whole picture.
-  summaryMap = createSummaryMap($("#ftMap"), items.map((it, i) => ({
-    guess: results[i].guess, answer: { lat: it.lat, lng: it.lng }, color: tierFor(results[i].km).color, sport: it.sport,
-    label: formatDistance(results[i].km), inside: results[i].inside,
-  })), { animate: !instant });
-  const pick = (i) => document.querySelectorAll(".ft-row").forEach((row) => row.classList.toggle("picked", +row.dataset.round === i));
-  $("#ftMap").addEventListener("roundselect", (ev) => pick(ev.detail));
-  document.querySelectorAll(".ft-row").forEach((row) => {
-    const go = () => { summaryMap?.selectRound(+row.dataset.round); $("#ftMap").scrollIntoView({ behavior: "smooth", block: "nearest" }); };
-    row.onclick = go;
-    row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
-  });
-  $("#showAllBtn").onclick = () => summaryMap?.showAll();
-
   // "You said: near Lyon, France" once the town list has loaded
   loadPlaces().then(() => document.querySelectorAll("[data-spot]").forEach((el) => {
     const r = results[+el.dataset.spot];
     if (r?.guess) el.textContent = describeSpot(r.guess, countryShapes);
   }));
 
-  // the total counts up; then the cards turn over one by one (CSS staggers them)
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!instant && !reduce) {
+  // The map, made once the list is in: one round at a time, from the list, the arrows or the map itself.
+  let current = 0;
+  const focus = (i) => {
+    current = i;
+    document.querySelectorAll(".ft-row").forEach((row) => row.classList.toggle("picked", +row.dataset.round === i));
+    $("#mapLabel").textContent = i < 0 ? `All ${ROUNDS} rounds` : `Round ${i + 1} of ${ROUNDS}`;
+    $("#showAllBtn").setAttribute("aria-pressed", String(i < 0));
+  };
+  const makeMap = () => {
+    if (summaryMap || !$("#ftMap")) return;
+    summaryMap = createSummaryMap($("#ftMap"), items.map((it, i) => {
+      const t = tierFor(results[i].km);
+      return { guess: results[i].guess, answer: { lat: it.lat, lng: it.lng }, color: t.color, ink: t.ink,
+        label: formatDistance(results[i].km), inside: results[i].inside };
+    }), { onSelect: focus });
+  };
+  document.querySelectorAll(".ft-row").forEach((row) => {
+    const go = () => { makeMap(); summaryMap?.select(+row.dataset.round); };
+    row.onclick = go;
+    row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
+  });
+  $("#prevRound").onclick = () => summaryMap?.select((Math.max(current, 0) + ROUNDS - 1) % ROUNDS);
+  $("#nextRoundBtn").onclick = () => summaryMap?.select((current + 1) % ROUNDS);
+  $("#showAllBtn").onclick = () => summaryMap?.showAll();
+
+  // The sequence. Settled (reopened, or reduced motion): everything at once, nothing moves.
+  hero = createClimb($("#ftHero"));
+  const settle = () => {
+    ftTimers.forEach(clearTimeout); ftTimers = [];
+    hero?.skip();
+    $("#ftTotal") && ($("#ftTotal").textContent = total().toLocaleString());
+    $(".ft")?.classList.add("settled");
+    $("#skipAnim")?.remove();
+    makeMap();
+  };
+  if (calm) {
+    hero.climb(0, total(), ROUNDS, { instant: true });
+    makeMap();
+  } else {
+    // 1. the climb, with the total counting up beside it (about three seconds)
     const start = performance.now(), to = total();
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / 1400), el = $("#ftTotal");
-      if (!el) return;
-      el.textContent = Math.round(to * (1 - (1 - t) ** 3)).toLocaleString();
-      if (t < 1) requestAnimationFrame(step);
+    const count = (now) => {
+      const el = $("#ftTotal"), t = Math.min(1, Math.max(0, (now - start) / 3000));
+      if (!el || $(".ft")?.classList.contains("settled")) return;
+      el.textContent = Math.round(to * t).toLocaleString();
+      if (t < 1) requestAnimationFrame(count);
     };
-    requestAnimationFrame(step);
-  } else $("#ftTotal").textContent = total().toLocaleString();
-  requestAnimationFrame(() => setTimeout(() => document.querySelectorAll(".ft .tcard.flip").forEach((c) => c.classList.remove("flip")), 50));
+    requestAnimationFrame(count);
+    hero.climb(0, to, ROUNDS, {
+      // 2. the rank is stamped beside the staircase (CSS), 3. then the list fades in, 4. then the map
+      onDone: () => {
+        ftTimers.push(setTimeout(() => $(".ft")?.classList.add("list-in"), 700));
+        ftTimers.push(setTimeout(settle, 1300));
+      },
+    });
+    $("#skipAnim").onclick = settle;
+  }
 
   if ($("#countdown")) {
     const tick = () => {
@@ -487,7 +510,7 @@ function toast(msg) {
   clearTimeout(toast.t); toast.t = setTimeout(() => (t.hidden = true), 1800);
 }
 function openSheet(html) { cancelHero(); dropSummaryMap(); const s = $("#sheet"); s.classList.remove("full"); s.innerHTML = html; s.hidden = false; s.scrollTop = 0; s.querySelector("button")?.focus({ preventScroll: true }); }
-function hideSheet() { cancelHero(); dropSummaryMap(); $("#sheet").hidden = true; sheetKind = null; clearInterval(timer); }
+function hideSheet() { cancelHero(); dropSummaryMap(); ftTimers.forEach(clearTimeout); ftTimers = []; $("#sheet").hidden = true; sheetKind = null; clearInterval(timer); }
 
 // "under 25 km", "25–150 km", ..., "5,000 km +" in the player's unit. Thresholds themselves stay in km.
 function tierRange(i) {

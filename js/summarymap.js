@@ -1,24 +1,23 @@
-// The Full time map: the game's own satellite map, showing all five shots at once.
-// For each round: the guess (a ball) exactly at the guess, the answer (a flag) exactly at the answer,
-// a tier-coloured great-circle arc between them with the distance at its midpoint, and the round
-// number on both ends. Markers that land close together keep their exact point (a small dot) and fan
-// their badges out on short leader lines, so nothing hides behind anything else.
+// The Full time map: the game's satellite map, looking at ONE round at a time.
+// The selected round shows its guess (a hollow numbered circle in its tier colour), its answer (a filled
+// numbered circle with a small flag), the arc between them and one distance label on the arc. The other
+// rounds are small faint numbered dots. "Show all" shows every arc, thin, with no labels.
+// Calm on purpose: the camera makes one smooth move, the arc draws once (0.8 s), and nothing loops.
 //
-// createSummaryMap() returns { selectRound(i), showAll(), destroy() }. destroy() removes the map,
-// every marker and every pending animation: the Full time screen calls it before drawing again.
+// createSummaryMap(container, rounds, { onSelect }) → { select(i), showAll(), destroy() }.
+// destroy() removes the map, its markers and any animation in progress, so it can't leave duplicates.
 import { buildStyle } from "./map.js";
 import { greatCircle } from "./geo.js";
-import { sportIcon } from "./sporticons.js";
 import { MAP_MAX_ZOOM } from "./config.js";
 import { color } from "./palette.js";
 
 const EMPTY = { type: "FeatureCollection", features: [] };
-const FAN_PX = 30; // markers closer than this on screen fan out
+const reduceMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// rounds: [{ guess: {lat, lng} | null, answer: {lat, lng}, color, sport, label: "1,234 km" }]
-export function createSummaryMap(container, rounds, { animate = true } = {}) {
-  // Each arc as a continuous line (longitudes may run past ±180 so it never jumps across the map),
-  // then whole arcs shifted by 360° so all five sit side by side on one copy of the world.
+// rounds: [{ guess: {lat, lng} | null, answer: {lat, lng}, color, ink, label: "1,234 km", inside }]
+export function createSummaryMap(container, rounds, { onSelect } = {}) {
+  // Each arc as one continuous line (longitudes may run past ±180, so it never jumps across the map),
+  // and whole arcs shifted by 360° so they sit together on one copy of the world.
   const paths = rounds.map((r) => (r.guess ? greatCircle(r.guess, r.answer, 128) : [[r.answer.lng, r.answer.lat]]));
   alignWorldCopies(paths);
   const ends = paths.map((p) => ({ guess: p[0], answer: p[p.length - 1], mid: p[Math.floor(p.length / 2)] }));
@@ -34,159 +33,122 @@ export function createSummaryMap(container, rounds, { animate = true } = {}) {
     renderWorldCopies: true,
     attributionControl: { compact: true },
     dragRotate: false, pitchWithRotate: false, touchPitch: false, maxPitch: 0,
-    cooperativeGestures: false,
   });
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.on("error", (e) => { if (e.sourceId !== "satellite") console.error(e.error || e); });
 
-  const timers = [];
-  let frame = 0, gone = false;
+  let gone = false, frame = 0, selected = -1, all = false;
   const markers = [];
+  const add = (el, at) => { const m = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat(at); markers.push(m); return m; };
 
-  // badge elements: [round][0 = guess, 1 = answer]
+  // the markers, made once and only restyled afterwards
   const pins = rounds.map((r, i) => {
     const make = (kind) => {
-      const el = document.createElement("div");
+      const el = document.createElement("button");
+      el.type = "button";
       el.className = `sm-pin sm-${kind}`;
       el.style.setProperty("--c", r.color);
-      el.innerHTML = `<span class="sm-dot"></span><span class="sm-leader"></span>
-        <span class="sm-badge">${kind === "guess" ? `<span class="sm-ball">${sportIcon(r.sport, { pin: true })}</span>` : '<span class="sm-flag"></span>'}<b>${i + 1}</b></span>`;
-      el.addEventListener("click", (ev) => { ev.stopPropagation(); api.selectRound(i); });
+      el.style.setProperty("--c-ink", r.ink);
+      el.setAttribute("aria-label", `Round ${i + 1}: ${kind === "guess" ? "your pin" : "the answer"}`);
+      el.innerHTML = `<b>${i + 1}</b>${kind === "answer" ? '<i class="sm-flag" aria-hidden="true"></i>' : ""}`;
+      el.addEventListener("click", (ev) => { ev.stopPropagation(); api.select(i); });
       return el;
     };
-    const out = [];
-    if (r.guess) out.push(new maplibregl.Marker({ element: make("guess"), anchor: "center" }).setLngLat(ends[i].guess));
-    out.push(new maplibregl.Marker({ element: make("answer"), anchor: "center" }).setLngLat(ends[i].answer));
-    // the distance, halfway along the arc
-    if (r.guess && r.label && !r.inside) {
-      const tag = document.createElement("div");
-      tag.className = "sm-dist";
-      tag.style.setProperty("--c", r.color);
-      tag.textContent = r.label;
-      out.push(new maplibregl.Marker({ element: tag, anchor: "center" }).setLngLat(ends[i].mid));
-    }
-    return out;
+    return { guess: r.guess ? make("guess") : null, answer: make("answer") };
   });
+  const tag = document.createElement("div");
+  tag.className = "sm-dist";
+  let tagMarker = null;
 
   map.once("load", () => {
     if (gone) return;
-    // the credit line starts folded behind its (i) button, as on the game map
-    const attrib = container.querySelector(".maplibregl-ctrl-attrib");
+    const attrib = container.querySelector(".maplibregl-ctrl-attrib"); // the credit starts folded, as in the game
     attrib?.classList.remove("maplibregl-compact-show");
     attrib?.removeAttribute("open");
     map.addSource("arcs", { type: "geojson", data: EMPTY });
     map.addLayer({ id: "sm-arc-casing", type: "line", source: "arcs", layout: { "line-cap": "round", "line-join": "round" },
-      paint: { "line-color": color("--border"), "line-width": 6.5, "line-opacity": ["get", "opacity"] } });
+      paint: { "line-color": color("--border"), "line-width": ["get", "casing"], "line-opacity": 0.7 } });
     map.addLayer({ id: "sm-arc", type: "line", source: "arcs", layout: { "line-cap": "round", "line-join": "round" },
-      paint: { "line-color": ["get", "color"], "line-width": ["get", "width"], "line-opacity": ["get", "opacity"] } });
-    pins.forEach((ms) => ms.forEach((m) => { m.getElement().classList.add("sm-hidden"); m.addTo(map); markers.push(m); }));
-    fan();
-    map.on("zoomend", fan);
-    map.on("moveend", fan);
-    if (animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) drawIn(); else showFinished();
+      paint: { "line-color": ["get", "color"], "line-width": ["get", "width"] } });
+    pins.forEach((p, i) => {
+      if (p.guess) add(p.guess, ends[i].guess).addTo(map);
+      add(p.answer, ends[i].answer).addTo(map);
+    });
+    tagMarker = add(tag, ends[0].mid).addTo(map);
+    api.select(0, { quick: true });
   });
 
-  let progress = rounds.map(() => 0), selected = -1;
-  function paint() {
+  // Draw arcs: the selected one grown to `progress` (0..1), or every arc, thin, in "show all".
+  function draw(progress = 1) {
     const features = paths.map((p, i) => {
-      const n = Math.max(2, Math.round(p.length * progress[i]));
-      const dim = selected >= 0 && selected !== i;
-      return { type: "Feature", properties: { color: rounds[i].color, width: selected === i ? 5.5 : 3.5, opacity: dim ? 0.3 : 1 },
-        geometry: { type: "LineString", coordinates: p.length > 1 ? p.slice(0, n) : [p[0], p[0]] } };
-    });
+      if (p.length < 2 || (!all && i !== selected)) return null;
+      const n = Math.max(2, Math.round(p.length * progress));
+      return { type: "Feature", properties: { color: rounds[i].color, width: all ? 2 : 4, casing: all ? 4 : 7 },
+        geometry: { type: "LineString", coordinates: all ? p : p.slice(0, n) } };
+    }).filter(Boolean);
     map.getSource("arcs")?.setData({ type: "FeatureCollection", features });
-    pins.forEach((ms, i) => ms.forEach((m) => m.getElement().classList.toggle("sm-dim", selected >= 0 && selected !== i)));
   }
 
-  // Rounds draw in one after another: the ball appears, the arc runs to the answer, the flag lands.
-  function drawIn() {
-    const per = 700, gap = 420;
-    const start = performance.now() + 300;
-    rounds.forEach((r, i) => timers.push(setTimeout(() => pins[i][0]?.getElement().classList.remove("sm-hidden"), 300 + i * gap)));
-    const step = (now) => {
-      if (gone) return;
-      let done = true;
-      progress = rounds.map((_, i) => {
-        const t = Math.min(1, Math.max(0, (now - start - i * gap) / per));
-        if (t < 1) done = false;
-        if (t >= 1) pins[i].forEach((m) => m.getElement().classList.remove("sm-hidden"));
-        return 1 - (1 - t) ** 2;
-      });
-      paint();
-      if (!done) frame = requestAnimationFrame(step);
-    };
-    frame = requestAnimationFrame(step);
-  }
-  function showFinished() {
-    progress = rounds.map(() => 1);
-    pins.forEach((ms) => ms.forEach((m) => m.getElement().classList.remove("sm-hidden")));
-    paint();
-  }
-
-  // Fan out markers that sit on top of each other: each keeps its dot on the exact spot, and its badge
-  // moves out around the cluster's centre on a short leader line.
-  function fan() {
-    if (gone) return;
-    const all = markers.filter((m) => !m.getElement().classList.contains("sm-dist"));
-    const pts = all.map((m) => map.project(m.getLngLat()));
-    const seen = new Set();
-    all.forEach((m, a) => {
-      if (seen.has(a)) return;
-      const group = [a];
-      for (let b = a + 1; b < all.length; b++) {
-        if (!seen.has(b) && group.some((g) => Math.hypot(pts[g].x - pts[b].x, pts[g].y - pts[b].y) < FAN_PX)) group.push(b);
+  // Restyle the markers: the selected round in full, the others as faint dots; the label for the selected arc.
+  function style({ label = true } = {}) {
+    pins.forEach((p, i) => {
+      const focus = !all && i === selected;
+      for (const el of [p.guess, p.answer]) {
+        if (!el) continue;
+        el.classList.toggle("sm-focus", focus);
+        el.classList.toggle("sm-faint", !focus && !all);
+        el.classList.toggle("sm-plain", all);
       }
-      group.forEach((g, k) => {
-        seen.add(g);
-        const el = all[g].getElement();
-        if (group.length === 1) { el.style.setProperty("--dx", "0px"); el.style.setProperty("--dy", "0px"); el.classList.remove("sm-fanned"); return; }
-        const angle = -Math.PI / 2 + (2 * Math.PI * k) / group.length, r = 26 + group.length * 3;
-        el.style.setProperty("--dx", `${Math.round(Math.cos(angle) * r)}px`);
-        el.style.setProperty("--dy", `${Math.round(Math.sin(angle) * r)}px`);
-        el.style.setProperty("--len", `${r}px`);
-        el.style.setProperty("--ang", `${angle}rad`);
-        el.classList.add("sm-fanned");
-      });
     });
-    // Distance tags: move each off anything it would cover (a pin, its badge or another tag).
-    const taken = all.map((m, k) => {
-      const el = m.getElement();
-      const dx = parseFloat(el.style.getPropertyValue("--dx")) || 0, dy = parseFloat(el.style.getPropertyValue("--dy")) || 0;
-      return { x: pts[k].x + dx, y: pts[k].y + dy };
-    }).concat(pts);
-    markers.filter((m) => m.getElement().classList.contains("sm-dist")).forEach((m) => {
-      const at = map.project(m.getLngLat());
-      const tryOffsets = [[0, 0], [0, -26], [0, 26], [44, 0], [-44, 0], [0, -48], [0, 48]];
-      const clear = ([ox, oy]) => taken.every((t) => Math.abs(t.x - (at.x + ox)) > 40 || Math.abs(t.y - (at.y + oy)) > 18);
-      const off = tryOffsets.find(clear) || tryOffsets[1];
-      m.setOffset(off);
-      taken.push({ x: at.x + off[0], y: at.y + off[1] });
-    });
+    const r = rounds[selected];
+    tag.hidden = !label || all || !r?.guess || r.inside;
+    if (!tag.hidden) {
+      tag.textContent = r.label;
+      tag.style.setProperty("--c", r.color);
+      tag.style.setProperty("--c-ink", r.ink);
+      tagMarker?.setLngLat(ends[selected].mid);
+    }
   }
 
   const api = {
     map,
-    // Fly to one round's arc and pick it out (the others fade back).
-    selectRound(i) {
+    // Focus one round: one smooth camera move to fit its pair, then its arc draws once, then its label.
+    select(i, { quick = false } = {}) {
       if (gone || !paths[i]) return;
-      selected = i;
-      paint();
-      map.fitBounds(boundsOf([paths[i]]), { padding: padFor(container), maxZoom: 8, duration: 900 });
-      container.dispatchEvent(new CustomEvent("roundselect", { detail: i }));
+      all = false; selected = i;
+      cancelAnimationFrame(frame);
+      style({ label: false });
+      draw(0);
+      const still = quick || reduceMotion();
+      map.fitBounds(boundsOf([paths[i]]), { padding: padFor(container), maxZoom: 8, linear: true, duration: still ? 0 : 900, essential: true });
+      const drawArc = () => {
+        if (gone || selected !== i || all) return;
+        if (still) { draw(1); style(); return; }
+        const start = performance.now();
+        const step = (now) => {
+          if (gone || selected !== i || all) return;
+          const t = Math.min(1, Math.max(0, (now - start) / 800));
+          draw(1 - (1 - t) ** 2);
+          if (t < 1) frame = requestAnimationFrame(step); else style();
+        };
+        frame = requestAnimationFrame(step);
+      };
+      if (still) drawArc(); else map.once("moveend", drawArc);
+      onSelect?.(i);
     },
-    // Back to every pin in view.
+    // Every round at once: thin arcs, plain markers, no labels.
     showAll() {
       if (gone) return;
-      selected = -1;
-      paint();
-      map.fitBounds(boundsOf(paths), { padding: padFor(container), maxZoom: 9, duration: 900 });
-      container.dispatchEvent(new CustomEvent("roundselect", { detail: -1 }));
+      all = true; selected = -1;
+      cancelAnimationFrame(frame);
+      style(); draw(1);
+      map.fitBounds(boundsOf(paths), { padding: padFor(container), maxZoom: 9, linear: true, duration: reduceMotion() ? 0 : 900 });
+      onSelect?.(-1);
     },
     destroy() {
       gone = true;
       cancelAnimationFrame(frame);
-      timers.forEach(clearTimeout);
       markers.forEach((m) => m.remove());
       map.remove();
     },
@@ -205,21 +167,21 @@ function alignWorldCopies(paths) {
   for (let k = 0; k < cs.length - 1; k++) {
     if (cs[k + 1].c - cs[k].c > gap) { gap = cs[k + 1].c - cs[k].c; gapAt = k; }
   }
-  if (gapAt === cs.length - 1) return; // already the widest gap is at the date line
+  if (gapAt === cs.length - 1) return; // the widest gap is already at the date line
   for (let k = 0; k <= gapAt; k++) paths[cs[k].i].forEach((pt) => (pt[0] += 360)); // move the western group east
 }
 
 function boundsOf(paths) {
   let w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
   for (const p of paths) for (const [lng, lat] of p) { w = Math.min(w, lng); e = Math.max(e, lng); s = Math.min(s, lat); n = Math.max(n, lat); }
-  // never closer than a city-sized box
-  if (e - w < 0.6) { const m = (e + w) / 2; w = m - 0.3; e = m + 0.3; }
+  if (e - w < 0.6) { const m = (e + w) / 2; w = m - 0.3; e = m + 0.3; } // never closer than a city-sized box
   if (n - s < 0.4) { const m = (n + s) / 2; s = m - 0.2; n = m + 0.2; }
   return [[w, Math.max(-80, s)], [e, Math.min(84, n)]];
 }
 
+// Generous padding, so markers and the label are never cut off at the edges.
 function padFor(container) {
   const r = container.getBoundingClientRect();
-  const p = Math.max(30, Math.min(70, Math.min(r.width, r.height) * 0.12));
-  return { top: p + 10, bottom: p, left: p, right: p + 30 };
+  const p = Math.max(48, Math.min(90, Math.min(r.width, r.height) * 0.18));
+  return { top: p, bottom: p, left: p, right: p + 30 };
 }

@@ -25,9 +25,9 @@ const BASE = process.env.BASE || "http://127.0.0.1:8765";
         await new Promise((res) => map.once("idle", res) || map.triggerRepaint());
         const want = map.project([P.lng, P.lat]);
         const box = map.getContainer().getBoundingClientRect();
-        // the dot of the marker nearest to this place
+        // the centre of the marker nearest to this place
         let best = Infinity;
-        for (const dot of document.querySelectorAll(".sm-dot")) {
+        for (const dot of document.querySelectorAll(".sm-pin")) {
           const d = dot.getBoundingClientRect();
           const got = { x: d.left + d.width / 2 - box.left, y: d.top + d.height / 2 - box.top };
           best = Math.min(best, Math.hypot(got.x - want.x, got.y - want.y));

@@ -2,8 +2,8 @@
 // Tune the distances here; everything else (colours on the map, scorecard, share text) follows.
 // `key` stays the same even if you rename a tier, so saved games keep working.
 //
-// share: the emoji used in the copy-and-paste result. There's no light-blue square emoji,
-// so Air ball uses purple and Own goal uses white; the tier names are written out in the share text too.
+// share: the emoji square used in the copy-and-paste result, as close to the tier's colour as emoji go
+// (Air ball's deep navy is black; Own goal's grey is white).
 // Colours come from the palette in css/style.css (--t-bullseye etc.), so there's one source of truth.
 const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
@@ -11,9 +11,9 @@ export const TIERS = [
   { key: "bullseye", name: "Hole in one", maxKm: 25, share: "🎯", effect: "confetti" },
   { key: "scorching", name: "Top corner", maxKm: 150, share: "🟥", effect: "embers", strength: 1 },
   { key: "hot", name: "Slam dunk", maxKm: 500, share: "🟧", effect: "embers", strength: 0.55 },
-  { key: "warm", name: "On the board", maxKm: 1200, share: "🟨", effect: "glow" },
+  { key: "warm", name: "On the board", maxKm: 1200, share: "🟩", effect: "glow" },
   { key: "cool", name: "Off the pace", maxKm: 2500, share: "🟦", effect: "frost", strength: 0.35 },
-  { key: "cold", name: "Air ball", maxKm: 5000, share: "🟪", effect: "frost", strength: 0.7 },
+  { key: "cold", name: "Air ball", maxKm: 5000, share: "⬛", effect: "frost", strength: 0.7 },
   { key: "frozen", name: "Own goal", maxKm: Infinity, share: "⬜", effect: "frost", strength: 1 },
 ].map((t) => ({ ...t, color: css(`--t-${t.key}`), ink: css(`--on-t-${t.key}`) })); // ink: text that reads on the colour
 

@@ -13,7 +13,9 @@
   window.PLACES = { pittsburgh: { lat: 40.44, lng: -79.99 }, sydney: { lat: -33.87, lng: 151.21 }, rosario: { lat: -32.94, lng: -60.65 } };
   const P = window.PLACES;
   window.summary = createSummaryMap(document.getElementById("m"), [
-    { guess: P.pittsburgh, answer: P.sydney, color: "#ff5a2a", sport: "Ice hockey", label: "15,140 km" },
-    { guess: P.rosario, answer: P.rosario, color: "#ffc928", sport: "Football", label: "0 km", inside: true },
-  ], { animate: false });
+    { guess: P.pittsburgh, answer: P.sydney, color: "#ff6b5a", ink: "#14213d", label: "15,140 km" },
+    { guess: P.rosario, answer: P.rosario, color: "#ffc93c", ink: "#14213d", label: "0 km", inside: true },
+  ]);
+  // show every marker at full size for the check
+  window.summary.map.once("load", () => setTimeout(() => window.summary.showAll(), 50));
 </script></body></html>
