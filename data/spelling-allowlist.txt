@@ -79,3 +79,4 @@ magicJack
 defenceman
 defenseman
 kickboxer
+GeoGuessr
