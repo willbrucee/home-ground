@@ -59,10 +59,11 @@ export function dailyPicks(players, day) {
 // Practice plays names from PAST dailies only (an archive), so practising never shows tomorrow's answers.
 // Five at random from everyone who has already come up. (On launch day there's no past yet, so the
 // Full time screen doesn't offer practice.)
-export function practicePicks(players, today) {
+// everything: the whole pool, future days included (the owner's ?preview link only)
+export function practicePicks(players, today, everything = false) {
   const seen = new Map();
   for (let day = 0; day < today; day++) for (const p of dailyPicks(players, day)) seen.set(p.id, p);
-  const pool = [...seen.values()];
+  const pool = everything ? [...players] : [...seen.values()];
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];

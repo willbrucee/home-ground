@@ -46,6 +46,8 @@ let players = [];
 let countryIndex = new Map(); // lower-case country name or alias → { name, fit } of its map shape
 let countryShapes = [];       // the GeoJSON features themselves (for the Full time map)
 let mode = "daily", items = [], results = [], round = 0;
+// ?preview: practice from the whole pool, even on launch day. It can show future dailies, so it isn't linked anywhere.
+const PREVIEW = new URLSearchParams(location.search).has("preview");
 let phase = "guess"; // "guess" → "reveal" → (next round) … → "done"
 let guess = null, hintUsed = false;
 
@@ -92,7 +94,7 @@ function startReplay() {
   hideSheet(); beginRound();
 }
 function startPractice() {
-  mode = "practice"; items = practicePicks(players, today); results = []; round = 0;
+  mode = "practice"; items = practicePicks(players, today, PREVIEW); results = []; round = 0;
   hideSheet(); beginRound();
 }
 function beginRound() {
@@ -373,7 +375,7 @@ function showSummary({ instant = false } = {}) {
       <pre class="ft-sharetext" id="shareText">${esc(shareText())}</pre>
       <div class="actions"><button class="go" id="copyBtn">Copy result</button></div>
       ${mode === "daily" ? `<p class="next-in"><span id="countdown"></span>${st.streak > 0 ? ` · ${st.streak}-day streak` : ""}</p>` : ""}
-      <div class="actions ft-more">${today > 0 ? `<button class="minor" id="practiceBtn">Practice round</button>` : `<button class="minor" disabled title="Practice uses names from past days only">Practice opens tomorrow</button>`}
+      <div class="actions ft-more">${today > 0 || PREVIEW ? `<button class="minor" id="practiceBtn">Practice round</button>` : `<button class="minor" disabled title="Practice uses names from past days only">Practice opens tomorrow</button>`}
         ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : `<button class="minor" id="backBtn">Today's set</button>`}
         <button class="minor" id="statsLink">Your stats</button>
         <button class="minor" id="closeBtn">Back to the map</button></div>
@@ -622,7 +624,7 @@ async function boot() {
     const { name, aliases, fit } = f.properties;
     for (const key of [name.toLowerCase(), ...aliases]) countryIndex.set(key, { name, fit });
   }
-  startDaily();
+  if (PREVIEW) startPractice(); else startDaily();
   if (!store.get("hg:seenHelp", false) && phase !== "done") showHelp();
 }
 boot().catch((err) => {
