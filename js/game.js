@@ -8,7 +8,7 @@ import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
 import { loadPlaces, describeSpot } from "./fulltime.js";
 import { createSummaryMap } from "./summarymap.js";
-import { createLiveLadder, heroLadder } from "./ladder.js";
+import { createClimb } from "./climb.js";
 import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect, cabinetHtml } from "./vault.js";
 import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
 
@@ -50,7 +50,7 @@ let phase = "guess"; // "guess" → "reveal" → (next round) … → "done"
 let guess = null, hintUsed = false;
 
 const gameMap = createMap($("#map"), { onPick: placeGuess, insets: coveredEdges });
-const live = createLiveLadder($("#ladderLive")); // the rank ladder that climbs during the game
+const live = createClimb($("#ladderLive"), { compact: true }); // the rank staircase during the game
 
 // How much of each screen edge the overlays cover, so the camera frames results in the open map.
 function coveredEdges() {
@@ -126,7 +126,7 @@ async function lockIn() {
   phase = "reveal";
   setFolded(true); // fold the ticket to just the name, to make room for the result
   renderAll();
-  live.set(before, played - 1); // the ladder climbs from where it was, in step with the count-up
+  live.set(before, played - 1); // the ball hops up once the result is in (below)
 
   // Numbers start at 0 and count up in step with the line drawing across the map.
   const kmBefore = totalKm() - km;
@@ -135,7 +135,6 @@ async function lockIn() {
     $("#ptsNow").textContent = Math.round(pts * t).toLocaleString();
     $("#total").textContent = Math.round(before + pts * t).toLocaleString();
     $("#distTotal").textContent = formatNumber(kmBefore + km * t);
-    live.progress(before, before + pts, t, played);
   };
   show(0);
   // The line stops at the city's edge (or doesn't appear at all if the pin is already inside).
@@ -143,6 +142,7 @@ async function lockIn() {
   await gameMap.showResult(guess, answer, { color: tier.color, onProgress: show, radiusKm: radius, lineEnd });
   if (phase !== "reveal" || results.length !== round + 1) return; // player already moved on
   show(1); // land on the exact numbers
+  live.climb(before, before + pts, played); // the ball hops up the staircase
   playEffect(tier, gameMap.toScreen(answer));
   if (card) toast(`${card === "new" ? "New card" : "Card upgraded"}: ${LEVELS[levelFor(pts)].card}`);
 }
@@ -322,7 +322,8 @@ let sheetKind = null; // which overlay is open, so a unit switch can redraw it
 // ── Full time ───────────────────────────────────────────
 // A full-screen scorecard: the total counting up, the rank, a map of all five shots, a row per
 // round, the best and worst shot, the day's Vault cards turning over, then sharing.
-let cancelHero = () => {}; // stops a running ladder climb (reopening the screen starts a fresh one)
+let hero = null; // the end screen's staircase; stopped before the screen is drawn again
+const cancelHero = () => { hero?.stop(); hero = null; };
 let summaryMap = null;      // the Full time map; removed (markers, animations and all) before it's drawn again
 function dropSummaryMap() { summaryMap?.destroy(); summaryMap = null; }
 function showSummary({ instant = false } = {}) {
@@ -384,7 +385,8 @@ function showSummary({ instant = false } = {}) {
   </div>`);
   $("#sheet").classList.add("full");
   // the ladder climbs rung by rung, then the rank is stamped on (straight to the end when replayed)
-  cancelHero = instant ? (heroLadder($("#ftHero"), total(), { instant: true }), () => {}) : heroLadder($("#ftHero"), total());
+  hero = createClimb($("#ftHero"));
+  hero.climb(0, total(), ROUNDS, { instant }); // about three seconds, once; straight to the end when reopened
   $("#copyBtn").onclick = copyResult;
   if ($("#practiceBtn")) $("#practiceBtn").onclick = startPractice;
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;

@@ -295,64 +295,63 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .credits ul { margin: 6px 0 0; padding-left: 16px; display: grid; gap: 4px; }
 
 /* the ladder (scorecard) */
-/* ── The rank ladder ───────────────────────────────── */
-/* Live during the game: down the right-hand side on desktop, a strip under the header on phones. */
-.ladder-live { position: fixed; z-index: 8; right: 14px; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 96px); width: 172px;
-  padding: 10px 12px 12px 12px; background: var(--surface); border-top: 4px solid var(--primary); color: var(--text); }
-.ll-title { margin: 0 0 8px; font: 700 11px var(--f-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-.ll-track { position: relative; height: 222px; }
-.ll-rungs { list-style: none; margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column-reverse; gap: 3px; }
-.ll-rung { flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 0 8px; background: var(--surface-2); color: var(--muted); font: 800 14px/1 var(--f-display); text-transform: uppercase; letter-spacing: 0.02em; transition: background 200ms, color 200ms; }
-.ll-rung small { font: 600 11px var(--f-body); font-variant-numeric: tabular-nums; }
-.ll-rung.passed { background: color-mix(in srgb, var(--secondary) 55%, var(--surface-2)); color: var(--text); }
-.ll-rung.here { background: var(--secondary); color: var(--text); box-shadow: inset 0 0 0 2px var(--primary); }
-.ll-rung.up { animation: rung-up 700ms ease-out; }
-@keyframes rung-up { 0% { background: var(--primary); color: var(--text); transform: scale(1.06); } 100% { transform: none; } }
-/* the marker: a gold line across the ladder at your total, with the number on a tag */
-.ll-marker { position: absolute; left: -6px; right: -6px; bottom: calc(var(--p, 0) * 100%); height: 0; pointer-events: none; }
-/* notches on both edges rather than a line across, so the rung names stay readable */
-.ll-marker::before, .ll-marker::after { content: ""; position: absolute; top: -2px; width: 12px; height: 4px; background: var(--primary); box-shadow: 0 0 0 1px var(--border); }
-.ll-marker::before { left: 0; }
-.ll-marker::after { right: 0; }
-.ll-marker b { position: absolute; right: calc(100% - 2px); top: 0; transform: translateY(-50%); padding: 1px 6px; background: var(--primary); color: var(--text); font: 900 15px var(--f-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.ll-marker.pop b { animation: tag-pop 500ms cubic-bezier(0.3, 1.6, 0.5, 1); }
-@keyframes tag-pop { 0% { transform: translateY(-50%) scale(1.6); } 100% { transform: translateY(-50%) scale(1); } }
-.ll-proj { margin: 10px 0 0; font: 600 12px/1.35 var(--f-body); color: var(--muted); }
+/* ── The Climb: the rank staircase ─────────────────── */
+/* step colours, bottom to top */
+.climb { --rk-0: var(--t-frozen); --rk-1: var(--sky); --rk-2: var(--t-warm); --rk-3: var(--t-hot); --rk-4: var(--accent); --rk-5: var(--primary); }
+.cl-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.cl-step rect { fill: var(--surface-2); stroke: var(--border); stroke-width: 2; transition: fill 250ms; }
+.cl-step[data-i="0"] { --rk: var(--rk-0); } .cl-step[data-i="1"] { --rk: var(--rk-1); } .cl-step[data-i="2"] { --rk: var(--rk-2); }
+.cl-step[data-i="3"] { --rk: var(--rk-3); } .cl-step[data-i="4"] { --rk: var(--rk-4); } .cl-step[data-i="5"] { --rk: var(--rk-5); }
+.cl-step.lit rect { fill: var(--rk); }
+.cl-tick { fill: none; stroke: var(--text); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+.cl-step.lit .cl-tick { opacity: 1; }
+.cl-step.ticked .cl-tick { animation: tick-in 260ms ease-out; }
+@keyframes tick-in { from { opacity: 0; transform: translateY(4px); } }
+.cl-name { fill: var(--text); font: 800 16px var(--f-display); text-transform: uppercase; text-anchor: middle; letter-spacing: 0.01em; }
+.cl-min { fill: var(--muted); font: 600 13px var(--f-body); text-anchor: middle; font-variant-numeric: tabular-nums; }
+.cl-step.here .cl-name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.cl-ball circle { fill: var(--surface); stroke: var(--border); stroke-width: 2.5; }
+.cl-ball path { fill: none; stroke: var(--border); stroke-width: 1.5; }
+.cl-ball.settle circle { animation: settle 260ms ease-out; }
+@keyframes settle { 40% { transform: scale(1.15, 0.85) translateY(2px); } }
+.cl-flag, .cl-trophy { opacity: 0; }
+.cl-flag .pole { stroke: var(--border); stroke-width: 3; stroke-linecap: round; }
+.cl-flag .cloth { fill: var(--accent); stroke: var(--border); stroke-width: 2; stroke-linejoin: round; }
+.cl-trophy path { fill: var(--primary); stroke: var(--border); stroke-width: 2; stroke-linejoin: round; }
+.landed .cl-flag { opacity: 1; animation: plant 380ms cubic-bezier(0.3, 1.5, 0.5, 1); transform-box: fill-box; transform-origin: bottom; }
+.landed.has-trophy .cl-flag { opacity: 0; animation: none; }
+.landed.has-trophy .cl-trophy { opacity: 1; animation: rise 600ms cubic-bezier(0.3, 1.4, 0.5, 1); }
+@keyframes plant { from { transform: scaleY(0); } }
+@keyframes rise { from { opacity: 0; transform: translateY(30px); } }
+
+/* compact, during the game: top right on desktop, a strip under the header on phones */
+.ladder-live { position: fixed; z-index: 8; right: 14px; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 96px); width: 360px;
+  padding: 8px 12px 10px; background: var(--surface); border-radius: var(--hard); }
+.climb-compact { display: grid; gap: 4px; }
+.climb-compact .cl-name { font-size: 11px; }
+.climb-compact .cl-min { font-size: 10px; }
+.climb-compact .cl-ball circle { stroke-width: 2; }
+.climb-compact .cl-side { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.cl-score { margin: 0; font: 600 12px var(--f-body); color: var(--muted); }
+.cl-score b { font: 900 20px var(--f-display); color: var(--text); font-variant-numeric: tabular-nums; }
+.cl-next { margin: 0; font: 700 13px var(--f-body); color: var(--text); text-align: right; }
 .ladder-live[hidden] { display: none; }
 
-/* The hero of the Full time screen: a big ladder, a marker that climbs it, then the rank stamped on. */
-.ft-hero { grid-area: hero; justify-self: center; width: min(620px, 100%); }
-.hl { position: relative; padding-left: 74px; }
-.hl-track { position: relative; height: 336px; }
-.hl .ll-rung { padding: 0 16px; font-size: 24px; }
-.hl .ll-rung small { font-size: 13px; }
-.hl .ll-marker b { font-size: 24px; padding: 2px 10px; }
-.hl .ll-rung.tick { animation: tick 300ms ease-out; }
-@keyframes tick { 0% { transform: scaleX(1.04); background: var(--primary); color: var(--text); } 100% { transform: none; } }
-.hl-stamp { position: absolute; right: -150px; top: 34%; padding: 8px 18px 10px; border: 5px solid var(--primary); background: var(--surface);
-  color: var(--primary); text-align: center; transform: rotate(-7deg); opacity: 0; pointer-events: none; }
-.hl-stamp small { display: block; font: 700 12px var(--f-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
-.hl-stamp b { display: block; font: 900 56px/0.9 var(--f-display); text-transform: uppercase; white-space: nowrap; }
-.hl.big .hl-stamp b { font-size: 80px; }
-.rank-hof .hl-stamp { background: var(--primary); color: var(--text); border-color: var(--text); }
-.rank-hof .hl-stamp small { color: var(--text); }
-.hl.stamped .hl-stamp { opacity: 1; animation: stamp 480ms cubic-bezier(0.3, 1.5, 0.5, 1); }
-.hl.big.stamped .hl-stamp { animation-duration: 650ms; }
-@keyframes stamp { from { opacity: 0; transform: rotate(-7deg) scale(2.4); } }
-.hl.stamped.rank-hof::before { content: ""; position: absolute; right: 8%; top: 40%; width: 460px; height: 460px; margin: -230px -230px 0 0; border-radius: 50%; pointer-events: none;
-  background: repeating-conic-gradient(color-mix(in srgb, var(--primary) 16%, transparent) 0 8deg, transparent 8deg 24deg); animation: rays 2.4s ease-out both; }
-@keyframes rays { from { transform: rotate(-40deg) scale(0.4); opacity: 0; } }
-@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+/* the hero of the Full time screen */
+.ft-hero { grid-area: hero; justify-self: center; width: min(880px, 100%); }
+.climb-hero { display: grid; grid-template-columns: minmax(0, 600px) minmax(170px, 1fr); gap: 20px 28px; align-items: end; }
+.climb-hero .cl-side { display: grid; gap: 10px; justify-items: start; padding-bottom: 54px; }
+.cl-rank { margin: 0; opacity: 0; transition: opacity 300ms; }
+.landed .cl-rank { opacity: 1; animation: stamp-in 420ms cubic-bezier(0.3, 1.4, 0.5, 1); }
+.cl-rank small { display: block; font: 700 12px var(--f-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.cl-rank b { display: block; padding: 4px 12px 6px; border: 3px solid var(--border); background: var(--primary); color: var(--on-primary);
+  font: 900 46px/0.95 var(--f-display); text-transform: uppercase; transform: rotate(-3deg); }
+.has-trophy .cl-rank b { font-size: 60px; }
+@keyframes stamp-in { from { transform: scale(1.6); opacity: 0; } }
+.cl-skip { padding: 4px 10px; background: none; color: var(--muted); font: 700 13px var(--f-body); text-decoration: underline; }
+.cl-skip[hidden] { display: none; }
 
-.toast { position: fixed; z-index: 30; left: 50%; top: calc(var(--bar-h) + 16px); transform: translateX(-50%); padding: 8px 14px; background: var(--primary); color: var(--text); font-weight: 700; font-size: 14px; }
-.esri-mark { display: none; position: fixed; z-index: 2; left: var(--edge); bottom: 6px; font-size: 10.5px; color: var(--text); text-shadow: 0 1px 2px var(--border); pointer-events: none; }
-
-/* ── Phones ────────────────────────────────────────── */
-/* Light panels float over the dark satellite map: a firm navy edge and a soft shadow keep them readable. */
-:root { --float: 0 8px 22px color-mix(in srgb, var(--border) 32%, transparent); }
-.ticket, .result, .ladder-live, .dock .minor, .toast { outline: 2px solid var(--border); outline-offset: -2px; box-shadow: var(--float); }
-.card { box-shadow: var(--float), inset 0 0 0 2px var(--border); }
-
+/* Phones */
 @media (max-width: 720px) {
   :root { --bar-h: 52px; }
   .bar { gap: 8px; }
@@ -374,8 +373,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   }
   .who { font-size: clamp(30px, 9vw, 42px); margin-top: 8px; }
   .ticket.folded .who { font-size: 26px; }
-  .ticket-body { grid-template-columns: 112px 1fr; gap: 12px; margin-top: 10px; padding-top: 10px; }
-  .portrait { width: 112px; }
+  .ticket-body { grid-template-columns: 92px 1fr; gap: 12px; margin-top: 10px; padding-top: 10px; }
+  .portrait { width: 92px; }
   .initials { font-size: 30px; }
   .initials svg { width: 18px; height: 18px; }
   .credit { width: min(250px, 70vw); }
@@ -383,7 +382,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .ask b { font-size: 18px; }
   .tape { font-size: 14px; }
 
-  .dock { left: 0; right: 0; transform: none; width: auto; max-width: none; bottom: 0; padding: 10px var(--edge) calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--surface); justify-content: space-between; }
+  .dock { left: 0; right: 0; transform: none; width: auto; max-width: none; bottom: 0; padding: 10px var(--edge) calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-top: 2px solid var(--border); justify-content: space-between; }
   .dock .status { display: none; }
   .go { min-width: 0; flex: 1; height: 56px; font-size: 26px; box-shadow: none; }
   .go:disabled { font-size: 19px; }
@@ -396,11 +395,12 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .stamp { font-size: 18px; padding: 3px 8px; }
   .result .place { font-size: 20px; }
   .result .next { grid-column: 1 / -1; grid-row: auto; justify-self: stretch; margin-top: 12px; height: 52px; }
-  .esri-mark { display: block; bottom: auto; top: calc(var(--bar-h) + 8px); }
+  .esri-mark { display: block; bottom: auto; }
   .card { padding: 20px 18px 22px; }
   .card h2 { font-size: 44px; }
   .final b { font-size: 68px; }
 }
+
 /* ── The Vault: five levels of facts, unlocked by score ── */
 .vault-btn { grid-column: 1 / -1; justify-self: start; margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px;
   background: var(--surface-2); color: var(--text); box-shadow: inset 0 0 0 1px var(--line); border-radius: var(--hard);
@@ -567,7 +567,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .ft .credits a { color: var(--text); }
 
 @media (max-width: 900px) {
-  .hl-stamp { right: -8px; }
   .ft { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "hero" "map" "rows" "calls" "cards" "share"; gap: 18px; }
   .ft-top { grid-template-columns: 1fr; }
   .ft-stats { grid-column: auto; }
@@ -583,34 +582,16 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 }
 
 @media (max-width: 720px) {
-  .ladder-live { left: 0; right: 0; width: auto; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px)); padding: 5px 10px 6px; border-top: 0; border-bottom: 2px solid var(--line); }
-  .ll-title { display: none; }
-  .ll-track { height: 24px; }
-  .ll-rungs { flex-direction: row; gap: 2px; }
-  .ll-rung { justify-content: center; padding: 0 2px; font-size: 11px; letter-spacing: 0; text-align: center; }
-  .ll-rung small { display: none; }
-  .ll-marker { left: calc(var(--p, 0) * 100%); right: auto; top: -4px; bottom: -4px; width: 0; height: auto; }
-  .ll-marker::before { left: -1.5px; right: auto; top: 0; bottom: 0; width: 3px; height: auto; }
-  .ll-marker::after { display: none; }
-  .ll-marker b { display: none; }
-  .ll-proj { margin: 4px 0 0; font-size: 11px; text-align: center; }
-  .esri-mark { top: calc(var(--bar-h) + 66px); }
-  #map .maplibregl-ctrl-top-right { top: 46px; } /* below the ladder strip */
-  .toast { top: calc(var(--bar-h) + 56px); }
-  .hl { padding-left: 64px; }
-  .hl-track { height: 280px; }
-  .hl .ll-rung { font-size: 19px; }
-  .hl .ll-marker b { font-size: 19px; }
-  .hl-stamp { position: relative; right: auto; top: auto; margin: 18px auto 0; width: max-content; max-width: 100%; }
-  .hl-stamp b, .hl.big .hl-stamp b { font-size: 52px; white-space: normal; }
-  .hl .ll-rung { flex-direction: row; }
-  .hl .ll-rungs { flex-direction: column-reverse; }
-  .hl .ll-marker { left: -6px; right: -6px; top: auto; bottom: calc(var(--p, 0) * 100%); width: auto; height: 0; }
-  .hl .ll-marker::before { left: 0; right: auto; top: -2px; bottom: auto; height: 4px; width: 12px; }
-  .hl .ll-marker::after { display: block; }
-  .hl .ll-marker b { display: block; }
-  .hl .ll-rung small { display: inline; }
-  .hl .ll-rung { justify-content: space-between; padding: 0 12px; }
+  .ladder-live { left: 0; right: 0; width: auto; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px)); padding: 4px 10px 6px; border-radius: 0; }
+  .ladder-live .cl-svg { max-height: 74px; }
+  .ladder-live .cl-score { display: none; } /* the header already shows the score */
+  .climb-compact .cl-side { justify-content: center; }
+  .climb-hero { grid-template-columns: 1fr; }
+  .climb-hero .cl-side { padding-bottom: 0; justify-items: center; }
+  .cl-rank b, .has-trophy .cl-rank b { font-size: 40px; }
+  .esri-mark { top: calc(var(--bar-h) + 112px); }
+  #map .maplibregl-ctrl-top-right { top: 104px; } /* below the staircase strip */
+  .toast { top: calc(var(--bar-h) + 106px); }
 }
 
 /* Narrow phones: the scoreboard strip has six things in it, so everything tightens up a little. */
