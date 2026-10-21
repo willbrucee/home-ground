@@ -1,5 +1,5 @@
 // Game flow: load players, pick today's five, handle guesses and the scorecard.
-import { ROUNDS } from "./config.js";
+import { ROUNDS, ROUND_SECONDS } from "./config.js";
 import { createMap } from "./map.js";
 import { distanceKm, pointAlong } from "./geo.js";
 import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
@@ -99,6 +99,7 @@ function startPractice() {
 }
 function beginRound() {
   phase = "guess"; guess = null; hintUsed = false;
+  startClock();
   clearEffects();
   gameMap.reset();
   setFolded(store.get("hg:folded", false)); // the player's choice; phones re-open it for each new name
@@ -107,21 +108,25 @@ function beginRound() {
   const t = $("#ticket");
   t.classList.remove("enter"); void t.offsetWidth; t.classList.add("enter");
 }
-async function lockIn() {
-  if (phase !== "guess" || !guess) return;
+// timedOut: the clock ran out with no pin on the map. The round scores 0 and the answer is shown.
+async function lockIn({ timedOut = false } = {}) {
+  if (phase !== "guess" || (!guess && !timedOut)) return;
+  stopClock();
   const it = items[round];
   const answer = { lat: it.lat, lng: it.lng };
   gameMap.prefetchAround(answer); // start loading the answer's area now; the camera heads there next
   const radius = it.radius_km || DEFAULT_RADIUS_KM;
-  const rawKm = distanceKm(guess, answer);       // to the city centre (shown on the card)
-  const km = Math.max(0, rawKm - radius);         // to the city's edge: used for points, tier and sharing
+  const noPin = !guess;
+  const rawKm = noPin ? HALF_WORLD_KM : distanceKm(guess, answer); // to the city centre (shown on the card)
+  const km = noPin ? HALF_WORLD_KM : Math.max(0, rawKm - radius);  // to the city's edge: used for points, tier and sharing
   const inside = km === 0;
-  const pts = pointsFor(km, hintUsed);
+  const pts = noPin ? 0 : pointsFor(km, hintUsed);
   const before = total();
   const tier = tierFor(km);
   const played = results.length + 1;
-  const at = { lat: +guess.lat.toFixed(3), lng: +guess.lng.toFixed(3) }; // kept for the Full time map
-  results.push({ id: it.id, guess: at, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
+  const at = noPin ? null : { lat: +guess.lat.toFixed(3), lng: +guess.lng.toFixed(3) }; // kept for the Full time map
+  results.push({ id: it.id, guess: at, km, rawKm, inside, pts, hint: hintUsed, ...(noPin ? { noPin: true } : {}),
+    line: noPin ? "Out of time. No pin, no points." : reactionFor(tier, inside), sports: noPin ? "" : pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
   if (mode === "daily") store.set(dailyKey, results);
   const card = collect(it.id, pts, today); // the card you win: "new", "upgrade" or ""
   loadVault(); // fetch the Vault's facts in the background, ready for the button
@@ -131,17 +136,18 @@ async function lockIn() {
   live.set(before, played - 1); // the ball hops up once the result is in (below)
 
   // Numbers start at 0 and count up in step with the line drawing across the map.
-  const kmBefore = totalKm() - km;
+  const kmBefore = totalKm() - (noPin ? 0 : km);
   const show = (t) => {
-    $("#distNow").textContent = formatNumber(km * t);
+    $("#distNow").textContent = noPin ? "–" : formatNumber(km * t);
     $("#ptsNow").textContent = Math.round(pts * t).toLocaleString();
     $("#total").textContent = Math.round(before + pts * t).toLocaleString();
-    $("#distTotal").textContent = formatNumber(kmBefore + km * t);
+    $("#distTotal").textContent = formatNumber(kmBefore + (noPin ? 0 : km) * t);
   };
   show(0);
   // The line stops at the city's edge (or doesn't appear at all if the pin is already inside).
-  const lineEnd = inside ? guess : pointAlong(guess, answer, rawKm - radius);
-  await gameMap.showResult(guess, answer, { color: tier.color, onProgress: show, radiusKm: radius, lineEnd });
+  const from = guess || answer; // out of time with no pin: no line, just the answer
+  const lineEnd = inside || noPin ? from : pointAlong(guess, answer, rawKm - radius);
+  await gameMap.showResult(from, answer, { color: tier.color, onProgress: show, radiusKm: radius, lineEnd });
   if (phase !== "reveal" || results.length !== round + 1) return; // player already moved on
   show(1); // land on the exact numbers
   live.climb(before, before + pts, played); // the ball hops up the staircase
@@ -170,7 +176,36 @@ function finish() {
   renderAll(); showSummary();
 }
 const total = () => results.reduce((s, r) => s + r.pts, 0);
-const totalKm = () => results.reduce((s, r) => s + r.km, 0);
+const HALF_WORLD_KM = 20015; // the furthest two places can be: a round with no pin counts as this far off
+
+// ── the round clock ─────────────────────────────────────
+// ROUND_SECONDS to place a pin. It only runs while the map is in view (it waits while the help or any
+// other panel is open). At zero your pin is locked in; with no pin, the round is "out of time".
+let clockLeft = 0, clockLast = 0, clockFrame = 0;
+function startClock() {
+  stopClock();
+  clockLeft = ROUND_SECONDS * 1000; clockLast = performance.now();
+  const tick = (now) => {
+    const dt = now - clockLast; clockLast = now;
+    if (phase !== "guess") return;
+    if ($("#sheet").hidden && !document.hidden) clockLeft -= dt;
+    drawClock();
+    if (clockLeft <= 0) { lockIn({ timedOut: true }); return; }
+    clockFrame = requestAnimationFrame(tick);
+  };
+  clockFrame = requestAnimationFrame(tick);
+}
+function stopClock() { cancelAnimationFrame(clockFrame); }
+function drawClock() {
+  const el = $("#clock");
+  if (!el) return;
+  const s = Math.max(0, Math.ceil(clockLeft / 1000));
+  el.style.setProperty("--left", Math.max(0, clockLeft / (ROUND_SECONDS * 1000)));
+  el.classList.toggle("hurry", s <= 5);
+  const b = el.querySelector("b");
+  if (b.textContent !== String(s)) { b.textContent = s; el.setAttribute("aria-label", `${s} seconds left`); }
+}
+const totalKm = () => results.reduce((s, r) => s + (r.noPin ? 0 : r.km), 0); // rounds with no pin have no distance
 
 // ── rendering ───────────────────────────────────────────
 function renderAll() {
@@ -219,10 +254,12 @@ function renderDock() {
   if (phase === "guess") {
     const it = items[round];
     dock.innerHTML = `
+      <div class="clock" id="clock" role="timer" aria-label="${ROUND_SECONDS} seconds left"><b>${Math.max(0, Math.ceil(clockLeft / 1000))}</b><i aria-hidden="true"></i></div>
       ${hintUsed ? `<div class="status"><b>Country: ${esc(it.country)}.</b> Half points now.</div>`
         : `<button class="minor" id="hintBtn" title="Shows the country on the map. Halves this round's points.">Reveal country <span>−50%</span></button>`}
       <button class="go" id="lockBtn" ${guess ? "" : "disabled"}>${guess ? "Lock it in" : "Drop a pin first"}</button>`;
-    $("#lockBtn").onclick = lockIn;
+    $("#lockBtn").onclick = () => lockIn();
+    drawClock();
     if (!hintUsed) $("#hintBtn").onclick = revealCountry;
   } else if (phase === "reveal") {
     // The scoreboard panel: huge distance, the points, the tier stamped on, then the answer.
@@ -231,9 +268,9 @@ function renderDock() {
     dock.style.setProperty("--tier", t.color);
     dock.style.setProperty("--tier-ink", t.ink);
     dock.innerHTML = `<div class="result">
-        <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
+        <div class="stat big"><b id="distNow">${r.noPin ? "–" : formatNumber(r.km)}</b><span>${r.noPin ? "no pin" : r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
         <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>points${r.hint ? " · hint" : ""}</span></div>
-        <div class="stamp">${t.name}</div>
+        <div class="stamp">${r.noPin ? "Out of time" : t.name}</div>
         <div class="place">${esc(it.city)} <small>${esc(it.country)}${it.hint ? ` · ${esc(it.hint.replace(/^Home ground: /, ""))}` : ""}</small></div>
         <div class="line">${r.inside ? "Inside the city limits. " : ""}${esc(r.line || "")}</div>
         <button class="go next" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>
@@ -347,7 +384,7 @@ function showSummary({ instant = false } = {}) {
       <div class="ft-who"><b>${esc(it.name)}</b>
         <span class="ft-said">You said: <i data-spot="${i}">${r.guess ? "…" : "not recorded"}</i></span>
         <span>Actually: ${esc(it.city)}, ${esc(it.country)}</span></div>
-      <div class="ft-pts"><b>${r.pts.toLocaleString()}</b><span class="ft-tier">${t.name}</span><small>${r.inside ? "inside the city" : formatDistance(r.km)}${r.hint ? " · hint" : ""}</small></div>
+      <div class="ft-pts"><b>${r.pts.toLocaleString()}</b><span class="ft-tier">${t.name}</span><small>${r.noPin ? "no pin" : r.inside ? "inside the city" : formatDistance(r.km)}${r.hint ? " · hint" : ""}</small></div>
     </li>`;
   }).join("");
   const title = mode === "daily" ? "Full time" : mode === "replay" ? "Replay over" : "Practice over";
@@ -554,7 +591,7 @@ function showHelp() {
   openSheet(`<div class="card" role="dialog" aria-labelledby="helpTitle">
     <h2 id="helpTitle">How it works</h2>
     <p>Five names a day, the same five for everyone. Athletes go where they were born. Teams go where they play home games.</p>
-    <p>Drop a pin and lock it in. Anywhere inside the city counts as a hole in one. Outside it, closer means more points, up to 1,000 a round. Revealing the country halves the round.</p>
+    <p>You have ${ROUND_SECONDS} seconds a round. Drop a pin and lock it in (when time runs out, your pin is locked in; no pin scores 0). Anywhere inside the city counts as a hole in one. Outside it, closer means more points, up to 1,000 a round. Revealing the country halves the round.</p>
     <p>Your daily total earns a rank, from wooden spoon to Hall of Fame. Finish every day to keep your streak going.</p>
     <div class="tier-scale">${TIERS.map((t, i) => `<div><i style="background:${t.color}"></i><b>${t.name}</b><span>${tierRange(i)}</span></div>`).join("")}</div>
     <details class="credits"><summary>Credits</summary><ul>
