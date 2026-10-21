@@ -33,5 +33,15 @@ export const SATELLITE = {
   attribution: "Powered by Esri · Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
 };
 
+// Labels over the imagery, like a hybrid map. While guessing: country borders and country names only (drawn
+// by the game from data/countries.geojson and data/country-labels.geojson, in Esri's map font). Once the
+// pin is locked in: Esri's own reference layer as well, with every city and town name.
+export const LABELS = {
+  glyphs: "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/resources/fonts/{fontstack}/{range}.pbf",
+  font: ["Arial Bold"],
+  places: `https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}${key}`,
+  placesMaxzoom: 13,
+};
+
 // How far players can zoom in (a little past the sharpest tiles, so cities can fill the screen).
 export const MAP_MAX_ZOOM = 12.5;

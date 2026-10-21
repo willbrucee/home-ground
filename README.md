@@ -235,6 +235,15 @@ The chart button opens your stats: games played, average, best, streak, best str
 reached each rank. They're kept in this browser's local storage only (`hg:history`, `hg:stats`); nothing is
 sent anywhere.
 
+### Map labels
+
+While you're guessing, the map shows country borders and country names only (drawn by the game from
+`data/countries.geojson` and `data/country-labels.geojson`, in Esri's map font); city names would give
+the answer away. Once the pin is locked in, Esri's World Boundaries and Places layer adds every city and
+town name, and the Full time map shows it too. The label points are built by
+`python3 scripts/build_country_labels.py`: each sits at the spot furthest from any border of the
+country's largest piece of land.
+
 ### Tests
 
 `node tests/map-accuracy.js` (with the site served on port 8765) plots Pittsburgh, Sydney and Rosario on the

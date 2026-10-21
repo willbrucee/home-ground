@@ -106,6 +106,7 @@ function beginRound() {
   phase = "guess"; guess = null; hintUsed = false;
   clearEffects();
   gameMap.reset();
+  gameMap.setLabels("borders"); // city names would give the answer away: borders and countries only until the pin is in
   setFolded(store.get("hg:folded", false)); // the player's choice; phones re-open it for each new name
   renderAll();
   // deal the ticket in for the new name
@@ -117,6 +118,7 @@ async function lockIn() {
   const it = items[round];
   const answer = { lat: it.lat, lng: it.lng };
   gameMap.prefetchAround(answer); // start loading the answer's area now; the camera heads there next
+  gameMap.setLabels("all");        // the pin is in: show every city and town name
   const radius = it.radius_km || DEFAULT_RADIUS_KM;
   const rawKm = distanceKm(guess, answer);       // to the city centre (shown on the card)
   const km = Math.max(0, rawKm - radius);         // to the city's edge: used for points, tier and sharing
@@ -576,6 +578,7 @@ function showHelp() {
     <div class="tier-scale">${TIERS.map((t, i) => `<div><i style="background:${t.color}"></i><b>${t.name}</b><span>${tierRange(i)}</span></div>`).join("")}</div>
     <details class="credits"><summary>Credits</summary><ul>
       <li>Satellite imagery: Esri, Maxar, Earthstar Geographics and the GIS User Community</li>
+      <li>Borders and place names: Esri World Boundaries and Places; country shapes from Natural Earth</li>
       <li>Country shapes: Natural Earth</li>
       <li>Players and teams: Wikidata. Vault facts: Wikidata and Wikipedia (summaries CC BY-SA 4.0)</li>
       <li>Photos and logos: Wikimedia Commons. Each picture's author and licence are behind the (i) on it.</li>
