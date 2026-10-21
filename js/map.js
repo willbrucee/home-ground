@@ -13,8 +13,7 @@ const HIDDEN_LINE = ["step", ["line-progress"], CLEAR, 0.5, CLEAR];
 // Ease-in-out: slow start, quick middle, slow finish.
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-// labels: "borders" (borders and country names: while guessing) or "all" (plus every city and town name).
-export function buildStyle(projection, { labels = "borders" } = {}) {
+export function buildStyle(projection) {
   const sources = {};
   const layers = [{ id: "ocean", type: "background", paint: { "background-color": color("--sea") } }];
 
@@ -41,30 +40,13 @@ export function buildStyle(projection, { labels = "borders" } = {}) {
       layout: { "line-join": "round" }, paint: { "line-color": color("--primary"), "line-width": 2, "line-opacity": 0 } },
   );
 
-  // Labels, like a hybrid map. While guessing only borders and country names show (city names would give
-  // the answer away); after the guess Esri's reference layer adds every city and town.
-  const all = labels === "all";
-  sources.places = { type: "raster", tiles: [LABELS.places], tileSize: 256, maxzoom: LABELS.placesMaxzoom };
-  sources.countryLabels = { type: "geojson", data: "data/country-labels.geojson" };
+  // Labels, like a hybrid map: roads (from zoom 5), then borders and every city and town name on top.
+  sources.roads = { type: "raster", tiles: [LABELS.roads], tileSize: 256, maxzoom: LABELS.maxzoom };
+  sources.places = { type: "raster", tiles: [LABELS.places], tileSize: 256, maxzoom: LABELS.maxzoom };
   layers.push(
-    { id: "places", type: "raster", source: "places", layout: { visibility: all ? "visible" : "none" }, paint: { "raster-fade-duration": 0 } },
-    { id: "border-casing", type: "line", source: "countries", layout: { "line-join": "round", visibility: all ? "none" : "visible" },
-      paint: { "line-color": color("--border"), "line-opacity": 0.45, "line-width": ["interpolate", ["linear"], ["zoom"], 1, 1.6, 6, 3.2] } },
-    { id: "border-line", type: "line", source: "countries", layout: { "line-join": "round", visibility: all ? "none" : "visible" },
-      paint: { "line-color": color("--surface"), "line-opacity": 0.85, "line-width": ["interpolate", ["linear"], ["zoom"], 1, 0.6, 6, 1.3] } },
-    { id: "country-names", type: "symbol", source: "countryLabels",
-      // small countries and islands only once you're zoomed in a little, so the world view isn't cluttered
-      filter: [">=", ["get", "area"], 12],
-      layout: {
-        visibility: all ? "none" : "visible",
-        "text-field": ["get", "name"], "text-font": LABELS.font, "text-transform": "uppercase", "text-letter-spacing": 0.08,
-        // bigger countries, bigger names; small ones appear as you zoom in (overlapping names give way to bigger ones)
-        "text-size": ["interpolate", ["linear"], ["zoom"], 1, ["interpolate", ["linear"], ["get", "area"], 0, 8, 50, 10, 1000, 13], 6, 17],
-        "symbol-sort-key": ["-", 0, ["get", "area"]], "text-max-width": 7, "text-padding": 4,
-      },
-      paint: { "text-color": color("--surface"), "text-halo-color": withAlpha("--border", 0.85), "text-halo-width": 1.4 } },
+    { id: "roads", type: "raster", source: "roads", minzoom: LABELS.roadsFrom, paint: { "raster-fade-duration": 0, "raster-opacity": 0.85 } },
+    { id: "places", type: "raster", source: "places", paint: { "raster-fade-duration": 0 } },
   );
-  layers.push({ ...layers.at(-1), id: "country-names-small", minzoom: 3.5, filter: ["<", ["get", "area"], 12] });
 
   // The city area: everything inside this circle counts as "in the city" (a Bullseye).
   // A soft fill plus a dashed white ring, shown on the reveal.
@@ -91,7 +73,6 @@ export function buildStyle(projection, { labels = "borders" } = {}) {
 
   return {
     version: 8,
-    glyphs: LABELS.glyphs,
     projection: { type: projection },
     sources,
     layers,
@@ -151,7 +132,7 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
   // too, we switch the imagery off and the game carries on with the plain land map underneath.
   let tileFailures = 0, tileTemplate = SATELLITE.tiles;
   map.on("error", (e) => {
-    if (e.sourceId === "places") return; // a missing labels tile just leaves that square unlabelled
+    if (e.sourceId === "places" || e.sourceId === "roads") return; // a missing labels tile just leaves that square unlabelled
     if (e.sourceId !== "satellite") { console.error(e.error || e); return; }
     tileFailures++;
     if (tileFailures === 6 && tileTemplate !== SATELLITE.fallbackTiles) {
@@ -196,14 +177,6 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
   return {
     map,
     ready,
-
-    // "borders" while guessing, "all" (every city and town name too) once the pin is locked in
-    async setLabels(which) {
-      await ready;
-      const all = which === "all";
-      map.setLayoutProperty("places", "visibility", all ? "visible" : "none");
-      for (const id of ["border-casing", "border-line", "country-names", "country-names-small"]) map.setLayoutProperty(id, "visibility", all ? "none" : "visible");
-    },
 
     setGuess(p, sport) {
       if (!p) { guessMarker.remove(); guessShown = false; return; }

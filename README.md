@@ -237,12 +237,10 @@ sent anywhere.
 
 ### Map labels
 
-While you're guessing, the map shows country borders and country names only (drawn by the game from
-`data/countries.geojson` and `data/country-labels.geojson`, in Esri's map font); city names would give
-the answer away. Once the pin is locked in, Esri's World Boundaries and Places layer adds every city and
-town name, and the Full time map shows it too. The label points are built by
-`python3 scripts/build_country_labels.py`: each sits at the spot furthest from any border of the
-country's largest piece of land.
+The satellite map carries labels like a hybrid map (Google Maps' satellite view, GeoGuessr's map): Esri's
+World Boundaries and Places layer (country, state and province borders, every city and town name) and,
+from zoom 5, Esri's World Transportation layer (roads). Both are on all the time, while guessing too, so you
+can find your way around; the settings are `LABELS` in `js/config.js`.
 
 ### Tests
 
