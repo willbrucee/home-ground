@@ -246,6 +246,13 @@ body[data-mode="football"] .bar > * { position: relative; z-index: 1; }
 
 /* ── The result: a scoreboard panel ────────────────── */
 /* An ink block with a thick tier-coloured edge, a huge distance, and the tier stamped on. */
+/* the round clock: seconds left inside a ring that empties; coral for the last five */
+.clock { --left: 1; --ring: var(--secondary); position: relative; flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+  background: conic-gradient(var(--ring) calc(var(--left) * 360deg), var(--surface-2) 0); box-shadow: 0 0 0 2px var(--border); }
+.clock::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface); }
+.clock b { position: relative; font: 900 24px/1 var(--f-display); font-variant-numeric: tabular-nums; color: var(--text); }
+.clock.hurry { --ring: var(--accent); }
+.clock.hurry b { color: var(--accent); }
 .dock.result-mode { left: var(--edge); transform: none; width: min(680px, calc(100vw - 2 * var(--edge))); max-width: none; }
 .result {
   position: relative; width: 100%; display: grid; grid-template-columns: auto auto 1fr; gap: 0 28px; align-items: end;
@@ -404,6 +411,9 @@ body[data-mode="football"] .bar > * { position: relative; z-index: 1; }
 /* Phones */
 @media (max-width: 720px) {
   :root { --bar-h: 52px; }
+  .clock { width: 46px; height: 46px; }
+  .clock b { font-size: 20px; }
+  .clock::before { inset: 5px; }
   .bar { gap: 8px; }
   .wordmark, .dayno { display: none; }
   .modechip { display: none; } /* no room on phones: the green strip shows Football; switch from Full time or the help */

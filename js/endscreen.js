@@ -14,7 +14,8 @@ export function awards(results) {
   const best = [...order].sort((a, b) => b.r.pts - a.r.pts || a.r.km - b.r.km || a.i - b.i)[0];
   const worst = [...order].sort((a, b) => a.r.pts - b.r.pts || b.r.km - a.r.km || a.i - b.i)[0];
   const disaster = worst && worst.i !== best?.i && DISASTER_TIERS.includes(tierFor(worst.r.km).key) ? worst.i : null;
-  return { motm: best ? best.i : null, disaster, caption: disaster == null ? "" : caption(results[disaster].km) };
+  const d = disaster == null ? null : results[disaster];
+  return { motm: best ? best.i : null, disaster, caption: d == null ? "" : d.noPin ? "The clock ran out before the pin went in." : caption(d.km) };
 }
 
 // Three lines per distance band, picked at random. Each is true for every distance in its band.

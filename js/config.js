@@ -10,6 +10,9 @@ export const PROJECTION = "globe";
 
 export const ROUNDS = 5;
 
+// Seconds to place a pin each round. When time runs out, your pin is locked in; with no pin, the round scores 0.
+export const ROUND_SECONDS = 25;
+
 // Day 1 of the daily puzzle. Changing this changes every future puzzle, so leave it alone once live.
 export const EPOCH = { year: 2026, month: 10, day: 21 }; // launch day: daily #1
 
