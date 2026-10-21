@@ -53,6 +53,8 @@ export function buildStyle(projection, { labels = "borders" } = {}) {
     { id: "border-line", type: "line", source: "countries", layout: { "line-join": "round", visibility: all ? "none" : "visible" },
       paint: { "line-color": color("--surface"), "line-opacity": 0.85, "line-width": ["interpolate", ["linear"], ["zoom"], 1, 0.6, 6, 1.3] } },
     { id: "country-names", type: "symbol", source: "countryLabels",
+      // small countries and islands only once you're zoomed in a little, so the world view isn't cluttered
+      filter: [">=", ["get", "area"], 12],
       layout: {
         visibility: all ? "none" : "visible",
         "text-field": ["get", "name"], "text-font": LABELS.font, "text-transform": "uppercase", "text-letter-spacing": 0.08,
@@ -62,6 +64,7 @@ export function buildStyle(projection, { labels = "borders" } = {}) {
       },
       paint: { "text-color": color("--surface"), "text-halo-color": withAlpha("--border", 0.85), "text-halo-width": 1.4 } },
   );
+  layers.push({ ...layers.at(-1), id: "country-names-small", minzoom: 3.5, filter: ["<", ["get", "area"], 12] });
 
   // The city area: everything inside this circle counts as "in the city" (a Bullseye).
   // A soft fill plus a dashed white ring, shown on the reveal.
@@ -199,7 +202,7 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
       await ready;
       const all = which === "all";
       map.setLayoutProperty("places", "visibility", all ? "visible" : "none");
-      for (const id of ["border-casing", "border-line", "country-names"]) map.setLayoutProperty(id, "visibility", all ? "none" : "visible");
+      for (const id of ["border-casing", "border-line", "country-names", "country-names-small"]) map.setLayoutProperty(id, "visibility", all ? "none" : "visible");
     },
 
     setGuess(p, sport) {
