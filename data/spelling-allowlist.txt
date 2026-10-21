@@ -71,3 +71,11 @@ headshot
 pageview
 pre
 tesseract
+goalkicker
+madison
+cornerback
+claire
+magicJack
+defenceman
+defenseman
+kickboxer

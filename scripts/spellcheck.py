@@ -95,7 +95,7 @@ def sources():
 RULES = [
     (re.compile(r"\S  +\S"), "double space"),
     (re.compile(r"\s[,.;:!?](?!\d)"), "space before punctuation"),
-    (re.compile(r"\b(?!Boom\b)(\w{2,}) \1\b"), "repeated word"),
+    (re.compile(r"\b(?!(?:Boom|Triple)\b)(\w{2,}) \1\b"), "repeated word"),
     (re.compile(r"\(\s|\s\)"), "space inside brackets"),
     (re.compile(r"(?<![\d.,])(?<!Formula )(?<!No\. )\b1 (?!(?:of|in|to|and|or|for|from|per|km|mi|m|ft|in)\b)[a-z]+s\b"), "plural after 1"),
 ]

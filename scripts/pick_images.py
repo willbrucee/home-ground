@@ -351,8 +351,11 @@ def main():
         for p in [p for p in picks if p[1] not in rejects][:8]:
             if p[3] == "chosen by hand":
                 return p, turned_down
-            text = imagecheck.ocr(p[1])
-            why = imagecheck.gives_away(text, words)
+            try:
+                text = imagecheck.ocr(p[1])
+            except imagecheck.CommonsBusy:
+                return "busy", turned_down  # couldn't fetch it to read: leave the entry for the next run
+            why = imagecheck.gives_away(text, words, [e.get("display_name") or ""] if e["type"] == "team" else [])
             if not why and p[3] == "logo":
                 extra = imagecheck.foreign_text(text, [e.get("display_name") or e["name"]])
                 why = f"logo has other text ({', '.join(extra[:3])})" if extra else None
@@ -379,6 +382,8 @@ def main():
             # Commons or Wikidata turned us away: no picture has been checked, so it waits in the reserve
             removed.append((e, "not checked yet (Commons or Wikidata busy): rerun pick_images.py")); continue
         chosen, turned_down = vetted.get(e["id"], (None, []))
+        if chosen == "busy":
+            removed.append((e, "not checked yet (Commons busy): rerun pick_images.py")); continue
         ocr_log += [(e["name"], t, why) for t, why in turned_down]
         if not chosen:
             removed.append((e, "no usable picture" + (" (text in the others names the place)" if turned_down else ""))); continue
@@ -401,10 +406,10 @@ def main():
             report[e["id"]] = {"file": title, "source": src, "tier": meta.get("tier"), **(meta.get("stats") or {})}
         else:
             e["imageConfidence"] = "high" if src in ("logo", "chosen by hand") or (sc >= 9 and ACTION.search(plain(title + " " + meta["desc"]))) else "low"
-        # A team with no free logo needs a clear match photo; a doubtful one (a scan, a chart, an empty
-        # stand) is worse than none, so the team sits out until a picture is chosen by hand.
-        if e["type"] == "team" and e["imageConfidence"] == "low":
-            removed.append((e, "no logo and no clear match photo")); continue
+        # Teams show their logo only: match and stadium photos are often unclear and can show the ground
+        # itself, so a team with no clean logo sits out until one is chosen by hand.
+        if e["type"] == "team" and src not in ("logo", "chosen by hand"):
+            removed.append((e, "no clean logo")); continue
         keep.append(e)
 
     # difficulty over the final pool: the most famous 70% are 1 (household names), the rest 2

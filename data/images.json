@@ -31,5 +31,276 @@
  "wd-Q131499": {
   "none": true,
   "note": "S.L. Benfica: picked photo was a 1965 team photo, too faded; choose one by hand"
+ },
+ "wd-Q1835": {
+  "reject": [
+   "Z5 zidane - voyages provence (3).jpg"
+  ],
+  "note": "review: face small, busy background"
+ },
+ "wd-Q106298476": {
+  "reject": [
+   "Caitlin Clark during February 28, 2024, press conference for Iowa at Minnesota women's collegiate basketball game (53558908611).jpg",
+   "Caitlin Clark during February 28, 2024, press conference for Iowa at Minnesota women's collegiate basketball game (53558047627).jpg"
+  ],
+  "note": "review: soft; review: soft, hand on head"
+ },
+ "wd-Q84056": {
+  "reject": [
+   "Sydney International WTA Players Cruise (31974227717).jpg"
+  ],
+  "note": "review: landmark behind (hints the country)"
+ },
+ "wd-Q2732196": {
+  "reject": [
+   "CHRIS GAYLE (4338758231).jpg",
+   "CHRIS GAYLE (6630276723).jpg"
+  ],
+  "note": "review: group shot; review: cap shadow, looking down"
+ },
+ "wd-Q28967995": {
+  "reject": [
+   "ManCity20240722-021.jpg"
+  ],
+  "note": "review: phone held up in front"
+ },
+ "wd-Q221482": {
+  "reject": [
+   "Jim Thorpe, New York NL, at Polo Grounds, NY (baseball) LCCN2014694437.jpg"
+  ],
+  "note": "review: soft, writing on the print"
+ },
+ "wd-Q78489": {
+  "reject": [
+   "1975 Italian GP - Niki Lauda.jpg"
+  ],
+  "note": "review: group, face at the edge"
+ },
+ "wd-Q560421": {
+  "reject": [
+   "KO Magazine June 1981 cover.jpg"
+  ],
+  "note": "review: magazine cover"
+ },
+ "wd-Q297142": {
+  "reject": [
+   "Joe DiMaggio Plaque.JPG"
+  ],
+  "note": "review: bronze plaque"
+ },
+ "wd-Q3182824": {
+  "reject": [
+   "Johnathan Thurston 2017-01.jpg"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q213854": {
+  "reject": [
+   "VIRAT KHOLI (15573134623).jpg"
+  ],
+  "note": "review: sunglasses, hand at face"
+ },
+ "wd-Q9488": {
+  "reject": [
+   "Sachin Tendulkar 1.jpg"
+  ],
+  "note": "review: hat shadow over face"
+ },
+ "wd-Q253073": {
+  "reject": [
+   "TeemuSelanne2010WinterOlympics.jpg"
+  ],
+  "note": "review: face cage over face"
+ },
+ "wd-Q201608": {
+  "reject": [
+   "Meenakshi Temple, Tamil boy, Madurai, India.jpg"
+  ],
+  "note": "review: not a sports photo"
+ },
+ "wd-Q517467": {
+  "reject": [
+   "Tim Tebow (6566856787).jpg",
+   "Tim Tebow (5040576290).jpg"
+  ],
+  "note": "review: group shot; review: full body, small face"
+ },
+ "wd-Q561852": {
+  "reject": [
+   "1952 Bowman Willie Mays.jpg",
+   "1951 Bownman Willie Mays.jpg"
+  ],
+  "note": "review: illustrated card; review: illustrated card"
+ },
+ "wd-Q348011": {
+  "reject": [
+   "Joe Montana 2013.jpg"
+  ],
+  "note": "review: place name behind, soft"
+ },
+ "wd-Q471571": {
+  "reject": [
+   "Roberto Durán by Bill Apter.jpg"
+  ],
+  "note": "review: magazine cover"
+ },
+ "wd-Q335798": {
+  "reject": [
+   "World Boxing September 1982 cover.jpg"
+  ],
+  "note": "review: magazine cover"
+ },
+ "wd-Q28973866": {
+  "reject": [
+   "Vinicius Junior Brazil V Morocco 13 June 2026-94 (cropped).jpg"
+  ],
+  "note": "review: country name on kit"
+ },
+ "wd-Q470774": {
+  "reject": [
+   "MS Dhoni (Prabhav '23 - RiGI 2023).jpg"
+  ],
+  "note": "review: text backdrop"
+ },
+ "wd-Q10132": {
+  "reject": [
+   "Australian Open Players' Party (16127166808).jpg",
+   "Rafael Nadal (18403716400).jpg"
+  ],
+  "note": "review: soft, text backdrop; review: arm across the face, place name behind"
+ },
+ "wd-Q1189": {
+  "reject": [
+   "Usain Bolt by Augustas Didzgalvis.jpg"
+  ],
+  "note": "review: country name on kit"
+ },
+ "wd-Q1912": {
+  "reject": [
+   "Karim Benzema during a photoshoot in 2020.jpg",
+   "Karim Benzema playing Mahjong (3).jpg"
+  ],
+  "note": "review: ball over the face; review: looking down, dark"
+ },
+ "wd-Q4679130": {
+  "reject": [
+   "Recognise Campaign Adam Goodes Presser.jpg"
+  ],
+  "note": "review: flag behind (hints the country)"
+ },
+ "wd-Q352159": {
+  "reject": [
+   "Ayesha Curry (cropped).jpg"
+  ],
+  "note": "review: looking up"
+ },
+ "wd-Q319591": {
+  "reject": [
+   "Tour de Romandie 2013 2013 - Stage 5 - Christopher Froome 1.jpg"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q285450": {
+  "reject": [
+   "Jon Jones in 2014 (cropped).jpg"
+  ],
+  "note": "review: flag behind (hints the country)"
+ },
+ "wd-Q273206": {
+  "reject": [
+   "Joe Louis salute 1945.jpg",
+   "Ezzard Charles vs Joe Louis 1950.jpg"
+  ],
+  "note": "review: newsprint, soft; review: newsprint, soft"
+ },
+ "wd-Q30161386": {
+  "reject": [
+   "Scottie Scheffler Ryder Cup 2025 (cropped).jpg",
+   "Scottie Scheffler Ryder Cup 2025-184.jpg"
+  ],
+  "note": "review: country name on cap; review: country name on cap"
+ },
+ "wd-Q365626": {
+  "reject": [
+   "Ben Hogan 1941.jpg",
+   "Ben Hogan 1953.jpg",
+   "Sam Snead and Ben Hogan 1950.jpeg"
+  ],
+  "note": "review: cup over the face; review: newsprint; review: newsprint, two people"
+ },
+ "wd-Q44473": {
+  "reject": [
+   "O.J. Simpson (11282520885).jpg"
+  ],
+  "note": "review: bronze bust"
+ },
+ "wd-Q213919": {
+  "reject": [
+   "Cover of KO Magazine February 1989.jpg",
+   "Boxing News magazine 27 March 2025 cover.jpg"
+  ],
+  "note": "review: magazine cover; review: magazine cover"
+ },
+ "wd-Q54545": {
+  "reject": [
+   "Martina Navratilova (7490715470).jpg",
+   "Martina Navratilova (7490730592).jpg"
+  ],
+  "note": "review: looking down; review: looking down"
+ },
+ "wd-Q10514": {
+  "reject": [
+   "2019 Indianapolis 500, Fernando Alonso - 03.jpg"
+  ],
+  "note": "review: sunglasses"
+ },
+ "wd-Q555240": {
+  "reject": [
+   "CWC launch with Shane Warne (15892504524).jpg",
+   "CWC launch with Shane Warne (15892508544).jpg"
+  ],
+  "note": "review: city name behind; review: city name behind"
+ },
+ "wd-Q1398682": {
+  "reject": [
+   "Pietersen 2013.jpg"
+  ],
+  "note": "review: sunglasses"
+ },
+ "wd-Q36107": {
+  "reject": [
+   "Muhammad Ali talking to the press after the first Liston fight.jpg"
+  ],
+  "note": "review: hand over the face"
+ },
+ "wd-Q536900": {
+  "reject": [
+   "Ken Griffey Jr. goes with his trademark backwards cap.jpg"
+  ],
+  "note": "review: place name on cap"
+ },
+ "wd-Q202877": {
+  "reject": [
+   "Lord's Bicentenary Anniversary Match - Brian Lara (cropped).jpg"
+  ],
+  "note": "review: cap shadow, looking down"
+ },
+ "wd-Q334634": {
+  "reject": [
+   "LA Dodgers.svg"
+  ],
+  "note": "review: logo is the city's initials (LA)"
+ },
+ "wd-Q190618": {
+  "reject": [
+   "New York Giants logo.svg"
+  ],
+  "note": "review: logo is the city's initials (NY)"
+ },
+ "wd-Q337758": {
+  "reject": [
+   "San Francisco 49ers logo.svg"
+  ],
+  "note": "review: logo is the city's initials (SF)"
  }
 }

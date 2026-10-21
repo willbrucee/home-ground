@@ -200,7 +200,8 @@ face, then a sharp, close head-and-shoulders shot. Anything less and the athlete
   500 px copy and the pixel limits are scaled to the width the game serves (1,280 px). The game asks for
   Commons' standard 500/960/1280 widths, which are usually already cached.
 - The best one wins, and its face position is saved as `imageFocus` (the crop's object-position).
-- **Teams**: their logo, large and clean, with no place name in it (OCR), or the reserve.
+- **Teams**: their logo only, large and clean, with no place name in it (OCR reads it at three sizes). Logos
+  that are the city's initials (LA, NY, SF) are rejected by hand in `data/images.json`. No logo: the reserve.
 
 `contact-sheet.html` shows every chosen picture, worst first, with the face box and the numbers, and a
 Reject button that writes to `data/images.json`. The run's numbers are in `data/image-report.json`.

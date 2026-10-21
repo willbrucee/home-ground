@@ -94,7 +94,7 @@ def ocr(title, width=500, photo=False):
     photo: one pass at the size it is (enough for a watermark); logos get enlarged and inverted too."""
     if not shutil.which("tesseract"):
         raise SystemExit("tesseract is not installed (apt install tesseract-ocr)")
-    key = CACHE / (hashlib.md5(f"ocr|{title}".encode()).hexdigest() + ".json")
+    key = CACHE / (hashlib.md5(f"{'ocr' if photo else 'ocr2'}|{title}".encode()).hexdigest() + ".json")
     if key.exists():
         return json.loads(key.read_text())["text"]
     im = download(title, width)
@@ -114,6 +114,16 @@ def ocr(title, width=500, photo=False):
             res = subprocess.run(["tesseract", "stdin", "stdout", "--psm", "11"], input=buf.getvalue(), capture_output=True,
                                  env={**os.environ, "OMP_THREAD_LIMIT": "1"})  # one thread each: we run several at once
             parts.append(res.stdout.decode("utf-8", "ignore"))
+        if not photo:
+            # big display lettering (wordmarks) reads better small, in plain black on white, with a margin
+            for w in (200, 350):
+                small = grey.resize((w, max(1, round(grey.height * w / grey.width))))
+                inked = ImageOps.expand(small.point(lambda v: 0 if v < 200 else 255), border=40, fill=255)
+                buf = io.BytesIO()
+                inked.save(buf, format="PNG")
+                res = subprocess.run(["tesseract", "stdin", "stdout", "--psm", "6"], input=buf.getvalue(), capture_output=True,
+                                     env={**os.environ, "OMP_THREAD_LIMIT": "1"})
+                parts.append(res.stdout.decode("utf-8", "ignore"))
         text = " ".join(parts)
     key.write_text(json.dumps({"text": text}))
     return text
@@ -127,7 +137,8 @@ def words_in(text):
 def gives_away(text, words, allowed=()):
     """Why this picture's text names the answer's place (a reason string), or None.
     `allowed`: words that may appear (the team's own nickname)."""
-    found = words_in(text)
+    ok = set(words_in(" ".join(allowed)))
+    found = [w for w in words_in(text) if w not in ok]  # the team's own nickname may appear
     if not found:
         return None
     if mentions_place(" ".join(found), words):
