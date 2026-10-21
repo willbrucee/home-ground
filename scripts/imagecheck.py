@@ -8,6 +8,7 @@ import difflib
 import hashlib
 import io
 import json
+import os
 import pathlib
 import re
 import shutil
@@ -86,8 +87,9 @@ def download(title, width=1280):
         return None
 
 
-def ocr(title, width=500):
-    """All the text tesseract can find in the picture, as one string (cached)."""
+def ocr(title, width=500, photo=False):
+    """All the text tesseract can find in the picture, as one string (cached).
+    photo: one pass at the size it is (enough for a watermark); logos get enlarged and inverted too."""
     if not shutil.which("tesseract"):
         raise SystemExit("tesseract is not installed (apt install tesseract-ocr)")
     key = CACHE / (hashlib.md5(f"ocr|{title}".encode()).hexdigest() + ".json")
@@ -101,13 +103,14 @@ def ocr(title, width=500):
         flat = Image.new("RGBA", im.size, "white")
         flat.alpha_composite(im)
         grey = flat.convert("L")
-        if grey.width < 1200:
+        if grey.width < 1200 and not photo:
             grey = grey.resize((grey.width * 2, grey.height * 2))
         parts = []
-        for variant in (grey, ImageOps.invert(grey)):
+        for variant in (grey,) if photo else (grey, ImageOps.invert(grey)):
             buf = io.BytesIO()
             variant.save(buf, format="PNG")
-            res = subprocess.run(["tesseract", "stdin", "stdout", "--psm", "11"], input=buf.getvalue(), capture_output=True)
+            res = subprocess.run(["tesseract", "stdin", "stdout", "--psm", "11"], input=buf.getvalue(), capture_output=True,
+                                 env={**os.environ, "OMP_THREAD_LIMIT": "1"})  # one thread each: we run several at once
             parts.append(res.stdout.decode("utf-8", "ignore"))
         text = " ".join(parts)
     key.write_text(json.dumps({"text": text}))
@@ -300,4 +303,4 @@ WATERMARK = re.compile(r"©|copyright|\bphoto\b|www\.|\.com\b|getty|shutterstock
 
 def has_watermark(title):
     """Text laid over the picture: a copyright line, an agency name or a web address."""
-    return bool(WATERMARK.search(ocr(title)))
+    return bool(WATERMARK.search(ocr(title, photo=True)))
