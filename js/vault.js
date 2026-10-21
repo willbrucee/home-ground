@@ -1,9 +1,9 @@
 // The Vault: extra facts about each name, unlocked by how well you scored on it, plus the
-// collectible cards and the trophy cabinet they go into.
+// collectible cards you win (kept on this device, and upgraded when you do better).
 // Every fact comes from data/vault.json, which scripts/build_vault.py fetches from Wikidata and
 // Wikipedia. Nothing here is written by hand.
 import { sportIcon } from "./sporticons.js";
-import { formatLength, formatDistance, sportsDistance, pickSportsUnit } from "./units.js";
+import { formatLength, formatDistance, sportsDistance, cityFact } from "./units.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -31,11 +31,19 @@ const fact = (label, value) => (value || value === 0 ? `<div class="fact"><dt>${
 const ageOn = (iso) => { const b = new Date(iso); if (isNaN(b)) return ""; const n = new Date(); return n.getFullYear() - b.getFullYear() - (n < new Date(n.getFullYear(), b.getMonth(), b.getDate()) ? 1 : 0); };
 const longDate = (iso) => { const d = new Date(iso + "T12:00:00Z"); return isNaN(d) ? "" : d.toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }); };
 
+// Your shot, in things a sports fan can picture: "about 74 marathons (42.2 km each)", and how many
+// city-widths away the pin was. Everyone sees this (it's in the first level).
+function yourShot(it, r) {
+  if (!r || r.inside) return `<p class="shot">Your pin was inside the city.</p>`;
+  const units = r.sports ? `${formatDistance(r.km)} off: ${sportsDistance(r.km, r.sports)}.` : "";
+  return `<p class="shot"><b>Your shot</b> ${esc(units)} ${esc(cityFact(r.km, it.city, it.radius_km))}</p>`;
+}
+
 function levelBody(key, it, v, r) {
   const team = it.type === "team";
   switch (key) {
     case "programme":
-      return `<dl>${team
+      return `${yourShot(it, r)}<dl>${team
         ? fact("Plays in", esc(it.city)) + fact("League", esc(v.league)) + fact("Founded", v.founded)
         : fact("Born", v.born ? `${esc(longDate(v.born))}${!v.died && /^\d{4}-\d\d-\d\d$/.test(v.born) ? ` <small>(age ${ageOn(v.born)})</small>` : ""}` : "") +
           fact("Died", v.died ? esc(longDate(v.died)) : "") +
@@ -51,9 +59,7 @@ function levelBody(key, it, v, r) {
         <p class="source">Summary from Wikipedia, CC BY-SA 4.0.</p>`;
     case "film": {
       const tl = (v.timeline || []).map((x) => `<li><b>${x.from}${x.to && x.to !== x.from ? `–${x.to}` : ""}</b> ${esc(x.what)}</li>`).join("");
-      const key2 = r && r.rawKm > 0 ? pickSportsUnit(r.rawKm, it.sport, [r.sports]) : "";
-      const dist = key2 ? `Your pin to the middle of ${esc(it.city)}: ${esc(formatDistance(r.rawKm))}, or ${esc(sportsDistance(r.rawKm, key2))}.` : "";
-      return `${tl ? `<ol class="timeline">${tl}</ol>` : "<p>No dated career record on Wikidata.</p>"}${dist ? `<p class="dist">${dist}</p>` : ""}`;
+      return tl ? `<ol class="timeline">${tl}</ol>` : "<p>No dated career record on Wikidata.</p>";
     }
     case "hof": {
       const years = (v.timeline || []).map((x) => x.from).filter(Boolean);
@@ -101,13 +107,13 @@ export function cardHtml(it, pts, { flip = false, i = 0 } = {}) {
   </div>`;
 }
 
-// ── trophy cabinet ──────────────────────────────────────
-// localStorage "hg:cabinet": { id: { pts, day } }. A card only ever upgrades.
+// ── the collection ──────────────────────────────────────
+// localStorage "hg:cabinet" (the old name, kept so collections carry over): { id: { pts, day } }. A card only ever upgrades.
 const KEY = "hg:cabinet";
-export function cabinet() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+export function collection() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
 // Returns "new", "upgrade" or "" (already had it at this level or better).
 export function collect(id, pts, day) {
-  const all = cabinet(), had = all[id];
+  const all = collection(), had = all[id];
   if (had && had.pts >= pts) return "";
   const upgraded = had && levelFor(pts) > levelFor(had.pts);
   all[id] = { pts, day };
@@ -115,15 +121,3 @@ export function collect(id, pts, day) {
   return had ? (upgraded ? "upgrade" : "") : "new";
 }
 
-export function cabinetHtml(players) {
-  const all = cabinet();
-  const byId = new Map(players.map((p) => [p.id, p]));
-  const got = Object.entries(all).filter(([id]) => byId.has(id)).sort((a, b) => b[1].pts - a[1].pts);
-  const counts = LEVELS.map((l, i) => got.filter(([, c]) => levelFor(c.pts) === i).length);
-  return `<div class="cabinet">
-    <div class="cab-count"><b>${got.length}</b><span>of ${players.length} collected</span></div>
-    <ul class="cab-rarities">${LEVELS.map((l, i) => `<li style="--rar:var(--r-${l.card.toLowerCase()})"><b>${counts[i]}</b>${l.card}</li>`).join("")}</ul>
-    ${got.length ? `<div class="cab-grid">${got.map(([id, c]) => cardHtml(byId.get(id), c.pts)).join("")}</div>`
-      : `<p class="empty">Empty shelves. Every round you play puts a card in here, and a better score upgrades it.</p>`}
-  </div>`;
-}

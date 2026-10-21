@@ -214,9 +214,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   transform: rotate(-6deg); animation: stamp 420ms 250ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
 }
 @keyframes stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.8); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
-.result .sports { grid-column: 1 / -1; margin-top: 10px; color: var(--text); font-family: var(--f-display); font-weight: 700; font-size: 20px; }
-.result .sports:empty { display: none; }
-.result .sports small { display: block; margin-top: 2px; color: var(--muted); font: 500 14px/1.3 var(--f-body); }
 .result .place { grid-column: 1 / 3; margin-top: 12px; font-family: var(--f-display); font-weight: 800; font-size: 26px; line-height: 1; text-transform: uppercase; }
 .result .place small { display: block; margin-top: 3px; font-family: var(--f-body); font-weight: 500; font-size: 14px; text-transform: none; color: var(--muted); }
 .result .line { grid-column: 1 / 3; margin-top: 6px; font-size: 15px; color: var(--text); }
@@ -426,6 +423,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .level dt { font: 700 13px/1.6 var(--f-body); color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .level dd { margin: 0; line-height: 1.45; }
 .level .summary { margin-top: 10px; }
+.level .shot { margin: 10px 0 0; padding: 8px 10px; background: var(--surface); border-radius: 4px; line-height: 1.45; }
+.level .shot b { margin-right: 6px; font: 800 14px var(--f-display); text-transform: uppercase; }
 .level .links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; }
 .level a { color: var(--secondary); font-weight: 700; }
 .level .source { margin-top: 6px; font-size: 13px; color: var(--muted); }
@@ -467,25 +466,12 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   animation: sheen 3.2s ease-in-out infinite; }
 @keyframes sheen { from { background-position: 120% 0; } to { background-position: -120% 0; } }
 
-/* ── Trophy cabinet ────────────────────────────────── */
-.card.cab-card { max-width: 900px; border-top-color: var(--primary); }
-.cab-count { display: flex; align-items: baseline; gap: 10px; }
-.cab-count b { font: 900 72px/0.85 var(--f-display); }
-.cab-count span { font: 700 22px var(--f-display); color: var(--muted); text-transform: uppercase; }
-.cab-rarities { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.cab-rarities li { display: flex; gap: 6px; align-items: baseline; padding: 4px 10px; background: var(--rar); color: var(--text); font: 800 16px var(--f-display); text-transform: uppercase; }
-.cab-rarities b { font-size: 22px; }
-.cab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
-.cabinet { display: grid; gap: 14px; }
-.cabinet .empty { color: var(--muted); }
-.trophy svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 
 @media (max-width: 720px) {
   .vault-head { grid-template-columns: 90px 1fr; }
   .vault-head .tcard { width: 90px; }
   .level dl { grid-template-columns: 1fr; gap: 0; }
   .level dd { margin-bottom: 6px; }
-  .cab-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
   .vault-btn { margin-top: 10px; }
 }
 /* ── Full time: the whole screen ───────────────────── */
@@ -595,6 +581,5 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   .readout { padding: 3px 6px 4px; }
   .readout b { font-size: 19px; }
   .square { width: 30px; height: 30px; font-size: 17px; }
-  .trophy svg { width: 18px; height: 18px; }
-}
+  }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

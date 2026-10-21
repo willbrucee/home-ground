@@ -9,8 +9,8 @@ import { sportIcon } from "./sporticons.js";
 import { loadPlaces, describeSpot } from "./fulltime.js";
 import { createSummaryMap } from "./summarymap.js";
 import { createClimb } from "./climb.js";
-import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect, cabinetHtml } from "./vault.js";
-import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
+import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect } from "./vault.js";
+import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, loadFacts } from "./units.js";
 
 const $ = (s) => document.querySelector(s);
 
@@ -121,7 +121,7 @@ async function lockIn() {
   const at = { lat: +guess.lat.toFixed(3), lng: +guess.lng.toFixed(3) }; // kept for the Full time map
   results.push({ id: it.id, guess: at, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
   if (mode === "daily") store.set(dailyKey, results);
-  const card = collect(it.id, pts, today); // into the trophy cabinet ("new", "upgrade" or "")
+  const card = collect(it.id, pts, today); // the card you win: "new", "upgrade" or ""
   loadVault(); // fetch the Vault's facts in the background, ready for the button
   phase = "reveal";
   setFolded(true); // fold the ticket to just the name, to make room for the result
@@ -228,7 +228,6 @@ function renderDock() {
         <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
         <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>points${r.hint ? " · hint" : ""}</span></div>
         <div class="stamp">${t.name}</div>
-        <div class="sports">${r.inside ? "" : `${esc(sportsDistance(r.km, r.sports))}<small>${esc(cityFact(r.km, it.city, it.radius_km))}</small>`}</div>
         <div class="place">${esc(it.city)} <small>${esc(it.country)}${it.hint ? ` · ${esc(it.hint.replace(/^Home ground: /, ""))}` : ""}</small></div>
         <div class="line">${r.inside ? "Inside the city limits. " : ""}${esc(r.line || "")}</div>
         <button class="go next" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>
@@ -479,15 +478,6 @@ async function showVault(i, { back = false } = {}) {
   $("#closeBtn").onclick = back ? () => showSummary({ instant: true }) : hideSheet;
 }
 
-function showCabinet() {
-  sheetKind = "cabinet";
-  openSheet(`<div class="card cab-card" role="dialog" aria-labelledby="cabTitle">
-    <h2 id="cabTitle">Trophy cabinet</h2>
-    ${cabinetHtml(players)}
-    <div class="actions"><button class="go" id="closeBtn">Back to the map</button></div>
-  </div>`);
-  $("#closeBtn").onclick = hideSheet;
-}
 
 function copyResult() {
   const text = shareText();
@@ -545,7 +535,6 @@ function showHelp() {
 $("#sheet").addEventListener("click", (e) => { if (e.target.id === "sheet") hideSheet(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) hideSheet(); });
 $("#helpBtn").onclick = showHelp;
-$("#cabinetBtn").onclick = showCabinet;
 // "Show country": costs half the round's points, names the country and lights it up on the map.
 function revealCountry() {
   if (phase !== "guess" || hintUsed) return;
