@@ -3,14 +3,15 @@ import { ROUNDS } from "./config.js";
 import { createMap } from "./map.js";
 import { distanceKm, pointAlong } from "./geo.js";
 import { dayNumber, dailyPicks, practicePicks } from "./daily.js";
-import { TIERS, LADDER, tierFor, reactionFor, rankFor } from "./tiers.js";
+import { TIERS, LADDER, tierFor, reactionFor, rankFor, useScale } from "./tiers.js";
 import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
 import { loadPlaces, describeSpot } from "./fulltime.js";
 import { createSummaryMap } from "./summarymap.js";
 import { createClimb } from "./climb.js";
 import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect } from "./vault.js";
-import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, loadFacts } from "./units.js";
+import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, loadFacts, sportsDistance, cityFact } from "./units.js";
+import { awards, ticketData, ticketHtml, ticketPng, leagueHtml } from "./endscreen.js";
 import { MODES, modeFromUrl, normalise } from "./modes.js";
 
 const $ = (s) => document.querySelector(s);
@@ -28,9 +29,11 @@ const DEFAULT_RADIUS_KM = 8;
 // 1000 points within 25 km of the city's edge, then a long, gentle fall: ~920 at 100 km, ~700 at 800 km,
 // ~490 at 2,500 km, ~340 at 5,000 km. Set with scripts/simulate_ranks.py so that casual, good and expert
 // players spread across the ranks (keep CURVE there in step with these numbers).
-const FULL_KM = 25, SCALE_KM = 4400, POWER = 0.6;
+// A game mode can set its own curve (js/modes.js "curve"); these are the daily mix's.
+const CURVE = { full: 25, scale: 4400, power: 0.6 };
 function pointsFor(km, hintUsed) {
-  const p = km <= FULL_KM ? 1000 : Math.round(1000 * Math.exp(-(((km - FULL_KM) / SCALE_KM) ** POWER)));
+  const { full, scale, power } = MODE.curve || CURVE;
+  const p = km <= full ? 1000 : Math.round(1000 * Math.exp(-(((km - full) / scale) ** power)));
   return hintUsed ? Math.round(p / 2) : p;
 }
 
@@ -57,7 +60,7 @@ let phase = "guess"; // "guess" → "reveal" → (next round) … → "done"
 let guess = null, hintUsed = false;
 
 const gameMap = createMap($("#map"), { onPick: placeGuess, insets: coveredEdges });
-const live = createClimb($("#ladderLive"), { compact: true }); // the rank staircase during the game
+let live = createClimb($("#ladderLive"), { compact: true }); // the rank staircase during the game (redrawn per mode)
 
 // How much of each screen edge the overlays cover, so the camera frames results in the open map.
 function coveredEdges() {
@@ -321,13 +324,16 @@ function creditLine(it) {
   return `${what}: ${esc(it.imageAuthor || "Unknown")} · ${esc(it.imageLicense || "")} · <a href="${esc(it.imagePage)}" target="_blank" rel="noopener">Wikimedia Commons</a>`;
 }
 
-// Short enough to paste anywhere: the day, total and rank; one square per round; the link.
+// The share text: the game, the day, the rank and total, a square and a tier name per round, and the link.
+// Never a name or a place, so it doesn't spoil the day for friends who haven't played.
 function shareText() {
-  const head = mode === "daily" ? `${MODE.share} #${today + 1}` : mode === "replay" ? `${MODE.share} #${today + 1} (replay)` : `${MODE.share} (practice)`;
+  const day = `#${today + 1}${mode === "replay" ? " (replay)" : mode === "practice" ? " (practice)" : ""}`;
+  const head = MODE.key === "mix" ? `Home Ground ${day} · ${MODE.name}` : `${MODE.share} ${day}`;
   const done = results.length === ROUNDS;
   return [
-    `${head} · ${total().toLocaleString()}${done ? ` · ${rankFor(total()).name}` : ""}`,
+    `${head} · ${done ? `${rankFor(total()).name} · ` : ""}${total().toLocaleString()}`,
     results.map((r) => tierFor(r.km).share).join(""),
+    results.map((r) => tierFor(r.km).name).join(", "),
     `willbrucee.github.io/home-ground${MODE.key === "mix" ? "" : `/?mode=${MODE.key}`}`, // a friend lands in the same game
   ].join("\n");
 }
@@ -344,139 +350,119 @@ let timer = null;
 let sheetKind = null; // which overlay is open, so a unit switch can redraw it
 
 // ── Full time ───────────────────────────────────────────
-// A calm, full-screen scorecard, top to bottom: the total and the rank (the Climb), the five rounds in
-// words, the map (one round at a time), then sharing and the countdown. One thing moves at a time: the
-// climb, then the rank's stamp, then the list fades in and the map appears. Then everything is still.
-let hero = null; // the end screen's staircase; stopped before the screen is drawn again
+// One calm scroll, top to bottom: a slim strip (the day and the game), the total and the rank with a compact
+// staircase, "Your starting five" (the five rounds as cards on a pitch, 2-1-2), the match ticket beside your
+// league table, then sharing and the countdown. Tapping a card opens its details below the pitch.
+// It plays once: the cards slide on (150 ms apart), the awards stamp on, the ticket slides in, then nothing
+// moves. Reopening, reduced motion or "Skip animation" shows it all at once.
+let hero = null; // the compact staircase at the top
 const cancelHero = () => { hero?.stop(); hero = null; };
-let summaryMap = null;      // the Full time map; removed (markers, animations and all) before it's drawn again
+let summaryMap = null;      // the small map in the details panel; removed before it's drawn again
 function dropSummaryMap() { summaryMap?.destroy(); summaryMap = null; }
 let ftTimers = [];          // the sequence's pending steps, cancelled if the screen is closed or redrawn
+let openRound = -1;         // the card whose details are open
 function showSummary({ instant = false } = {}) {
   cancelHero();
   dropSummaryMap();
   ftTimers.forEach(clearTimeout); ftTimers = [];
   sheetKind = "summary";
   const calm = instant || matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const st = store.get(key("stats"), { played: 0, streak: 0, best: 0 });
-  const rows = items.map((it, i) => {
-    const r = results[i], t = tierFor(r.km);
-    return `<li class="ft-row" style="--c:${t.color};--c-ink:${t.ink}" data-round="${i}" tabindex="0" aria-label="Round ${i + 1}: show it on the map">
-      <span class="ft-num">${i + 1}</span>
-      <div class="ft-who"><b>${esc(it.name)}</b>
-        <span class="ft-said">You said: <i data-spot="${i}">${r.guess ? "…" : "not recorded"}</i></span>
-        <span>Actually: ${esc(it.city)}, ${esc(it.country)}</span></div>
-      <div class="ft-pts"><b>${r.pts.toLocaleString()}</b><span class="ft-tier">${t.name}</span><small>${r.inside ? "inside the city" : formatDistance(r.km)}${r.hint ? " · hint" : ""}</small></div>
-    </li>`;
-  }).join("");
-  const title = mode === "daily" ? "Full time" : mode === "replay" ? "Replay over" : "Practice over";
+  if (!instant) openRound = -1; // a fresh Full time starts with every card closed
+  const t = total(), rank = rankFor(t);
+  const prize = awards(results);
+  const st = store.get(key("stats"), { played: 0, streak: 0, best: 0, last: null });
+  const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
+  const ticket = ticketData({ title: MODE.share, day: today + 1, total: t, results });
+  const card = (it, i) => {
+    const r = results[i], tier = tierFor(r.km);
+    const tag = i === prize.motm ? `<span class="award motm">Man of the match</span>` : i === prize.disaster ? `<span class="award disaster">Disaster class</span>` : "";
+    const pic = it.image
+      ? `<img src="${esc(it.image.replace(/width=\d+/, "width=330"))}" alt="${esc(it.name)}" loading="lazy" width="80" height="80"${it.imageFocus ? ` style="object-position:${esc(it.imageFocus)}"` : ""} onerror="this.remove()">`
+      : "";
+    const initials = it.name.split(/[\s-]+/).filter((w) => /^\p{L}/u.test(w)).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+    return `<div class="pc-slot" style="--i:${i}">
+      <button class="pc" type="button" data-round="${i}" style="--c:${tier.color};--c-ink:${tier.ink}" aria-expanded="false" aria-controls="ftDetail"
+        aria-label="Round ${i + 1}: ${esc(it.name)}, ${esc(tier.name)}, ${r.pts.toLocaleString()} points. Show details">
+        <span class="pc-av" data-kind="${it.type}"><span aria-hidden="true">${esc(initials)}</span>${pic}</span>
+        <b class="pc-name">${esc(it.name)}</b>
+        <span class="pc-meta">${esc(it.sport)} · <span class="pc-tier">${esc(tier.name)}</span></span>
+        <span class="pc-nums"><b>${r.pts.toLocaleString()}</b> pts · ${r.inside ? "inside" : formatDistance(r.km)}</span>
+        ${tag}
+      </button>
+      ${i === prize.disaster ? `<p class="pc-caption">${esc(prize.caption)}</p>` : ""}
+    </div>`;
+  };
+  const replayLink = mode !== "practice" ? `<button class="linkish" id="replayBtn">Play replay</button>` : `<button class="linkish" id="backBtn">Today's set</button>`;
   openSheet(`<div class="ft${calm ? " settled" : ""}" role="dialog" aria-labelledby="ftTitle">
-    <header class="ft-top">
-      <small class="ft-brand"><img src="favicon.svg" width="26" height="26" alt="">Home Ground · ${esc(MODE.name)} · ${esc($("#puzzleNo").textContent)}</small>
-      <h2 id="ftTitle">${title}</h2>
-      <div class="ft-score"><b id="ftTotal">${calm ? total().toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
+    <header class="ft-strip">
+      <span><img src="favicon.svg" width="22" height="22" alt="">Home Ground, Daily #${today + 1}${mode === "replay" ? " (replay)" : mode === "practice" ? " (practice)" : ""}</span>
+      <span class="ft-mode">${esc(MODE.name)}</span>
       ${calm ? "" : `<button class="ft-skip" id="skipAnim" type="button">Skip animation</button>`}
     </header>
-    <section class="ft-hero" id="ftHero" aria-label="Today's rank"></section>
-    <section class="ft-rounds" aria-label="Your five rounds">
-      <ol class="ft-rows">${rows}</ol>
-      <div class="ft-mapcol">
-        <div class="ft-map-wrap"><div class="ft-map" id="ftMap"></div></div>
-        <div class="ft-mapnav">
-          <button class="minor" id="prevRound" aria-label="Previous round">‹</button>
-          <span id="mapLabel">Round 1 of ${ROUNDS}</span>
-          <button class="minor" id="nextRoundBtn" aria-label="Next round">›</button>
-          <button class="minor" id="showAllBtn">Show all</button>
-        </div>
-      </div>
+    <section class="ft-score-row" aria-labelledby="ftTitle">
+      <h2 id="ftTitle" class="sr">Full time</h2>
+      <div class="ft-total"><b id="ftTotal">${calm ? t.toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
+      <div class="ft-rank"><small>Rank</small><b>${esc(rank.name)}</b></div>
     </section>
-    <section class="ft-share">
-      <pre class="ft-sharetext" id="shareText">${esc(shareText())}</pre>
-      <div class="actions"><button class="go" id="copyBtn">Copy result</button></div>
-      ${mode === "daily" ? `<p class="next-in"><span id="countdown"></span>${st.streak > 0 ? ` · ${st.streak}-day streak` : ""}</p>` : ""}
-      <div class="actions ft-more">${today > 0 || PREVIEW ? `<button class="minor" id="practiceBtn">Practice round</button>` : `<button class="minor" disabled title="Practice uses names from past days only">Practice opens tomorrow</button>`}
-        ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : `<button class="minor" id="backBtn">Today's set</button>`}
-        <button class="minor" id="statsLink">Your stats</button>
-        <button class="minor" id="switchLink">Switch game</button>
-        <button class="minor" id="closeBtn">Back to the map</button></div>
-      <div class="ft-cards"><h3>Today's cards</h3>
-        <div class="ft-cardrow">${items.map((it, i) => `<button class="ft-cardbtn" data-round="${i}" aria-label="${esc(it.name)}: open the Vault">${cardHtml(it, results[i].pts)}</button>`).join("")}</div>
-        <p>Tap a card to open its Vault.</p></div>
+    <section class="ft-ladder" id="ftHero" aria-label="Rank ladder"></section>
+    <section class="ft-pitchwrap" aria-labelledby="pitchTitle">
+      <h3 id="pitchTitle">Your starting five</h3>
+      <div class="pitch">${items.map(card).join("")}</div>
+      <div class="ft-detail" id="ftDetail" hidden></div>
+    </section>
+    <section class="ft-bottom">
+      <div class="ft-ticket">${ticketHtml(ticket)}</div>
+      ${leagueHtml({ history: store.get(key("history"), {}), today, streak })}
+    </section>
+    <section class="ft-actions">
+      <div class="actions"><button class="go" id="shareBtn">Share ticket</button><button class="minor" id="copyBtn">Copy text</button></div>
+      <pre class="ft-sharetext" id="shareText" hidden>${esc(shareText())}</pre>
+      ${mode === "daily" ? `<p class="next-in"><span id="countdown"></span></p>` : ""}
+      <p class="ft-links">${replayLink}
+        ${today > 0 || PREVIEW ? `<button class="linkish" id="practiceBtn">Practice round</button>` : ""}
+        <button class="linkish" id="statsLink">Your stats</button>
+        <button class="linkish" id="switchLink">Switch game</button>
+        <button class="linkish" id="closeBtn">Back to the map</button></p>
       ${imageCredits()}
       <p class="ft-geo">Place names: GeoNames (CC BY 4.0).</p>
     </section>
   </div>`);
   $("#sheet").classList.add("full");
+  $("#shareBtn").onclick = () => shareTicket(ticket);
   $("#copyBtn").onclick = copyResult;
   if ($("#practiceBtn")) $("#practiceBtn").onclick = startPractice;
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
+  if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
   $("#closeBtn").onclick = hideSheet;
   $("#statsLink").onclick = showStats;
   $("#switchLink").onclick = showPicker;
-  if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
-  document.querySelectorAll(".ft-cardbtn").forEach((b) => (b.onclick = () => showVault(+b.dataset.round, { back: true })));
+  document.querySelectorAll(".pc").forEach((b) => (b.onclick = () => toggleDetail(+b.dataset.round)));
+  if (openRound >= 0 && calm) toggleDetail(openRound, { keep: true }); // a redraw (km/miles) keeps the open card open
 
-  // "You said: near Lyon, France" once the town list has loaded
-  loadPlaces().then(() => document.querySelectorAll("[data-spot]").forEach((el) => {
-    const r = results[+el.dataset.spot];
-    if (r?.guess) el.textContent = describeSpot(r.guess, countryShapes);
-  }));
-
-  // The map, made once the list is in: one round at a time, from the list, the arrows or the map itself.
-  let current = 0;
-  const focus = (i) => {
-    current = i;
-    document.querySelectorAll(".ft-row").forEach((row) => row.classList.toggle("picked", +row.dataset.round === i));
-    $("#mapLabel").textContent = i < 0 ? `All ${ROUNDS} rounds` : `Round ${i + 1} of ${ROUNDS}`;
-    $("#showAllBtn").setAttribute("aria-pressed", String(i < 0));
-  };
-  const makeMap = () => {
-    if (summaryMap || !$("#ftMap")) return;
-    summaryMap = createSummaryMap($("#ftMap"), items.map((it, i) => {
-      const t = tierFor(results[i].km);
-      return { guess: results[i].guess, answer: { lat: it.lat, lng: it.lng }, color: t.color, ink: t.ink,
-        label: formatDistance(results[i].km), inside: results[i].inside };
-    }), { onSelect: focus });
-  };
-  document.querySelectorAll(".ft-row").forEach((row) => {
-    const go = () => { makeMap(); summaryMap?.select(+row.dataset.round); };
-    row.onclick = go;
-    row.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
-  });
-  $("#prevRound").onclick = () => summaryMap?.select((Math.max(current, 0) + ROUNDS - 1) % ROUNDS);
-  $("#nextRoundBtn").onclick = () => summaryMap?.select((current + 1) % ROUNDS);
-  $("#showAllBtn").onclick = () => summaryMap?.showAll();
-
-  // The sequence. Settled (reopened, or reduced motion): everything at once, nothing moves.
-  hero = createClimb($("#ftHero"));
+  // The sequence: count-up and the compact staircase together, the cards slide on, awards stamp, the ticket.
+  hero = createClimb($("#ftHero"), { compact: true });
+  const ft = $(".ft");
   const settle = () => {
     ftTimers.forEach(clearTimeout); ftTimers = [];
     hero?.skip();
     $("#ftTotal") && ($("#ftTotal").textContent = total().toLocaleString());
-    $(".ft")?.classList.add("settled");
+    ft?.classList.add("settled");
     $("#skipAnim")?.remove();
-    makeMap();
   };
   if (calm) {
-    hero.climb(0, total(), ROUNDS, { instant: true });
-    makeMap();
+    hero.climb(0, t, ROUNDS, { instant: true });
   } else {
-    // 1. the climb, with the total counting up beside it (about three seconds)
-    const start = performance.now(), to = total();
+    const start = performance.now();
     const count = (now) => {
-      const el = $("#ftTotal"), t = Math.min(1, Math.max(0, (now - start) / 3000));
-      if (!el || $(".ft")?.classList.contains("settled")) return;
-      el.textContent = Math.round(to * t).toLocaleString();
-      if (t < 1) requestAnimationFrame(count);
+      const el = $("#ftTotal"), p = Math.min(1, Math.max(0, (now - start) / 1000));
+      if (!el || ft.classList.contains("settled")) return;
+      el.textContent = Math.round(t * (1 - (1 - p) ** 2)).toLocaleString();
+      if (p < 1) requestAnimationFrame(count);
     };
     requestAnimationFrame(count);
-    hero.climb(0, to, ROUNDS, {
-      // 2. the rank is stamped beside the staircase (CSS), 3. then the list fades in, 4. then the map
-      onDone: () => {
-        ftTimers.push(setTimeout(() => $(".ft")?.classList.add("list-in"), 700));
-        ftTimers.push(setTimeout(settle, 1300));
-      },
-    });
+    hero.climb(0, t, ROUNDS, { ms: 1000 });
+    ft.classList.add("play"); // CSS: cards 150 ms apart, then the awards, then the ticket (see .ft.play)
+    ftTimers.push(setTimeout(settle, 2600));
     $("#skipAnim").onclick = settle;
   }
 
@@ -486,10 +472,75 @@ function showSummary({ instant = false } = {}) {
       const s = Math.max(0, Math.floor((m - n) / 1000));
       const p = (v) => String(v).padStart(2, "0");
       const el = $("#countdown");
-      if (el) el.textContent = `New set in ${p(Math.floor(s / 3600))}:${p(Math.floor((s % 3600) / 60))}:${p(s % 60)}`;
+      if (el) el.textContent = `Next game in ${p(Math.floor(s / 3600))}:${p(Math.floor((s % 3600) / 60))}:${p(s % 60)}`;
     };
     tick(); clearInterval(timer); timer = setInterval(tick, 1000);
   }
+}
+
+// A card's details, below the pitch (not a modal): where you said and where it was, a small map of that
+// round, the distance fact, and its Vault levels and card. The same card again (or Close) folds it away.
+async function toggleDetail(i, { keep = false } = {}) {
+  const panel = $("#ftDetail");
+  if (!panel) return;
+  const closing = !keep && openRound === i && !panel.hidden;
+  document.querySelectorAll(".pc").forEach((b) => b.setAttribute("aria-expanded", String(!closing && +b.dataset.round === i)));
+  dropSummaryMap();
+  if (closing) { panel.hidden = true; panel.innerHTML = ""; openRound = -1; return; }
+  openRound = i;
+  await loadVault(MODE.vault);
+  const it = items[i], r = results[i], tier = tierFor(r.km);
+  panel.hidden = false;
+  panel.style.setProperty("--c", tier.color);
+  panel.innerHTML = `<div class="fd-head">
+      <h4>Round ${i + 1}: ${esc(it.name)}</h4>
+      <button class="minor" id="fdClose" type="button">Close</button>
+    </div>
+    <div class="fd-grid">
+      <div class="fd-words">
+        <p><span>You said</span> <b data-spot>${r.guess ? "…" : "not recorded"}</b></p>
+        <p><span>Actually</span> <b>${esc(it.city)}, ${esc(it.country)}</b></p>
+        <p class="fd-fact">${esc(funFact(it, r))}</p>
+      </div>
+      <div class="fd-map-wrap"><div class="fd-map" id="fdMap"></div></div>
+    </div>
+    <div class="fd-vault">
+      <div class="fd-card">${cardHtml(it, r.pts)}</div>
+      ${vaultHtml(it, r)}
+    </div>`;
+  $("#fdClose").onclick = () => toggleDetail(i);
+  loadPlaces().then(() => { const el = panel.querySelector("[data-spot]"); if (el && r.guess) el.textContent = describeSpot(r.guess, countryShapes); });
+  summaryMap = createSummaryMap($("#fdMap"), items.map((x, k) => {
+    const tk = tierFor(results[k].km);
+    return { guess: results[k].guess, answer: { lat: x.lat, lng: x.lng }, color: tk.color, ink: tk.ink, label: formatDistance(results[k].km), inside: results[k].inside };
+  }), { start: i });
+  if (!keep) panel.scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+
+// "about 1,200 football pitches (105 m each). Rosario is about 20 km across: you were 30 city-widths away."
+function funFact(it, r) {
+  if (r.inside) return "Your pin was inside the city.";
+  return [r.sports ? `${formatDistance(r.km)} off: ${sportsDistance(r.km, r.sports)}.` : "", cityFact(r.km, it.city, it.radius_km)].filter(Boolean).join(" ");
+}
+
+// Share the ticket: phones get the share sheet with the picture and the text; elsewhere the picture
+// downloads and the text is shown, ready to copy.
+async function shareTicket(ticket) {
+  const text = shareText();
+  let blob = null;
+  try { blob = await ticketPng(ticket); } catch {}
+  const file = blob && new File([blob], `home-ground-${MODE.key}-${today + 1}.png`, { type: "image/png" });
+  if (file && navigator.canShare?.({ files: [file] }) && matchMedia("(pointer: coarse)").matches) {
+    try { await navigator.share({ files: [file], text }); return; } catch (e) { if (e?.name === "AbortError") return; }
+  }
+  if (blob) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = file.name;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+  $("#shareText").hidden = false;
+  toast(blob ? "Ticket saved. The text is below to copy." : "The text is below to copy.");
 }
 
 // ── Stats: kept on this device only ──────────────────────
@@ -549,6 +600,7 @@ function copyResult() {
 function fallbackCopy() {
   const pre = $("#shareText");
   if (!pre) return;
+  pre.hidden = false;
   const range = document.createRange();
   range.selectNodeContents(pre);
   getSelection().removeAllRanges(); getSelection().addRange(range);
@@ -670,6 +722,8 @@ function showPicker() {
 const loaded = {}; // each mode's player list, fetched once
 async function startMode(key) {
   MODE = MODES[key];
+  useScale(MODE.scale); // this mode's tier distances and rank thresholds (the mix's if it has none)
+  live.stop(); live = createClimb($("#ladderLive"), { compact: true }); // so the staircase shows this mode's thresholds
   document.body.dataset.mode = key;
   const url = new URL(location.href);
   url.searchParams.set("mode", key);

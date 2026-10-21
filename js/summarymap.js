@@ -4,7 +4,7 @@
 // rounds are small faint numbered dots. "Show all" shows every arc, thin, with no labels.
 // Calm on purpose: the camera makes one smooth move, the arc draws once (0.8 s), and nothing loops.
 //
-// createSummaryMap(container, rounds, { onSelect }) → { select(i), showAll(), destroy() }.
+// createSummaryMap(container, rounds, { onSelect, start }) → { select(i), showAll(), destroy() }. start: the round shown first.
 // destroy() removes the map, its markers and any animation in progress, so it can't leave duplicates.
 import { buildStyle } from "./map.js";
 import { greatCircle } from "./geo.js";
@@ -15,7 +15,7 @@ const EMPTY = { type: "FeatureCollection", features: [] };
 const reduceMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // rounds: [{ guess: {lat, lng} | null, answer: {lat, lng}, color, ink, label: "1,234 km", inside }]
-export function createSummaryMap(container, rounds, { onSelect } = {}) {
+export function createSummaryMap(container, rounds, { onSelect, start = 0 } = {}) {
   // Each arc as one continuous line (longitudes may run past ±180, so it never jumps across the map),
   // and whole arcs shifted by 360° so they sit together on one copy of the world.
   const paths = rounds.map((r) => (r.guess ? greatCircle(r.guess, r.answer, 128) : [[r.answer.lng, r.answer.lat]]));
@@ -25,7 +25,7 @@ export function createSummaryMap(container, rounds, { onSelect } = {}) {
   const map = new maplibregl.Map({
     container,
     style: buildStyle("mercator", { labels: "all" }), // after the game: every place name
-    bounds: boundsOf(paths),
+    bounds: boundsOf([paths[start] || paths[0]]), // opens on the round it was asked for
     fitBoundsOptions: { padding: padFor(container), maxZoom: 9 },
     maxZoom: MAP_MAX_ZOOM,
     fadeDuration: 0,
@@ -75,8 +75,8 @@ export function createSummaryMap(container, rounds, { onSelect } = {}) {
       if (p.guess) add(p.guess, ends[i].guess).addTo(map);
       add(p.answer, ends[i].answer).addTo(map);
     });
-    tagMarker = add(tag, ends[0].mid).addTo(map);
-    api.select(0, { quick: true });
+    tagMarker = add(tag, ends[start]?.mid || ends[0].mid).addTo(map);
+    api.select(start, { quick: true });
   });
 
   // Draw arcs: the selected one grown to `progress` (0..1), or every arc, thin, in "show all".
