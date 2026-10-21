@@ -72,6 +72,8 @@ def download(title, width=1280):
                 if err.code == 404:
                     return None
                 busy += err.code == 429
+                if err.code == 429 and os.environ.get("HG_NO_WAIT"):
+                    raise CommonsBusy(title)  # don't sit out long pauses: leave it for the next run
                 time.sleep(60 if err.code == 429 and width > 500 else int(err.headers.get("Retry-After") or 0) or 10 * (attempt + 1))  # back off
             except Exception:  # noqa: BLE001 (timeouts, dropped connections: try again a little later)
                 time.sleep(3 * (attempt + 1))

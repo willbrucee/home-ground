@@ -376,8 +376,8 @@ def main():
             removed.append((e, "override: no picture")); continue
         picks = found.get(e["id"])
         if picks is None:
-            print(f"   {e['name']}: Wikidata too busy, kept as it was; rerun later")
-            keep.append(e); continue
+            # Commons or Wikidata turned us away: no picture has been checked, so it waits in the reserve
+            removed.append((e, "not checked yet (Commons or Wikidata busy): rerun pick_images.py")); continue
         chosen, turned_down = vetted.get(e["id"], (None, []))
         ocr_log += [(e["name"], t, why) for t, why in turned_down]
         if not chosen:
