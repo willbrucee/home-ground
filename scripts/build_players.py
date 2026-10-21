@@ -541,6 +541,10 @@ def summarise(items, limit=2):
     return " · ".join(picked)
 
 
+# Answer "cities" that are really a district, county, metro area or building.
+SUSPECT_CITY = re.compile(r"metropolitan|county|\barea\b|palace|district|\bborough\b|^old |township|training|\bward\b|"
+                          r"arrondissement|parish|stadium|park$|centre$|center$", re.I)
+
 # ── Stage 0: household names (data/seeds.json) ─────────────────────────────────
 SEEDS = ROOT / "data" / "seeds.json"
 OCCUPATION_MATCH = {  # Wikidata occupation labels, on top of DESC_MATCH
@@ -651,15 +655,12 @@ def is_major(items, views=0):
 
 
 def set_difficulty(entries):
-    """1 = household name: every seed, plus anyone at least as famous as the typical seed, plus the most
-    famous 60% of teams. Everyone else is 2 (well known). There are no 3s for now."""
-    seed_fame = sorted(e["fame"] for e in entries if e.get("_seed"))
-    bar = seed_fame[len(seed_fame) // 2] if seed_fame else 0
-    teams = sorted((e for e in entries if e["type"] == "team"), key=lambda e: -e["fame"])
-    top_teams = {e["id"] for e in teams[: round(len(teams) * 0.6)]}
-    for e in entries:
-        e["difficulty"] = 1 if e.get("_seed") or e["id"] in top_teams or (e["type"] == "athlete" and e["fame"] >= bar) else 2
+    """1 = household name: the most famous 70% of the pool. 2 = well known: the rest. (The daily game uses
+    four 1s and one 2, so the 2s need to be a decent-sized group too.) No 3s for now."""
     entries.sort(key=lambda e: -e["fame"])
+    n = len(entries)
+    for k, e in enumerate(entries):
+        e["difficulty"] = 1 if k < n * 0.7 else 2
 
 
 def build_group(kind, cands, sport, keep, details, achieved, need_achievement, info, views, why_out, seeds=()):
@@ -878,6 +879,18 @@ def main():
     if dry_run:
         print("Dry run: nothing written.")
         return
+    # Answers corrected by hand (a district, county, metro area or old ground on Wikidata), then a check
+    # for any others that look like that, so they can be added to answer_fixes.
+    fixes = {k: v for k, v in overrides.get("answer_fixes", {}).items() if not k.startswith("_")}
+    for e in final:
+        for k, v in fixes.get(e["id"][3:], {}).items():
+            if k != "note":
+                e[k] = v
+    odd = [e for e in final if e["id"][3:] not in fixes and SUSPECT_CITY.search(e["city"])]
+    if odd:
+        print("\nThese answers look like a district, county or area rather than a city (fix in answer_fixes):")
+        for e in odd:
+            print(f"   {e['id'][3:]:<10} {e['name']}: {e['city']}")
     import spoilers
     final = spoilers.apply(final, fresh, {k: v for k, v in overrides.get("display_names", {}).items() if not k.startswith("_")})  # display names that hide the city; answer words for pick_images.py
     OUT.write_text(json.dumps(final, ensure_ascii=False, indent=1) + "\n")

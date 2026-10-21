@@ -1,429 +1,393 @@
 fame,difficulty,sitelinks,achievements,type,sport,name,city,country,radius_km,picture,achievement,wikidata
-350.1,1,214,48,athlete,Football,Cristiano Ronaldo,Funchal,Portugal,8,,Premier League Player of the Season ×2 · FIFA Ballon d'Or ×2,Q11571
-342.5,1,227,64,athlete,Football,Lionel Messi,Rosario,Argentina,8,,Ballon d'Or winner ×4 · IFFHS World's Best Playmaker ×4,Q615
-215.8,1,155,204,team,Football,FC Barcelona,Barcelona,Spain,8,,La Liga winner ×29 · UEFA Champions League ×5,Q7156
-213.6,1,118,73,team,Football,Manchester City F.C.,Manchester,United Kingdom,8,,Premier League winner ×8 · EFL Cup ×10,Q50602
-205.9,1,148,91,team,Football,Manchester United F.C.,Manchester,United Kingdom,8,,Premier League winner ×13 · FA Cup ×13,Q18656
-204.0,1,153,108,athlete,Tennis,Novak Djokovic,Belgrade,Serbia,10.7,,Australian Open – men's singles winner ×9 · Wimbledon Championships – men's singles ×7,Q5812
-202.8,1,171,106,athlete,Formula 1,Michael Schumacher,Hürth,Germany,8,,Formula One winner ×7 · Formula One World Drivers' Championship ×6,Q9671
-200.8,1,153,168,team,Football,Real Madrid Club de Fútbol,Madrid,Spain,13.9,,UEFA Champions League ×15 · La Liga winner ×36,Q8682
-197.8,1,127,73,team,Football,Chelsea F.C.,London,United Kingdom,22.4,,Premier League winner ×5 · FA Cup ×8,Q9616
-190.8,1,116,118,athlete,Formula 1,Lewis Hamilton,Stevenage,United Kingdom,8,,Formula One winner ×6 · British Grand Prix winner ×9,Q9673
-189.9,1,183,25,athlete,Boxing,Muhammad Ali,Louisville,United States,8,,WBA World Heavyweight Champion ×4 · The Ring World Heavyweight Champion ×3,Q36107
-189.4,1,55,15,athlete,Tennis,Elena Rybakina,Moscow,Russia,28.6,,Wimbledon Championships – women's singles · Australian Open – Women's singles winner,Q42055714
-189.2,1,160,117,athlete,Tennis,Roger Federer,Basel,Switzerland,8,,Wimbledon Championships – men's singles ×7 · Australian Open – men's singles winner ×6,Q1426
-189.0,1,133,116,team,Football,Liverpool F.C.,Liverpool,United Kingdom,8,,UEFA Champions League ×6 · English Football League winner ×19,Q1130849
-185.3,1,125,88,team,Football,Arsenal F.C.,London,United Kingdom,22.4,,Premier League winner ×4 · FA Cup Final winner ×14,Q9617
-182.1,1,139,52,athlete,Basketball,Michael Jordan,Brooklyn,United States,8.9,,Bill Russell NBA Finals Most Valuable Player ×6 · NBA Most Valuable Player ×5,Q41421
-175.7,1,110,15,athlete,Boxing,Mike Tyson,Brownsville,United States,8,,WBC World Heavyweight Champion ×2 · WBA World Heavyweight Champion ×2,Q79031
-174.5,1,112,39,athlete,Basketball,LeBron James,Akron,United States,8,,NBA Most Valuable Player ×4 · Bill Russell NBA Finals Most Valuable Player ×4,Q36159
-174.0,1,57,29,athlete,Tennis,Aryna Sabalenka,Minsk,Belarus,11.4,,Australian Open – Women's singles winner ×2 · US Open – Women's singles winner ×2,Q23448791
-173.1,1,99,8,athlete,Football,Erling Haaland,Leeds,United Kingdom,13.3,,Golden Boy ×2 · DFB-Pokal,Q28967995
-171.1,1,133,4,athlete,Football,Kylian Mbappé,Paris,France,8,,European Golden Shoe · Kopa Trophy,Q21621995
-165.3,1,105,72,athlete,Formula 1,Max Verstappen,Hasselt,Belgium,8,,Formula One winner ×2 · Abu Dhabi Grand Prix winner ×5,Q2239218
-160.6,1,98,6,athlete,Football,Lamine Yamal,Esplugues de Llobregat,Spain,8,,La Liga Player of the Month ×3 · Kopa Trophy,Q113704154
-158.9,1,110,1,athlete,Football,José Mourinho,Setúbal,Portugal,8.6,,Premier League Manager of the Season winner,Q79983
-157.8,1,98,2,athlete,Football,Harry Kane,Walthamstow,United Kingdom,8,,Premier League Golden Boot winner · European Golden Shoe,Q969725
+352.1,1,214,48,athlete,Football,Cristiano Ronaldo,Funchal,Portugal,8,,Premier League Player of the Season ×2 · FIFA Ballon d'Or ×2,Q11571
+344.4,1,227,64,athlete,Football,Lionel Messi,Rosario,Argentina,8,,Ballon d'Or winner ×4 · IFFHS World's Best Playmaker ×4,Q615
+216.9,1,155,204,team,Football,FC Barcelona,Barcelona,Spain,8,,La Liga winner ×29 · UEFA Champions League ×5,Q7156
+214.4,1,118,73,team,Football,Manchester City F.C.,Manchester,United Kingdom,8,,Premier League winner ×8 · EFL Cup ×10,Q50602
+206.9,1,148,91,team,Football,Manchester United F.C.,Manchester,United Kingdom,8,,Premier League winner ×13 · FA Cup ×13,Q18656
+204.5,1,153,108,athlete,Tennis,Novak Djokovic,Belgrade,Serbia,10.7,,Australian Open – men's singles winner ×9 · Wimbledon Championships – men's singles ×7,Q5812
+204.0,1,171,106,athlete,Formula 1,Michael Schumacher,Hürth,Germany,8,,Formula One winner ×7 · Formula One World Drivers' Championship ×6,Q9671
+202.0,1,153,168,team,Football,Real Madrid Club de Fútbol,Madrid,Spain,13.9,,UEFA Champions League ×15 · La Liga winner ×36,Q8682
+191.8,1,183,25,athlete,Boxing,Muhammad Ali,Louisville,United States,8,,WBA World Heavyweight Champion ×4 · The Ring World Heavyweight Champion ×3,Q36107
+191.7,1,116,118,athlete,Formula 1,Lewis Hamilton,Stevenage,United Kingdom,8,,Formula One winner ×6 · British Grand Prix winner ×9,Q9673
+189.7,1,133,116,team,Football,Liverpool F.C.,Liverpool,United Kingdom,8,,UEFA Champions League ×6 · English Football League winner ×19,Q1130849
+189.6,1,160,117,athlete,Tennis,Roger Federer,Basel,Switzerland,8,,Wimbledon Championships – men's singles ×7 · Australian Open – men's singles winner ×6,Q1426
+189.5,1,55,15,athlete,Tennis,Elena Rybakina,Moscow,Russia,28.6,,Wimbledon Championships – women's singles · Australian Open – Women's singles winner,Q42055714
+186.1,1,125,88,team,Football,Arsenal F.C.,London,United Kingdom,22.4,,Premier League winner ×4 · FA Cup Final winner ×14,Q9617
+183.4,1,139,52,athlete,Basketball,Michael Jordan,Brooklyn,United States,8.9,,Bill Russell NBA Finals Most Valuable Player ×6 · NBA Most Valuable Player ×5,Q41421
+180.9,1,110,15,athlete,Boxing,Mike Tyson,Brownsville,United States,8,,WBC World Heavyweight Champion ×2 · WBA World Heavyweight Champion ×2,Q79031
+176.3,1,112,39,athlete,Basketball,LeBron James,Akron,United States,8,,NBA Most Valuable Player ×4 · Bill Russell NBA Finals Most Valuable Player ×4,Q36159
+174.2,1,99,8,athlete,Football,Erling Haaland,Leeds,United Kingdom,13.3,,Golden Boy ×2 · DFB-Pokal,Q28967995
+174.1,1,57,29,athlete,Tennis,Aryna Sabalenka,Minsk,Belarus,11.4,,Australian Open – Women's singles winner ×2 · US Open – Women's singles winner ×2,Q23448791
+172.8,1,133,4,athlete,Football,Kylian Mbappé,Paris,France,8,,European Golden Shoe · Kopa Trophy,Q21621995
+166.2,1,105,72,athlete,Formula 1,Max Verstappen,Hasselt,Belgium,8,,Formula One winner ×2 · Abu Dhabi Grand Prix winner ×5,Q2239218
+161.8,1,98,6,athlete,Football,Lamine Yamal,Esplugues de Llobregat,Spain,8,,La Liga Player of the Month ×3 · Kopa Trophy,Q113704154
+158.5,1,98,2,athlete,Football,Harry Kane,Walthamstow,United Kingdom,8,,Premier League Golden Boot winner · European Golden Shoe,Q969725
 157.4,1,155,108,athlete,Tennis,Rafael Nadal,Manacor,Spain,9.1,,French Open – men's singles winner ×14 · US Open – men's singles winner ×4,Q10132
-154.4,1,125,101,athlete,Tennis,Serena Williams,Saginaw,United States,8,,Wimbledon Championships – women's singles ×7 · Australian Open – women's singles winner ×7,Q11459
-152.5,1,102,54,team,Football,Tottenham Hotspur F.C.,Tottenham,United Kingdom,8,,FA Cup Final winner ×8 · FA Cup ×8,Q18741
-144.4,1,114,32,athlete,Basketball,Kobe Bryant,Philadelphia,United States,10.8,,Bill Russell NBA Finals Most Valuable Player ×2 · All-NBA Team ×11,Q25369
-144.3,1,157,3,athlete,Football,Neymar,Mogi das Cruzes,Brazil,15.1,,South American Footballer of the Year ×2 · Samba Gold,Q142794
-141.1,1,133,99,team,Football,Juventus FC,Turin,Italy,8,,Serie A winner ×37 · Coppa Italia winner ×14,Q1422
-140.6,1,67,31,athlete,Tennis,Carlos Alcaraz,El Palmar,Spain,8,,Wimbledon Championships – Men's singles ×2 · French Open – men's singles winner ×2,Q85518537
-138.6,1,103,52,team,Football,Aston Villa F.C.,Aston,United Kingdom,8,,English Football League winner ×7 · FA Cup ×7,Q18711
-137.4,1,125,156,team,Football,FC Bayern Munich,Munich,Germany,9.9,,Bundesliga winner ×31 · Franz Beckenbauer Supercup ×8,Q15789
-137.2,1,139,28,athlete,Football,David Beckham,London,United Kingdom,22.4,,Premier League Hall of Fame · PFA Team of the Year ×4,Q10520
-135.6,1,106,18,athlete,Football,Robert Lewandowski,Warsaw,Poland,12.8,,Piłka nożna magazine plebiscite ×11 · German Footballer of the Year ×2,Q151269
-135.6,1,123,77,team,Football,Inter Milan,Milan,Italy,8,,Serie A winner ×22 · Coppa Italia winner ×10,Q631
-134.2,1,146,8,athlete,Football,Zinedine Zidane,Marseille,France,8,,FIFA World Player of the Year ×3 · Ballon d'Or,Q1835
+154.7,1,125,101,athlete,Tennis,Serena Williams,Saginaw,United States,8,,Australian Open – women's singles winner ×7 · Wimbledon Championships – women's singles ×7,Q11459
+153.9,1,102,54,team,Football,Tottenham Hotspur F.C.,Tottenham,United Kingdom,8,,FA Cup Final winner ×8 · FA Cup ×8,Q18741
+146.0,1,114,32,athlete,Basketball,Kobe Bryant,Philadelphia,United States,10.8,,Bill Russell NBA Finals Most Valuable Player ×2 · All-NBA Team ×11,Q25369
+145.6,1,157,3,athlete,Football,Neymar,Mogi das Cruzes,Brazil,15.1,,South American Footballer of the Year ×2 · Samba Gold,Q142794
+142.0,1,133,99,team,Football,Juventus FC,Turin,Italy,8,,Serie A winner ×37 · Coppa Italia winner ×14,Q1422
+140.8,1,67,31,athlete,Tennis,Carlos Alcaraz,El Palmar,Spain,8,,Wimbledon Championships – Men's singles ×2 · French Open – men's singles winner ×2,Q85518537
+139.1,1,103,52,team,Football,Aston Villa F.C.,Aston,United Kingdom,8,,English Football League winner ×7 · FA Cup ×7,Q18711
+138.2,1,125,156,team,Football,FC Bayern Munich,Munich,Germany,9.9,,Bundesliga winner ×31 · Franz Beckenbauer Supercup ×8,Q15789
+138.1,1,139,28,athlete,Football,David Beckham,London,United Kingdom,22.4,,Premier League Hall of Fame · PFA Team of the Year ×4,Q10520
+136.1,1,106,18,athlete,Football,Robert Lewandowski,Warsaw,Poland,12.8,,Piłka nożna magazine plebiscite ×11 · German Footballer of the Year ×2,Q151269
+136.1,1,123,77,team,Football,Inter Milan,Milan,Italy,8,,Serie A winner ×22 · Coppa Italia winner ×10,Q631
+134.9,1,146,8,athlete,Football,Zinedine Zidane,Marseille,France,8,,FIFA World Player of the Year ×3 · Ballon d'Or,Q1835
 134.1,1,126,74,team,Football,AC Milan,Milan,Italy,8,,Serie A winner ×19 · UEFA Champions League ×7,Q1543
-132.7,1,104,15,athlete,Football,Mohamed Salah,Nagrig,Egypt,8,,Premier League Golden Boot ×4 · Premier League Player of the Season,Q1354960
-130.0,1,103,98,team,Football,Paris Saint-Germain FC,Paris,France,8,,Ligue 1 winner ×13 · Coupe de France winner ×17,Q483020
-129.8,1,85,25,athlete,Basketball,Shaquille O'Neal,Newark,United States,8,,Bill Russell NBA Finals Most Valuable Player ×3 · All-NBA Team ×8,Q169452
-128.9,1,113,47,athlete,Tennis,Maria Sharapova,Nyagan,Russia,16.1,,French Open – women's singles winner ×2 · Australian Open – women's singles winner,Q11666
-127.2,1,114,5,athlete,Football,Ronaldinho,Porto Alegre,Brazil,12.6,,Ballon d'Or · FIFA World Player of the Year,Q39444
-127.0,1,100,64,athlete,Tennis,Andre Agassi,Las Vegas,United States,10.6,,Australian Open – men's singles winner ×4 · US Open – men's singles winner ×2,Q7407
+133.6,1,104,15,athlete,Football,Mohamed Salah,Nagrig,Egypt,8,,Premier League Golden Boot ×4 · Premier League Player of the Season,Q1354960
+130.8,1,85,25,athlete,Basketball,Shaquille O'Neal,Newark,United States,8,,Bill Russell NBA Finals Most Valuable Player ×3 · All-NBA Team ×8,Q169452
+130.7,1,103,98,team,Football,Paris Saint-Germain FC,Paris,France,8,,Ligue 1 winner ×13 · Trophée des Champions ×12,Q483020
+129.2,1,113,47,athlete,Tennis,Maria Sharapova,Nyagan,Russia,16.1,,French Open – women's singles winner ×2 · Australian Open – women's singles winner,Q11666
+128.7,1,62,3,athlete,American football,O. J. Simpson,San Francisco,United States,13.8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q44473
+127.8,1,114,5,athlete,Football,Ronaldinho,Porto Alegre,Brazil,12.6,,Ballon d'Or · FIFA World Player of the Year,Q39444
+127.7,1,100,64,athlete,Tennis,Andre Agassi,Las Vegas,United States,10.6,,Australian Open – men's singles winner ×4 · US Open – men's singles winner ×2,Q7407
+126.7,1,97,44,team,Football,Newcastle United F.C.,Newcastle upon Tyne,United Kingdom,8,,English Football League winner ×7 · FA Cup ×6,Q18716
 126.4,1,183,6,athlete,Football,Pelé,Três Corações,Brazil,16.2,,World Cup Golden Ball · South American Footballer of the Year,Q12897
-126.3,1,97,44,team,Football,Newcastle United F.C.,Newcastle upon Tyne,United Kingdom,8,,English Football League winner ×7 · FA Cup Final winner ×6,Q18716
-125.6,1,175,3,athlete,Football,Diego Maradona,Lanús,Argentina,8,,World Cup Golden Ball · FIFA Player of the Century,Q17515
-125.6,1,104,39,team,Football,Everton F.C.,Liverpool,United Kingdom,8,,English Football League winner ×9 · Football League First Division winner ×8,Q5794
-125.1,1,124,14,athlete,Football,Ronaldo,Rio de Janeiro,Brazil,20.0,,Ballon d'Or · FIFA World Player of the Year,Q529207
-124.7,1,62,3,athlete,American football,O. J. Simpson,San Francisco,United States,13.8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q44473
-124.0,1,100,1,athlete,Cricket,Imran Khan,Lahore,Pakistan,23.7,,Wisden Cricketer of the Year,Q155164
-123.4,1,95,0,athlete,Football,Pep Guardiola,Santpedor,Spain,8,,,Q164038
-122.3,1,109,65,team,Football,Atlético Madrid,Madrid,Spain,13.9,,La Liga winner ×11 · Copa del Rey winner ×10,Q8701
-119.4,1,94,41,athlete,Golf,Tiger Woods,Cypress,United States,8,,Masters Tournament winner ×5 · PGA Championship ×4,Q10993
-118.7,1,120,9,athlete,Football,Zlatan Ibrahimović,Västra Skrävlinge församling,Sweden,8,,Serie A Footballer of the Year · Serie A Foreign Footballer of the Year,Q46896
-118.4,1,70,32,athlete,Tennis,Jannik Sinner,Innichen,Italy,8,,Australian Open – Men's singles winner ×2 · Wimbledon Championships – Men's singles ×2,Q54812588
-117.4,1,136,6,athlete,Athletics,Usain Bolt,Sherwood Content,Jamaica,8,,World Championships in Athletics – men's 100 metres ×3 · World Championships in Athletics – men's 200 metres ×2,Q1189
+126.3,1,175,3,athlete,Football,Diego Maradona,Lanús,Argentina,8,,World Cup Golden Ball · FIFA Player of the Century,Q17515
+125.7,1,124,14,athlete,Football,Ronaldo,Rio de Janeiro,Brazil,20.0,,Ballon d'Or · FIFA World Player of the Year,Q529207
+125.4,1,51,24,athlete,Tennis,Coco Gauff,Delray Beach,United States,8,,French Open – girls' singles winner · US Open – girls' doubles winner,Q39263365
+124.5,1,100,1,athlete,Cricket,Imran Khan,Lahore,Pakistan,23.7,,Wisden Cricketer of the Year,Q155164
+122.8,1,109,65,team,Football,Atlético Madrid,Madrid,Spain,13.9,,La Liga winner ×11 · Copa del Rey winner ×10,Q8701
+119.8,1,94,41,athlete,Golf,Tiger Woods,Cypress,United States,8,,Masters Tournament winner ×5 · PGA Championship ×4,Q10993
+119.4,1,120,9,athlete,Football,Zlatan Ibrahimović,Västra Skrävlinge församling,Sweden,8,,Serie A Footballer of the Year · Serie A Foreign Footballer of the Year,Q46896
+118.6,1,70,32,athlete,Tennis,Jannik Sinner,Innichen,Italy,8,,Australian Open – Men's singles winner ×2 · Wimbledon Championships – Men's singles ×2,Q54812588
+118.2,1,136,6,athlete,Athletics,Usain Bolt,Sherwood Content,Jamaica,8,,World Championships in Athletics – men's 100 metres ×3 · World Championships in Athletics – men's 200 metres ×2,Q1189
+115.3,1,117,39,athlete,Formula 1,Fernando Alonso,Oviedo,Spain,8,,Formula One winner ×2 · Formula One World Drivers' Championship ×2,Q10514
 115.2,1,94,98,athlete,Tennis,Steffi Graf,Mannheim,Germany,8,,Wimbledon Championships – women's singles ×7 · French Open – women's singles winner ×6,Q11662
-114.8,1,117,39,athlete,Formula 1,Fernando Alonso,Oviedo,Spain,8,,Formula One winner ×2 · Formula One World Drivers' Championship ×2,Q10514
-114.3,1,82,8,athlete,Tennis,Naomi Osaka,Chūō-ku,Japan,8,,US Open – women's singles winner ×2 · Australian Open – women's singles winner ×2,Q17466583
+114.4,1,82,8,athlete,Tennis,Naomi Osaka,Chūō-ku,Japan,8,,US Open – women's singles winner ×2 · Australian Open – women's singles winner ×2,Q17466583
 114.1,1,101,6,athlete,Football,Wayne Rooney,Liverpool,United Kingdom,8,,Premier League Player of the Season · Premier League Hall of Fame,Q266613
-112.4,1,76,79,athlete,Tennis,John McEnroe,Wiesbaden,Germany,8.1,,Wimbledon Championships – men's doubles ×4 · US Open – men's singles winner ×4,Q16474
-112.2,1,80,1,athlete,Football,Jude Bellingham,Stourbridge,United Kingdom,8,,Kopa Trophy,Q66241169
-112.0,1,92,68,athlete,Tennis,Venus Williams,Lynwood,United States,8,,Wimbledon Championships – women's singles ×5 · Wimbledon Championships – women's doubles ×5,Q11578
-111.7,1,113,6,athlete,Football,Luka Modrić,Zadar,Croatia,8,,Ballon d'Or winner ×2 · Ballon d'Or,Q483837
-109.5,1,53,6,athlete,Formula 1,Kimi Antonelli,Bologna,Italy,8,,Canadian Grand Prix winner · Miami Grand Prix winner,Q112073790
-108.6,1,107,6,athlete,Football,Karim Benzema,Lyon,France,8,,Ballon d'Or winner ×2 · Ballon d'Or,Q1912
-108.4,1,67,2,athlete,Cricket,Virat Kohli,Delhi,India,21.7,,Wisden Cricketer of the Year · Wisden Leading Cricketer in the World,Q213854
-108.4,1,58,1,athlete,American football,Tom Brady,San Mateo,United States,8,,AP NFL Offensive Player of the Year winner,Q313381
-107.3,1,73,3,athlete,Football,Kevin Keegan,Armthorpe,United Kingdom,8,,Ballon d'Or ×2 · Ballon d'Or winner,Q152832
-107.3,1,69,38,athlete,Tennis,Andy Roddick,Omaha,United States,10.8,,Stella Artois Championships – singles ×3 · US Open – men's singles winner,Q54584
-106.9,1,37,3,athlete,American football,Aaron Rodgers,Chico,United States,8,,National Football League Most Valuable Player · Super Bowl Most Valuable Player,Q302581
-106.1,1,95,21,team,Football,Leicester City F.C.,Leicester,United Kingdom,8,,Football League Second Division winner ×6 · EFL Cup ×3,Q19481
+112.9,1,80,1,athlete,Football,Jude Bellingham,Stourbridge,United Kingdom,8,,Kopa Trophy,Q66241169
+112.8,1,76,79,athlete,Tennis,John McEnroe,Wiesbaden,Germany,8.1,,Wimbledon Championships – men's doubles ×4 · US Open – men's singles winner ×4,Q16474
+112.2,1,113,6,athlete,Football,Luka Modrić,Zadar,Croatia,8,,Ballon d'Or winner ×2 · Ballon d'Or,Q483837
+112.2,1,92,68,athlete,Tennis,Venus Williams,Lynwood,United States,8,,Wimbledon Championships – women's singles ×5 · Wimbledon Championships – women's doubles ×5,Q11578
+109.9,1,53,6,athlete,Formula 1,Kimi Antonelli,Bologna,Italy,8,,Canadian Grand Prix winner · Miami Grand Prix winner,Q112073790
+109.5,1,58,1,athlete,American football,Tom Brady,San Mateo,United States,8,,AP NFL Offensive Player of the Year winner,Q313381
+109.4,1,81,199,team,Football,Celtic F.C.,Glasgow,United Kingdom,8.2,,Scottish Premier League winner ×8 · Scottish League Cup ×22,Q19593
+109.1,1,107,6,athlete,Football,Karim Benzema,Lyon,France,8,,Ballon d'Or winner ×2 · Ballon d'Or,Q1912
+108.7,1,67,2,athlete,Cricket,Virat Kohli,Delhi,India,21.7,,Wisden Cricketer of the Year · Wisden Leading Cricketer in the World,Q213854
+108.2,1,37,3,athlete,American football,Aaron Rodgers,Chico,United States,8,,National Football League Most Valuable Player · Super Bowl Most Valuable Player,Q302581
 105.9,1,98,158,athlete,Tennis,Martina Navratilova,Prague,Czech Republic,12.6,,Wimbledon Championships – women's singles ×9 · Australian Open – women's doubles winner ×8,Q54545
-105.5,1,57,8,athlete,Boxing,Wladimir Klitschko,Semey,Kazakhstan,8.2,,WBO World Heavyweight Champion ×2 · WBA World Heavyweight Champion,Q18797
-105.3,1,99,33,team,Football,Borussia Dortmund,Dortmund,Germany,9.5,,Bundesliga winner ×5 · Franz Beckenbauer Supercup ×3,Q41420
-104.8,1,103,7,athlete,Football,Thierry Henry,Les Ulis,France,8,,Premier League Golden Boot · Premier League Player of the Season,Q45901
-104.6,1,104,30,team,Football,AS Roma,Rome,Italy,20.2,,Coppa Italia winner ×9 · Serie A winner ×3,Q2739
-104.3,1,107,80,team,Football,AFC Ajax,Amsterdam,Netherlands,8.3,,UEFA Champions League ×4 · Eredivisie winner ×36,Q81888
-103.9,1,92,40,team,Football,Fenerbahçe Istanbul,Kadıköy,Turkey,8,,Süper Lig winner ×19 · Milli Küme Şampiyonası winner ×6,Q6601875
-103.8,1,78,5,athlete,Baseball,Babe Ruth,Baltimore,United States,8.7,,Major League Baseball Most Valuable Player · Boston Red Sox Hall of Fame,Q213812
-103.3,1,104,3,athlete,Football,Frank Lampard,Romford,United Kingdom,8,,Premier League Player of the Season · Premier League Hall of Fame,Q41533
-103.1,1,86,20,team,Football,West Ham United F.C.,Stratford,United Kingdom,8,,FA Cup ×3 · FA Cup Final winner ×3,Q18747
-102.3,1,76,0,athlete,Football,Raheem Sterling,Kingston,Jamaica,8,,,Q312157
+105.8,1,57,8,athlete,Boxing,Wladimir Klitschko,Semey,Kazakhstan,8.2,,WBO World Heavyweight Champion ×2 · WBA World Heavyweight Champion,Q18797
+105.7,1,99,33,team,Football,Borussia Dortmund,Dortmund,Germany,9.5,,Bundesliga winner ×5 · Franz Beckenbauer Supercup ×3,Q41420
+105.5,1,103,7,athlete,Football,Thierry Henry,Les Ulis,France,8,,Premier League Golden Boot · Premier League Player of the Season,Q45901
+105.0,1,104,30,team,Football,AS Roma,Rome,Italy,20.2,,Coppa Italia winner ×9 · Serie A winner ×3,Q2739
+104.8,1,107,80,team,Football,AFC Ajax,Amsterdam,Netherlands,8.3,,UEFA Champions League ×4 · Eredivisie winner ×36,Q81888
+104.4,1,78,5,athlete,Baseball,Babe Ruth,Baltimore,United States,8.7,,Major League Baseball Most Valuable Player · Boston Red Sox Hall of Fame,Q213812
 102.1,1,102,137,athlete,Cycling,Lance Armstrong,Plano,United States,8,,"Tour de France, stage 18 winner ×5 · Tour de France, stage 11 winner ×4",Q2172
-101.0,1,67,53,athlete,Tennis,Monica Seles,Novi Sad,Serbia,8,,Australian Open – women's singles winner ×4 · French Open – women's singles winner ×3,Q173633
-100.8,1,86,17,team,Football,Leeds United F.C.,Leeds,United Kingdom,13.3,,English Football League winner ×3 · Football League Second Division winner ×3,Q1128631
-100.6,1,88,20,athlete,Football,Jürgen Klopp,Stuttgart,Germany,8.1,,Premier League Manager of the Month ×10 · Premier League Manager of the Season ×2,Q83106
-100.6,1,76,11,athlete,Basketball,Stephen Curry,Akron,United States,8,,NBA Most Valuable Player ×2 · Bill Russell NBA Finals Most Valuable Player,Q352159
-99.5,1,118,22,team,Football,SSC Napoli,Naples,Italy,8,,Serie A winner ×4 · Coppa Italia winner ×6,Q2641
-99.5,1,92,77,team,Football,Galatasaray S.K.,Istanbul,Turkey,40.8,,Süper Lig winner ×22 · Turkish Cup Final winner ×18,Q495299
-99.0,1,83,23,athlete,Basketball,Magic Johnson,Lansing,United States,8,,NBA Most Valuable Player ×3 · Bill Russell NBA Finals Most Valuable Player ×3,Q134183
+101.4,1,76,11,athlete,Basketball,Stephen Curry,Akron,United States,8,,NBA Most Valuable Player ×2 · Bill Russell NBA Finals Most Valuable Player,Q352159
+101.3,1,67,53,athlete,Tennis,Monica Seles,Novi Sad,Serbia,8,,Australian Open – women's singles winner ×4 · French Open – women's singles winner ×3,Q173633
+99.8,1,92,77,team,Football,Galatasaray S.K.,Istanbul,Turkey,40.8,,Turkish Cup Final winner ×18 · Süper Lig winner ×22,Q495299
+99.5,1,83,23,athlete,Basketball,Magic Johnson,Lansing,United States,8,,NBA Most Valuable Player ×3 · Bill Russell NBA Finals Most Valuable Player ×3,Q134183
+98.7,1,62,12,athlete,Basketball,Dennis Rodman,Trenton,United States,8,,NBA Defensive Player of the Year ×2 · NBA Defensive Player of the Year winner,Q201608
 98.3,1,79,64,athlete,Tennis,Pete Sampras,"Washington, D.C.",United States,9.1,,Wimbledon Championships – men's singles ×7 · ATP Tour World Championships – singles ×5,Q9446
-98.1,1,62,12,athlete,Basketball,Dennis Rodman,Trenton,United States,8,,NBA Defensive Player of the Year ×2 · NBA Defensive Player of the Year winner,Q201608
-97.7,1,74,2,athlete,Football,Rodri,Madrid,Spain,13.9,,Ballon d'Or · Ballon d'Or winner,Q20994118
-97.5,1,62,30,athlete,Tennis,Iga Świątek,Warsaw,Poland,12.8,,French Open – women's singles winner ×2 · French Open – girls' doubles winner,Q26840238
-97.4,1,87,29,athlete,Basketball,Kareem Abdul-Jabbar,New York City,United States,19.7,,NBA Most Valuable Player ×6 · Bill Russell NBA Finals Most Valuable Player ×2,Q179051
-96.0,1,91,51,athlete,Tennis,Andy Murray,Glasgow,United Kingdom,8.2,,Wimbledon Championships – men's singles ×2 · Shanghai Rolex Masters – singles winner ×3,Q10125
-95.3,1,102,64,athlete,Formula 1,Sebastian Vettel,Heppenheim,Germany,8,,Formula One winner ×4 · Formula One World Drivers' Championship ×2,Q42311
-95.1,1,61,68,team,Baseball,New York Yankees,The Bronx,United States,8,,World Series winner ×27 · Major League Baseball winner ×29,Q213417
-94.8,1,92,76,team,Football,S.L. Benfica,Lisbon,Portugal,8,,Primeira Liga winner ×18 · Taça de Portugal Final winner ×26,Q131499
-93.9,1,69,9,athlete,Formula 1,Charles Leclerc,Monte Carlo,Monaco,8,,Italian Grand Prix winner ×2 · Belgian Grand Prix winner,Q17541912
-93.4,1,86,0,athlete,Football,Xabi Alonso,Tolosa,Spain,8,,,Q208104
-92.9,1,75,33,athlete,Formula 1,Niki Lauda,Vienna,Austria,11.5,,Formula One winner ×3 · Formula One World Drivers' Championship ×2,Q78489
-92.9,1,62,16,athlete,Formula 1,Lando Norris,Bristol,United Kingdom,8,,Formula One Grand Prix winner · Formula One winner,Q22007193
-92.7,1,113,1,athlete,Football,Alex Ferguson,Glasgow,United Kingdom,8.2,,Premier League Manager of the Season winner,Q44980
-91.4,1,80,2,athlete,Football,Michael Owen,Chester,United Kingdom,8,,Ballon d'Or · Ballon d'Or winner,Q128829
+98.1,1,87,29,athlete,Basketball,Kareem Abdul-Jabbar,New York City,United States,19.7,,NBA Most Valuable Player ×6 · Bill Russell NBA Finals Most Valuable Player ×2,Q179051
+97.7,1,62,30,athlete,Tennis,Iga Świątek,Warsaw,Poland,12.8,,French Open – women's singles winner ×2 · French Open – girls' doubles winner,Q26840238
+96.4,1,91,51,athlete,Tennis,Andy Murray,Glasgow,United Kingdom,8.2,,Wimbledon Championships – men's singles ×2 · Shanghai Rolex Masters – singles winner ×3,Q10125
+95.7,1,102,64,athlete,Formula 1,Sebastian Vettel,Heppenheim,Germany,8,,Formula One winner ×4 · Formula One World Drivers' Championship ×2,Q42311
+95.5,1,61,68,team,Baseball,New York Yankees,The Bronx,United States,8,,World Series winner ×27 · Major League Baseball winner ×29,Q213417
+95.1,1,92,76,team,Football,S.L. Benfica,Lisbon,Portugal,8,,Primeira Liga winner ×18 · Taça de Portugal Final winner ×26,Q131499
+94.4,1,69,9,athlete,Formula 1,Charles Leclerc,Monte Carlo,Monaco,8,,Italian Grand Prix winner ×2 · Belgian Grand Prix winner,Q17541912
+93.5,1,75,33,athlete,Formula 1,Niki Lauda,Vienna,Austria,11.5,,Formula One winner ×3 · Formula One World Drivers' Championship ×2,Q78489
+93.3,1,72,19,team,Football,Al-Nassr,Riyadh,Saudi Arabia,23.9,,Saudi Pro League winner ×10 · King Cup ×5,Q482764
+93.2,1,62,16,athlete,Formula 1,Lando Norris,Bristol,United Kingdom,8,,Formula One Grand Prix winner · Formula One winner,Q22007193
+91.3,1,79,28,athlete,Basketball,Larry Bird,West Baden Springs,United States,8,,NBA Most Valuable Player ×3 · Bill Russell NBA Finals Most Valuable Player ×2,Q190152
 91.0,1,64,27,athlete,Tennis,Arthur Ashe,Richmond,United States,8,,ATP Tour Awards ×4 · Wimbledon Championships – men's singles,Q53325
-90.7,1,79,28,athlete,Basketball,Larry Bird,West Baden Springs,United States,8,,NBA Most Valuable Player ×3 · Bill Russell NBA Finals Most Valuable Player ×2,Q190152
-90.1,1,94,78,team,Football,FC Porto,Porto,Portugal,8,,Taça de Portugal winner ×16 · Primeira Liga winner ×31,Q128446
-90.0,1,60,341,athlete,Cycling,Tadej Pogačar,Klanec,Slovenia,8,,"Tour de France winner ×7 · Tour de France, stage 4 winner ×4",Q26904312
+90.6,1,73,28,athlete,Boxing,Manny Pacquiao,Kibawe,Philippines,9.8,,The Ring magazine Fighter of the Year ×3 · Sugar Ray Robinson ×3,Q486359
+90.1,1,60,341,athlete,Cycling,Tadej Pogačar,Klanec,Slovenia,8,,"Tour de France winner ×7 · Tour de France, stage 14 winner ×4",Q26904312
+90.0,1,86,39,team,Basketball,Los Angeles Lakers,Los Angeles,United States,20.4,,NBA World Championship Series ×9 · NBA Finals winner ×7,Q121783
+89.9,1,35,22,athlete,Basketball,Caitlin Clark,Des Moines,United States,8.6,,Nancy Lieberman ×3 · Big Ten Conference Women's Basketball Player of the Year ×3,Q106298476
 89.8,1,46,2,athlete,American football,Peyton Manning,New Orleans,United States,17.0,,AP NFL Offensive Player of the Year winner · Walter Payton Man of the Year winner,Q7539
-89.4,1,86,39,team,Basketball,Los Angeles Lakers,Los Angeles,United States,20.4,,NBA World Championship Series ×9 · NBA Finals winner ×7,Q121783
-89.3,1,35,22,athlete,Basketball,Caitlin Clark,Des Moines,United States,8.6,,Nancy Lieberman ×3 · Big Ten Conference Women's Basketball Player of the Year ×3,Q106298476
-89.0,1,67,18,athlete,Boxing,George Foreman,Marshall,United States,8,,WBA World Heavyweight Champion ×2 · WBC World Heavyweight Champion,Q213919
-88.7,1,67,0,athlete,Football,Jamie Vardy,Sheffield,United Kingdom,10.8,,,Q6147586
-88.5,1,74,18,athlete,Basketball,Kevin Durant,Suitland,United States,8,,NBA Most Valuable Player · NBA Most Valuable Player winner,Q29545
-88.4,1,77,12,team,Football,Real Betis Balompié,Seville,Spain,8,,La Liga winner ×2 · LaLiga 2 winner ×5,Q8723
-88.1,1,86,2,athlete,Cricket,Sachin Tendulkar,Mumbai,India,13.9,,Wisden Cricketer of the Year · Sir Garfield Sobers Trophy,Q9488
-87.6,1,77,38,athlete,Tennis,Billie Jean King,Long Beach,United States,8,,Wimbledon Championships – women's singles ×6 · US Open – women's singles winner ×3,Q54527
-87.0,1,128,5,athlete,Football,Johan Cruyff,Amsterdam,Netherlands,8.3,,Ballon d'Or · Ballon d'Or winner,Q17163
-87.0,1,85,32,team,Football,AS Monaco FC,Commune of Monaco,Monaco,8,,Ligue 1 winner ×8 · Coupe de France winner ×5,Q180305
-86.8,1,56,3,team,Football,Como 1907,Como,Italy,8,,Serie B winner ×3,Q1120838
-86.2,1,72,33,athlete,Ice hockey,Wayne Gretzky,Brantford,Canada,8,,Art Ross Trophy ×10 · Hart Memorial Trophy ×9,Q209518
-85.9,1,49,19,athlete,Boxing,Oleksandr Usyk,Simferopol,Ukraine,8,,IBF World Heavyweight Champion ×2 · WBC World Heavyweight Champion,Q938027
-85.8,1,47,12,athlete,Boxing,Anthony Joshua,Watford,United Kingdom,8,,WBA World Heavyweight Champion ×2 · IBF World Heavyweight Champion ×2,Q573463
-85.3,1,55,25,athlete,Tennis,Daniil Medvedev,Moscow,Russia,28.6,,US Open – men's singles winner · Dubai Tennis Championships – Men's singles ×2,Q21622022
-85.2,1,87,0,athlete,Football,Marcus Rashford,Manchester,United Kingdom,8,,,Q22951255
-85.1,1,84,15,athlete,Tennis,Anna Kournikova,Moscow,Russia,28.6,,Australian Open – women's doubles winner ×2 · Adidas International – women's doubles winner,Q131120
-84.9,1,61,0,athlete,Athletics,Caitlyn Jenner,Mount Kisco,United States,8,,,Q365144
-84.7,1,88,46,team,Football,Athletic Club,Ibaigane Palace,Spain,8,,La Liga winner ×8 · Copa del Rey winner ×24,Q8687
-84.6,1,93,33,team,Football,Valencia CF,Valencia,Spain,8,,La Liga winner ×6 · Copa del Rey winner ×8,Q10333
-84.2,1,90,27,athlete,Formula 1,Kimi Räikkönen,Espoo,Finland,10.3,,Belgian Grand Prix winner ×4 · Formula One winner,Q11192
-84.2,1,70,48,team,Football,Deportivo de A Coruña,A Coruña,Spain,8,,Teresa Herrera Trophy ×26 · Galician Championship ×6,Q8760
-83.8,1,65,26,athlete,Boxing,Floyd Mayweather,Grand Rapids,United States,8,,Sugar Ray Robinson ×3 · WBC World Super Welterweight Champion ×2,Q318204
-83.7,1,40,7,athlete,Baseball,Shohei Ohtani,Mizusawa,Japan,8,,Major League Baseball Most Valuable Player · Nippon Professional Baseball Most Valuable Player,Q4391858
-83.6,1,85,48,team,Football,Olympique de Marseille,Marseille,France,8.8,,Ligue 1 winner ×10 · Coupe de France Final winner ×10,Q132885
-83.5,1,62,58,athlete,Tennis,Jimmy Connors,East St. Louis,United States,8,,US Open – men's singles winner ×5 · Wimbledon Championships – men's singles ×2,Q53393
-83.1,1,100,25,team,Football,SS Lazio,Formello,Italy,8,,Coppa Italia winner ×7 · Coppa Italia Final winner ×7,Q2609
-83.0,1,49,7,athlete,Basketball,Kawhi Leonard,Riverside,United States,8.2,,Bill Russell NBA Finals Most Valuable Player ×2 · NBA Defensive Player of the Year ×2,Q926248
-83.0,1,86,56,team,Football,Beşiktaş J.K.,Istanbul,Turkey,40.8,,Süper Lig winner ×13 · Istanbul Football League winner ×13,Q172567
-82.6,1,77,0,athlete,Football,Jordan Henderson,Sunderland,United Kingdom,8,,,Q273715
-82.3,1,71,20,athlete,Basketball,Wilt Chamberlain,Philadelphia,United States,10.8,,NBA Most Valuable Player ×4 · Bill Russell NBA Finals Most Valuable Player,Q182455
-81.7,1,47,14,athlete,Boxing,Tyson Fury,Manchester,United Kingdom,8,,The Ring World Heavyweight Champion ×2 · WBC World Heavyweight Champion,Q1000592
-81.6,1,97,4,athlete,Football,Steven Gerrard,Whiston,United Kingdom,8,,Premier League Hall of Fame · PFA Players' Player of the Year,Q459830
-81.6,1,35,3,athlete,American football,Patrick Mahomes,Tyler,United States,8,,National Football League Most Valuable Player ×2 · AP NFL Offensive Player of the Year,Q19667998
-81.5,1,69,60,athlete,Tennis,Chris Evert,Fort Lauderdale,United States,8,,French Open – women's singles winner ×7 · US Open – women's singles winner ×6,Q14286
-81.3,1,72,34,athlete,Tennis,Caroline Wozniacki,Odense,Denmark,9.9,,Pilot Pen Tennis – women's singles winner ×3 · Wimbledon Championships – girls' singles,Q30767
-81.3,1,46,31,team,Baseball,Los Angeles Dodgers,Los Angeles,United States,20.4,,World Series winner ×8 · National League Championship Series ×10,Q334634
-81.2,2,63,0,athlete,American football,Terry Crews,Flint,United States,8,,,Q271464
-81.0,2,68,0,athlete,Football,Ferran Torres,Foios,Spain,8,,,Q44297797
-80.9,2,93,1,athlete,Football,Kevin De Bruyne,Drongen,Belgium,8,,German Footballer of the Year,Q357984
-80.0,2,89,1,athlete,Football,Romelu Lukaku,Antwerp,Belgium,8.1,,Premio internazionale Giacinto Facchetti winner,Q313316
-79.7,2,96,1,athlete,Football,Xavi Hernández,Terrassa,Spain,8,,Premi Barça Jugadors winner,Q17500
-79.3,2,83,116,athlete,Tennis,Martina Hingis,Košice,Slovakia,8.8,,Australian Open – women's doubles winner ×5 · Australian Open – women's singles winner ×3,Q134720
-79.1,2,52,19,athlete,Tennis,Gaël Monfils,Paris,France,8,,Open Sud de France – singles winner ×3 · Wimbledon Championships – boys' singles,Q186429
-79.1,2,33,0,athlete,American football,Travis Kelce,Westlake,United States,8,,,Q7836292
-79.0,2,126,7,athlete,Football,Francesco Totti,Rome,Italy,20.2,,Serie A Footballer of the Year · Golden Foot,Q20110
-78.9,2,73,1,athlete,Football,Pierre-Emerick Aubameyang,Laval,France,8,,African Footballer of the Year,Q44977
-78.1,2,82,0,athlete,Football,Vinícius Júnior,São Gonçalo,Brazil,8.9,,,Q28973866
-78.0,2,54,28,athlete,Tennis,Elina Svitolina,Odesa,Ukraine,8.7,,French Open – girls' singles winner · Baku Cup – singles winner ×2,Q270249
-77.3,2,67,19,athlete,Tennis,Stan Wawrinka,Lausanne,Switzerland,8,,Aircel Chennai Open – singles winner ×4 · French Open – men's singles winner,Q193661
-77.1,2,70,0,athlete,MMA,Khabib Nurmagomedov,Sildi,Russia,8,,,Q3526023
-76.8,2,52,8,athlete,Formula 1,George Russell,King's Lynn,United Kingdom,8,,Austrian Grand Prix winner ×2 · Brazilian Grand Prix winner,Q17319645
-76.7,2,92,5,athlete,Football,Gerard Piqué,Barcelona,Spain,8,,UEFA Team of the Year ×3 · Don Balón,Q17507
-76.3,2,91,4,athlete,Football,Samuel Eto'o,Douala,Cameroon,8.2,,Golden Foot · Pichichi Trophy,Q1255625
-76.2,2,99,9,athlete,Football,Manuel Neuer,Gelsenkirchen,Germany,8,,IFFHS World's Best Goalkeeper ×5 · German Footballer of the Year ×2,Q107365
-75.2,2,69,0,athlete,Football,Mikel Arteta,San Sebastián,Spain,8,,,Q185572
-75.1,2,88,25,team,Football,Schalke 04,Gelsenkirchen,Germany,8,,German football championship ×7 · DFB-Pokal winner ×5,Q32494
-75.0,2,50,10,team,American football,New England Patriots,Foxborough,United States,8,,Super Bowl winner ×6 · Snowplow Game winner,Q193390
-74.7,2,100,7,athlete,Football,Kaká,Gama,Brazil,8,,Ballon d'Or · FIFA World Player of the Year,Q531814
-74.7,2,87,1,athlete,Football,Ousmane Dembélé,Vernon,France,8,,Ballon d'Or,Q20851003
-74.6,2,78,43,team,Basketball,Boston Celtics,Boston,United States,8.6,,NBA World Championship Series ×15 · National Basketball Association winner ×17,Q131371
-74.5,2,62,7,athlete,Basketball,Giannis Antetokounmpo,Athens,Greece,8,,NBA Most Valuable Player ×2 · NBA Defensive Player of the Year,Q8991894
-74.3,2,82,39,athlete,Tennis,Björn Borg,Stockholm,Sweden,8,,French Open – men's singles winner ×6 · Wimbledon Championships – men's singles ×5,Q104506
-73.7,2,65,19,athlete,Basketball,Charles Barkley,Leeds,United States,8,,All-NBA Team ×11 · NBA Most Valuable Player,Q192707
-73.7,2,74,0,athlete,Boxing,Conor McGregor,Crumlin,Ireland,8,,,Q5162259
-73.4,2,93,1,athlete,Football,Eden Hazard,La Louvière,Belgium,8,,PFA Players' Player of the Year,Q214204
-73.4,2,64,3,team,Football,Inter Miami CF,Fort Lauderdale,United States,8,,Major League Soccer winner · MLS Cup,Q16844931
-73.3,2,92,6,athlete,Football,Didier Drogba,Abidjan,Ivory Coast,26.0,,Premier League Golden Boot ×2 · Premier League Hall of Fame,Q48892
-73.3,2,47,5,team,American football,New York Giants,New York metropolitan area,United States,46.0,,Super Bowl winner ×4 · NFC Championship Game,Q190618
-73.1,2,89,9,team,Football,Bayer 04 Leverkusen,Leverkusen,Germany,8,,DFB-Pokal winner ×2 · UEFA Cup,Q104761
-72.8,2,72,0,athlete,Football,Bukayo Saka,Ealing,United Kingdom,8,,,Q59306386
-72.7,2,112,8,athlete,Football,Gianluigi Buffon,Carrara,Italy,8,,Serie A Goalkeeper of the Year · Golden Foot,Q68060
-72.7,2,69,0,athlete,Football,Bruno Fernandes,Maia,Portugal,8,,,Q4979316
-72.3,2,32,3,team,Baseball,Milwaukee Brewers,Milwaukee,United States,8.9,,American League Championship Series · National League Division Series winner,Q848103
-72.2,2,91,0,athlete,Football,Sergio Ramos,Camas,Spain,8,,,Q483309
-72.2,2,55,25,team,Baseball,Boston Red Sox,Boston,United States,8.6,,World Series winner ×9 · Major League Baseball winner ×9,Q213959
-72.0,2,78,57,athlete,Tennis,Boris Becker,Leimen,Germany,8,,Wimbledon Championships – men's singles ×3 · Australian Open – men's singles winner ×2,Q76334
-71.8,2,71,0,athlete,Football,Álvaro Arbeloa,Salamanca,Spain,8,,,Q250901
-71.8,2,45,5,team,American football,San Francisco 49ers,Santa Clara,United States,8,,Super Bowl winner ×5,Q337758
-71.6,2,74,1,athlete,Football,Virgil van Dijk,Breda,Netherlands,8,,UEFA Men's Player of the Year,Q133903
-71.0,2,48,16,athlete,Ice hockey,Alexander Ovechkin,Moscow,Russia,28.6,,"Maurice ""Rocket"" Richard Trophy ×7 · Stanley Cup",Q311374
-71.0,2,45,4,team,American football,Los Angeles Rams,Inglewood,United States,8,,Super Bowl winner ×2 · Kansas City Chiefs–Los Angeles Rams game winner,Q337377
-70.9,2,59,21,athlete,Basketball,Karl Malone,Summerfield,United States,8,,NBA Most Valuable Player ×2 · All-NBA Team ×11,Q199896
-70.9,2,26,4,athlete,American football,Russell Wilson,Cincinnati,United States,8.1,,Athletes in Action/Bart Starr · Walter Payton Man of the Year,Q1149781
-70.9,2,45,16,athlete,Boxing,Lennox Lewis,West Ham,United Kingdom,8,,WBC World Heavyweight Champion ×3 · IBF World Heavyweight Champion ×2,Q295328
-70.9,2,34,8,team,Baseball,Cleveland Guardians,Cleveland,United States,8.2,,World Series winner ×2 · American League Championship Series ×3,Q642553
-70.8,2,93,0,athlete,Football,Paul Pogba,Lagny-sur-Marne,France,8,,,Q129027
-70.8,2,88,2,athlete,Football,Thibaut Courtois,Bree,Belgium,8,,Premier League Golden Glove · The Best FIFA Goalkeeper,Q73360
-70.4,2,114,10,athlete,Football,Luis Suárez,Salto,Uruguay,8,,Premier League Golden Boot · Premier League Player of the Season,Q26517
-69.9,2,94,0,athlete,Football,Gareth Bale,Cardiff,United Kingdom,8,,,Q184586
-69.9,2,69,0,athlete,Football,Michael Carrick,Wallsend,United Kingdom,8,,,Q29566
-69.8,2,58,10,athlete,Basketball,Allen Iverson,Hampton,United States,10.6,,NBA Most Valuable Player · NBA Most Valuable Player winner,Q190094
-69.5,2,89,0,athlete,Football,Olivier Giroud,Chambéry,France,8,,,Q1911
-69.4,2,116,8,athlete,Football,Franz Beckenbauer,Munich,Germany,9.9,,German Footballer of the Year ×4 · Ballon d'Or,Q4457
-69.2,2,46,5,team,American football,Washington Commanders,Prince George's,United States,20.3,,Super Bowl winner ×4 · New York Giants–Washington Redskins game winner,Q212654
-69.0,2,47,6,team,American football,Green Bay Packers,Green Bay,United States,8,,Super Bowl winner ×4 · Snow Bowl winner,Q213837
-68.8,2,85,0,athlete,Football,Cesc Fàbregas,Arenys de Mar,Spain,8,,,Q17499
-68.8,2,81,19,team,Basketball,Chicago Bulls,Chicago,United States,13.9,,NBA Finals winner ×6 · National Basketball Association winner ×6,Q128109
-68.8,2,54,77,team,Ice hockey,Montreal Canadiens,Montreal,Canada,12.6,,Stanley Cup Finals winner ×24 · Prince of Wales Trophy ×25,Q188143
-68.2,2,90,4,athlete,Football,Sergio Agüero,Buenos Aires,Argentina,8.0,,Premier League Golden Boot · Premier League Hall of Fame,Q119562
-68.2,2,74,6,team,Basketball,New York Knicks,New York City,United States,19.7,,NBA World Championship Series ×2 · NBA Cup,Q131364
-68.1,2,73,13,team,Basketball,Golden State Warriors,San Francisco,United States,13.8,,NBA World Championship Series ×2 · NBA Finals winner ×2,Q157376
-68.0,2,46,8,team,American football,Pittsburgh Steelers,Pittsburgh,United States,8,,Super Bowl winner ×6 · AFC Championship Game ×2,Q191477
-67.8,2,63,37,athlete,Basketball,Tim Duncan,Christiansted,United States Virgin Islands,8,,Bill Russell NBA Finals Most Valuable Player ×3 · NBA Most Valuable Player ×2,Q193020
-67.8,2,45,5,team,American football,Dallas Cowboys,Arlington,United States,9.1,,Super Bowl winner ×5,Q204862
-67.4,2,45,4,team,American football,Las Vegas Raiders,Las Vegas,United States,10.6,,Super Bowl winner ×2 · Heidi Game winner,Q324523
-67.3,2,60,35,athlete,Basketball,Hakeem Olajuwon,Lagos,Nigeria,19.3,,Bill Russell NBA Finals Most Valuable Player ×2 · NBA Defensive Player of the Year ×2,Q273256
-67.3,2,46,6,team,American football,Philadelphia Eagles,Philadelphia,United States,10.8,,Super Bowl winner ×2 · 4th and 26 winner,Q219714
-67.2,2,106,2,athlete,Football,Mesut Özil,Gelsenkirchen,Germany,8,,Footballer of the month · UEFA Team of the Year,Q83488
-67.1,2,73,18,athlete,Formula 1,Jenson Button,Frome,United Kingdom,16.3,,Australian Grand Prix winner ×3 · Formula One winner,Q10510
-66.9,2,46,20,athlete,Boxing,Evander Holyfield,Atmore,United States,8,,WBA World Heavyweight Champion ×4 · IBF World Heavyweight Champion ×3,Q313451
-66.8,2,100,0,athlete,Football,Antoine Griezmann,Mâcon,France,8,,,Q455462
-66.6,2,46,2,team,American football,Seattle Seahawks,Seattle,United States,10.8,,Super Bowl winner ×2,Q221878
-66.5,2,36,0,athlete,American football,Colin Kaepernick,Milwaukee,United States,8.9,,,Q82496
-66.5,2,72,15,athlete,Boxing,Joe Frazier,Beaufort,United States,8,,WBC World Heavyweight Champion · WBA World Heavyweight Champion,Q102301
-66.3,2,91,3,athlete,Football,James Rodríguez,Cúcuta,Colombia,19.3,,Portuguese Golden Ball · World Cup Golden Boot,Q368441
-66.3,2,81,5,athlete,Football,Paolo Maldini,Milan,Italy,8,,Bravo · UEFA President's,Q483027
-66.0,2,89,1,athlete,Football,Gary Lineker,Leicester,United Kingdom,8,,English Football Hall of Fame,Q47778
-66.0,2,73,0,athlete,Basketball,Manny Pacquiao,Kibawe,Philippines,9.8,,,Q486359
-66.0,2,73,64,athlete,Tennis,Kim Clijsters,Bilzen,Belgium,8,,US Open – women's singles winner ×3 · French Open – women's legends doubles winner ×2,Q11685
-66.0,2,69,373,athlete,Cycling,Eddy Merckx,Meensel-Kiezegem,Belgium,8,,"Tour de France winner ×6 · Giro d'Italia, stage 14 winner ×6",Q103756
-66.0,2,48,5,team,American football,Kansas City Chiefs,Kansas City,United States,16.2,,Super Bowl winner ×4 · NFL season winner,Q223522
-65.7,2,76,5,athlete,Football,Carlos Tevez,Ciudadela,Argentina,8,,Premier League Golden Boot · Serie A Footballer of the Year,Q50600
-65.7,2,72,26,athlete,Formula 1,Nico Rosberg,Wiesbaden,Germany,8.1,,Monaco Grand Prix winner ×3 · Formula One winner,Q75820
-65.7,2,62,12,athlete,Formula 1,Valtteri Bottas,Nastola,Finland,8,,Russian Grand Prix winner ×3 · Japanese Grand Prix winner ×2,Q138745
-65.4,2,88,3,athlete,Football,George Best,Belfast,United Kingdom,8,,Ballon d'Or · Ballon d'Or winner,Q164521
-65.3,2,56,15,athlete,Formula 1,James Hunt,Belmont,United Kingdom,8,,Formula One World Drivers' Championship · Formula One winner,Q140393
-65.2,2,47,3,team,American football,Chicago Bears,Chicago,United States,13.9,,Super Bowl winner · Fog Bowl winner,Q205033
-65.1,2,47,7,athlete,Basketball,Brittney Griner,Houston,United States,23.4,,WNBA Defensive Player of the Year · John R. Wooden ×2,Q2925780
-64.6,2,71,58,athlete,Formula 1,Alain Prost,Lorette,France,8,,Formula One winner ×4 · Brazilian Grand Prix winner ×6,Q10494
-64.3,2,43,2,team,American football,Buffalo Bills,Orchard Park,United States,8,,The Comeback winner · Snow Bowl winner,Q221626
-64.2,2,76,41,athlete,Tennis,Victoria Azarenka,Minsk,Belarus,11.4,,Australian Open – women's singles winner ×2 · Wimbledon Championships – girls' doubles ×2,Q10118
-64.1,2,89,0,athlete,Football,Carlo Ancelotti,Reggiolo,Italy,8,,,Q174614
-64.0,2,59,12,athlete,Boxing,Rocky Marciano,Brockton,United States,8,,The Ring magazine Fight of the Year ×3 · The Ring magazine Fighter of the Year ×3,Q188362
+89.7,1,67,18,athlete,Boxing,George Foreman,Marshall,United States,8,,WBA World Heavyweight Champion ×2 · WBC World Heavyweight Champion,Q213919
+89.1,1,74,18,athlete,Basketball,Kevin Durant,Suitland,United States,8,,NBA Most Valuable Player · NBA Most Valuable Player winner,Q29545
+88.7,1,77,12,team,Football,Real Betis Balompié,Seville,Spain,8,,La Liga winner ×2 · LaLiga 2 winner ×5,Q8723
+88.5,1,86,2,athlete,Cricket,Sachin Tendulkar,Mumbai,India,13.9,,Wisden Cricketer of the Year · Sir Garfield Sobers Trophy,Q9488
+87.8,1,77,38,athlete,Tennis,Billie Jean King,Long Beach,United States,8,,Wimbledon Championships – women's singles ×6 · US Open – women's singles winner ×3,Q54527
+87.5,1,128,5,athlete,Football,Johan Cruyff,Amsterdam,Netherlands,8.3,,Ballon d'Or · Ballon d'Or winner,Q17163
+87.3,1,85,32,team,Football,AS Monaco FC,Commune of Monaco,Monaco,8,,Ligue 1 winner ×8 · Coupe de France winner ×5,Q180305
+86.8,1,72,33,athlete,Ice hockey,Wayne Gretzky,Brantford,Canada,8,,Art Ross Trophy ×10 · Hart Memorial Trophy ×9,Q209518
+86.8,1,49,19,athlete,Boxing,Oleksandr Usyk,Simferopol,Ukraine,8,,IBF World Heavyweight Champion ×2 · WBO World Heavyweight Champion,Q938027
+86.5,1,47,12,athlete,Boxing,Anthony Joshua,Watford,United Kingdom,8,,WBA World Heavyweight Champion ×2 · IBF World Heavyweight Champion ×2,Q573463
+85.0,1,88,46,team,Football,Athletic Club,Ibaigane Palace,Spain,8,,La Liga winner ×8 · Copa del Rey winner ×24,Q8687
+84.6,1,90,27,athlete,Formula 1,Kimi Räikkönen,Espoo,Finland,10.3,,Belgian Grand Prix winner ×4 · Formula One winner,Q11192
+84.2,1,65,26,athlete,Boxing,Floyd Mayweather,Grand Rapids,United States,8,,Sugar Ray Robinson ×3 · The Ring magazine Fighter of the Year ×2,Q318204
+84.1,1,40,7,athlete,Baseball,Shohei Ohtani,Mizusawa,Japan,8,,Major League Baseball Most Valuable Player · Nippon Professional Baseball Most Valuable Player,Q4391858
+83.3,1,49,7,athlete,Basketball,Kawhi Leonard,Riverside,United States,8.2,,Bill Russell NBA Finals Most Valuable Player ×2 · NBA Defensive Player of the Year ×2,Q926248
+82.8,1,71,20,athlete,Basketball,Wilt Chamberlain,Philadelphia,United States,10.8,,NBA Most Valuable Player ×4 · Bill Russell NBA Finals Most Valuable Player,Q182455
+82.6,1,35,3,athlete,American football,Patrick Mahomes,Tyler,United States,8,,National Football League Most Valuable Player ×2 · AP NFL Offensive Player of the Year,Q19667998
+82.2,1,47,14,athlete,Boxing,Tyson Fury,Manchester,United Kingdom,8,,The Ring World Heavyweight Champion ×2 · WBC World Heavyweight Champion,Q1000592
+82.0,1,97,4,athlete,Football,Steven Gerrard,Whiston,United Kingdom,8,,Premier League Hall of Fame · PFA Players' Player of the Year,Q459830
+81.8,1,69,60,athlete,Tennis,Chris Evert,Fort Lauderdale,United States,8,,French Open – women's singles winner ×7 · US Open – women's singles winner ×6,Q14286
+81.7,1,63,0,athlete,American football,Terry Crews,Flint,United States,8,,,Q271464
+81.6,1,46,31,team,Baseball,Los Angeles Dodgers,Los Angeles,United States,20.4,,World Series winner ×8 · National League Championship Series ×10,Q334634
+81.2,1,93,1,athlete,Football,Kevin De Bruyne,Drongen,Belgium,8,,German Footballer of the Year,Q357984
+79.6,1,33,0,athlete,American football,Travis Kelce,Westlake,United States,8,,,Q7836292
+79.0,1,126,7,athlete,Football,Francesco Totti,Rome,Italy,20.2,,Serie A Footballer of the Year · Golden Foot,Q20110
+78.7,1,82,0,athlete,Football,Vinícius Júnior,São Gonçalo,Brazil,8.9,,,Q28973866
+77.5,1,70,0,athlete,MMA,Khabib Nurmagomedov,Sildi,Russia,8,,,Q3526023
+75.5,1,50,10,team,American football,New England Patriots,Foxborough,United States,8,,Super Bowl winner ×6 · Snowplow Game winner,Q193390
+75.2,1,100,7,athlete,Football,Kaká,Gama,Brazil,8,,Ballon d'Or · FIFA World Player of the Year,Q531814
+75.1,1,78,43,team,Basketball,Boston Celtics,Boston,United States,8.6,,NBA World Championship Series ×15 · National Basketball Association winner ×17,Q131371
+75.0,1,62,7,athlete,Basketball,Giannis Antetokounmpo,Athens,Greece,8,,NBA Most Valuable Player ×2 · NBA Defensive Player of the Year,Q8991894
+75.0,1,91,72,team,Football,Clube de Regatas do Flamengo,Rio de Janeiro,Brazil,20.0,,Campeonato Carioca winner ×36 · Campeonato Brasileiro Série A winner ×7,Q17479
+74.5,1,82,39,athlete,Tennis,Björn Borg,Stockholm,Sweden,8,,French Open – men's singles winner ×6 · Wimbledon Championships – men's singles ×5,Q104506
+74.1,1,65,19,athlete,Basketball,Charles Barkley,Leeds,United States,8,,All-NBA Team ×11 · NBA Most Valuable Player,Q192707
+74.1,1,33,27,athlete,Boxing,Canelo Álvarez,Jalisco,Mexico,8,,WBO World Light Heavyweight Champion · The Ring magazine Fighter of the Year ×2,Q2117769
+74.1,1,74,0,athlete,Boxing,Conor McGregor,Crumlin,Ireland,8,,,Q5162259
+73.8,1,92,6,athlete,Football,Didier Drogba,Abidjan,Ivory Coast,26.0,,Premier League Golden Boot ×2 · Premier League Hall of Fame,Q48892
+73.8,1,64,3,team,Football,Inter Miami CF,Fort Lauderdale,United States,8,,Major League Soccer winner · MLS Cup,Q16844931
+73.7,1,47,5,team,American football,New York Giants,New York metropolitan area,United States,46.0,,Super Bowl winner ×4 · NFC Championship Game,Q190618
+73.5,1,89,9,team,Football,Bayer 04 Leverkusen,Leverkusen,Germany,8,,DFB-Pokal winner ×2 · UEFA Cup,Q104761
+73.4,1,91,0,athlete,Football,Sergio Ramos,Camas,Spain,8,,,Q483309
+73.1,1,32,3,team,Baseball,Milwaukee Brewers,Milwaukee,United States,8.9,,American League Championship Series · National League Division Series winner,Q848103
+72.7,1,112,8,athlete,Football,Gianluigi Buffon,Carrara,Italy,8,,Serie A Goalkeeper of the Year · Golden Foot,Q68060
+72.5,1,45,16,athlete,Boxing,Lennox Lewis,West Ham,United Kingdom,8,,WBC World Heavyweight Champion ×3 · IBF World Heavyweight Champion ×2,Q295328
+72.5,1,45,5,team,American football,San Francisco 49ers,Santa Clara,United States,8,,Super Bowl winner ×5,Q337758
+72.5,1,55,25,team,Baseball,Boston Red Sox,Boston,United States,8.6,,World Series winner ×9 · Major League Baseball winner ×9,Q213959
+72.4,1,82,62,team,Football,Boca Juniors,Buenos Aires,Argentina,8.0,,Argentine Primera División winner ×24 · Copa Libertadores winner ×7,Q170703
+72.2,1,78,57,athlete,Tennis,Boris Becker,Leimen,Germany,8,,Wimbledon Championships – men's singles ×3 · Australian Open – men's singles winner ×2,Q76334
+71.6,2,45,4,team,American football,Los Angeles Rams,Inglewood,United States,8,,Super Bowl winner ×2 · Kansas City Chiefs–Los Angeles Rams game winner,Q337377
+71.3,1,114,10,athlete,Football,Luis Suárez,Salto,Uruguay,8,,Premier League Golden Boot · Premier League Player of the Season,Q26517
+71.3,1,59,21,athlete,Basketball,Karl Malone,Summerfield,United States,8,,NBA Most Valuable Player ×2 · All-NBA Team ×11,Q199896
+71.3,1,26,4,athlete,American football,Russell Wilson,Cincinnati,United States,8.1,,Athletes in Action/Bart Starr · Walter Payton Man of the Year,Q1149781
+71.2,1,48,16,athlete,Ice hockey,Alexander Ovechkin,Moscow,Russia,28.6,,"Maurice ""Rocket"" Richard Trophy ×7 · Stanley Cup",Q311374
+71.1,1,47,6,team,American football,Green Bay Packers,Green Bay,United States,8,,Super Bowl winner ×4 · Snow Bowl winner,Q213837
+70.4,1,94,0,athlete,Football,Gareth Bale,Cardiff,United Kingdom,8,,,Q184586
+70.2,1,58,10,athlete,Basketball,Allen Iverson,Hampton,United States,10.6,,NBA Most Valuable Player · NBA Most Valuable Player winner,Q190094
+69.8,1,116,8,athlete,Football,Franz Beckenbauer,Munich,Germany,9.9,,German Footballer of the Year ×4 · Ballon d'Or,Q4457
+69.4,1,74,7,athlete,Boxing,Vitali Klitschko,Belovodskoye,Kyrgyzstan,8,,WBC World Heavyweight Champion ×2 · WBO World Heavyweight Champion,Q31919
+69.1,1,54,77,team,Ice hockey,Montreal Canadiens,Montreal,Canada,12.6,,Stanley Cup Finals winner ×24 · Prince of Wales Trophy ×25,Q188143
+69.0,1,45,5,team,American football,Dallas Cowboys,Arlington,United States,9.1,,Super Bowl winner ×5,Q204862
+68.8,2,74,6,team,Basketball,New York Knicks,New York City,United States,19.7,,NBA World Championship Series ×2 · NBA Cup,Q131364
+68.6,1,73,13,team,Basketball,Golden State Warriors,San Francisco,United States,13.8,,NBA World Championship Series ×2 · NBA Finals winner ×2,Q157376
+68.2,1,63,37,athlete,Basketball,Tim Duncan,Christiansted,United States Virgin Islands,8,,Bill Russell NBA Finals Most Valuable Player ×3 · NBA Most Valuable Player ×2,Q193020
+68.0,1,46,20,athlete,Boxing,Evander Holyfield,Atmore,United States,8,,WBA World Heavyweight Champion ×4 · IBF World Heavyweight Champion ×3,Q313451
+67.6,1,60,35,athlete,Basketball,Hakeem Olajuwon,Lagos,Nigeria,19.3,,Bill Russell NBA Finals Most Valuable Player ×2 · NBA Defensive Player of the Year ×2,Q273256
+67.1,1,73,18,athlete,Formula 1,Jenson Button,Frome,United Kingdom,16.3,,Australian Grand Prix winner ×3 · Formula One winner,Q10510
+67.0,1,36,0,athlete,American football,Colin Kaepernick,Milwaukee,United States,8.9,,,Q82496
+67.0,1,72,15,athlete,Boxing,Joe Frazier,Beaufort,United States,8,,WBC World Heavyweight Champion · WBA World Heavyweight Champion,Q102301
+67.0,1,46,2,team,American football,Seattle Seahawks,Seattle,United States,10.8,,Super Bowl winner ×2,Q221878
+66.7,1,81,5,athlete,Football,Paolo Maldini,Milan,Italy,8,,Bravo · UEFA President's,Q483027
+66.6,1,48,5,team,American football,Kansas City Chiefs,Kansas City,United States,16.2,,Super Bowl winner ×4 · NFL season winner,Q223522
+66.2,1,72,26,athlete,Formula 1,Nico Rosberg,Wiesbaden,Germany,8.1,,Monaco Grand Prix winner ×3 · Formula One winner,Q75820
+66.0,1,89,1,athlete,Football,Gary Lineker,Leicester,United Kingdom,8,,English Football Hall of Fame,Q47778
+66.0,1,69,373,athlete,Cycling,Eddy Merckx,Meensel-Kiezegem,Belgium,8,,"Tour de France winner ×6 · Giro d'Italia, stage 14 winner ×6",Q103756
+65.7,1,56,15,athlete,Formula 1,James Hunt,Belmont,United Kingdom,8,,Formula One winner · Formula One World Drivers' Championship,Q140393
+65.5,1,34,13,athlete,Baseball,Derek Jeter,Pequannock,United States,8,,World Series Most Valuable Player · Rawlings Gold Glove,Q353511
+65.4,1,88,3,athlete,Football,George Best,Belfast,United Kingdom,8,,Ballon d'Or · Ballon d'Or winner,Q164521
+64.7,1,60,12,athlete,Boxing,Rocky Marciano,Brockton,United States,8,,The Ring magazine Fight of the Year ×3 · The Ring magazine Fighter of the Year ×3,Q188362
+64.3,1,71,58,athlete,Formula 1,Alain Prost,Lorette,France,8,,Formula One winner ×4 · Brazilian Grand Prix winner ×6,Q10494
 63.9,2,69,6,team,Basketball,Philadelphia 76ers,Philadelphia,United States,10.8,,NBA World Championship Series ×3 · National Basketball Association winner ×3,Q138089
-63.7,2,44,218,athlete,Cycling,Remco Evenepoel,Aalst,Belgium,8,,UCI Road World Championships – Men's time trial ×4 · Tour de France winner ×2,Q50821956
-63.1,2,98,1,athlete,Football,Robin van Persie,Rotterdam,Netherlands,10.1,,Premier League Golden Boot winner,Q2339
-63.1,2,94,1,athlete,Football,Thomas Müller,Weilheim in Oberbayern,Germany,8,,European Golden Shoe,Q43666
-63.1,2,80,3,athlete,Football,Eric Cantona,Marseille,France,8.8,,Premier League Hall of Fame · English Football Hall of Fame,Q170328
-63.0,2,80,7,athlete,Football,Luís Figo,Lisbon,Portugal,8,,Ballon d'Or · FIFA World Player of the Year,Q483145
-62.9,2,91,0,athlete,Football,Mario Balotelli,Palermo,Italy,8,,,Q129700
-62.8,2,44,12,athlete,Ice hockey,Sidney Crosby,Cole Harbour,Canada,8,,Stanley Cup · Conn Smythe Trophy ×2,Q311280
-62.1,2,78,0,athlete,Football,Son Heung-min,Chuncheon,South Korea,18.9,,,Q439722
-62.1,2,59,8,athlete,Basketball,Dwyane Wade,Chicago,United States,13.9,,Bill Russell NBA Finals Most Valuable Player · Bill Russell NBA Finals Most Valuable Player winner,Q31683
-61.9,2,55,19,athlete,Basketball,Scottie Pippen,Hamburg,United States,8,,NBA All-Defensive Team ×10 · All-NBA Team ×7,Q193637
-61.6,2,55,5,athlete,Basketball,Kyrie Irving,Melbourne,Australia,23.8,,NBA Rookie of the Year · NBA All-Rookie Team,Q348618
-61.4,2,42,213,athlete,Cycling,Primož Roglič,Trbovlje,Slovenia,8,,"Vuelta a España winner ×6 · Vuelta a España, stage 17 winner ×4",Q2110167
-61.2,2,38,14,athlete,Golf,Rory McIlroy,Holywood,United Kingdom,8,,PGA Championship ×2 · Masters Tournament winner ×2,Q380613
-61.0,2,40,7,team,Baseball,Chicago White Sox,Chicago,United States,13.9,,World Series winner ×3 · Major League Baseball winner ×3,Q335169
-60.8,2,61,24,athlete,Formula 1,Mario Andretti,Motovun,Croatia,8,,Formula One winner · USAC Championship Car ×3,Q171312
-60.3,2,30,1,athlete,American football,Eli Manning,New Orleans,United States,17.0,,Walter Payton Man of the Year winner,Q316187
-60.3,2,41,14,team,Baseball,Atlanta Braves,Cobb,United States,16.7,,World Series winner ×3 · National League Championship Series ×6,Q461595
-60.3,2,36,4,team,Baseball,Tampa Bay Rays,St. Petersburg,United States,10.7,,American League Championship Series ×3 · Major League Baseball Wild Card Game winner,Q650865
-60.1,2,61,28,athlete,Formula 1,Nelson Piquet,Rio de Janeiro,Brazil,20.0,,Formula One winner ×3 · Formula One World Drivers' Championship ×2,Q171346
-60.0,2,62,12,athlete,Basketball,Dirk Nowitzki,Würzburg,Germany,8,,NBA Most Valuable Player · Bill Russell NBA Finals Most Valuable Player,Q44068
-60.0,2,49,1,athlete,Basketball,Klay Thompson,Los Angeles,United States,20.4,,NBA All-Rookie Team,Q29342
-60.0,2,44,16,athlete,Boxing,Oscar De La Hoya,East Los Angeles,United States,8,,WBC World Super Welterweight Champion ×2 · WBC World Welterweight Champion ×2,Q293534
-59.9,2,49,58,team,Ice hockey,Detroit Red Wings,Detroit,United States,10.9,,Stanley Cup ×11 · Stanley Cup Finals winner ×11,Q194116
-59.7,2,54,22,athlete,Basketball,Kevin Garnett,Greenville,United States,8,,NBA All-Defensive Team ×9 · NBA Most Valuable Player,Q189240
-59.6,2,67,9,athlete,Basketball,Bill Russell,Monroe,United States,8,,NBA Most Valuable Player ×5 · NBA Most Valuable Player winner,Q242185
-59.6,2,61,19,athlete,Formula 1,Jacques Villeneuve,Saint-Jean-sur-Richelieu,Canada,8.6,,Formula One winner · Formula One World Drivers' Championship,Q172843
-59.6,2,52,10,athlete,Formula 1,Oscar Piastri,Melbourne,Australia,23.8,,Spanish Grand Prix winner · Azerbaijan Grand Prix winner,Q28741262
-59.5,2,55,6,athlete,Basketball,Russell Westbrook,Long Beach,United States,8,,NBA Most Valuable Player · NBA Most Valuable Player winner,Q196185
-59.5,2,61,8,athlete,Formula 1,Daniel Ricciardo,Perth,Australia,15.1,,Canadian Grand Prix winner · Hungarian Grand Prix winner,Q82816
-59.3,2,53,11,athlete,Basketball,Steve Nash,Johannesburg,South Africa,22.9,,NBA Most Valuable Player ×2 · NBA Most Valuable Player winner,Q192955
-59.1,2,49,15,athlete,Basketball,Dwight Howard,Atlanta,United States,10.5,,NBA Defensive Player of the Year ×3 · NBA Defensive Player of the Year winner,Q25278
-59.0,2,39,203,athlete,Cycling,Wout van Aert,Herentals,Belgium,8,,"Tour de France, stage 5 winner ×4 · Tour de France, stage 2 winner ×3",Q15713449
-58.9,2,55,39,athlete,Formula 1,Nigel Mansell,Upton upon Severn,United Kingdom,8,,French Grand Prix winner ×4 · British Grand Prix winner ×4,Q10501
-58.4,2,52,1,athlete,Boxing,Mary Kom,Manipur,India,17.4,,AIBA Women's World Boxing Championships – light flyweight,Q328951
-58.4,2,54,1,athlete,MMA,Brock Lesnar,Webster,United States,8,,King of the Ring winner,Q220556
-58.2,2,51,6,athlete,Athletics,Armand Duplantis,Lafayette,United States,8,,European Athletics Championships – men's pole vault ×3 · World Athletics Indoor Championships – men's pole vault,Q20740797
-58.1,2,43,1,team,American football,Cleveland Browns,Cleveland,United States,8.2,,All-America Football Conference winner,Q223527
-58.0,2,50,24,team,Ice hockey,Toronto Maple Leafs,Old Toronto,Canada,8,,Stanley Cup Finals winner ×11 · National Hockey League winner ×11,Q203384
-57.9,2,62,1,athlete,Basketball,Yao Ming,Shanghai,China,51.4,,FIBA Hall of Fame,Q58590
-57.9,2,56,13,athlete,Basketball,Chris Paul,Winston-Salem,United States,10.5,,All-NBA Team ×4 · NBA All-Defensive Team ×4,Q46040
-57.7,2,66,25,athlete,Formula 1,Mika Häkkinen,Vantaa,Finland,8.7,,Formula One winner ×2 · Formula One World Drivers' Championship ×2,Q172842
-57.7,2,43,3,team,American football,Baltimore Ravens,Baltimore,United States,8.7,,Super Bowl winner ×2 · Mile High Miracle winner,Q276539
-57.5,2,52,6,athlete,Basketball,Nikola Jokić,Sombor,Serbia,9.6,,NBA Most Valuable Player ×3 · Bill Russell NBA Finals Most Valuable Player,Q17281073
-57.4,2,37,19,team,Baseball,Athletics,West Sacramento,United States,8,,World Series winner ×4 · Major League Baseball winner ×9,Q504339
-57.3,2,77,43,athlete,Formula 1,Juan Manuel Fangio,Balcarce,Argentina,8,,Formula One winner ×5 · Formula One World Drivers' Championship ×5,Q2069
-57.1,2,69,8,team,Basketball,Miami Heat,Miami,United States,8,,NBA Finals winner ×3 · National Basketball Association winner ×3,Q169138
-56.4,2,58,2,athlete,Basketball,Luka Dončić,Ljubljana,Slovenia,8,,NBA Rookie of the Year · NBA Rookie of the Year winner,Q19844712
-56.4,2,67,36,athlete,Formula 1,Jackie Stewart,Dumbarton,United Kingdom,8,,Formula One winner ×3 · Formula One World Drivers' Championship ×3,Q3188
-56.4,2,45,19,athlete,Boxing,Sugar Ray Leonard,Wilmington,United States,8,,Sugar Ray Robinson ×3 · WBC World Light Heavyweight Champion,Q335798
-56.2,2,74,11,team,Basketball,San Antonio Spurs,San Antonio,United States,19.6,,NBA Finals winner ×5 · National Basketball Association winner ×5,Q159729
-56.0,2,63,12,athlete,Boxing,Joe Louis,Texas,United States,26.8,,The Ring magazine Fighter of the Year ×4 · WBA World Heavyweight Champion,Q273206
-56.0,2,46,331,athlete,Cycling,Peter Sagan,Žilina,Slovakia,8,,"Tour de France winner ×7 · Tour de France, stage 3 winner ×6",Q309911
-55.8,2,54,5,athlete,Basketball,James Harden,Los Angeles,United States,20.4,,NBA Most Valuable Player · NBA Sixth Man of the Year,Q136678
-55.5,2,57,6,athlete,Basketball,Derrick Rose,Chicago,United States,13.9,,NBA Most Valuable Player · NBA Most Valuable Player winner,Q205326
-55.2,2,62,17,team,Football,LA Galaxy,Los Angeles,United States,20.4,,U.S. Open Cup ×2 · MLS Cup ×5,Q204357
-55.1,2,50,3,athlete,Baseball,Joe DiMaggio,Martinez,United States,8,,Major League Baseball Most Valuable Player ×3,Q297142
-54.9,2,40,0,athlete,MMA,Jon Jones,Rochester,United States,8,,,Q285450
-54.7,2,39,147,athlete,Cycling,Mathieu van der Poel,Kapellen,Belgium,8,,UCI Cyclo-cross World Championships – Men's elite race ×2 · UCI Gravel World Championships – Men Elite ×2,Q3078910
-54.4,2,49,18,athlete,Boxing,Sugar Ray Robinson,Ailey,United States,8,,WBA World Middleweight Champion ×5 · The Ring World Middleweight Champion ×5,Q316706
-54.0,2,35,0,athlete,MMA,Islam Makhachev,Makhachkala,Russia,12.2,,,Q18637676
-53.9,2,48,27,team,Ice hockey,Edmonton Oilers,Edmonton,Canada,15.6,,Stanley Cup ×5 · Stanley Cup Finals winner ×5,Q205973
-53.8,2,38,1,athlete,Cricket,Rohit Sharma,Nagpur,India,8.3,,Wisden Cricketer of the Year,Q3520045
-53.8,2,42,8,team,Baseball,Chicago Cubs,Chicago,United States,13.9,,World Series winner ×2 · Major League Baseball winner ×3,Q246782
-53.8,2,37,30,team,Baseball,St. Louis Cardinals,St. Louis,United States,8,,World Series winner ×11 · Major League Baseball winner ×11,Q504309
-53.7,2,49,31,team,Ice hockey,Boston Bruins,Boston,United States,8.6,,Stanley Cup Finals winner ×6 · Prince of Wales Trophy ×17,Q194121
-53.1,2,54,21,athlete,Basketball,Jerry West,Chelyan,United States,8,,NBA Executive of the Year ×2 · All-NBA Team ×10,Q311195
-53.0,2,32,1,athlete,American football,Terry Bradshaw,Shreveport,United States,10.1,,Pro Football Hall of Fame,Q633263
-53.0,2,38,12,athlete,Baseball,Barry Bonds,Riverside,United States,8.2,,Major League Baseball Most Valuable Player ×7 · Rawlings Gold Glove,Q314712
-52.9,2,53,2,athlete,Basketball,Carmelo Anthony,Brooklyn,United States,8.9,,Naismith Memorial Basketball Hall of Fame · USBWA National Freshman of the Year,Q129041
-52.7,2,27,4,athlete,American football,Drew Brees,Austin,United States,16.2,,Chicago Tribune Silver Football · AP NFL Offensive Player of the Year winner,Q38952
-52.5,2,34,2,athlete,American football,Brett Favre,Gulfport,United States,8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q267088
-52.4,2,44,15,athlete,Basketball,Jason Kidd,San Francisco,United States,13.8,,NBA Sportsmanship ×2 · NBA Sportsmanship winner,Q221341
+63.8,1,59,33,team,Football,Club América,Mexico City,Mexico,21.7,,Liga winner ×11 · CONCACAF Champions Cup ×7,Q459090
+63.5,1,80,3,athlete,Football,Eric Cantona,Marseille,France,8.8,,Premier League Hall of Fame · English Football Hall of Fame,Q170328
+63.3,1,98,1,athlete,Football,Robin van Persie,Rotterdam,Netherlands,10.1,,Premier League Golden Boot winner,Q2339
+63.1,1,44,12,athlete,Ice hockey,Sidney Crosby,Cole Harbour,Canada,8,,Stanley Cup · Conn Smythe Trophy ×2,Q311280
+62.8,1,78,0,athlete,Football,Son Heung-min,Chuncheon,South Korea,18.9,,,Q439722
+62.5,1,59,8,athlete,Basketball,Dwyane Wade,Chicago,United States,13.9,,Bill Russell NBA Finals Most Valuable Player · Bill Russell NBA Finals Most Valuable Player winner,Q31683
+62.2,1,55,19,athlete,Basketball,Scottie Pippen,Hamburg,United States,8,,NBA All-Defensive Team ×10 · All-NBA Team ×7,Q193637
+61.4,1,106,2,athlete,Football,Andrés Iniesta,Fuentealbilla,Spain,8,,UEFA Men's Player of the Year winner · Premi Barça Jugadors winner,Q43729
+61.3,1,38,14,athlete,Golf,Rory McIlroy,Holywood,United Kingdom,8,,PGA Championship ×2 · Masters Tournament winner ×2,Q380613
+61.1,2,73,3,team,Football,RB Leipzig,Leipzig,Germany,9.7,,DFB-Pokal winner ×2 · Regionalliga Nordost winner,Q702455
+60.3,1,62,12,athlete,Basketball,Dirk Nowitzki,Würzburg,Germany,8,,NBA Most Valuable Player · Bill Russell NBA Finals Most Valuable Player,Q44068
+60.3,1,44,16,athlete,Boxing,Oscar De La Hoya,East Los Angeles,United States,8,,WBC World Super Welterweight Champion ×2 · WBC World Welterweight Champion ×2,Q293534
+60.0,1,67,9,athlete,Basketball,Bill Russell,Monroe,United States,8,,NBA Most Valuable Player ×5 · NBA Most Valuable Player winner,Q242185
+59.8,1,61,19,athlete,Formula 1,Jacques Villeneuve,Saint-Jean-sur-Richelieu,Canada,8.6,,Formula One winner · Formula One World Drivers' Championship,Q172843
+59.8,1,52,10,athlete,Formula 1,Oscar Piastri,Melbourne,Australia,23.8,,Spanish Grand Prix winner · Azerbaijan Grand Prix winner,Q28741262
+59.7,1,53,11,athlete,Basketball,Steve Nash,Johannesburg,South Africa,22.9,,NBA Most Valuable Player ×2 · NBA Most Valuable Player winner,Q192955
+59.5,1,61,8,athlete,Formula 1,Daniel Ricciardo,Perth,Australia,15.1,,Canadian Grand Prix winner · Hungarian Grand Prix winner,Q82816
+58.9,1,55,39,athlete,Formula 1,Nigel Mansell,Upton upon Severn,United Kingdom,8,,French Grand Prix winner ×4 · British Grand Prix winner ×4,Q10501
+58.8,1,89,3,athlete,Football,Marco van Basten,Utrecht,Netherlands,8,,Ballon d'Or · FIFA World Player of the Year,Q483629
+58.8,1,54,1,athlete,MMA,Brock Lesnar,Webster,United States,8,,King of the Ring winner,Q220556
+58.3,1,62,1,athlete,Basketball,Yao Ming,Shanghai,China,51.4,,FIBA Hall of Fame,Q58590
+58.3,1,50,24,team,Ice hockey,Toronto Maple Leafs,Old Toronto,Canada,8,,Stanley Cup Finals winner ×11 · National Hockey League winner ×11,Q203384
+58.2,1,51,6,athlete,Athletics,Armand Duplantis,Lafayette,United States,8,,European Athletics Championships – men's pole vault ×3 · World Athletics Indoor Championships – men's pole vault,Q20740797
+57.9,1,52,6,athlete,Basketball,Nikola Jokić,Sombor,Serbia,9.6,,NBA Most Valuable Player ×3 · Bill Russell NBA Finals Most Valuable Player,Q17281073
+57.7,1,66,25,athlete,Formula 1,Mika Häkkinen,Vantaa,Finland,8.7,,Formula One World Drivers' Championship ×2 · Formula One winner ×2,Q172842
+57.3,1,77,43,athlete,Formula 1,Juan Manuel Fangio,Balcarce,Argentina,8,,Formula One winner ×5 · Formula One World Drivers' Championship ×5,Q2069
+57.1,1,91,5,athlete,Football,Roberto Baggio,Caldogno,Italy,8,,Ballon d'Or · FIFA World Player of the Year,Q67964
+56.8,1,58,2,athlete,Basketball,Luka Dončić,Ljubljana,Slovenia,8,,NBA Rookie of the Year · NBA Rookie of the Year winner,Q19844712
+56.7,1,45,19,athlete,Boxing,Sugar Ray Leonard,Wilmington,United States,8,,Sugar Ray Robinson ×3 · WBC World Light Heavyweight Champion,Q335798
+56.4,1,67,36,athlete,Formula 1,Jackie Stewart,Dumbarton,United Kingdom,8,,Formula One winner ×3 · Formula One World Drivers' Championship ×3,Q3188
+56.3,1,57,38,athlete,Tennis,Rod Laver,Rockhampton,Australia,8,,Wimbledon Championships – men's singles ×4 · Wimbledon Championships – mixed doubles ×2,Q105550
+56.3,1,63,12,athlete,Boxing,Joe Louis,Texas,United States,26.8,,The Ring magazine Fighter of the Year ×4 · WBA World Heavyweight Champion,Q273206
+56.1,1,54,31,athlete,Tennis,Ashleigh Barty,Ipswich,Australia,18.6,,Wimbledon Championships – girls' singles · US Open – women's doubles winner,Q84056
+56.0,1,46,331,athlete,Cycling,Peter Sagan,Žilina,Slovakia,8,,"Tour de France winner ×7 · Tour de France, stage 3 winner ×6",Q309911
+56.0,1,65,43,team,Football,Al Ahly SC,Cairo,Egypt,13.0,,Egyptian Premier League winner ×16 · CAF Champions League ×8,Q223566
+55.6,1,60,24,athlete,Formula 1,Damon Hill,Hampstead,United Kingdom,8,,Belgian Grand Prix winner ×3 · Formula One winner,Q10505
+55.5,1,50,3,athlete,Baseball,Joe DiMaggio,Martinez,United States,8,,Major League Baseball Most Valuable Player ×3,Q297142
+55.5,1,49,18,athlete,Boxing,Sugar Ray Robinson,Ailey,United States,8,,WBA World Middleweight Champion ×5 · The Ring World Middleweight Champion ×5,Q316706
+55.2,1,40,0,athlete,MMA,Jon Jones,Rochester,United States,8,,,Q285450
+54.6,1,83,3,athlete,Football,Bobby Charlton,Ashington,United Kingdom,8,,Ballon d'Or · Ballon d'Or winner,Q171583
+54.5,1,24,10,athlete,Golf,Scottie Scheffler,Ridgewood,United States,8,,Masters Tournament winner ×2 · Open Championship,Q30161386
+54.3,1,35,0,athlete,MMA,Islam Makhachev,Makhachkala,Russia,12.2,,,Q18637676
+54.2,1,48,27,team,Ice hockey,Edmonton Oilers,Edmonton,Canada,15.6,,Stanley Cup ×5 · Stanley Cup Finals winner ×5,Q205973
+54.0,1,38,1,athlete,Cricket,Rohit Sharma,Nagpur,India,8.3,,Wisden Cricketer of the Year,Q3520045
+54.0,1,42,8,team,Baseball,Chicago Cubs,Chicago,United States,13.9,,World Series winner ×2 · Major League Baseball winner ×3,Q246782
+53.8,1,43,144,athlete,Cycling,Jonas Vingegaard,Hillerslev,Denmark,8,,"Tour de France winner ×5 · Tour de France, stage 7 winner ×2",Q26868933
+53.5,1,59,155,athlete,Cycling,Chris Froome,Nairobi,Kenya,14.9,,Tour de France winner ×6 · Vuelta a España winner ×4,Q319591
+53.2,1,38,12,athlete,Baseball,Barry Bonds,Riverside,United States,8.2,,Major League Baseball Most Valuable Player ×7 · Rawlings Gold Glove,Q314712
+53.0,1,57,2,athlete,Tennis,Emma Raducanu,Toronto,Canada,14.2,,US Open – women's singles winner · WTA Newcomer of the Year,Q64849968
+53.0,1,27,4,athlete,American football,Drew Brees,Austin,United States,16.2,,Chicago Tribune Silver Football · AP NFL Offensive Player of the Year winner,Q38952
+53.0,1,46,202,athlete,Cycling,Mark Cavendish,Douglas,Isle of Man,8,,"Tour de France, Stage 5 winner ×5 · Tour de France, stage 7 winner ×4",Q207713
+52.9,1,104,4,athlete,Football,Michel Platini,Jœuf,France,8,,Ballon d'Or · Ballon d'Or winner,Q4261
+52.9,1,62,168,athlete,Cycling,Miguel Induráin,Villava/Atarrabia,Spain,8,,"Tour de France winner ×5 · Tour de France, stage 16 winner ×5",Q105542
+52.5,1,34,2,athlete,American football,Brett Favre,Gulfport,United States,8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q267088
+52.4,1,56,5,athlete,Athletics,Eliud Kipchoge,Kapsisiywa,Kenya,8,,London Marathon winner ×3 · Chicago Marathon winner,Q9124
+52.3,1,29,4,athlete,Baseball,Roberto Clemente,Italy,Italy,60,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q684020
 52.2,2,49,7,athlete,MMA,Fedor Emelianenko,Rubizhne,Ukraine,8,,World Sambo Championships ×5 · European Sambo Championships ×2,Q205953
-52.1,3,56,5,athlete,Athletics,Eliud Kipchoge,Kapsisiywa,Kenya,8,,London Marathon winner ×3 · Chicago Marathon winner,Q9124
-52.1,3,29,4,athlete,Baseball,Roberto Clemente,Italy,Italy,60,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q684020
-52.1,3,40,9,team,Baseball,New York Mets,Flushing,United States,8,,World Series winner ×2 · National League Championship Series ×5,Q692417
-51.6,3,96,1,athlete,Athletics,Jesse Owens,Oakville,United States,8,,IAAF Hall of Fame,Q52651
-51.5,3,53,19,athlete,Ice hockey,Mario Lemieux,Montreal,Canada,12.6,,Art Ross Trophy ×6 · Hart Memorial Trophy ×3,Q316249
-51.1,3,28,11,athlete,Baseball,David Ortiz,Santo Domingo,Dominican Republic,20.4,,World Series Most Valuable Player · League Championship Series Most Valuable Player,Q448005
-50.5,3,44,4,athlete,Basketball,Shai Gilgeous-Alexander,Toronto,Canada,14.2,,NBA Most Valuable Player ×2 · Bill Russell NBA Finals Most Valuable Player,Q32860369
-50.3,3,35,4,athlete,Baseball,Alex Rodriguez,Brooklyn,United States,8.9,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q558664
-50.2,3,27,1,athlete,American football,Kurt Warner,Burlington,United States,8,,Walter Payton Man of the Year winner,Q945750
-50.1,3,50,0,athlete,MMA,CM Punk,Chicago,United States,13.9,,,Q215447
-50.1,3,68,9,team,Basketball,Detroit Pistons,Detroit,United States,10.9,,NBA Finals winner ×3 · National Basketball Association winner ×3,Q169661
-50.1,3,50,15,team,Ice hockey,New York Rangers,Manhattan,United States,8,,Stanley Cup Finals winner ×4 · Prince of Wales Trophy ×4,Q188984
-50.0,3,51,13,athlete,Basketball,Julius Erving,East Meadow,United States,8,,NBA Most Valuable Player ×2 · NBA Most Valuable Player winner,Q209921
-50.0,3,44,22,athlete,Golf,Jack Nicklaus,Columbus,United States,13.6,,Masters Tournament winner ×6 · PGA Championship ×5,Q9424
-49.6,3,57,4,athlete,Baseball,Ichiro Suzuki,Toyoyama,Japan,8,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q600
-49.5,3,48,12,athlete,Basketball,Dikembe Mutombo,Kinshasa,Democratic Republic of the Congo,39.3,,NBA Defensive Player of the Year ×4 · NBA Defensive Player of the Year winner,Q313481
-49.5,3,48,17,team,Ice hockey,Pittsburgh Penguins,Pittsburgh,United States,8,,Stanley Cup Finals winner ×5 · Prince of Wales Trophy ×5,Q193643
-49.0,3,55,5,athlete,Baseball,Hank Aaron,Mobile,United States,12.2,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q215777
-48.9,3,55,1,athlete,Basketball,Tony Parker,Bruges,Belgium,8,,Bill Russell NBA Finals Most Valuable Player winner,Q193108
-48.7,3,69,8,team,Basketball,Milwaukee Bucks,Milwaukee,United States,8.9,,NBA World Championship Series · NBA playoffs winner,Q169637
-48.3,3,59,0,athlete,Athletics,Jim Thorpe,Prague,United States,8,,,Q221482
-48.2,3,73,3,team,Basketball,Sacramento Kings,Sacramento,United States,9.1,,NBA World Championship Series · National Basketball Association winner,Q166105
-48.0,3,47,22,athlete,Basketball,David Robinson,Key West,United States,8,,NBA Most Valuable Player · NBA Defensive Player of the Year,Q211876
-47.8,3,38,2,athlete,American football,Jerry Rice,Starkville,United States,8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q505423
-47.3,3,77,2,team,Basketball,Toronto Raptors,Toronto,Canada,14.2,,Atlantic Division winner · National Basketball Association winner,Q132880
-46.7,3,34,5,athlete,Baseball,Mickey Mantle,Spavinaw,United States,8,,Major League Baseball Most Valuable Player ×3 · Rawlings Gold Glove,Q345004
-46.7,3,68,6,team,Basketball,Houston Rockets,Houston,United States,23.4,,NBA Finals winner ×2 · National Basketball Association winner ×2,Q161345
-46.7,3,68,0,team,Basketball,Los Angeles Clippers,Los Angeles,United States,20.4,,,Q976396
-46.7,3,46,14,team,Ice hockey,New York Islanders,Brooklyn,United States,8.9,,Stanley Cup Finals winner ×4 · National Hockey League winner ×4,Q194369
-46.5,3,57,0,athlete,Athletics,Florence Griffith Joyner,Los Angeles,United States,20.4,,,Q31082
-46.0,3,33,5,athlete,American football,Dan Marino,Pittsburgh,United States,8,,AP NFL Offensive Player of the Year · Walter Payton Man of the Year,Q195367
-45.8,3,34,2,athlete,American football,Joe Montana,New Eagle,United States,8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q348011
-45.6,3,76,4,athlete,Athletics,Carl Lewis,Birmingham,United States,11.1,,World Championships in Athletics – men's 100 metres ×3 · Bislett medal,Q131237
-45.6,3,39,1,athlete,Baseball,Lou Gehrig,Manhattan,United States,8,,Major League Baseball Most Valuable Player,Q357444
-45.5,3,56,0,athlete,MMA,Ronda Rousey,Santa Monica,United States,8,,,Q242201
-45.3,3,27,0,athlete,American football,Rob Gronkowski,Amherst,United States,8,,,Q1334384
-45.2,3,73,3,team,Basketball,Atlanta Hawks,Atlanta,United States,10.5,,NBA World Championship Series · National Basketball Association winner,Q159893
-45.1,3,46,1,athlete,American football,Jim Brown,St. Simons,United States,8,,Pro Football Hall of Fame,Q927916
-44.9,3,45,14,athlete,Ice hockey,Gordie Howe,Floral,Canada,8,,Hart Memorial Trophy ×6 · Art Ross Trophy ×6,Q358519
-44.8,3,70,0,athlete,Athletics,Oscar Pistorius,Sandton,South Africa,8,,,Q201377
-43.8,3,50,4,team,Ice hockey,Anaheim Ducks,Anaheim,United States,8,,Stanley Cup Finals winner · Clarence S. Campbell Bowl ×2,Q192751
-43.7,3,53,8,athlete,Athletics,Mo Farah,Gobalka Gabiley,Somaliland,8,,"World Championships in Athletics – men's 10,000 metres ×3 · World Championships in Athletics – men's 5000 metres ×2",Q1671
-43.6,3,26,7,athlete,Baseball,Roger Clemens,Dayton,United States,8,,Major League Baseball Most Valuable Player · Boston Red Sox Hall of Fame,Q473208
-43.6,3,45,10,team,Ice hockey,Colorado Avalanche,Denver,United States,11.3,,Stanley Cup Finals winner ×3 · National Hockey League winner ×3,Q206297
-43.5,3,27,3,athlete,American football,John Elway,Port Angeles,United States,8,,Walter Payton Man of the Year · Pro Football Hall of Fame,Q432931
-43.5,3,46,8,athlete,Golf,Arnold Palmer,Latrobe,United States,8,,Masters Tournament winner ×4 · U.S. Open winner,Q9434
-43.4,3,46,3,athlete,Baseball,Yogi Berra,St. Louis,United States,8,,Major League Baseball Most Valuable Player ×3,Q367566
-43.2,3,25,1,athlete,Cricket,Joe Root,Dore,United Kingdom,8,,Wisden Cricketer of the Year,Q3180174
-43.1,3,43,11,athlete,Ice hockey,Jaromír Jágr,Kladno,Czech Republic,8,,Art Ross Trophy ×5 · Golden Hockey Stick,Q295345
-42.7,3,28,9,athlete,Baseball,Ken Griffey Jr.,Donora,United States,8,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q536900
-42.6,3,17,12,team,Australian rules football,Brisbane Lions,Brisbane,Australia,16.9,,AFL Grand Final winner ×5 · Australian Football League winner ×2,Q637601
-42.4,3,28,2,athlete,American football,Tommy Tuberville,Camden,United States,8,,"Paul ""Bear"" Bryant · Walter Camp Coach of the Year",Q7819948
-42.1,3,31,8,athlete,Baseball,Albert Pujols,Santo Domingo,Dominican Republic,20.4,,Major League Baseball Most Valuable Player ×3 · Rawlings Gold Glove,Q148726
-41.8,3,44,1,athlete,Cricket,Shane Warne,Upper Ferntree Gully,Australia,8,,Wisden Cricketer of the Year,Q555240
-41.4,3,37,0,athlete,MMA,Khamzat Chimaev,Gvardeyskoe,Russia,8,,,Q76476288
-41.1,3,17,17,team,Rugby league,Sydney Roosters,Sydney,Australia,24.0,,NRL Grand Final winner ×4 · National Rugby League winner ×7,Q2573367
-40.9,3,33,11,athlete,Golf,Phil Mickelson,San Diego,United States,17.5,,Masters Tournament winner ×3 · PGA Championship ×2,Q325374
-40.6,3,35,10,athlete,Golf,Gary Player,Johannesburg,South Africa,22.9,,Masters Tournament winner ×3 · PGA Championship ×2,Q469721
-40.5,3,29,6,athlete,Ice hockey,Patrick Kane,Buffalo,United States,8,,Stanley Cup · Conn Smythe Trophy,Q335876
-40.3,3,27,6,athlete,Baseball,Sandy Koufax,Brooklyn,United States,8.9,,World Series Most Valuable Player · Major League Baseball Most Valuable Player,Q440256
-40.0,3,32,4,athlete,Baseball,Ted Williams,San Diego,United States,17.5,,Major League Baseball Most Valuable Player ×2 · National Baseball Hall of Fame and Museum,Q172478
-40.0,3,28,4,athlete,Baseball,Randy Johnson,Walnut Creek,United States,8,,World Series Most Valuable Player · Warren Spahn winner,Q123682
-39.0,3,25,10,athlete,Baseball,Mark McGwire,Pomona,United States,8,,Rawlings Gold Glove · Silver Slugger,Q462481
-38.5,3,32,5,athlete,Ice hockey,Connor McDavid,Richmond Hill,Canada,8,,Art Ross Trophy ×2 · Ted Lindsay ×2,Q2806736
-38.2,3,37,3,athlete,Baseball,Ty Cobb,Narrows,United States,8,,Major League Baseball Most Valuable Player · National Baseball Hall of Fame and Museum,Q552828
-38.1,3,26,2,athlete,American football,Lawrence Taylor,Williamsburg,United States,8,,Pro Football Hall of Fame · AP NFL Defensive Player of the Year winner,Q963129
-38.0,3,26,3,athlete,Baseball,Pete Rose,Cincinnati,United States,8.1,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q739866
-37.9,3,45,4,athlete,Athletics,Noah Lyles,Gainesville,United States,8,,World Championships in Athletics – men's 200 metres · World Athletics Championships – men's 200 metres ×2,Q15989263
-37.9,3,40,3,athlete,Baseball,Willie Mays,Westfield,United States,8,,Major League Baseball Most Valuable Player ×2 · Rawlings Gold Glove,Q561852
-37.1,3,44,12,athlete,Golf,Annika Sörenstam,Stockholm,Sweden,8,,LPGA Championship ×3 · U.S. Women's Open Golf Championship ×3,Q232711
-36.5,3,21,19,team,Australian rules football,Collingwood Football Club,Melbourne,Australia,23.8,,VFL Grand Final winner ×13 · AFL Grand Final winner ×3,Q249679
-35.3,3,61,7,athlete,Athletics,Shelly-Ann Fraser-Pryce,Kingston,Jamaica,8,,World Championships in Athletics – women's 100 metres ×4 · World Championships in Athletics – women's 200 metres,Q5793
-35.3,3,31,0,athlete,Cricket,Smriti Mandhana,Sangli,India,8,,,Q16224802
-34.8,3,34,3,athlete,American football,Johnny Unitas,Pittsburgh,United States,8,,Walter Payton Man of the Year · Pro Football Hall of Fame,Q716029
-34.8,3,20,18,team,Australian rules football,Carlton Football Club,Carlton North,Australia,8,,VFL Grand Final winner ×15 · AFL Grand Final winner,Q858633
-34.8,3,17,16,team,Australian rules football,Hawthorn Football Club,Launceston,Australia,8,,VFL Grand Final winner ×8 · AFL Grand Final winner ×5,Q1034556
-34.6,3,55,1,athlete,Cricket,Don Bradman,Cootamundra,Australia,8,,Wisden Cricketer of the Year,Q313591
-33.9,3,61,3,athlete,Athletics,Sebastian Coe,London,United Kingdom,22.4,,IAAF Hall of Fame · Bislett medal,Q188502
-33.5,3,38,1,athlete,American football,Vince Lombardi,Brooklyn,United States,8.9,,Pro Football Hall of Fame,Q553321
-33.3,3,19,16,team,Australian rules football,Essendon Football Club,Melbourne,Australia,23.8,,VFL Grand Final winner ×12 · AFL Grand Final winner ×2,Q251090
-33.1,3,57,5,athlete,Athletics,Jackie Joyner-Kersee,East St. Louis,United States,8,,World Championships in Athletics – women's heptathlon ×2 · World Championships in Athletics – women's long jump,Q209390
-32.5,3,49,8,athlete,Athletics,Sifan Hassan,Adama,Ethiopia,8,,World Championships in Athletics – women's 1500 metres · European Cross Country Championships,Q14855644
-32.2,3,30,6,athlete,Ice hockey,Evgeni Malkin,Magnitogorsk,Russia,11.2,,Art Ross Trophy ×2 · Conn Smythe Trophy,Q314433
-32.1,3,20,8,team,Australian rules football,Sydney Swans,Sydney,Australia,24.0,,VFL Grand Final winner ×3 · AFL Grand Final winner ×2,Q2272176
-31.9,3,28,1,athlete,Cricket,Harmanpreet Kaur,Moga,India,26.6,,Wisden Cricketer of the Year,Q3525920
-31.4,3,50,1,athlete,Athletics,Cathy Freeman,Slade Point,Australia,8,,Olympic gold medal,Q234762
-31.4,3,36,2,athlete,Cricket,Rahul Dravid,Indore,India,13.0,,Wisden Cricketer of the Year · Sir Garfield Sobers Trophy,Q470772
-31.2,3,11,23,team,Rugby league,Melbourne Storm,Melbourne,Australia,23.8,,NRL Grand Final winner ×6 · National Rugby League winner ×13,Q1574487
-30.3,3,71,2,athlete,Athletics,Sergei Bubka,Luhansk,Ukraine,9.0,,IAAF Hall of Fame · European Athletics Championships – men's pole vault,Q184556
-30.0,3,34,1,athlete,Cricket,Sunil Gavaskar,Mumbai,India,13.9,,Wisden Cricketer of the Year,Q558182
-29.8,3,37,1,athlete,Cricket,Kapil Dev,Chandigarh,India,8,,Wisden Cricketer of the Year,Q558189
-28.7,3,25,1,athlete,Cricket,Jasprit Bumrah,Ahmedabad,India,12.2,,Wisden Cricketer of the Year,Q16227998
-27.5,3,26,1,athlete,Cricket,Steve Smith,Sydney,Australia,24.0,,Wisden Cricketer of the Year,Q7613970
-26.9,3,16,5,team,Rugby league,South Sydney Rabbitohs,Sydney,Australia,24.0,,NRL Grand Final winner · Tooth Cup,Q3325289
-26.8,3,12,10,team,Rugby league,Brisbane Broncos,Brisbane,Australia,16.9,,NRL Grand Final winner ×4 · National Rugby League winner ×4,Q665111
-26.3,3,24,5,athlete,Rugby union,Dan Carter,Christchurch,New Zealand,9.7,,World Rugby Men's Player of the Year ×3 · World Rugby Hall of Fame,Q726199
-25.9,3,29,1,athlete,Cricket,Brian Lara,Santa Cruz,Trinidad and Tobago,8,,Wisden Cricketer of the Year,Q202877
-25.8,3,50,1,athlete,Athletics,Ben Johnson,Falmouth,Jamaica,8,,World Championships in Athletics – men's 100 metres,Q52614
-25.8,3,45,2,athlete,Athletics,Michael Johnson,Dallas,United States,17.8,,World Athlete of the Year ×2,Q190924
-25.8,3,30,3,athlete,Rugby union,Jonny Wilkinson,Frimley,United Kingdom,8,,World Rugby Hall of Fame · World Rugby Men's Player of the Year,Q318920
-25.5,3,52,1,athlete,Athletics,Justin Gatlin,Brooklyn,United States,8.9,,World Championships in Athletics – men's 100 metres,Q1652
-25.5,3,21,2,athlete,Rugby union,Eben Etzebeth,Cape Town,South Africa,28.0,,SA Rugby Men's Player of the Year ×2,Q3046794
-24.9,3,26,4,athlete,Rugby union,Richie McCaw,Oamaru,New Zealand,8,,World Rugby Men's Player of the Year ×2 · World Rugby Hall of Fame,Q726148
-23.2,3,31,1,athlete,Cricket,Muttiah Muralitharan,Kandy,Sri Lanka,8,,Wisden Cricketer of the Year,Q379709
-23.0,3,31,1,athlete,Cricket,Kumar Sangakkara,Matale,Sri Lanka,8,,Wisden Cricketer of the Year,Q737645
-22.5,3,11,7,team,Rugby league,Manly-Warringah Sea Eagles,New South Wales,Australia,30.1,,NRL Grand Final winner ×2 · National Rugby League winner ×2,Q3286027
-21.3,3,22,1,athlete,Rugby union,Siya Kolisi,Gqeberha,South Africa,24.2,,SA Rugby Men's Player of the Year,Q7533339
+51.9,1,96,1,athlete,Athletics,Jesse Owens,Oakville,United States,8,,IAAF Hall of Fame,Q52651
+51.9,1,17,2,athlete,American football,Deion Sanders,Fort Myers,United States,8,,Pro Football Hall of Fame · AP NFL Defensive Player of the Year winner,Q954184
+51.7,1,53,19,athlete,Ice hockey,Mario Lemieux,Montreal,Canada,12.6,,Art Ross Trophy ×6 · Hart Memorial Trophy ×3,Q316249
+51.2,1,28,11,athlete,Baseball,David Ortiz,Santo Domingo,Dominican Republic,20.4,,World Series Most Valuable Player · League Championship Series Most Valuable Player,Q448005
+50.5,1,35,4,athlete,Baseball,Alex Rodriguez,Brooklyn,United States,8.9,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q558664
+50.5,2,50,0,athlete,MMA,CM Punk,Chicago,United States,13.9,,,Q215447
+50.4,1,95,3,athlete,Football,Eusébio,Maputo,Mozambique,10.5,,Ballon d'Or · Ballon d'Or winner,Q162043
+50.1,1,44,22,athlete,Golf,Jack Nicklaus,Columbus,United States,13.6,,Masters Tournament winner ×6 · PGA Championship ×5,Q9424
+49.7,1,25,2,athlete,American football,Tim Tebow,Makati,Philippines,8,,Heisman Trophy,Q517467
+49.6,1,57,4,athlete,Baseball,Ichiro Suzuki,Toyoyama,Japan,8,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q600
+49.4,1,55,5,athlete,Baseball,Hank Aaron,Mobile,United States,12.2,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q215777
+49.4,1,22,9,athlete,Baseball,Aaron Judge,Sacramento,United States,9.1,,Major League Baseball Most Valuable Player · Silver Slugger,Q16234676
+49.1,1,55,1,athlete,Basketball,Tony Parker,Bruges,Belgium,8,,Bill Russell NBA Finals Most Valuable Player winner,Q193108
+48.8,1,47,178,athlete,Cycling,Bernard Hinault,Yffiniac,France,8,,"Tour de France winner ×7 · Tour de France, stage 11 winner ×4",Q109255
+48.7,2,59,0,athlete,Baseball,Jim Thorpe,Prague,United States,8,,,Q221482
+48.3,1,70,3,athlete,Football,Megan Rapinoe,Redding,United States,8,,Ballon d'Or Féminin · The Best FIFA Women's Player,Q260725
+48.2,1,38,2,athlete,American football,Jerry Rice,Starkville,United States,8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q505423
+47.7,1,41,0,athlete,Basketball,Victor Wembanyama,Le Chesnay,France,8,,,Q72941595
+47.5,1,94,1,athlete,Football,Ferenc Puskás,Budapest,Hungary,12.9,,Pichichi Trophy,Q482931
+47.3,1,34,2,athlete,American football,Joe Montana,New Eagle,United States,8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q348011
+46.9,1,57,0,athlete,Athletics,Florence Griffith Joyner,Los Angeles,United States,20.4,,,Q31082
+46.9,1,34,5,athlete,Baseball,Mickey Mantle,Spavinaw,United States,8,,Major League Baseball Most Valuable Player ×3 · Rawlings Gold Glove,Q345004
+46.3,1,33,5,athlete,American football,Dan Marino,Pittsburgh,United States,8,,AP NFL Offensive Player of the Year · Walter Payton Man of the Year,Q195367
+45.9,1,39,1,athlete,Baseball,Lou Gehrig,Manhattan,United States,8,,Major League Baseball Most Valuable Player,Q357444
+45.8,1,76,4,athlete,Athletics,Carl Lewis,Birmingham,United States,11.1,,World Championships in Athletics – men's 100 metres ×3 · Bislett medal,Q131237
+45.8,1,33,11,athlete,Boxing,Roberto Durán,Panama City,Panama,9.4,,The Ring magazine Comeback of the Year ×2 · International Boxing Hall of Fame,Q471571
+45.8,1,56,0,athlete,MMA,Ronda Rousey,Santa Monica,United States,8,,,Q242201
+45.7,1,47,53,athlete,Cycling,Bradley Wiggins,Ghent,Belgium,8,,UCI Road World Championships – Men's time trial ×2 · Tour de France winner,Q193876
+45.5,1,27,0,athlete,American football,Rob Gronkowski,Amherst,United States,8,,,Q1334384
+45.4,1,46,1,athlete,American football,Jim Brown,St. Simons,United States,8,,Pro Football Hall of Fame,Q927916
+45.0,1,45,14,athlete,Ice hockey,Gordie Howe,Floral,Canada,8,,Hart Memorial Trophy ×6 · Art Ross Trophy ×6,Q358519
+44.9,1,55,119,athlete,Cycling,Fausto Coppi,Castellania Coppi,Italy,8,,Giro d'Italia winner ×9 · Giro di Lombardia winner ×8,Q219912
+44.8,1,48,0,athlete,Cricket,MS Dhoni,Ranchi,India,14.4,,,Q470774
+44.1,1,55,7,athlete,Basketball,Pau Gasol,Barcelona,Spain,8,,FIBA Hall of Fame · J. Walter Kennedy Citizenship,Q193052
+44.1,1,21,5,athlete,American football,Walter Payton,Columbia,United States,8,,AP NFL Offensive Player of the Year · Walter Payton Man of the Year,Q963117
+44.0,1,53,8,athlete,Athletics,Mo Farah,Gobalka Gabiley,Somaliland,8,,"World Championships in Athletics – men's 10,000 metres ×3 · World Championships in Athletics – men's 5000 metres ×2",Q1671
+43.9,1,27,3,athlete,American football,John Elway,Port Angeles,United States,8,,Walter Payton Man of the Year · Pro Football Hall of Fame,Q432931
+43.7,2,26,7,athlete,Baseball,Roger Clemens,Dayton,United States,8,,Major League Baseball Most Valuable Player · Boston Red Sox Hall of Fame,Q473208
+43.7,1,46,8,athlete,Golf,Arnold Palmer,Latrobe,United States,8,,Masters Tournament winner ×4 · U.S. Open winner,Q9434
+43.5,1,38,58,athlete,Cycling,Greg LeMond,Lakewood,United States,8,,"Tour de France winner ×5 · Tour de France, stage 21 winner ×3",Q312697
+43.3,1,25,1,athlete,Cricket,Joe Root,Dore,United Kingdom,8,,Wisden Cricketer of the Year,Q3180174
+43.3,1,43,11,athlete,Ice hockey,Jaromír Jágr,Kladno,Czech Republic,8,,Art Ross Trophy ×5 · Golden Hockey Stick,Q295345
+42.8,1,28,9,athlete,Baseball,Ken Griffey Jr.,Donora,United States,8,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q536900
+42.7,1,77,1,athlete,Football,Dennis Bergkamp,Amsterdam,Netherlands,8.3,,Premier League Hall of Fame,Q185389
+42.6,2,17,12,team,Australian rules football,Brisbane Lions,Brisbane,Australia,16.9,,AFL Grand Final winner ×5 · Australian Football League winner ×2,Q637601
+42.2,1,38,19,athlete,Ice hockey,Bobby Orr,Parry Sound,Canada,8,,James Norris Memorial Trophy ×8 · Hart Memorial Trophy ×3,Q348017
+42.0,1,44,1,athlete,Cricket,Shane Warne,Upper Ferntree Gully,Australia,8,,Wisden Cricketer of the Year,Q555240
+41.5,1,53,54,athlete,Cycling,Marco Pantani,Cesena,Italy,8.9,,"Tour de France winner ×4 · Tour de France, stage 15 winner ×4",Q273860
+41.3,1,24,37,team,Baseball,Yomiuri Giants,Tokyo,Japan,26.4,,Japan Series winner ×13 · Nippon Professional Baseball winner ×22,Q1197407
+41.1,2,17,17,team,Rugby league,Sydney Roosters,Sydney,Australia,24.0,,NRL Grand Final winner ×4 · National Rugby League winner ×7,Q2573367
+41.0,1,24,4,athlete,Baseball,Nolan Ryan,Refugio,United States,8,,National Baseball Hall of Fame and Museum · The Sporting News Pitcher of the Year,Q721948
+40.9,1,33,11,athlete,Golf,Phil Mickelson,San Diego,United States,17.5,,Masters Tournament winner ×3 · PGA Championship ×2,Q325374
+40.6,1,35,10,athlete,Golf,Gary Player,Johannesburg,South Africa,22.9,,Masters Tournament winner ×3 · PGA Championship ×2,Q469721
+40.2,1,32,4,athlete,Baseball,Ted Williams,San Diego,United States,17.5,,Major League Baseball Most Valuable Player ×2 · National Baseball Hall of Fame and Museum,Q172478
+40.2,2,28,4,athlete,Baseball,Randy Johnson,Walnut Creek,United States,8,,World Series Most Valuable Player · Warren Spahn winner,Q123682
+39.8,1,29,11,athlete,Boxing,Marvelous Marvin Hagler,Newark,United States,8,,The Ring magazine Fighter of the Year ×2 · Sugar Ray Robinson ×2,Q560421
+39.7,1,22,6,athlete,Baseball,Mike Trout,Millville,United States,8,,Major League Baseball Most Valuable Player · Silver Slugger,Q3090378
+38.8,1,32,5,athlete,Ice hockey,Connor McDavid,Richmond Hill,Canada,8,,Art Ross Trophy ×2 · Ted Lindsay ×2,Q2806736
+38.5,1,49,17,team,Football,Kaizer Chiefs F.C.,Soweto,South Africa,8,,MTN 8 winner ×4 · Premier Soccer League winner ×3,Q247731
+38.3,1,26,2,athlete,American football,Lawrence Taylor,Williamsburg,United States,8,,Pro Football Hall of Fame · AP NFL Defensive Player of the Year winner,Q963129
+38.1,1,40,3,athlete,Baseball,Willie Mays,Westfield,United States,8,,Major League Baseball Most Valuable Player ×2 · Rawlings Gold Glove,Q561852
+38.0,1,45,4,athlete,Athletics,Noah Lyles,Gainesville,United States,8,,World Championships in Athletics – men's 200 metres · World Athletics Championships – men's 200 metres ×2,Q15989263
+38.0,1,26,3,athlete,Baseball,Pete Rose,Cincinnati,United States,8.1,,Major League Baseball Most Valuable Player · Rawlings Gold Glove,Q739866
+38.0,1,23,9,athlete,Baseball,Mariano Rivera,Panama City,Panama,9.4,,World Series Most Valuable Player · League Championship Series Most Valuable Player,Q382303
+37.9,1,40,0,athlete,MMA,Georges St-Pierre,Saint-Isidore,Canada,8,,,Q356271
+37.3,1,28,20,athlete,Ice hockey,Patrick Roy,Quebec City,Canada,12.4,,William M. Jennings Trophy ×6 · Conn Smythe Trophy ×4,Q357502
+37.1,1,44,12,athlete,Golf,Annika Sörenstam,Stockholm,Sweden,8,,LPGA Championship ×3 · U.S. Women's Open Golf Championship ×3,Q232711
+36.5,1,21,19,team,Australian rules football,Collingwood Football Club,Melbourne,Australia,23.8,,VFL Grand Final winner ×13 · AFL Grand Final winner ×3,Q249679
+36.2,1,19,1,athlete,American football,Randy Moss,Rand,United States,8,,Pro Football Hall of Fame,Q462925
+35.4,1,61,7,athlete,Athletics,Shelly-Ann Fraser-Pryce,Kingston,Jamaica,8,,World Championships in Athletics – women's 100 metres ×4 · World Championships in Athletics – women's 200 metres,Q5793
+35.4,1,34,0,athlete,MMA,Israel Adesanya,Lagos,Nigeria,19.3,,,Q27050195
+34.8,1,55,1,athlete,Cricket,Don Bradman,Cootamundra,Australia,8,,Wisden Cricketer of the Year,Q313591
+34.6,1,20,3,athlete,American football,Barry Sanders,Buhler,United States,8,,Pro Football Hall of Fame · AP NFL Offensive Player of the Year winner,Q809097
+34.6,1,38,13,athlete,Ice hockey,Dominik Hašek,Pardubice,Czech Republic,8,,Vezina Trophy ×6 · William M. Jennings Trophy ×3,Q312695
+34.5,1,26,1,athlete,American football,Joe Namath,Beaver Falls,United States,8,,Pro Football Hall of Fame,Q720558
+34.4,1,35,0,athlete,MMA,Francis Ngannou,Batié,Cameroon,8,,,Q23883298
+34.0,1,61,3,athlete,Athletics,Sebastian Coe,London,United Kingdom,22.4,,IAAF Hall of Fame · Bislett medal,Q188502
+33.2,1,57,5,athlete,Athletics,Jackie Joyner-Kersee,East St. Louis,United States,8,,World Championships in Athletics – women's heptathlon ×2 · World Championships in Athletics – women's long jump,Q209390
+32.9,1,30,7,athlete,Ice hockey,Mark Messier,Edmonton,Canada,15.6,,Stanley Cup · Hart Memorial Trophy ×2,Q319247
+32.4,1,65,8,athlete,Athletics,Haile Gebrselassie,Assela,Ethiopia,8,,"World Championships in Athletics – men's 10,000 metres ×2 · Track & Field News Athlete of the Year ×2",Q171500
+32.4,1,35,10,athlete,Golf,Ben Hogan,Stephenville,United States,8,,U.S. Open winner ×4 · Masters Tournament winner ×2,Q365626
+32.3,1,21,4,athlete,Baseball,Cal Ripken Jr.,Havre de Grace,United States,8,,Major League Baseball Most Valuable Player ×2 · Rawlings Gold Glove,Q731168
+32.3,1,30,6,athlete,Ice hockey,Evgeni Malkin,Magnitogorsk,Russia,11.2,,Art Ross Trophy ×2 · Conn Smythe Trophy,Q314433
+32.3,1,24,8,team,Cricket,Chennai Super Kings,Chennai,India,11.7,,Indian Premier League winner ×4 · Champions League Twenty20 ×2,Q1292535
+31.7,1,33,8,athlete,Golf,Lee Trevino,Dallas,United States,17.8,,U.S. Open winner ×2 · PGA Championship ×2,Q950128
+31.4,1,50,1,athlete,Athletics,Cathy Freeman,Slade Point,Australia,8,,Olympic gold medal,Q234762
+31.2,1,30,12,athlete,Ice hockey,Martin Brodeur,Montreal,Canada,12.6,,William M. Jennings Trophy ×5 · Vezina Trophy ×4,Q357465
+30.7,1,41,0,athlete,Rugby union,Jonah Lomu,Auckland,New Zealand,13.3,,,Q363717
+30.3,1,71,2,athlete,Athletics,Sergei Bubka,Luhansk,Ukraine,9.0,,IAAF Hall of Fame · European Athletics Championships – men's pole vault,Q184556
+30.3,1,37,6,athlete,Golf,Seve Ballesteros,Pedreña,Spain,8,,Open Championship ×3 · Masters Tournament winner ×2,Q272190
+30.2,1,34,1,athlete,Cricket,Sunil Gavaskar,Mumbai,India,13.9,,Wisden Cricketer of the Year,Q558182
+30.0,1,16,1,athlete,American football,Emmitt Smith,Pensacola,United States,8,,Pro Football Hall of Fame,Q1338802
+29.8,1,37,1,athlete,Cricket,Kapil Dev,Chandigarh,India,8,,Wisden Cricketer of the Year,Q558189
+29.8,1,27,7,athlete,Ice hockey,Steve Yzerman,Cranbrook,Canada,8,,Stanley Cup · Lester Patrick Trophy,Q440395
+27.9,1,26,7,team,Cricket,Mumbai Indians,Mumbai,India,13.9,,Indian Premier League winner ×5 · Champions League Twenty20 ×2,Q1195237
+27.4,1,33,0,athlete,MMA,Anderson Silva,São Paulo,Brazil,22.0,,,Q356871
+27.2,1,36,6,athlete,Ice hockey,Teemu Selänne,Turku,Finland,8.9,,Stanley Cup · Calder Memorial Trophy,Q253073
+27.2,1,31,0,athlete,MMA,Amanda Nunes,Pojuca,Brazil,9.6,,,Q4739716
+27.1,1,22,2,athlete,Cricket,Andrew Flintoff,Preston,United Kingdom,8,,Wisden Cricketer of the Year · Sir Garfield Sobers Trophy,Q95885
+27.1,1,23,7,athlete,Golf,Nick Faldo,Welwyn Garden City,United Kingdom,8,,Open Championship ×3 · Masters Tournament winner ×3,Q531520
+26.9,1,25,7,athlete,Golf,Ernie Els,Johannesburg,South Africa,22.9,,Open Championship ×2 · U.S. Open winner ×2,Q440171
+26.9,1,23,4,athlete,Golf,Greg Norman,Mount Isa,Australia,8,,Open Championship ×2 · World Golf Hall of Fame,Q381941
+26.9,2,16,5,team,Rugby league,South Sydney Rabbitohs,Sydney,Australia,24.0,,NRL Grand Final winner · Tooth Cup,Q3325289
+26.4,1,29,4,athlete,Golf,Jordan Spieth,Dallas,United States,17.8,,Masters Tournament winner · U.S. Open winner,Q2287947
+26.3,1,24,5,athlete,Rugby union,Dan Carter,Christchurch,New Zealand,9.7,,World Rugby Men's Player of the Year ×3 · World Rugby Hall of Fame,Q726199
+26.2,1,17,2,athlete,Golf,Bryson DeChambeau,Modesto,United States,8,,U.S. Open winner ×2,Q21005578
+26.1,1,21,1,athlete,Cricket,Viv Richards,St. John's,Antigua and Barbuda,8,,Wisden Cricketer of the Year,Q738016
+25.9,1,38,2,athlete,Athletics,Paula Radcliffe,Northwich,United Kingdom,8,,European Cross Country Championships ×2,Q233672
+25.9,1,29,1,athlete,Cricket,Brian Lara,Santa Cruz,Trinidad and Tobago,8,,Wisden Cricketer of the Year,Q202877
+25.8,1,45,2,athlete,Athletics,Michael Johnson,Dallas,United States,17.8,,World Athlete of the Year ×2,Q190924
+25.8,1,30,3,athlete,Rugby union,Jonny Wilkinson,Frimley,United Kingdom,8,,World Rugby Hall of Fame · World Rugby Men's Player of the Year,Q318920
+25.6,1,21,1,athlete,Cricket,Wasim Akram,Lahore,Pakistan,23.7,,Wisden Cricketer of the Year,Q982801
+25.2,1,56,2,athlete,Athletics,Allyson Felix,Los Angeles,United States,20.4,,World Championships in Athletics – women's 200 metres · World Championships in Athletics – women's 400 metres,Q5799
+25.2,1,22,1,athlete,Cricket,Kevin Pietersen,Pietermaritzburg,South Africa,8,,Wisden Cricketer of the Year,Q1398682
+25.2,1,4,15,athlete,Australian rules football,Gary Ablett Jr.,Moriac,Australia,8,,Leigh Matthews Trophy ×5 · Gold Coast Suns Club Champion ×4,Q3098509
+25.0,1,42,3,athlete,Athletics,Jessica Ennis-Hill,Sheffield,United Kingdom,10.8,,World Championships in Athletics – women's heptathlon ×3,Q6091
+24.9,1,24,2,athlete,Cricket,Jacques Kallis,Pinelands,South Africa,8,,Wisden Cricketer of the Year · Sir Garfield Sobers Trophy,Q982650
+24.9,1,26,4,athlete,Rugby union,Richie McCaw,Oamaru,New Zealand,8,,World Rugby Men's Player of the Year ×2 · World Rugby Hall of Fame,Q726148
+24.2,1,21,2,athlete,Golf,Jon Rahm,Barrika,Spain,8,,U.S. Open winner · Masters Tournament winner,Q24800169
+23.9,1,36,4,athlete,Ice hockey,Maurice Richard,Montreal,Canada,12.6,,Stanley Cup · Quebec Sports Hall of Fame,Q325138
+23.5,1,3,12,athlete,Australian rules football,Leigh Matthews,Frankston,Australia,8,,Peter Crimmins Medal ×8 · Australian Football Hall of Fame,Q6519630
+23.3,1,31,1,athlete,Cricket,Muttiah Muralitharan,Kandy,Sri Lanka,8,,Wisden Cricketer of the Year,Q379709
+23.0,1,39,0,athlete,Football,Sam Kerr,East Fremantle,Australia,8,,,Q919634
+22.6,1,80,1,athlete,Athletics,Yelena Isinbayeva,Volgograd,Russia,16.5,,World Championships in Athletics – women's pole vault,Q6319
+22.4,1,24,1,athlete,Cricket,Ben Stokes,Christchurch,New Zealand,9.7,,Wisden Cricketer of the Year,Q4886521
+21.9,1,5,7,athlete,Australian rules football,Lance Franklin,Perth,Australia,15.1,,Coleman Medal ×4 · Peter Crimmins Medal,Q6483394
+21.5,1,27,1,athlete,Cricket,Ricky Ponting,Launceston,Australia,8,,Wisden Cricketer of the Year,Q472649
+21.5,1,6,6,athlete,Australian rules football,Dustin Martin,Castlemaine,Australia,8,,Brownlow Medal ×2 · Leigh Matthews Trophy,Q5317122
+21.3,1,22,1,athlete,Rugby union,Siya Kolisi,Gqeberha,South Africa,24.2,,SA Rugby Men's Player of the Year,Q7533339
+20.6,1,22,1,athlete,Cricket,Ian Botham,Heswall,United Kingdom,8,,Wisden Cricketer of the Year,Q982121
+20.6,1,24,1,athlete,Cricket,Garfield Sobers,Bridgetown,Barbados,8,,Wisden Cricketer of the Year,Q981485
+20.5,1,40,0,athlete,Cycling,Chris Hoy,Edinburgh,United Kingdom,9.1,,,Q310383
+19.3,1,1,10,athlete,Australian rules football,Tony Lockett,Ballarat,Australia,8,,Coleman Medal ×4 · Trevor Barker ×2,Q15525022
+19.1,1,24,3,athlete,Rugby union,Antoine Dupont,Lannemezan,France,8,,World Rugby Men's Player of the Year · World Rugby Men's Sevens Player of the Year,Q20666534
+18.2,1,29,0,athlete,Cricket,Chris Gayle,Kingston,Jamaica,8,,,Q2732196
+18.0,1,33,1,athlete,Athletics,Daley Thompson,London,United Kingdom,22.4,,European Athletics Championships – men's decathlon,Q312655
+17.2,1,28,0,athlete,Cricket,AB de Villiers,Pretoria,South Africa,14.8,,,Q3011889
+16.1,1,34,0,athlete,Rugby union,Sonny Bill Williams,Auckland,New Zealand,13.3,,,Q2481789
+15.8,1,4,4,athlete,Australian rules football,Adam Goodes,Wallaroo,Australia,8,,Brownlow Medal ×2 · Bob Skilton Medal,Q4679130
+15.6,1,10,3,athlete,Australian rules football,Ron Barassi,Castlemaine,Australia,8,,Keith 'Bluey' Truscott Medal ×2 · Australian Football Hall of Fame,Q3441366
+14.1,1,54,0,athlete,Athletics,Bob Beamon,Jamaica,United States,8,,,Q52604
+13.7,1,18,2,athlete,Rugby union,Jonathan Sexton,Dublin,Ireland,8,,World Rugby Men's Player of the Year · World Rugby Men's Player of the Year winner,Q1400144
+13.6,1,38,0,athlete,Athletics,Kelly Holmes,Pembury,United Kingdom,8,,,Q230758
+9.7,1,15,1,athlete,Rugby union,David Campese,Queanbeyan,Australia,8,,World Rugby Hall of Fame,Q1173922
+9.2,1,4,0,athlete,Rugby league,Andrew Johns,Australia,Australia,54.1,,,Q2846645
+8.6,1,9,0,athlete,Rugby league,Sam Burgess,Dewsbury,United Kingdom,8,,,Q3470454
+7.9,1,20,0,athlete,Rugby union,Brian O'Driscoll,Dublin,Ireland,8,,,Q912889
+7.6,1,8,0,athlete,Rugby league,Jarryd Hayne,Minto,Australia,8,,,Q3162802
+6.2,1,15,0,athlete,Rugby union,Martin Johnson,Solihull,United Kingdom,8,,,Q2036406
+6.1,1,15,0,athlete,Rugby union,Gareth Edwards,Gwaun-Cae-Gurwen,United Kingdom,8,,,Q1381089
+5.7,1,5,0,athlete,Rugby league,Johnathan Thurston,Brisbane,Australia,16.9,,,Q3182824
+4.3,1,5,0,athlete,Rugby league,Billy Slater,Nambour,Australia,8,,,Q2903714
+4.0,1,5,0,athlete,Rugby league,Wally Lewis,Hawthorne,Australia,8,,,Q3565555
+3.7,1,5,0,athlete,Rugby league,Darren Lockyer,Brisbane,Australia,16.9,,,Q1166639
+3.4,1,3,0,athlete,Rugby league,Mal Meninga,Bundaberg,Australia,8,,,Q3281062

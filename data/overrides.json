@@ -520,5 +520,63 @@
   "Q50602": "The Citizens",
   "Q251090": "Bombers",
   "Q3286027": "Sea Eagles"
+ },
+ "answer_fixes": {
+  "_readme": "Corrections to an answer, by Wikidata id: any of city, lat, lng, radius_km, hint. Used when Wikidata gives a district, county, metro area, training ground or an old stadium.",
+  "Q18741": {
+   "city": "London",
+   "radius_km": 22.4,
+   "note": "Wikidata gives the district (Tottenham)"
+  },
+  "Q18711": {
+   "city": "Birmingham",
+   "radius_km": 9.2,
+   "note": "Wikidata gives the district (Aston)"
+  },
+  "Q8687": {
+   "city": "Bilbao",
+   "note": "Wikidata gives the club's offices (Ibaigane Palace)"
+  },
+  "Q190618": {
+   "city": "East Rutherford",
+   "radius_km": 8,
+   "note": "Wikidata gives the New York metropolitan area; MetLife Stadium is in East Rutherford, New Jersey"
+  },
+  "Q213417": {
+   "city": "New York City",
+   "radius_km": 15.8,
+   "note": "Wikidata gives the borough (The Bronx)"
+  },
+  "Q203384": {
+   "city": "Toronto",
+   "radius_km": 14.2,
+   "note": "Wikidata gives Old Toronto"
+  },
+  "Q247731": {
+   "city": "Johannesburg",
+   "radius_km": 22.9,
+   "note": "Wikidata gives the township (Soweto)"
+  },
+  "Q223522": {
+   "lat": 39.0489,
+   "lng": -94.4839,
+   "hint": "Home ground: Arrowhead Stadium",
+   "note": "Wikidata's first ground is Municipal Stadium (demolished)"
+  },
+  "Q2609": {
+   "city": "Rome",
+   "lat": 41.9341,
+   "lng": 12.4547,
+   "hint": "Home ground: Stadio Olimpico",
+   "note": "Wikidata gives Formello, the training ground"
+  },
+  "Q212654": {
+   "city": "Landover",
+   "lat": 38.9078,
+   "lng": -76.8645,
+   "radius_km": 8,
+   "hint": "Home ground: Northwest Stadium",
+   "note": "Wikidata gives Prince George's County"
+  }
  }
 }

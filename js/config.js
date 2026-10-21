@@ -11,7 +11,7 @@ export const PROJECTION = "globe";
 export const ROUNDS = 5;
 
 // Day 1 of the daily puzzle. Changing this changes every future puzzle, so leave it alone once live.
-export const EPOCH = { year: 2026, month: 1, day: 1 };
+export const EPOCH = { year: 2026, month: 10, day: 21 }; // launch day: daily #1
 
 // Which difficulty each round uses (1 = household name, 2 = well known, 3 = fans will know).
 // The same shape every day: four household names, then one well-known name to finish. No 3s for now.

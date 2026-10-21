@@ -10,7 +10,7 @@ import { loadPlaces, describeSpot } from "./fulltime.js";
 import { createSummaryMap } from "./summarymap.js";
 import { createLiveLadder, heroLadder } from "./ladder.js";
 import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect, cabinetHtml } from "./vault.js";
-import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, biggestSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
+import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, sportsDistance, cityFact, loadFacts } from "./units.js";
 
 const $ = (s) => document.querySelector(s);
 
@@ -92,7 +92,7 @@ function startReplay() {
   hideSheet(); beginRound();
 }
 function startPractice() {
-  mode = "practice"; items = practicePicks(players); results = []; round = 0;
+  mode = "practice"; items = practicePicks(players, today); results = []; round = 0;
   hideSheet(); beginRound();
 }
 function beginRound() {
@@ -290,17 +290,14 @@ function creditLine(it) {
   return `${what}: ${esc(it.imageAuthor || "Unknown")} · ${esc(it.imageLicense || "")} · <a href="${esc(it.imagePage)}" target="_blank" rel="noopener">Wikimedia Commons</a>`;
 }
 
+// Short enough to paste anywhere: the day, total and rank; one square per round; the link.
 function shareText() {
   const head = mode === "daily" ? `Home Ground #${today + 1}` : mode === "replay" ? `Home Ground #${today + 1} (replay)` : "Home Ground (practice)";
-  const tiers = results.map((r) => tierFor(r.km));
-  const km = totalKm();
   const done = results.length === ROUNDS;
   return [
-    `${head} · ${total().toLocaleString()}/${(ROUNDS * 1000).toLocaleString()}${done ? ` · ${rankFor(total()).name}` : ""}`,
-    tiers.map((t) => t.share).join(""),
-    tiers.map((t) => t.name).join(" · "),
-    results.map((r) => formatDistance(r.km)).join(" · "),
-    km > 0 ? `${formatDistance(km)} off in total, ${sportsDistance(km, biggestSportsUnit(km), { size: false })}` : "Every pin inside the city.",
+    `${head} · ${total().toLocaleString()}${done ? ` · ${rankFor(total()).name}` : ""}`,
+    results.map((r) => tierFor(r.km).share).join(""),
+    "willbrucee.github.io/home-ground",
   ].join("\n");
 }
 
@@ -371,7 +368,7 @@ function showSummary({ instant = false } = {}) {
       <pre class="ft-sharetext" id="shareText">${esc(shareText())}</pre>
       <div class="actions"><button class="go" id="copyBtn">Copy result</button></div>
       ${mode === "daily" ? `<div class="next-in" id="countdown"></div>` : ""}
-      <div class="actions ft-more"><button class="minor" id="practiceBtn">Practice round</button>
+      <div class="actions ft-more">${today > 0 ? `<button class="minor" id="practiceBtn">Practice round</button>` : `<button class="minor" disabled title="Practice uses names from past days only">Practice opens tomorrow</button>`}
         ${mode !== "practice" ? `<button class="minor" id="replayBtn">Replay today's set</button>` : `<button class="minor" id="backBtn">Today's set</button>`}
         <button class="minor" id="closeBtn">Back to the map</button></div>
       ${imageCredits()}
@@ -382,7 +379,7 @@ function showSummary({ instant = false } = {}) {
   // the ladder climbs rung by rung, then the rank is stamped on (straight to the end when replayed)
   cancelHero = instant ? (heroLadder($("#ftHero"), total(), { instant: true }), () => {}) : heroLadder($("#ftHero"), total());
   $("#copyBtn").onclick = copyResult;
-  $("#practiceBtn").onclick = startPractice;
+  if ($("#practiceBtn")) $("#practiceBtn").onclick = startPractice;
   if ($("#replayBtn")) $("#replayBtn").onclick = startReplay;
   $("#closeBtn").onclick = hideSheet;
   if ($("#backBtn")) $("#backBtn").onclick = () => { hideSheet(); startDaily(); };
