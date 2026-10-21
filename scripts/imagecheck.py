@@ -262,6 +262,9 @@ MIN_FACE_SHARE = 0.18    # face height / picture height
 MIN_FACE_PX = 120        # face width, in the 1,000 px picture we load
 MAX_RIVAL = 0.35         # any other face must be smaller than this share of the main face
 MIN_SHARP = 20           # Laplacian variance on the face crop (160 px wide), measured on the 500 px copy
+# Sharpness reads about half as high on the 330 px copy (0.30 to 0.77 of the 500 px figure for 80% of 212 photos
+# measured both ways). 15 there is at least as strict as 20 at 500 px for nine photos in ten.
+MIN_SHARP_AT = {500: MIN_SHARP, 330: 15}
                          # (about 120 on the 1,280 px copy; see the calibration note in the README)
 MIN_EYE_SPAN, MAX_YAW = 0.27, 0.42
 MIN_PITCH, MAX_PITCH = 0.32, 1.05
@@ -278,7 +281,7 @@ def worth_a_closer_look(title):
     return main[3] / info["h"] >= MIN_FACE_SHARE * 0.9 and not [f for f in info["faces"][1:] if f[3] > main[3] * MAX_RIVAL]
 
 
-def judge_photo(info, served_width=1280):
+def judge_photo(info, served_width=1280, look_width=500):
     """(points, reason to reject or None, focus "x% y%", numbers for the contact sheet) for an athlete photo.
     `info` comes from look() on Commons' 500 px copy (Commons limits how fast it makes big copies for us);
     face widths are scaled to the copy the game loads (`served_width`, at most the original's width)."""
@@ -295,7 +298,7 @@ def judge_photo(info, served_width=1280):
         (fh / h >= MIN_FACE_SHARE, f"face too small ({fh / h:.0%} of the height)"),
         (fw * served_width / w >= MIN_FACE_PX, f"face only {fw * served_width / w:.0f} px wide"),
         (not [f for f in faces[1:] if f[3] > fh * MAX_RIVAL], "another face competes"),
-        (m["sharp"] >= MIN_SHARP, f"face not sharp ({m['sharp']:.0f})"),
+        (m["sharp"] >= MIN_SHARP_AT[look_width], f"face not sharp ({m['sharp']:.0f})"),
         (m["eyeSpan"] >= MIN_EYE_SPAN and abs(m["yaw"]) <= MAX_YAW, "face turned away (profile)"),
         (MIN_PITCH <= m["pitch"] <= MAX_PITCH, "looking down or up"),
         (m["eyeLight"] >= MIN_EYE_LIGHT and m["eyeDetail"] >= MIN_EYE_DETAIL and m["eyeBright"] >= MIN_EYE_BRIGHT,
@@ -314,6 +317,6 @@ def judge_photo(info, served_width=1280):
 WATERMARK = re.compile(r"©|copyright|\bphoto\b|www\.|\.com\b|getty|shutterstock|alamy|reuters|\bafp\b|imago|dreamstime", re.I)
 
 
-def has_watermark(title):
+def has_watermark(title, width=500):
     """Text laid over the picture: a copyright line, an agency name or a web address."""
-    return bool(WATERMARK.search(ocr(title, photo=True)))
+    return bool(WATERMARK.search(ocr(title, width, photo=True)))

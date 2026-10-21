@@ -483,6 +483,10 @@ body[data-mode="football"] .bar > * { position: relative; z-index: 1; }
 .level .source { margin-top: 6px; font-size: 13px; color: var(--muted); }
 .level .timeline { list-style: none; margin: 10px 0 0; padding: 0 0 0 14px; border-left: 3px solid var(--border); display: grid; gap: 4px; }
 .level .timeline b { font-family: var(--f-display); font-size: 18px; margin-right: 6px; }
+.level .timeline small { color: var(--muted); }
+.level .honours-list { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 3px; }
+.level .intl { margin-top: 8px; }
+.st-mode { margin: -8px 0 0 !important; font: 800 15px var(--f-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--secondary); }
 .level .dist { margin-top: 10px; font-weight: 600; }
 
 /* ── Trading cards ─────────────────────────────────── */

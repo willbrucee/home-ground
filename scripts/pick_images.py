@@ -48,6 +48,9 @@ PHOTO_WIDTH = 1280  # athlete photos: large enough to stay sharp in the 4:5 card
 REPORT = ROOT / "data" / "image-report.json"  # face box and numbers per picture, for contact-sheet.html
 REJECTS_CSV = ROOT / "data" / "image-rejects.csv"
 FOOTBALL = "--football" in sys.argv
+# The size photos are judged at. Commons stopped making new 500 px copies for us, so Football (all new
+# photos) is judged on the 330 px copy, with the sharpness limit translated (see imagecheck.MIN_SHARP_AT).
+LOOK = 330 if FOOTBALL else 500
 if FOOTBALL:
     PLAYERS, RESERVE = ROOT / "data" / "football-players.json", ROOT / "data" / "football-reserve.json"
     REPORT, REJECTS_CSV = ROOT / "data" / "football-image-report.json", ROOT / "data" / "football-image-rejects.csv"
@@ -280,11 +283,11 @@ def pick_for_athlete(entry, refs, rejects):
     posed = sorted([c for c in scored if c[0] == 2], key=lambda c: -c[1])[:14]
     out, looked = [], []
     for tier, sc, t, m, src in action + posed:
-        points, why, focus, stats = imagecheck.judge_photo(imagecheck.look(t, 500), served_width=min(m["w"], PHOTO_WIDTH))
+        points, why, focus, stats = imagecheck.judge_photo(imagecheck.look(t, LOOK), served_width=min(m["w"], PHOTO_WIDTH), look_width=LOOK)
         looked.append((t, why))
         if why:
             continue
-        if imagecheck.has_watermark(t):
+        if imagecheck.has_watermark(t, LOOK):
             looked[-1] = (t, "text over the picture (watermark)")
             continue
         out.append(((2 - tier) * 100 + sc + points, t, dict(m, focus=focus, tier=tier, stats=stats), src))
@@ -364,7 +367,7 @@ def main():
             if p[3] == "chosen by hand":
                 return p, turned_down
             try:
-                text = imagecheck.ocr(p[1])
+                text = imagecheck.ocr(p[1], LOOK)
             except imagecheck.CommonsBusy:
                 return "busy", turned_down  # couldn't fetch it to read: leave the entry for the next run
             why = imagecheck.gives_away(text, words, [e.get("display_name") or ""] if e["type"] == "team" else [])
@@ -408,7 +411,7 @@ def main():
         e["imageSource"] = src
         if e["type"] == "athlete" and src == "chosen by hand":  # your choice stands, but the face is still found
             import imagecheck
-            _, _, focus, stats = imagecheck.judge_photo(imagecheck.look(title, 500), served_width=min(meta["w"], PHOTO_WIDTH))
+            _, _, focus, stats = imagecheck.judge_photo(imagecheck.look(title, LOOK), served_width=min(meta["w"], PHOTO_WIDTH), look_width=LOOK)
             meta = dict(meta, focus=focus, stats=stats, tier=0)
         if meta.get("focus"):
             e["imageFocus"] = meta["focus"]  # CSS object-position that keeps the face in the crop
