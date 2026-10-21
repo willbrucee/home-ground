@@ -3,12 +3,12 @@
 
 const styles = () => getComputedStyle(document.documentElement);
 
-// color("--gold") → "#ffc928"
+// color("--primary") → "#ffc93c"
 export function color(name) {
   return styles().getPropertyValue(name).trim();
 }
 
-// withAlpha("--ink", 0.9) → "rgba(14, 23, 20, 0.9)": a palette colour, partly see-through.
+// withAlpha("--border", 0.9) → "rgba(20, 33, 61, 0.9)": a palette colour, partly see-through.
 export function withAlpha(name, alpha) {
   const hex = color(name).replace("#", "");
   const n = parseInt(hex.length === 3 ? hex.replace(/./g, "$&$&") : hex, 16);

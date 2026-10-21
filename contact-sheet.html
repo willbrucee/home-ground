@@ -11,37 +11,37 @@
   /* A page for checking every picture at a glance. Not part of the game. */
   body { overflow: auto; height: auto; padding: 20px var(--edge) 60px; }
   h1 { margin: 0; font-family: var(--f-display); font-weight: 900; font-size: 52px; line-height: 0.9; text-transform: uppercase; }
-  .intro { color: var(--mute-ink); max-width: 75ch; }
-  .intro code { color: var(--chalk); }
-  .controls { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 0; background: var(--ink); }
-  .controls button, .controls select { padding: 6px 10px; border-radius: var(--hard); background: var(--ink-2); color: var(--chalk); box-shadow: inset 0 0 0 1px var(--ink-line); font: 600 14px var(--f-body); }
-  .controls button[aria-pressed="true"] { background: var(--gold); color: var(--ink); }
-  .summary { color: var(--mute-ink); font-size: 14px; }
+  .intro { color: var(--muted); max-width: 75ch; }
+  .intro code { color: var(--text); }
+  .controls { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 0; background: var(--bg); }
+  .controls button, .controls select { padding: 6px 10px; border-radius: var(--hard); background: var(--surface-2); color: var(--text); box-shadow: inset 0 0 0 1px var(--line); font: 600 14px var(--f-body); }
+  .controls button[aria-pressed="true"] { background: var(--primary); color: var(--text); }
+  .summary { color: var(--muted); font-size: 14px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
-  .cell { background: var(--chalk); color: var(--ink); display: grid; grid-template-rows: auto 1fr; }
+  .cell { background: var(--surface); color: var(--text); display: grid; grid-template-rows: auto 1fr; }
   .cell.low { box-shadow: 0 0 0 4px var(--t-scorching); }
-  .cell.reserve { box-shadow: 0 0 0 4px var(--mute-ink); opacity: 0.85; }
+  .cell.reserve { box-shadow: 0 0 0 4px var(--muted); opacity: 0.85; }
   /* athletes: the whole picture with the detected face boxed, and beside it the crop the game shows */
-  .pics { display: grid; grid-template-columns: 1fr 96px; gap: 4px; background: var(--ink); }
-  .pic { position: relative; background: var(--ink); min-height: 120px; }
+  .pics { display: grid; grid-template-columns: 1fr 96px; gap: 4px; background: var(--bg); }
+  .pic { position: relative; background: var(--bg); min-height: 120px; }
   .pic img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .crop { aspect-ratio: 4 / 5; align-self: center; overflow: hidden; }
   .crop img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .fullwrap { position: relative; width: 100%; }
   .fullwrap img { width: 100%; height: auto; display: block; }
-  .facebox { position: absolute; border: 2px solid var(--gold); box-shadow: 0 0 0 1px var(--ink); pointer-events: none; }
-  .nums { display: flex; flex-wrap: wrap; gap: 2px 10px; margin-top: 4px; font: 600 11px var(--f-body); color: var(--mute-chalk); }
+  .facebox { position: absolute; border: 2px solid var(--primary); box-shadow: 0 0 0 1px var(--border); pointer-events: none; }
+  .nums { display: flex; flex-wrap: wrap; gap: 2px 10px; margin-top: 4px; font: 600 11px var(--f-body); color: var(--muted); }
   .nums .weak { color: var(--t-scorching); font-weight: 800; }
-  .cell[data-type="team"] .pic img { object-fit: contain; padding: 10px; background: var(--chalk-2); }
-  .flag { position: absolute; left: 6px; top: 6px; padding: 2px 6px; background: var(--t-scorching); color: var(--ink); font: 800 13px var(--f-display); text-transform: uppercase; }
+  .cell[data-type="team"] .pic img { object-fit: contain; padding: 10px; background: var(--surface-2); }
+  .flag { position: absolute; left: 6px; top: 6px; padding: 2px 6px; background: var(--t-scorching); color: var(--text); font: 800 13px var(--f-display); text-transform: uppercase; }
   .meta { padding: 8px 10px 10px; font-size: 12px; line-height: 1.35; }
   .meta b { display: block; font-family: var(--f-display); font-weight: 800; font-size: 18px; line-height: 1; text-transform: uppercase; }
-  .meta code { user-select: all; background: var(--chalk-2); padding: 0 3px; }
-  .meta a { color: var(--pitch); }
-  .reject { position: absolute; right: 6px; top: 6px; padding: 2px 8px; background: var(--ink); color: var(--chalk); font: 800 13px var(--f-display); text-transform: uppercase; border-radius: var(--hard); }
+  .meta code { user-select: all; background: var(--surface-2); padding: 0 3px; }
+  .meta a { color: var(--secondary); }
+  .reject { position: absolute; right: 6px; top: 6px; padding: 2px 8px; background: var(--bg); color: var(--text); font: 800 13px var(--f-display); text-transform: uppercase; border-radius: var(--hard); }
   .cell.rejected { opacity: 0.35; }
-  .cell.rejected .reject { background: var(--t-scorching); color: var(--ink); }
-  #saveBtn { background: var(--t-scorching); color: var(--ink); }
+  .cell.rejected .reject { background: var(--t-scorching); color: var(--text); }
+  #saveBtn { background: var(--t-scorching); color: var(--text); }
 </style>
 </head>
 <body>

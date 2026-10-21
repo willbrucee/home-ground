@@ -223,6 +223,7 @@ function renderDock() {
     const it = items[round], r = results[round];
     const t = tierFor(r.km);
     dock.style.setProperty("--tier", t.color);
+    dock.style.setProperty("--tier-ink", t.ink);
     dock.innerHTML = `<div class="result">
         <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
         <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>points${r.hint ? " · hint" : ""}</span></div>

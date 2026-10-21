@@ -22,7 +22,7 @@ export function buildStyle(projection) {
   sources.countries = { type: "geojson", data: "data/countries.geojson" };
   layers.push(
     { id: "land", type: "fill", source: "countries", paint: { "fill-color": color("--land") } },
-    { id: "borders", type: "line", source: "countries", paint: { "line-color": color("--mute-ink"), "line-width": 0.6, "line-opacity": 0.6 } },
+    { id: "borders", type: "line", source: "countries", paint: { "line-color": color("--muted"), "line-width": 0.6, "line-opacity": 0.6 } },
   );
 
   // Satellite imagery on top of those plain shapes.
@@ -33,19 +33,19 @@ export function buildStyle(projection) {
   // "Reveal country" highlight: the same shapes again, drawn over the imagery, but filtered to
   // show nothing until a country is picked. A gold tint plus a dark-edged gold outline reads on any ground.
   layers.push(
-    { id: "country-fill", type: "fill", source: "countries", filter: NO_COUNTRY, paint: { "fill-color": color("--gold"), "fill-opacity": 0 } },
+    { id: "country-fill", type: "fill", source: "countries", filter: NO_COUNTRY, paint: { "fill-color": color("--primary"), "fill-opacity": 0 } },
     { id: "country-casing", type: "line", source: "countries", filter: NO_COUNTRY,
-      layout: { "line-join": "round" }, paint: { "line-color": color("--ink"), "line-width": 4, "line-opacity": 0 } },
+      layout: { "line-join": "round" }, paint: { "line-color": color("--border"), "line-width": 4, "line-opacity": 0 } },
     { id: "country-line", type: "line", source: "countries", filter: NO_COUNTRY,
-      layout: { "line-join": "round" }, paint: { "line-color": color("--gold"), "line-width": 2, "line-opacity": 0 } },
+      layout: { "line-join": "round" }, paint: { "line-color": color("--primary"), "line-width": 2, "line-opacity": 0 } },
   );
 
   // The city area: everything inside this circle counts as "in the city" (a Bullseye).
   // A soft fill plus a dashed white ring, shown on the reveal.
   sources.city = { type: "geojson", data: EMPTY };
   layers.push(
-    { id: "city-fill", type: "fill", source: "city", paint: { "fill-color": color("--chalk"), "fill-opacity": 0 } },
-    { id: "city-ring", type: "line", source: "city", paint: { "line-color": color("--chalk"), "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0 } },
+    { id: "city-fill", type: "fill", source: "city", paint: { "fill-color": color("--surface"), "fill-opacity": 0 } },
+    { id: "city-ring", type: "line", source: "city", paint: { "line-color": color("--surface"), "line-width": 2, "line-dasharray": [2, 1.5], "line-opacity": 0 } },
   );
 
   // The result line, drawn as three stacked layers: a soft glow, a dark outline, then the coloured core.
@@ -190,7 +190,7 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
     //   3. the answer pin drops in with a bounce and a pulsing ring
     // Resolves when it's all done. Calling reset() part-way through cancels it cleanly.
     // `lineEnd` is where the line stops (the city's edge); `radiusKm` is the city area to outline.
-    async showResult(guess, answer, { color: lineColor = color("--chalk"), onProgress = () => {}, drawMs = 1000, radiusKm = 0, lineEnd = answer } = {}) {
+    async showResult(guess, answer, { color: lineColor = color("--surface"), onProgress = () => {}, drawMs = 1000, radiusKm = 0, lineEnd = answer } = {}) {
       await ready;
       const run = ++animation; // if this number changes, a newer call has taken over and we stop
       const still = () => run === animation;
@@ -305,7 +305,7 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
       map.getSource("city").setData(EMPTY);
       map.setPaintProperty("city-fill", "fill-opacity", 0);
       map.setPaintProperty("city-ring", "line-opacity", 0);
-      setLineProgress(map, 0, color("--chalk"));
+      setLineProgress(map, 0, color("--surface"));
       this.clearCountry();
       const worldZoom = fitWorldZoom(openArea(container.getBoundingClientRect(), insets()));
       if (map.getZoom() > worldZoom + 0.3) map.easeTo({ zoom: worldZoom, duration: reduceMotion() ? 0 : 900 });
@@ -373,7 +373,7 @@ function setLineProgress(map, progress, color) {
   map.setPaintProperty("arc-glow", "line-gradient", gradient);
   // The outline is always dark, whatever the colour, so the line stands out on light and dark ground.
   const casing = progress <= 0 ? HIDDEN_LINE
-    : ["step", ["line-progress"], withAlpha("--ink", 0.9), Math.min(progress, 1), progress >= 1 ? withAlpha("--ink", 0.9) : CLEAR];
+    : ["step", ["line-progress"], withAlpha("--border", 0.9), Math.min(progress, 1), progress >= 1 ? withAlpha("--border", 0.9) : CLEAR];
   map.setPaintProperty("arc-casing", "line-gradient", casing);
 }
 

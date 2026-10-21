@@ -10,6 +10,7 @@ import { buildStyle } from "./map.js";
 import { greatCircle } from "./geo.js";
 import { sportIcon } from "./sporticons.js";
 import { MAP_MAX_ZOOM } from "./config.js";
+import { color } from "./palette.js";
 
 const EMPTY = { type: "FeatureCollection", features: [] };
 const FAN_PX = 30; // markers closer than this on screen fan out
@@ -76,7 +77,7 @@ export function createSummaryMap(container, rounds, { animate = true } = {}) {
     attrib?.removeAttribute("open");
     map.addSource("arcs", { type: "geojson", data: EMPTY });
     map.addLayer({ id: "sm-arc-casing", type: "line", source: "arcs", layout: { "line-cap": "round", "line-join": "round" },
-      paint: { "line-color": "#0e1714", "line-width": 6.5, "line-opacity": ["get", "opacity"] } });
+      paint: { "line-color": color("--border"), "line-width": 6.5, "line-opacity": ["get", "opacity"] } });
     map.addLayer({ id: "sm-arc", type: "line", source: "arcs", layout: { "line-cap": "round", "line-join": "round" },
       paint: { "line-color": ["get", "color"], "line-width": ["get", "width"], "line-opacity": ["get", "opacity"] } });
     pins.forEach((ms) => ms.forEach((m) => { m.getElement().classList.add("sm-hidden"); m.addTo(map); markers.push(m); }));

@@ -12,14 +12,14 @@
   body { overflow: auto; height: auto; padding: 24px var(--edge) 48px; }
   h1 { font-family: var(--f-display); font-weight: 900; font-size: 56px; line-height: 0.9; text-transform: uppercase; margin: 0 0 6px; }
   h2 { font-family: var(--f-display); font-weight: 800; font-size: 26px; text-transform: uppercase; margin: 32px 0 10px; }
-  p { color: var(--mute-ink); max-width: 70ch; }
+  p { color: var(--muted); max-width: 70ch; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
-  .sw { background: var(--ink-2); }
+  .sw { background: var(--surface-2); }
   .sw i { display: block; height: 84px; }
   .sw div { padding: 8px 10px; font-size: 13px; }
   .sw b { display: block; font-family: var(--f-display); font-size: 19px; text-transform: uppercase; }
   table { border-collapse: collapse; font-size: 14px; }
-  td, th { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--ink-line); }
+  td, th { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--line); }
   .sample { padding: 4px 10px; font-weight: 600; }
   .pass { color: var(--t-warm); font-weight: 700; }
   .fail { color: var(--t-scorching); font-weight: 700; }
@@ -44,8 +44,9 @@ const lum = (hex) => {
 };
 const ratio = (a, b) => { const [x, y] = [lum(v(a)), lum(v(b))].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
 
-const core = { "--ink": "Dark base", "--ink-2": "Raised ink", "--ink-line": "Hairlines", "--chalk": "Off-white", "--chalk-2": "Chalk shade",
-  "--mute-ink": "Quiet text on ink", "--mute-chalk": "Quiet text on chalk", "--gold": "Key moments", "--pitch": "Pitch green", "--sea": "Map ocean", "--land": "Map land (fallback)", "--plate": "Behind team logos" };
+const core = { "--bg": "Cream page", "--surface": "Cards and panels", "--surface-2": "Cream shade", "--line": "Hairlines", "--text": "Navy text",
+  "--muted": "Quiet text", "--border": "Strong edges", "--primary": "Sunny yellow", "--secondary": "Grass green", "--accent": "Coral", "--sky": "Sky blue",
+  "--sea": "Map ocean", "--land": "Map land (fallback)", "--plate": "Behind team logos" };
 const tiers = { "--t-bullseye": "Hole in one", "--t-scorching": "Top corner", "--t-hot": "Slam dunk", "--t-warm": "On the board", "--t-cool": "Off the pace", "--t-cold": "Air ball", "--t-frozen": "Own goal" };
 const card = (k, label) => `<div class="sw"><i style="background:var(${k})"></i><div><b>${label}</b>${k} · ${v(k)}</div></div>`;
 document.getElementById("core").innerHTML = Object.entries(core).map(([k, l]) => card(k, l)).join("");
@@ -55,15 +56,12 @@ document.getElementById("rarities").innerHTML = Object.entries(rarities).map(([k
 
 // [text, background, what it's used for, large text?]
 const pairs = [
-  ["--chalk", "--ink", "Body text on panels", false], ["--mute-ink", "--ink", "Labels on the scoreboard", false],
-  ["--gold", "--ink", "Score digits, honours label", true], ["--ink", "--chalk", "Ticket text", false],
-  ["--mute-chalk", "--chalk", "Secondary ticket text", false], ["--pitch", "--chalk", "'Team' / 'Athlete' label", false],
-  ["--chalk", "--pitch", "Lit ladder rung", false], ["--ink", "--gold", "Big buttons, tape strip", true],
-  ["--mute-ink", "--ink-2", "Readout labels in their wells", false], ["--chalk", "--ink-2", "Readout digits", true],
-  ...Object.entries(tiers).map(([k, l]) => ["--ink", k, `Ink text on ${l}`, true]),
-  ...Object.entries(tiers).map(([k, l]) => [k, "--ink", `${l} distance and stamp on ink`, true]),
-  ...Object.entries(rarities).map(([k, l]) => ["--ink", k, `Ink text on a ${l}`, false]),
-  ...Object.entries(rarities).map(([k, l]) => [k, "--ink", `${l} label on ink`, true]),
+  ["--text", "--bg", "Body text on the cream page", false], ["--muted", "--bg", "Quiet text on cream", false],
+  ["--text", "--surface", "Card and panel text", false], ["--muted", "--surface", "Quiet text on cards", false],
+  ["--on-primary", "--primary", "Main button, score well, tape", false], ["--on-secondary", "--secondary", "Lit ladder steps", false],
+  ["--secondary", "--surface", "'Team' / 'Athlete' label, links", false], ["--text", "--surface-2", "Text in cream wells", false],
+  ...Object.entries(tiers).map(([k, l]) => [`--on-${k.slice(2)}`, k, `"${l}" label on its colour`, false]),
+  ...Object.entries(rarities).map(([k, l]) => ["--text", k, `Text on a ${l}`, false]),
 ];
 document.getElementById("pairs").innerHTML = pairs.map(([fg, bg, use, large]) => {
   const r = ratio(fg, bg), ok = r >= (large ? 3 : 4.5);

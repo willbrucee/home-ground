@@ -15,7 +15,7 @@ export const TIERS = [
   { key: "cool", name: "Off the pace", maxKm: 2500, share: "🟦", effect: "frost", strength: 0.35 },
   { key: "cold", name: "Air ball", maxKm: 5000, share: "🟪", effect: "frost", strength: 0.7 },
   { key: "frozen", name: "Own goal", maxKm: Infinity, share: "⬜", effect: "frost", strength: 1 },
-].map((t) => ({ ...t, color: css(`--t-${t.key}`) }));
+].map((t) => ({ ...t, color: css(`--t-${t.key}`), ink: css(`--on-t-${t.key}`) })); // ink: text that reads on the colour
 
 export function tierFor(km) {
   return TIERS.find((t) => km < t.maxKm);

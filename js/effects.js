@@ -28,7 +28,7 @@ export function playEffect(tier, at) {
 
   if (tier.effect === "confetti") {
     // A burst of paper confetti and sparkles from the pin, plus a quick flash of the whole stage.
-    const colors = [tier.color, color("--chalk"), color("--gold"), color("--t-hot"), color("--t-cool")];
+    const colors = [tier.color, color("--surface"), color("--primary"), color("--t-hot"), color("--t-cool")];
     for (let i = 0; i < 90; i++) {
       const angle = rand(-Math.PI, 0); // upwards half-circle
       const speed = rand(4, 11);
@@ -37,7 +37,7 @@ export function playEffect(tier, at) {
     }
     for (let i = 0; i < 24; i++) {
       particles.push({ kind: "spark", x: at.x + rand(-40, 40), y: at.y + rand(-50, 20), vx: 0, vy: -0.3, g: 0, drag: 1,
-        life: rand(0.5, 1.2), delay: rand(0, 0.5), size: rand(2, 4), color: color("--chalk") });
+        life: rand(0.5, 1.2), delay: rand(0, 0.5), size: rand(2, 4), color: color("--surface") });
     }
     flash(tier.color, "pulse");
   } else if (tier.effect === "embers") {
