@@ -39,10 +39,11 @@ function slot(pool, index, salt) {
 export function dailyPicks(players, day, { rounds = ROUND_DIFFICULTY.slice(0, ROUNDS).map((d) => ({ d })), salt = "" } = {}) {
   const pools = {};
   const keyOf = (d, list) => (list ? `${d}|${list}` : `${d}`);
+  // Football's lists: "legend" rounds draw legends; "current" rounds draw anyone still playing (Messi too).
+  const inList = (p, list) => !list || (list === "current" ? p.current : p.list === list);
   for (const p of players) {
     for (const r of rounds) {
-      const k = keyOf(p.difficulty || 2, r.list && p.list);
-      (pools[k] ||= new Set()).add(p);
+      if (inList(p, r.list)) (pools[keyOf(p.difficulty || 2, r.list)] ||= new Set()).add(p);
     }
   }
   for (const k in pools) pools[k] = [...pools[k]];

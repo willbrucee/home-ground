@@ -1,501 +1,501 @@
 rank,name,birthplace,country,list,current,fame score,legend score,achievements
-1,Cristiano Ronaldo,Funchal,Portugal,legend,True,323.8,1.0,Ballon d'Or ×4 · FIFA Ballon d'Or ×2 · FIFA World Player of the Year · UEFA Men's Player of the Year Award ×4
-2,Lionel Messi,Rosario,Argentina,legend,True,312.7,0.9997,Ballon d'Or ×5 · FIFA Ballon d'Or · FIFA World Player of the Year · The Best FIFA Men's Player
-3,Zinedine Zidane,16th arrondissement of Marseille,France,legend,False,118.3,0.9976,FIFA World Player of the Year ×3 · Ballon d'Or ×2 · FIFA World Cup · UEFA European Championship
-4,Ronaldinho,Porto Alegre,Brazil,legend,False,110.0,0.9954,Ballon d'Or ×2 · FIFA World Player of the Year · FIFA World Cup · South American Footballer of the Year
-5,Luka Modrić,Zadar,Croatia,legend,True,97.6,0.9948,Ballon d'Or ×3 · FIFA World Player of the Year · UEFA Men's Player of the Year Award · World Cup Golden Ball
-6,Pelé,Três Corações,Brazil,legend,False,112.2,0.9945,FIFA World Cup ×3 · Ballon d'Or Dream Team · South American Footballer of the Year · World Cup Golden Ball
-7,Mohamed Salah,Nagrig (near Kafr ash Shaykh),Egypt,legend,True,112.1,0.9942,The Best FIFA Men's Player · Premier League Golden Boot ×4 · African Footballer of the Year · BBC African Footballer of the Year
-8,Robert Lewandowski,Warsaw,Poland,legend,True,113.8,0.9927,European Golden Shoe ×2 · German Footballer of the Year ×2 · UEFA Men's Player of the Year Award ×2
-9,Karim Benzema,Lyon,France,legend,False,94.3,0.9921,Ballon d'Or ×3 · French Player of the Year
-10,David Beckham,London,United Kingdom,legend,False,113.8,0.9915,MLS Comeback Player of the Year Award ×2 · Sir Matt Busby Player of the Year ×2 · UEFA Club Footballer of the Year ×2 · PFA Young Player of the Year
-11,Kevin Keegan,Armthorpe,United Kingdom,legend,False,96.2,0.9915,Ballon d'Or ×3
-12,Thierry Henry,Les Ulis,France,legend,False,89.7,0.9899,FIFA World Cup · UEFA European Championship · European Golden Shoe · FWA Footballer of the Year
-13,Michael Owen,Chester,United Kingdom,legend,False,83.2,0.9864,Ballon d'Or ×2
-14,Johan Cruyff,Amsterdam,Netherlands,legend,False,74.5,0.985,Ballon d'Or ×2 · Dutch Footballer of the Year
-15,Erling Haaland,Leeds,United Kingdom,legend,True,158.0,0.9844,Golden Boy ×2 · European Golden Shoe · FWA Footballer of the Year
-16,Rodri,Madrid,Spain,legend,True,88.3,0.984,Ballon d'Or ×2
-17,Xabi Alonso,Tolosa,Spain,legend,False,93.1,0.9834,FIFA World Cup · UEFA European Championship ×2
-18,Kaká,Gama,Brazil,legend,False,59.5,0.9829,Ballon d'Or ×2 · FIFA World Player of the Year · FIFA World Cup · Serie A Footballer of the Year
-19,Sergio Ramos,Camas,Spain,legend,False,72.8,0.9824,FIFA World Cup · UEFA European Championship ×2
-20,Diego Maradona,Lanús Partido,Argentina,legend,False,115.2,0.9806,FIFA World Cup · World Cup Golden Ball
-21,Xavi Hernández,Terrassa,Spain,legend,False,74.5,0.9806,FIFA World Cup · UEFA European Championship ×2
-22,Kylian Mbappé,Paris,France,legend,True,160.2,0.9805,European Golden Shoe · Golden Boy · Kopa Trophy
-23,Wayne Rooney,Liverpool,United Kingdom,legend,False,99.9,0.9774,FWA Footballer of the Year · Golden Boy · PFA Players' Player of the Year
-24,Franz Beckenbauer,Munich,Germany,legend,False,53.2,0.9768,Ballon d'Or ×2 · FIFA World Cup · UEFA European Championship · German Footballer of the Year ×4
-25,Neymar,Mogi das Cruzes,Brazil,legend,True,134.5,0.9766,South American Footballer of the Year ×2
-26,Zlatan Ibrahimović,Västra Skrävlinge församling (near Malmö),Sweden,legend,False,101.7,0.9766,Serie A Footballer of the Year · Serie A Foreign Footballer of the Year
-27,Cesc Fàbregas,Arenys de Mar,Spain,legend,False,68.8,0.976,FIFA World Cup · UEFA European Championship ×2
-28,Samuel Eto'o,Douala,Cameroon,legend,False,65.7,0.976,Africa Cup of Nations ×2 · Pichichi Trophy ×2
-29,Harry Kane,Walthamstow,United Kingdom,legend,True,150.0,0.9759,European Golden Shoe · Premier League Golden Boot
-30,Álvaro Arbeloa,Salamanca,Spain,legend,False,71.5,0.9747,FIFA World Cup · UEFA European Championship ×2
-31,Luis Suárez,Salto,Uruguay,legend,True,54.0,0.9747,European Golden Shoe ×3 · Pichichi Trophy ×2 · Premier League Golden Boot ×2 · PFA Players' Player of the Year
-32,Fernando Torres,Fuenlabrada,Spain,legend,False,57.1,0.9722,FIFA World Cup · UEFA European Championship ×2
-33,Gianluigi Buffon,Carrara,Italy,legend,False,56.8,0.9708,FIFA World Cup · UEFA Club Footballer of the Year ×2
-34,Andrés Iniesta,Fuentealbilla,Spain,legend,False,52.9,0.9708,FIFA World Cup · UEFA European Championship ×2 · UEFA Men's Player of the Year Award
-35,Gerard Piqué,Barcelona,Spain,legend,False,63.5,0.9707,FIFA World Cup · UEFA European Championship
-36,Luís Figo,Lisbon,Portugal,legend,False,48.1,0.9696,Ballon d'Or ×2 · FIFA World Player of the Year ×2 · UEFA European Championship · CNID Footballer of the Year
-37,George Best,Belfast,United Kingdom,legend,False,55.0,0.9695,Ballon d'Or ×2
-38,Sergio Agüero,Buenos Aires,Argentina,legend,False,56.4,0.9692,FIFA World Cup · Premier League Golden Boot ×2
-39,Marco van Basten,Utrecht,Netherlands,legend,False,48.5,0.9678,Ballon d'Or ×2 · FIFA World Player of the Year · UEFA European Championship
-40,Andriy Shevchenko,Yahotyn,Ukraine,legend,False,49.6,0.9667,Ballon d'Or ×2
-41,George Weah,Monrovia,Liberia,legend,False,49.8,0.9647,Ballon d'Or ×2
-42,David Silva,Arguineguín,Spain,legend,False,50.3,0.9644,FIFA World Cup · UEFA European Championship ×2
-43,Steven Gerrard,Whiston,United Kingdom,legend,False,69.7,0.9623,FWA Footballer of the Year · PFA Players' Player of the Year · UEFA Club Footballer of the Year
-44,Bobby Charlton,Ashington,United Kingdom,legend,False,44.6,0.962,Ballon d'Or ×2 · FIFA World Cup
-45,Ousmane Dembélé,Vernon,France,legend,True,69.8,0.9618,Ballon d'Or
-46,Manuel Neuer,Gelsenkirchen,Germany,legend,False,59.6,0.9615,German Footballer of the Year ×2 · German football championship ×8
-47,Ruud Gullit,Amsterdam,Netherlands,legend,False,44.9,0.9612,Ballon d'Or ×2 · UEFA European Championship · Dutch Footballer of the Year
-48,Didier Drogba,Abidjan,Ivory Coast,legend,False,59.4,0.9605,Premier League Golden Boot ×2
-49,Roberto Baggio,Caldogno,Italy,legend,False,44.1,0.9605,Ballon d'Or ×2 · FIFA World Player of the Year
-50,Iker Casillas,Móstoles,Spain,legend,False,47.6,0.9603,FIFA World Cup · UEFA European Championship ×2
-51,Alfredo Di Stéfano,Buenos Aires,Argentina,legend,False,42.7,0.9603,Ballon d'Or ×3 · Copa América · Pichichi Trophy ×7
-52,Paul Pogba,Lagny-sur-Marne,France,legend,False,70.7,0.9596,FIFA World Cup
-53,Romário,Rio de Janeiro,Brazil,legend,False,44.0,0.9583,FIFA World Player of the Year · FIFA World Cup · Pichichi Trophy · World Cup Golden Ball
-54,Alexia Putellas,Mollet del Vallès,Spain,legend,False,40.8,0.9568,Ballon d'Or ×2 · Ballon d'Or Féminin ×2 · The Best FIFA Women's Player ×2 · FIFA Women's World Cup
-55,Lev Yashin,Moscow,Russia,legend,False,41.2,0.9542,Ballon d'Or ×3 · UEFA European Championship
-56,Rivaldo,Recife,Brazil,legend,False,40.7,0.9541,Ballon d'Or ×2 · FIFA World Player of the Year · FIFA World Cup
-57,Carlos Tevez,Ciudadela (near Isidro Casanova),Argentina,legend,False,52.7,0.9539,Footballer of the Year of Argentina · Premier League Golden Boot · Serie A Footballer of the Year · South American Footballer of the Year
-58,Phil Foden,Stockport,United Kingdom,legend,True,51.9,0.9539,FIFA Ballon d'Or · PFA Young Player of the Year
-59,Fabio Cannavaro,Naples,Italy,legend,False,40.2,0.9539,Ballon d'Or ×2 · FIFA World Player of the Year · FIFA World Cup · Serie A
-60,Michel Platini,Jœuf,France,legend,False,41.4,0.9531,Ballon d'Or ×2 · UEFA European Championship
-61,Toni Kroos,Greifswald,Germany,legend,False,44.9,0.9519,FIFA World Cup · German Footballer of the Year ×2
-62,James Rodríguez,Cúcuta,Colombia,legend,True,56.2,0.9516,Portuguese Golden Ball · World Cup Golden Boot
-63,David Villa,Langreo (near Oviedo),Spain,legend,False,44.0,0.9505,FIFA World Cup · UEFA European Championship
-64,Diego Forlán,Montevideo,Uruguay,legend,False,45.9,0.9501,Pichichi Trophy ×2 · European Golden Shoe · World Cup Golden Ball
-65,Megan Rapinoe,Redding,United States,legend,False,38.3,0.9498,The Best FIFA Women's Player ×2 · Ballon d'Or Féminin · FIFA Women's World Cup
-66,Eusébio,Maputo,Mozambique,legend,False,40.1,0.949,Ballon d'Or ×2
-67,Gerd Müller,Nördlingen,Germany,legend,False,38.0,0.9483,Ballon d'Or ×2 · FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
-68,Patrick Vieira,Dakar,Senegal,legend,False,44.4,0.948,FIFA World Cup · UEFA European Championship
-69,Romelu Lukaku,Antwerp,Belgium,legend,True,74.8,0.9475,
-70,Pedro,Santa Cruz de Tenerife,Spain,legend,False,45.8,0.9473,FIFA World Cup · UEFA European Championship
-71,Kevin De Bruyne,Drongen,Belgium,legend,True,75.3,0.946,German Footballer of the Year
-72,Franck Ribéry,Boulogne-sur-Mer,France,legend,False,41.5,0.9449,UEFA Champions League · French Player of the Year · German Footballer of the Year · UEFA Men's Player of the Year Award
-73,Miroslav Klose,Opole,Poland,legend,False,39.0,0.9447,FIFA World Cup · European Golden Shoe · German Footballer of the Year
-74,Lothar Matthäus,Erlangen,Germany,legend,False,36.9,0.9447,Ballon d'Or ×2 · FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
-75,Ruud van Nistelrooy,Oss,Netherlands,legend,False,44.2,0.9444,Pichichi Trophy ×2 · PFA Players' Player of the Year · Premier League Golden Boot
-76,Alessandro Del Piero,Conegliano,Italy,legend,False,43.2,0.9438,FIFA World Cup · Italian Footballer of the Year
-77,Frank Lampard,Romford (near Ilford),United Kingdom,legend,False,89.5,0.942,FWA Footballer of the Year
-78,Thomas Müller,Weilheim in Oberbayern,Germany,legend,True,57.8,0.9408,European Golden Shoe
-79,Sergio Busquets,Sabadell,Spain,legend,False,40.7,0.9406,FIFA World Cup · UEFA European Championship
-80,Roberto Carlos,Garça,Brazil,legend,False,45.3,0.9396,FIFA World Cup
-81,Mario Balotelli,Palermo,Italy,legend,True,62.6,0.9393,UEFA Champions League · Serie A ×3 · Premier League
-82,Javier Hernández,Guadalajara,Mexico,legend,False,41.4,0.9383,UEFA Champions League ×2 · Premier League ×2
-83,Vincent Kompany,Uccle,Belgium,legend,False,45.5,0.938,Belgian Youth Football Player of the Year ×2 · Belgian Golden Shoe
-84,Eden Hazard,La Louvière,Belgium,legend,False,67.9,0.9376,PFA Players' Player of the Year
-85,Robin van Persie,Rotterdam,Netherlands,legend,False,58.1,0.9365,Premier League Golden Boot
-86,Edin Džeko,Sarajevo,Bosnia and Herzegovina,legend,True,52.1,0.9362,
-87,Andrea Pirlo,Brescia,Italy,legend,False,42.1,0.9362,FIFA World Cup · Serie A
-88,Didier Deschamps,Bayonne,France,legend,False,38.8,0.9339,FIFA World Cup · UEFA European Championship
-89,Nicolas Anelka,Le Chesnay,France,legend,False,52.2,0.9335,UEFA European Championship · PFA Young Player of the Year
-90,Arjen Robben,Bedum,Netherlands,legend,False,44.0,0.9327,Dutch Footballer of the Year · German Footballer of the Year
-91,Karl-Heinz Rummenigge,Lippstadt,Germany,legend,False,32.5,0.9325,Ballon d'Or ×3 · UEFA European Championship · German Footballer of the Year · Swiss Footballer of the Year
-92,Lamine Yamal,Esplugues de Llobregat,Spain,legend,True,146.8,0.931,Kopa Trophy · La Liga
-93,Olivier Giroud,Chambéry,France,legend,True,69.3,0.9306,
-94,Pierre-Emerick Aubameyang,Laval,France,legend,True,73.8,0.9301,African Footballer of the Year
-95,Son Heung-min,Chuncheon,South Korea,legend,True,62.3,0.9296,
-96,Aitana Bonmatí,Sant Pere de Ribes,Spain,legend,False,31.3,0.9293,Ballon d'Or Féminin ×3 · Ballon d'Or ×2 · The Best FIFA Women's Player · FIFA Women's World Cup
-97,Yaya Touré,Bouaké,Ivory Coast,legend,False,57.1,0.9287,Africa Cup of Nations
-98,Paolo Maldini,Milan,Italy,legend,False,53.7,0.9286,Ballon d'Or Dream Team
-99,Robbie Keane,Tallaght (near Dublin),Ireland,legend,False,46.0,0.9263,
-100,Hristo Stoichkov,Plovdiv,Bulgaria,legend,False,31.5,0.926,Ballon d'Or ×2 · European Golden Shoe
-101,Riyad Mahrez,Clichy,France,legend,True,49.6,0.9252,PFA Players' Player of the Year
-102,Alexis Sánchez,Tocopilla,Chile,legend,True,51.6,0.9251,
-103,Lukas Podolski,Gliwice,Poland,legend,False,35.3,0.9243,FIFA World Cup
-104,Pavel Nedvěd,Cheb,Czech Republic,legend,False,31.5,0.924,Ballon d'Or ×2
-105,Antoine Griezmann,Mâcon,France,legend,True,67.3,0.9214,
-106,Ferenc Puskás,Budapest,Hungary,legend,False,42.2,0.9211,Pichichi Trophy
-107,Sadio Mané,Bambali,Senegal,legend,True,57.2,0.9208,
-108,Michael Ballack,Görlitz,Germany,legend,False,34.7,0.9196,German Footballer of the Year ×3 · Bayer 04 Leverkusen versus SC Freiburg 2001–02 Fußball-Bundesliga
-109,Robinho,São Vicente,Brazil,legend,False,44.3,0.9162,Copa América
-110,Virgil van Dijk,Breda,Netherlands,legend,True,66.4,0.9147,UEFA Men's Player of the Year Award
-111,Jürgen Klinsmann,Göppingen,Germany,legend,False,29.3,0.9147,FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
-112,Victor Osimhen,Lagos,Nigeria,legend,True,43.0,0.9142,African Footballer of the Year · World Cup Golden Boot
-113,Gareth Bale,Cardiff,United Kingdom,legend,False,70.4,0.9139,
-114,Alex Morgan,San Dimas,United States,legend,False,28.4,0.9138,FIFA Women's World Cup ×2
-115,Raphaël Varane,Lille,France,legend,False,36.4,0.9132,FIFA World Cup
-116,Raúl,Madrid,Spain,legend,False,33.2,0.913,Pichichi Trophy ×3
-117,Carles Puyol,La Pobla de Segur,Spain,legend,False,31.8,0.913,FIFA World Cup · UEFA European Championship
-118,Bastian Schweinsteiger,Kolbermoor,Germany,legend,False,31.4,0.9122,FIFA World Cup · German Footballer of the Year
-119,Jude Bellingham,Stourbridge,United Kingdom,legend,True,107.2,0.9115,Kopa Trophy
-120,Gennaro Gattuso,Corigliano Calabro,Italy,legend,False,36.9,0.9095,FIFA World Cup
-121,Edinson Cavani,Salto,Uruguay,legend,False,44.9,0.9084,
-122,Filippo Inzaghi,Piacenza,Italy,legend,False,34.0,0.9083,FIFA World Cup
-123,Gary Lineker,Leicester,United Kingdom,legend,False,61.0,0.9071,
-124,Oliver Kahn,Karlsruhe,Germany,legend,False,29.9,0.9063,UEFA European Championship · German Footballer of the Year ×2 · World Cup Golden Ball
-125,Lilian Thuram,Pointe-à-Pitre,France,legend,False,29.4,0.906,FIFA World Cup · UEFA European Championship
-126,Christian Eriksen,Middelfart,Denmark,legend,False,45.5,0.9043,
-127,Philipp Lahm,Munich,Germany,legend,False,30.2,0.9038,FIFA World Cup · German Footballer of the Year
-128,Ángel Di María,Rosario,Argentina,legend,True,52.6,0.9037,
-129,Pepe Reina,Madrid,Spain,legend,False,28.1,0.9019,FIFA World Cup · UEFA European Championship ×2
-130,Stanley Matthews,Hanley (near Stoke-on-Trent),United Kingdom,legend,False,26.8,0.9017,Ballon d'Or ×2
-131,Peter Schmeichel,Gladsaxe Municipality,Denmark,legend,False,36.6,0.9016,UEFA European Championship
-132,Memphis Depay,Moordrecht (near Rotterdam),Netherlands,legend,False,46.1,0.9002,
-133,Bruno Fernandes,Maia,Portugal,legend,True,72.9,0.8996,
-134,Deco,São Bernardo do Campo,Brazil,legend,False,36.4,0.8993,UEFA European Championship · UEFA Club Footballer of the Year
-135,Paolo Rossi,Prato,Italy,legend,False,25.1,0.8991,Ballon d'Or ×2 · FIFA World Cup · World Cup Golden Ball
-136,Robert Pires,Reims,France,legend,False,28.2,0.8988,FIFA World Cup · UEFA European Championship
-137,Sami Khedira,Stuttgart,Germany,legend,False,32.2,0.8974,FIFA World Cup
-138,Fabien Barthez,Lavelanet,France,legend,False,28.1,0.8971,FIFA World Cup · UEFA European Championship
-139,Mesut Özil,Gelsenkirchen,Germany,legend,False,60.0,0.8951,
-140,Marcel Desailly,Accra,Ghana,legend,False,27.2,0.8948,FIFA World Cup · UEFA European Championship
-141,Denis Law,Aberdeen,United Kingdom,legend,False,24.7,0.8927,Ballon d'Or ×2
-142,Marco Reus,Dortmund,Germany,legend,True,38.5,0.8918,German Footballer of the Year ×2
-143,David Trezeguet,Rouen,France,legend,False,26.2,0.8918,FIFA World Cup · UEFA European Championship
-144,Ronald Koeman,Zaandam,Netherlands,legend,False,39.3,0.8916,UEFA European Championship
-145,Kenny Dalglish,Glasgow,United Kingdom,legend,False,50.4,0.8904,
-146,Daniel Alves,Juazeiro,Brazil,legend,False,37.3,0.8904,Copa América
-147,Jay-Jay Okocha,Enugu,Nigeria,legend,False,41.1,0.8903,Africa Cup of Nations
-148,Mats Hummels,Bergisch Gladbach,Germany,legend,False,27.3,0.8903,FIFA World Cup · German football championship ×9
-149,Lautaro Martínez,Bahía Blanca,Argentina,legend,True,50.3,0.8898,
-150,Pepe,Maceió,Brazil,legend,False,33.6,0.8898,UEFA European Championship
-151,Franco Baresi,Travagliato,Italy,legend,False,30.5,0.8893,FIFA World Cup
-152,Garrincha,Magé,Brazil,legend,False,25.1,0.8893,FIFA World Cup ×2
-153,Granit Xhaka,Basel,Switzerland,legend,True,45.3,0.889,
-154,Pedri,Tegueste,Spain,legend,True,51.6,0.8889,Kopa Trophy
-155,Álvaro Morata,Madrid,Spain,legend,True,52.6,0.8887,
-156,Nani,Praia,Cape Verde,legend,False,33.0,0.8884,UEFA European Championship
-157,Gheorghe Hagi,Săcele,Romania,legend,False,33.3,0.8881,
-158,Leonardo Bonucci,Viterbo,Italy,legend,False,24.7,0.8864,UEFA European Championship · Serie A ×10
-159,Landon Donovan,"Ontario, California",United States,legend,False,31.4,0.886,
-160,Henrik Larsson,Helsingborg,Sweden,legend,False,32.4,0.8858,European Golden Shoe
-161,Mia Hamm,Selma,United States,legend,False,27.8,0.8855,
-162,Víctor Valdés,L'Hospitalet de Llobregat,Spain,legend,False,26.7,0.8846,FIFA World Cup · UEFA European Championship
-163,Bobby Moore,Barking,United Kingdom,legend,False,27.2,0.8834,FIFA World Cup
-164,Ivan Perišić,Split,Croatia,legend,True,37.8,0.8832,
-165,Thibaut Courtois,Bree,Belgium,legend,True,63.0,0.8814,
-166,Raheem Sterling,Kingston,Jamaica,legend,False,102.1,0.8811,
-167,Laurent Blanc,Alès,France,legend,False,24.4,0.8808,FIFA World Cup · UEFA European Championship
-168,Adil Rami,Bastia,France,legend,False,30.3,0.8799,FIFA World Cup
-169,Matthijs de Ligt,Leiderdorp,Netherlands,legend,True,37.7,0.8787,Kopa Trophy · Premio Golden Boy
-170,Dimitar Berbatov,Blagoevgrad,Bulgaria,legend,False,42.5,0.8779,
-171,David Alaba,Vienna,Austria,legend,True,49.5,0.8768,
-172,Marta,Dois Riachos,Brazil,legend,False,22.8,0.8762,The Best FIFA Women's Player ×2
-173,Luca Toni,Pavullo nel Frignano,Italy,legend,False,24.8,0.8758,FIFA World Cup · European Golden Shoe
-174,Ciro Immobile,Torre Annunziata,Italy,legend,False,28.6,0.8748,UEFA European Championship · European Golden Shoe
-175,Jean-Pierre Papin,Boulogne-sur-Mer,France,legend,False,21.9,0.8747,Ballon d'Or ×2
-176,Youri Tielemans,Sint-Pieters-Leeuw,Belgium,legend,True,49.9,0.8744,
-177,Jonathan David,Brooklyn,United States,legend,True,42.4,0.8742,
-178,Mario Kempes,Bell Ville,Argentina,legend,False,24.4,0.8741,FIFA World Cup · Pichichi Trophy
-179,Raúl Jiménez,Tepeji del Río de Ocampo Municipality,Mexico,legend,True,34.7,0.8732,
-180,Gabriel Batistuta,Reconquista,Argentina,legend,False,37.9,0.873,
-181,Alan Shearer,Newcastle upon Tyne,United Kingdom,legend,False,53.2,0.8727,
-182,Frank Rijkaard,Amsterdam,Netherlands,legend,False,34.2,0.8727,UEFA European Championship
-183,Matthias Sammer,Dresden,Germany,legend,False,20.8,0.8727,Ballon d'Or ×2 · UEFA European Championship · German Footballer of the Year ×2
-184,Sandro Mazzola,Turin,Italy,legend,False,33.0,0.8726,UEFA European Championship
-185,Bernardo Silva,Lisbon,Portugal,legend,True,48.5,0.8719,
-186,Jimmy Greaves,Manor Park,United Kingdom,legend,False,24.2,0.8716,FIFA World Cup
-187,Marcus Rashford,Manchester,United Kingdom,legend,True,84.5,0.8713,
-188,İlkay Gündoğan,Gelsenkirchen,Germany,legend,True,36.3,0.8709,German Footballer of the Year
-189,Diego Simeone,Buenos Aires,Argentina,legend,False,54.9,0.8707,
-190,Ferran Torres,Foios (near Valencia),Spain,legend,True,80.5,0.8706,
-191,Jesús Navas,Los Palacios y Villafranca,Spain,legend,False,23.2,0.8694,FIFA World Cup · UEFA European Championship
-192,Christian Pulisic,Hershey,United States,legend,True,41.9,0.8692,
-193,Filipe Luís,Jaraguá do Sul,Brazil,legend,False,39.2,0.8689,Copa América
-194,Gary Cahill,Dronfield,United Kingdom,legend,False,24.1,0.8687,UEFA Europa League ×2 · Premier League ×2
-195,Hugo Sánchez,Mexico City,Mexico,legend,False,24.6,0.8686,Pichichi Trophy ×2 · European Golden Shoe
-196,Tim Cahill,Sydney,Australia,legend,False,25.2,0.868,AFC Asian Cup
-197,Thiago Silva,Rio de Janeiro,Brazil,legend,True,40.8,0.8672,
-198,Arturo Vidal,Santiago,Chile,legend,False,32.7,0.866,
-199,Guillermo Ochoa,Guadalajara,Mexico,legend,False,27.6,0.8654,CONCACAF Gold Cup
-200,Jordi Alba,L'Hospitalet de Llobregat,Spain,legend,False,30.7,0.8639,UEFA European Championship
-201,Ricardo Carvalho,Amarante,Portugal,legend,False,24.5,0.8639,UEFA European Championship ×2
-202,Jorginho,Imbituba,Brazil,legend,False,31.2,0.8636,UEFA Men's Player of the Year Award ×2
-203,Daley Blind,Amsterdam,Netherlands,legend,False,27.6,0.8631,Eredivisie ×5
-204,Geoff Hurst,Ashton-under-Lyne,United Kingdom,legend,False,23.9,0.8623,FIFA World Cup
-205,Emmanuel Petit,Dieppe,France,legend,False,22.1,0.8623,FIFA World Cup · UEFA European Championship
-206,Kolo Touré,Bouaké,Ivory Coast,legend,False,28.6,0.8622,Africa Cup of Nations
-207,Radamel Falcao,Santa Marta,Colombia,legend,True,35.2,0.8611,
-208,Emmanuel Adebayor,Lomé,Togo,legend,False,39.1,0.8608,
-209,Teemu Pukki,Kotka,Finland,legend,False,21.5,0.8603,Finnish FA's Men's Footballer of the Year ×2 · Finnish Sports Journalists' Footballer of the Year
-210,Dennis Bergkamp,Amsterdam,Netherlands,legend,False,37.4,0.8602,
-211,Wesley Sneijder,Utrecht,Netherlands,legend,False,32.6,0.8602,
-212,Eric Cantona,Marseille,France,legend,False,53.4,0.8597,
-213,O. J. Simpson,San Francisco,United States,legend,False,118.1,0.8587,AP NFL Offensive Player of the Year Award
-214,Mario Götze,Memmingen,Germany,legend,False,33.6,0.8587,Golden Boy
-215,Gabriel Jesus,São Paulo,Brazil,legend,True,92.3,0.8585,
-216,Ricardo Quaresma,Lisbon,Portugal,legend,False,30.5,0.8585,UEFA European Championship
-217,Georginio Wijnaldum,Rotterdam,Netherlands,legend,True,38.2,0.8582,
-218,Aleksandar Mitrovic,Smederevo,Serbia,legend,False,29.9,0.8581,
-219,John McGinn,Glasgow,United Kingdom,legend,True,42.3,0.8574,
-220,Kai Havertz,Aachen,Germany,legend,True,56.8,0.8568,
-221,Mario Gómez,Riedlingen,Germany,legend,False,22.1,0.8565,UEFA Champions League · German Footballer of the Year · German football championship ×4
-222,Rudi Völler,Hanau,Germany,legend,False,20.1,0.8564,FIFA World Cup · German Footballer of the Year
-223,Jupp Heynckes,Mönchengladbach,Germany,legend,False,20.9,0.8562,FIFA World Cup · UEFA European Championship
-224,Hugo Lloris,Nice,France,legend,True,38.5,0.8553,
-225,Rafael Márquez El piojo,Zamora de Hidalgo,Mexico,legend,False,32.4,0.855,
-226,Javier Mascherano,San Lorenzo,Argentina,legend,False,33.5,0.8547,
-227,Jordan Ayew,Marseille,France,legend,False,33.2,0.8545,
-228,Achraf Hakimi,Madrid,Spain,legend,True,44.6,0.8541,
-229,Giorgio Chiellini,Pisa,Italy,legend,False,26.7,0.8536,UEFA European Championship
-230,Rui Costa,Amadora,Portugal,legend,False,25.3,0.853,UEFA European Championship
-231,Jürgen Klopp,Stuttgart,Germany,legend,False,78.4,0.8529,
-232,Philippe Coutinho,Rio de Janeiro,Brazil,legend,True,55.1,0.8526,
-233,Xherdan Shaqiri,Gjilan,Kosovo,legend,False,31.3,0.8526,
-234,Marco Materazzi,Lecce,Italy,legend,False,23.7,0.8521,FIFA World Cup
-235,Clint Dempsey,Nacogdoches,United States,legend,False,25.9,0.8515,
-236,Christian Vieri,Bologna,Italy,legend,False,32.4,0.8513,Pichichi Trophy
-237,Roy Keane,Cork,Ireland,legend,False,58.7,0.8512,
-238,Jack Wilshere,Stevenage,United Kingdom,legend,False,47.8,0.8509,PFA Young Player of the Year
-239,Petr Čech,Plzeň,Czech Republic,legend,False,44.1,0.8504,
-240,Mikel Oyarzabal,Eibar,Spain,legend,True,43.0,0.85,
-241,Jordan Henderson,Sunderland,United Kingdom,legend,True,82.7,0.8498,
-242,Cody Gakpo,Eindhoven,Netherlands,legend,True,55.9,0.8498,
-243,Gonzalo Higuaín,Brest,France,legend,False,38.3,0.8484,
-244,Kazuyoshi Miura,Shizuoka,Japan,legend,False,29.6,0.8481,
-245,Fernando Llorente,Pamplona,Spain,legend,False,20.3,0.8481,FIFA World Cup · UEFA European Championship
-246,Anthony Martial,Massy,France,legend,True,48.6,0.8474,Golden Boy
-247,Mateo Kovačić,Linz,Austria,legend,True,39.3,0.8471,
-248,Gavi,Los Palacios y Villafranca,Spain,legend,True,39.0,0.8471,Kopa Trophy
-249,Bukayo Saka,Ealing,United Kingdom,legend,True,72.3,0.8469,
-250,Mario Mandžukić,Slavonski Brod,Croatia,legend,False,26.4,0.8466,Croatian Footballer of the Year
-251,Per Mertesacker,Hanover,Germany,legend,False,20.7,0.8462,FIFA World Cup
-252,Andy Robertson,Glasgow,United Kingdom,legend,True,50.6,0.8457,
-253,Samuel Umtiti,Yaoundé,Cameroon,legend,False,22.9,0.8454,FIFA World Cup
-254,Casemiro,São José dos Campos,Brazil,legend,True,49.1,0.8452,
-255,Keisuke Honda,Settsu,Japan,legend,False,31.0,0.8452,
-256,Aaron Ramsey,Caerphilly,United Kingdom,legend,False,37.8,0.8446,
-257,Leon Goretzka,Bochum,Germany,legend,True,54.2,0.8445,
-258,Patrick Kluivert,Amsterdam,Netherlands,legend,False,31.2,0.8445,
-259,Juan Román Riquelme,San Fernando,Argentina,legend,False,25.3,0.8437,Footballer of the Year of Argentina · South American Footballer of the Year
-260,Raymond Kopa,Nœux-les-Mines,France,legend,False,17.8,0.8437,Ballon d'Or ×2
-261,Jan Koller,Smetanova Lhota,Czech Republic,legend,False,23.0,0.8436,Belgian Golden Shoe
-262,Giuseppe Meazza,Milan,Italy,legend,False,18.1,0.8434,FIFA World Cup ×2
-263,Lucy Bronze,Berwick-upon-Tweed,United Kingdom,legend,False,18.3,0.8428,The Best FIFA Women's Player · BBC Women's Footballer of the Year ×3 · UEFA Women's Championship
-264,Nicolás Otamendi,Buenos Aires,Argentina,legend,False,32.4,0.8426,
-265,Chris Wood,Auckland,New Zealand,legend,False,29.0,0.8426,
-266,Bebeto,Salvador,Brazil,legend,False,18.8,0.8425,FIFA World Cup · Pichichi Trophy
-267,Ashley Cole,Stepney,United Kingdom,legend,False,43.5,0.8423,
-268,Oleh Blokhin,Kyiv,Ukraine,legend,False,17.2,0.8419,Ballon d'Or ×2
-269,Joshua Kimmich,Rottweil,Germany,legend,True,36.2,0.8416,
-270,Julián Alvarez,Calchín,Argentina,legend,True,80.2,0.8414,
-271,Edwin van der Sar,Voorhout,Netherlands,legend,False,37.6,0.8408,
-272,Khvicha Kvaratskhelia,Tbilisi,Georgia,legend,True,54.6,0.8404,
-273,Jonny Evans,Belfast,United Kingdom,legend,False,20.2,0.84,UEFA Champions League · Premier League ×4 · EFL Championship
-274,Declan Rice,Kingston upon Thames,United Kingdom,legend,True,55.6,0.8399,
-275,Youri Djorkaeff,6th arrondissement of Lyon,France,legend,False,18.2,0.839,FIFA World Cup · UEFA European Championship
-276,Mikel John Obi,Jos,Nigeria,legend,False,25.5,0.8385,Africa Cup of Nations
-277,Hernán Crespo,Florida,Argentina,legend,False,35.3,0.8376,
-278,Bixente Lizarazu,Saint-Jean-de-Luz,France,legend,False,18.3,0.8376,FIFA World Cup · UEFA European Championship
-279,André Schürrle,Ludwigshafen,Germany,legend,False,19.8,0.8371,FIFA World Cup
-280,Damien Duff,Ballyboden (near Dublin),Ireland,legend,False,24.0,0.837,
-281,Zico,Quintino Bocaiuva (near São João de Meriti),Brazil,legend,False,29.0,0.8355,
-282,Teddy Sheringham,Highams Park,United Kingdom,legend,False,30.7,0.8353,Premier League Golden Boot
-283,Richarlison,Nova Venécia,Brazil,legend,True,59.3,0.8352,
-284,Blaise Matuidi,Toulouse,France,legend,False,19.4,0.8344,FIFA World Cup
-285,Luis Díaz,Barrancas,Colombia,legend,True,36.8,0.8341,
-286,Paul Scholes,Salford,United Kingdom,legend,False,41.2,0.8336,
-287,Gianluca Zambrotta,Como,Italy,legend,False,19.2,0.8333,FIFA World Cup
-288,Clarence Seedorf,Paramaribo,Suriname,legend,False,43.3,0.8329,
-289,Abby Wambach,Rochester,United States,legend,False,18.7,0.8329,
-290,Javi Martínez,Estella-Lizarra,Spain,legend,False,18.6,0.8329,FIFA World Cup · UEFA European Championship
-291,Rio Ferdinand,Camberwell (near City of Westminster),United Kingdom,legend,False,43.4,0.8317,
-292,Javier Zanetti,Buenos Aires,Argentina,legend,False,28.2,0.8317,
-293,Renato Sanches,Lisbon,Portugal,legend,False,37.9,0.8307,Golden Boy
-294,Alberto Gilardino,Biella,Italy,legend,False,19.1,0.8306,FIFA World Cup
-295,Michael Laudrup,Frederiksberg,Denmark,legend,False,26.5,0.8303,
-296,Gianni Rivera,Alessandria,Italy,legend,False,15.7,0.8298,Ballon d'Or ×2 · UEFA European Championship
-297,Marquinhos,São Paulo,Brazil,legend,True,34.6,0.8294,
-298,Shkodran Mustafi,Bad Hersfeld,Germany,legend,False,21.1,0.8294,FIFA World Cup
-299,Hakan Çalhanoğlu,Mannheim,Germany,legend,False,29.2,0.8291,
-300,Vinícius Júnior,São Gonçalo,Brazil,legend,True,78.2,0.8286,
-301,Kyle Walker,Sheffield,United Kingdom,legend,True,48.0,0.8281,
-302,Mark van Bommel,Maasbracht,Netherlands,legend,False,46.5,0.8281,
-303,Gordon Banks,Sheffield,United Kingdom,legend,False,19.1,0.8278,FIFA World Cup
-304,Peter Shilton,Leicester,United Kingdom,legend,False,34.4,0.8275,
-305,Davor Šuker,Osijek,Croatia,legend,False,27.4,0.8272,
-306,John Stones,Barnsley,United Kingdom,legend,True,45.0,0.8271,
-307,Kasper Schmeichel,Copenhagen,Denmark,legend,False,36.0,0.8266,
-308,Ali Daei,Ardabil,Iran,legend,False,19.7,0.8262,
-309,Arda Turan,Fatih (near Istanbul),Turkey,legend,False,32.0,0.826,
-310,John Terry,Barking,United Kingdom,legend,False,44.2,0.8252,
-311,Viktor Gyökeres,Hägerstens församling,Sweden,legend,True,54.1,0.8251,
-312,Jari Litmanen,Lahti,Finland,legend,False,23.2,0.8249,
-313,Axel Witsel,Liège,Belgium,legend,False,22.2,0.824,Belgian Golden Shoe
-314,Rogério Ceni,Pato Branco,Brazil,legend,False,20.4,0.8234,FIFA World Cup
-315,Craig Bellamy,Cardiff,United Kingdom,legend,False,34.2,0.8233,
-316,Marko Arnautović,Vienna,Austria,legend,False,22.3,0.823,
-317,Ryan Giggs,Cardiff,United Kingdom,legend,False,55.8,0.8225,
-318,Gary Neville,Bury,United Kingdom,legend,False,46.2,0.822,
-319,Dunga,Ijuí,Brazil,legend,False,17.9,0.8219,FIFA World Cup
-320,Martin Ødegaard,Drammen,Norway,legend,True,55.7,0.8211,
-321,Gilberto Silva,Lagoa da Prata,Brazil,legend,False,17.9,0.8211,FIFA World Cup
-322,Franck Kessié,Ouragahio,Ivory Coast,legend,False,30.3,0.8208,
-323,Alisson Becker,Novo Hamburgo,Brazil,legend,True,48.7,0.8204,
-324,Nicolò Barella,Cagliari,Italy,legend,False,23.0,0.8202,UEFA European Championship
-325,Dino Zoff,Mariano del Friuli,Italy,legend,False,18.5,0.8202,FIFA World Cup · UEFA European Championship
-326,Giovanni van Bronckhorst,Rotterdam,Netherlands,legend,False,33.9,0.8201,
-327,Enner Valencia,San Lorenzo,Ecuador,legend,False,23.3,0.8199,
-328,Ivan Rakitić,Rheinfelden,Switzerland,legend,False,27.7,0.8194,
-329,Rúben Dias,Amadora,Portugal,legend,True,50.7,0.8187,
-330,Gylfi Sigurðsson,Reykjavík,Iceland,legend,False,29.1,0.8185,
-331,Daniel Passarella,"Chacabuco, Buenos Aires",Argentina,legend,False,15.2,0.8185,FIFA World Cup ×2
-332,Breel Embolo,Yaoundé,Cameroon,legend,False,27.8,0.8184,
-333,Dida,Irará,Brazil,legend,False,17.9,0.8184,FIFA World Cup
-334,Carli Lloyd,Delran Township,United States,legend,False,14.2,0.8175,The Best FIFA Women's Player ×2 · FIFA World Player of the Year · FIFA Women's World Cup ×2
-335,João Cancelo,Barreiro,Portugal,legend,True,51.5,0.8167,
-336,Antonio Rüdiger,Berlin,Germany,legend,False,46.9,0.8165,
-337,Jack Charlton,Ashington,United Kingdom,legend,False,18.5,0.8165,FIFA World Cup
-338,Dušan Tadić,Bačka Topola,Serbia,legend,False,25.6,0.8159,
-339,Jordan Pickford,Washington,United Kingdom,legend,True,45.4,0.8158,
-340,Rodrigo De Paul,Sarandí,Argentina,legend,True,42.5,0.8153,
-341,Rafael van der Vaart,Heemskerk,Netherlands,legend,False,25.2,0.8146,
-342,Keylor Navas,Cartago,Costa Rica,legend,False,30.1,0.8143,
-343,Omar Sívori,San Nicolás de los Arroyos,Argentina,legend,False,14.7,0.8143,Ballon d'Or ×2
-344,Idrissa Gueye,Dakar,Senegal,legend,False,25.9,0.8138,
-345,Timo Werner,Stuttgart,Germany,legend,True,36.5,0.8136,
-346,Alexander Sørloth,Trondheim,Norway,legend,False,29.4,0.8136,
-347,Presnel Kimpembe,Beaumont-sur-Oise,France,legend,False,18.8,0.8136,FIFA World Cup
-348,Andrés Guardado,Guadalajara,Mexico,legend,False,16.8,0.8133,CONCACAF Gold Cup
-349,Alex Iwobi,Lagos,Nigeria,legend,False,31.3,0.8132,
-350,Ole Gunnar Solskjær,Kristiansund Municipality,Norway,legend,False,33.6,0.813,
-351,Bryan Robson,Chester-le-Street,United Kingdom,legend,False,26.8,0.812,
-352,Rivelino,São Paulo,Brazil,legend,False,16.0,0.812,FIFA World Cup
-353,Emiliano Martínez,Mar del Plata,Argentina,legend,True,97.8,0.8118,
-354,Dejan Stanković,Belgrade,Serbia,legend,False,21.3,0.8115,
-355,Igor Belanov,Odesa,Ukraine,legend,False,14.5,0.8114,Ballon d'Or ×2
-356,Danny Welbeck,Manchester,United Kingdom,legend,True,70.1,0.8101,
-357,Roberto Firmino,Maceió,Brazil,legend,True,45.6,0.8098,
-358,Scott McTominay,Lancaster,United Kingdom,legend,True,36.2,0.8095,
-359,Luis Enrique,Gijón,Spain,legend,False,48.0,0.8094,
-360,Peter Crouch,Macclesfield,United Kingdom,legend,False,47.9,0.8092,
-361,Park Ji-Sung,Seoul,South Korea,legend,False,28.9,0.8092,
-362,Andrey Arshavin,Saint Petersburg,Russia,legend,False,33.4,0.8086,
-363,Leroy Sané,Essen,Germany,legend,True,35.0,0.8082,
-364,Dwight Yorke,"Canaan, Tobago",Trinidad and Tobago,legend,False,32.4,0.8082,
-365,Eiður Guðjohnsen,Reykjavík,Iceland,legend,False,26.2,0.8082,
-366,Pep Guardiola,Santpedor,Spain,legend,False,121.5,0.8078,
-367,Victor Moses,Lagos,Nigeria,legend,False,22.4,0.8078,Africa Cup of Nations
-368,Shinji Kagawa,Tarumi-ku,Japan,legend,False,24.0,0.8075,
-369,Mário Zagallo,Atalaia,Brazil,legend,False,14.5,0.8072,FIFA World Cup ×2
-370,Raphinha,Porto Alegre,Brazil,legend,True,94.7,0.8065,
-371,Dani Olmo,Terrassa,Spain,legend,True,47.3,0.8063,
-372,João Moutinh0,Portimão,Portugal,legend,False,23.6,0.8063,
-373,Carlos Vela,Cancun,Mexico,legend,False,21.3,0.8059,MLS Golden Boot
-374,Shay Given,Lifford,Ireland,legend,False,26.6,0.8056,
-375,Sam Kerr,East Fremantle (near Perth),Australia,legend,False,22.8,0.8056,
-376,Federico Valverde,Montevideo,Uruguay,legend,True,39.1,0.8054,
-377,Klaas-Jan Huntelaar,Voor-Drempt (near Arnhem),Netherlands,legend,False,23.5,0.8053,
-378,Enzo Fernández,General San Martín (near Isidro Casanova),Argentina,legend,True,94.9,0.8049,
-379,Dirk Kuyt,Katwijk,Netherlands,legend,False,24.1,0.8048,
-380,Berti Vogts,Büttgen (near Neuss),Germany,legend,False,14.0,0.8048,FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
-381,Gervinho,Anyama,Ivory Coast,legend,False,18.8,0.8045,Africa Cup of Nations
-382,Milan Baroš,Valašské Meziříčí,Czech Republic,legend,False,22.3,0.8043,
-383,Vivianne Miedema,Hoogeveen,Netherlands,legend,False,16.1,0.8039,European Golden Shoe · UEFA Women's Championship
-384,N'Golo Kanté,Paris,France,legend,True,58.6,0.8037,
-385,Raphaël Guerreiro,Le Blanc-Mesnil,France,legend,False,21.1,0.8036,UEFA European Championship
-386,Uli Hoeneß,Ulm,Germany,legend,False,14.8,0.8033,FIFA World Cup · UEFA European Championship
-387,Nwankwo Kanu,Owerri,Nigeria,legend,False,25.2,0.8031,Serie A
-388,Oliver Bierhoff,Karlsruhe,Germany,legend,False,15.9,0.803,UEFA European Championship · German Footballer of the Year
-389,Roger Milla,Yaoundé,Cameroon,legend,False,15.2,0.8027,Africa Cup of Nations ×2
-390,Hakim Ziyech,Dronten,Netherlands,legend,False,30.6,0.8025,
-391,João Félix,Viseu,Portugal,legend,True,53.1,0.8022,
-392,Tim Howard,North Brunswick,United States,legend,False,26.3,0.8022,
-393,Flórián Albert,Hercegszántó,Hungary,legend,False,13.4,0.8019,Ballon d'Or ×2
-394,Harry Maguire,Sheffield,United Kingdom,legend,True,50.9,0.8017,
-395,Vozinha,Mindelo,Cape Verde,legend,True,38.7,0.8017,
-396,Roy Makaay,Wijchen,Netherlands,legend,False,19.9,0.8016,European Golden Shoe · Pichichi Trophy
-397,Julie Ertz,Mesa,United States,legend,False,14.1,0.801,FIFA Women's World Cup ×2
-398,Denzel Dumfries,Rotterdam,Netherlands,legend,True,35.6,0.8004,
-399,Roque Santa Cruz,Asunción,Paraguay,legend,False,21.5,0.8001,
-400,Donyell Malen,Wieringen,Netherlands,legend,True,45.9,0.7993,
-401,Gianluigi Donnarumma,Castellammare di Stabia,Italy,legend,True,55.1,0.7988,
-402,Yann Sommer,Morges,Switzerland,legend,True,37.1,0.7988,
-403,Hakan Şükür,Adapazarı,Turkey,legend,False,19.7,0.7987,
-404,Diogo Jota,Freguesia de Massarelos (near Porto),Portugal,legend,False,50.0,0.7985,
-405,Allan Simonsen,Vejle,Denmark,legend,False,13.1,0.7978,Ballon d'Or ×2
-406,Marek Hamšík,Banská Bystrica,Slovakia,legend,False,20.3,0.7973,
-407,Dominik Livaković,Zadar,Croatia,legend,True,44.0,0.7969,
-408,Marouane Fellaini,Etterbeek,Belgium,legend,False,26.6,0.7959,
-409,John O'Shea,Waterford,Ireland,legend,False,26.4,0.7959,
-410,Miralem Pjanić,Tuzla,Bosnia and Herzegovina,legend,False,22.7,0.7959,
-411,Joan Capdevila,Tàrrega,Spain,legend,False,14.1,0.7956,FIFA World Cup · UEFA European Championship
-412,Wojciech Szczęsny,Warsaw,Poland,legend,True,42.4,0.7955,
-413,Leandro Paredes,San Justo,Argentina,legend,True,37.5,0.7953,
-414,Oleksandr Zinchenko,Radomyshl,Ukraine,legend,False,33.0,0.7952,
-415,Mikel Merino,Pamplona,Spain,legend,True,41.4,0.7949,
-416,André Ayew,Seclin,France,legend,False,21.1,0.7935,
-417,Fernandinho,Londrina,Brazil,legend,False,20.3,0.7932,Copa América
-418,Diego Godín,Rosario,Uruguay,legend,False,20.2,0.7926,
-419,Alexis Mac Allister,Santa Rosa,Argentina,legend,True,50.5,0.792,
-420,Stevan Jovetić,Podgorica,Montenegro,legend,False,20.9,0.7909,
-421,Giovani dos Santos,Monterrey,Mexico,legend,False,22.6,0.7908,
-422,Salomon Kalou,Oumé,Ivory Coast,legend,False,16.4,0.7906,Africa Cup of Nations
-423,Juliano Belletti,Cascavel,Brazil,legend,False,16.0,0.7901,FIFA World Cup
-424,Serge Gnabry,Stuttgart,Germany,legend,False,27.2,0.7898,
-425,Mark Hughes,Wrexham,United Kingdom,legend,False,29.8,0.7892,
-426,Florian Wirtz,Pulheim,Germany,legend,True,48.0,0.7889,
-427,Mehdi Taremi,Bushehr,Iran,legend,False,17.9,0.7886,
-428,Andrea Barzagli,Fiesole,Italy,legend,False,14.8,0.7883,FIFA World Cup
-429,Yossi Benayoun,Dimona,Israel,legend,False,21.6,0.788,
-430,Séamus Coleman,Donegal,Ireland,legend,False,39.3,0.7877,
-431,Juan Cuadrado,Necoclí,Colombia,legend,False,22.8,0.7875,
-432,Ian Wright,Woolwich,United Kingdom,legend,False,69.0,0.7874,
-433,Shinji Okazaki,Takarazuka,Japan,legend,False,17.1,0.7874,Premier League
-434,Asamoah Gyan,Accra,Ghana,legend,False,18.4,0.7872,
-435,Brian Laudrup,Vienna,Austria,legend,False,17.2,0.7869,UEFA European Championship
-436,Nicklas Bendtner,Copenhagen,Denmark,legend,False,22.4,0.7868,
-437,Andreas Brehme,Hamburg,Germany,legend,False,14.0,0.7863,FIFA World Cup
-438,Salomón Rondón,Caracas,Venezuela,legend,False,17.6,0.7848,
-439,José María Giménez,Toledo (near Montevideo),Uruguay,legend,False,25.3,0.7843,
-440,Rafael Leão,Almada,Portugal,legend,True,60.4,0.7842,
-441,Paul Gascoigne,Gateshead,United Kingdom,legend,False,41.7,0.784,
-442,Leonardo Araújo,Niterói,Brazil,legend,False,14.4,0.7836,FIFA World Cup
-443,Micah Richards,Birmingham,United Kingdom,legend,False,42.6,0.7834,Premier League ×2
-444,Frenkie de Jong,Arkel,Netherlands,legend,True,37.4,0.7831,
-445,Ben Davies,Neath,United Kingdom,legend,False,29.5,0.7831,
-446,Sepp Maier,Metten,Germany,legend,False,12.0,0.783,FIFA World Cup · UEFA European Championship · German Footballer of the Year ×3
-447,Frank Leboeuf,Marseille,France,legend,False,13.1,0.7827,FIFA World Cup · UEFA European Championship
-448,Jozy Altidore,Livingston,United States,legend,False,18.4,0.7824,
-449,Ali Krieger,Alexandria,United States,legend,False,26.4,0.7822,
-450,Edgar Davids,Paramaribo,Suriname,legend,False,34.1,0.7819,
-451,Mauro Camoranesi,Tandil,Argentina,legend,False,14.4,0.7817,FIFA World Cup
-452,Jermain Defoe,Beckton,United Kingdom,legend,False,32.0,0.7813,
-453,Adrian Mutu,Călinești (near Piteşti),Romania,legend,False,20.8,0.781,
-454,Leandro Trossard,Maasmechelen,Belgium,legend,True,35.8,0.7805,
-455,James Milner,Leeds,United Kingdom,legend,False,52.6,0.7804,
-456,John Arne Riise,Molde Municipality,Norway,legend,False,21.3,0.7804,
-457,Andreas Christensen,Lillerød,Denmark,legend,False,33.4,0.7799,
-458,Andrej Kramarić,Zagreb,Croatia,legend,False,18.2,0.7799,
-459,Toby Alderweireld,Wilrijk,Belgium,legend,False,21.7,0.7798,
-460,Freddie Ljungberg,Vittsjö,Sweden,legend,False,23.5,0.7792,
-461,Gary Speed,Mancot,United Kingdom,legend,False,28.7,0.779,
-462,Carlos Alberto Torres,Rio de Janeiro,Brazil,legend,False,14.1,0.7787,FIFA World Cup
-463,Didi,Campos dos Goytacazes,Brazil,legend,False,11.9,0.7775,FIFA World Cup ×2
-464,Ada Hegerberg,Molde Municipality,Norway,legend,False,12.1,0.7772,Ballon d'Or Féminin · BBC Women's Footballer of the Year ×2 · UEFA Women's Player of the Year Award
-465,Luis Suárez,A Coruña,Spain,legend,False,11.1,0.7755,Ballon d'Or ×2 · UEFA European Championship
-466,Gigi Riva,Leggiuno,Italy,legend,False,16.1,0.7753,UEFA European Championship
-467,Christine Sinclair,Burnaby,Canada,legend,False,12.9,0.7752,
-468,Siniša Mihajlović,Vukovar,Croatia,legend,False,17.7,0.7717,Serbian Footballer of the Year
-469,Sócrates,Belém,Brazil,legend,False,24.9,0.768,
-470,Jairzinho,Rio de Janeiro,Brazil,legend,False,14.8,0.7668,FIFA World Cup
-471,Uwe Seeler,Hamburg,Germany,legend,False,11.9,0.7653,German Footballer of the Year ×3
-472,Carlos Valderrama,Santa Marta,Colombia,legend,False,19.3,0.7618,
-473,Michelle Akers,Santa Clara,United States,legend,False,11.0,0.7393,
-474,Homare Sawa,Fuchū,Japan,legend,False,8.6,0.7392,FIFA Women's World Cup
-475,Majed Abdullah,Jeddah,Saudi Arabia,legend,False,11.7,0.7375,
-476,Hidetoshi Nakata,Kofu,Japan,legend,False,21.0,0.7373,
-477,Sándor Kocsis,Budapest,Hungary,legend,False,13.0,0.7369,
-478,Nílton Santos,Rio de Janeiro,Brazil,legend,False,7.8,0.7314,FIFA World Cup ×2 · Copa América
-479,Giacinto Facchetti,Treviglio,Italy,legend,False,12.4,0.7299,UEFA European Championship
-480,Fritz Walter,Kaiserslautern,Germany,legend,False,8.8,0.7289,FIFA World Cup
-481,Kristine Lilly,New York City,United States,legend,False,8.8,0.727,
-482,Birgit Prinz,Frankfurt,Germany,legend,False,6.9,0.7199,FIFA World Player of the Year · Female football player of the year
-483,Enzo Francescoli,Montevideo,Uruguay,legend,False,16.9,0.716,
-484,Zbigniew Boniek,Bydgoszcz,Poland,legend,False,12.8,0.7076,
-485,Kazimierz Deyna,Starogard Gdański,Poland,legend,False,10.1,0.6975,
-486,Grzegorz Lato,Malbork,Poland,legend,False,9.8,0.6972,
-487,Josef Bican,Vienna,Austria,legend,False,15.7,0.6946,
-488,Hans Krankl,Vienna,Austria,legend,False,8.5,0.6819,Pichichi Trophy
-489,Nadine Angerer,Lohr am Main,Germany,legend,False,4.9,0.6712,FIFA Women's World Cup
-490,Johan Neeskens,Heemstede,Netherlands,legend,False,15.8,0.67,
-491,Just Fontaine,Marrakech,Morocco,legend,False,16.1,0.6693,
-492,Teófilo Cubillas,Lima,Peru,legend,False,10.1,0.6664,
-493,Dejan Savićević,Podgorica,Montenegro,legend,False,13.4,0.6609,
-494,Dragan Džajić,Ub,Serbia,legend,False,9.4,0.6571,
-495,Sun Wen,Shanghai,China,legend,False,4.5,0.6487,
-496,Formiga,Salvador,Brazil,legend,False,7.5,0.6377,
-497,Ernst Happel,Vienna,Austria,legend,False,12.0,0.5905,
-498,Ferenc Bene,Balatonújlak,Hungary,legend,False,4.1,0.5873,
-499,Elías Figueroa,Valparaíso,Chile,legend,False,7.0,0.5093,
-500,Rinus Michels,Amsterdam,Netherlands,legend,False,14.9,0.4808,
+1,Cristiano Ronaldo,Funchal,Portugal,legend,True,321.2,0.9998,FIFA Ballon d'Or ×2 · Ballon d'Or · FIFA World Player of the Year · UEFA Men's Player of the Year Award ×3
+2,Lionel Messi,Rosario,Argentina,legend,True,312.7,0.9998,Ballon d'Or ×4 · FIFA Ballon d'Or ×4 · FIFA World Player of the Year · The Best FIFA Men's Player
+3,Zinedine Zidane,Marseille,France,legend,False,118.3,0.998,FIFA World Player of the Year ×3 · Ballon d'Or · FIFA World Cup · UEFA European Championship
+4,Ronaldinho,Porto Alegre,Brazil,legend,False,110.0,0.9962,FIFA World Player of the Year ×2 · Ballon d'Or · FIFA World Cup · South American Footballer of the Year
+5,Pelé,Três Corações,Brazil,legend,False,112.2,0.9959,FIFA World Cup ×3 · Ballon d'Or Dream Team · South American Footballer of the Year · World Cup Golden Ball
+6,Mohamed Salah,Nagrig (near Kafr ash Shaykh),Egypt,legend,True,112.1,0.9959,The Best FIFA Men's Player · Premier League Golden Boot ×4 · African Footballer of the Year · BBC African Footballer of the Year
+7,Thierry Henry,Les Ulis,France,legend,False,89.7,0.9939,FIFA World Cup · UEFA European Championship · Premier League Golden Boot ×4 · FWA Footballer of the Year ×3
+8,Robert Lewandowski,Warsaw,Poland,legend,True,113.8,0.9929,German Footballer of the Year ×2 · European Golden Shoe · UEFA Men's Player of the Year Award
+9,Luka Modrić,Zadar,Croatia,legend,True,97.6,0.9926,Ballon d'Or · FIFA World Player of the Year · UEFA Men's Player of the Year Award · World Cup Golden Ball
+10,Zlatan Ibrahimović,Västra Skrävlinge (near Malmö),Sweden,legend,False,101.7,0.9923,Serie A Footballer of the Year ×3 · Serie A Foreign Footballer of the Year ×3
+11,Johan Cruyff,Amsterdam,Netherlands,legend,False,74.5,0.9902,Ballon d'Or ×3 · Dutch Footballer of the Year ×3
+12,Kevin Keegan,Armthorpe,United Kingdom,legend,False,96.2,0.9897,Ballon d'Or ×2
+13,Xabi Alonso,Tolosa,Spain,legend,False,93.1,0.9874,FIFA World Cup · UEFA European Championship ×2
+14,David Beckham,London,United Kingdom,legend,False,112.9,0.9868,MLS Comeback Player of the Year Award · PFA Young Player of the Year · Sir Matt Busby Player of the Year · UEFA Club Footballer of the Year
+15,Sergio Ramos,Camas,Spain,legend,False,72.8,0.9854,FIFA World Cup · UEFA European Championship ×2
+16,Karim Benzema,Lyon,France,legend,False,94.3,0.9848,Ballon d'Or · French Player of the Year
+17,Xavi,Terrassa,Spain,legend,False,74.5,0.9844,FIFA World Cup · UEFA European Championship ×2
+18,Kaká,Gama,Brazil,legend,False,59.5,0.9837,Ballon d'Or · FIFA World Player of the Year · FIFA World Cup · Serie A Foreign Footballer of the Year ×3
+19,Diego Maradona,Lanús,Argentina,legend,False,115.2,0.9834,FIFA World Cup · World Cup Golden Ball
+20,Neymar,Mogi das Cruzes,Brazil,legend,True,134.5,0.9833,South American Footballer of the Year ×2
+21,Francesco Totti,Rome,Italy,legend,False,64.2,0.9833,FIFA World Cup · Italian Footballer of the Year ×5 · Serie A Footballer of the Year ×2 · European Golden Shoe
+22,Kylian Mbappé,Paris,France,legend,True,160.2,0.9828,European Golden Shoe · Golden Boy · Kopa Trophy
+23,Erling Haaland,Leeds,United Kingdom,legend,True,157.2,0.9808,European Golden Shoe · FWA Footballer of the Year · Golden Boy
+24,Cesc Fàbregas,Arenys de Mar,Spain,legend,False,69.6,0.9808,FIFA World Cup · UEFA European Championship ×2
+25,Wayne Rooney,Liverpool,United Kingdom,legend,False,99.9,0.9802,FWA Footballer of the Year · Golden Boy · PFA Players' Player of the Year
+26,Álvaro Arbeloa,Salamanca,Spain,legend,False,71.5,0.9785,FIFA World Cup · UEFA European Championship ×2
+27,Harry Kane,Walthamstow,United Kingdom,legend,True,150.0,0.9771,European Golden Shoe · Premier League Golden Boot
+28,Franz Beckenbauer,Munich,Germany,legend,False,53.2,0.9771,Ballon d'Or · FIFA World Cup · UEFA European Championship · German Footballer of the Year ×4
+29,Samuel Eto'o,Douala,Cameroon,legend,False,65.7,0.9767,Africa Cup of Nations ×2 · Pichichi Trophy
+30,Fernando Torres,Fuenlabrada,Spain,legend,False,56.6,0.9758,FIFA World Cup · UEFA European Championship ×2
+31,Michael Owen,Chester,United Kingdom,legend,False,83.2,0.975,Ballon d'Or
+32,Gerard Piqué,Barcelona,Spain,legend,False,63.5,0.9742,FIFA World Cup · UEFA European Championship
+33,Gianluigi Buffon,Carrara,Italy,legend,False,56.8,0.9741,FIFA World Cup · UEFA Club Footballer of the Year
+34,Andrés Iniesta,Fuentealbilla,Spain,legend,False,52.9,0.9739,FIFA World Cup · UEFA European Championship ×2 · UEFA Men's Player of the Year Award
+35,Luis Suárez,Salto,Uruguay,legend,True,54.0,0.9736,European Golden Shoe ×2 · PFA Players' Player of the Year · Pichichi Trophy · Premier League Golden Boot
+36,Carlos Tevez,Ciudadela (near Isidro Casanova),Argentina,legend,False,52.9,0.9713,South American Footballer of the Year ×3 · Footballer of the Year of Argentina ×2 · Premier League Golden Boot · Serie A Footballer of the Year
+37,Marco van Basten,Utrecht,Netherlands,legend,False,48.5,0.9705,Ballon d'Or ×3 · FIFA World Player of the Year · UEFA European Championship
+38,Sergio Agüero,Buenos Aires,Argentina,legend,False,56.4,0.9698,FIFA World Cup · Premier League Golden Boot
+39,David Silva,Arguineguín,Spain,legend,False,50.7,0.9684,FIFA World Cup · UEFA European Championship ×2
+40,Luís Figo,Lisbon,Portugal,legend,False,48.1,0.9681,Ballon d'Or · FIFA World Player of the Year · UEFA European Championship · CNID Footballer of the Year
+41,Rodri,Madrid,Spain,legend,True,88.3,0.9669,Ballon d'Or
+42,Iker Casillas,Móstoles,Spain,legend,False,47.6,0.9653,FIFA World Cup · UEFA European Championship ×2
+43,Steven Gerrard,Whiston,United Kingdom,legend,False,69.7,0.9641,FWA Footballer of the Year · PFA Players' Player of the Year · UEFA Club Footballer of the Year
+44,Manuel Neuer,Gelsenkirchen,Germany,legend,False,59.6,0.9638,German Footballer of the Year ×2 · German football championship ×8
+45,Ousmane Dembélé,Vernon,France,legend,True,69.8,0.9636,Ballon d'Or
+46,Bobby Charlton,Ashington,United Kingdom,legend,False,44.8,0.9621,Ballon d'Or · FIFA World Cup
+47,Didier Drogba,Abidjan,Ivory Coast,legend,False,59.0,0.9613,Premier League Golden Boot ×2
+48,Romário,Rio de Janeiro,Brazil,legend,False,44.0,0.9604,FIFA World Player of the Year · FIFA World Cup · Pichichi Trophy · World Cup Golden Ball
+49,Ruud Gullit,Amsterdam,Netherlands,legend,False,44.9,0.9603,Ballon d'Or · UEFA European Championship · Dutch Footballer of the Year ×2
+50,Paul Pogba,Lagny-sur-Marne,France,legend,False,70.7,0.9601,FIFA World Cup
+51,Alfredo Di Stéfano,Buenos Aires,Argentina,legend,False,42.7,0.9601,Ballon d'Or ×2 · Copa América · Pichichi Trophy ×5
+52,Roberto Baggio,Caldogno,Italy,legend,False,44.1,0.96,Ballon d'Or · FIFA World Player of the Year
+53,Andriy Shevchenko,Yahotyn,Ukraine,legend,False,50.0,0.9595,Ballon d'Or
+54,Diego Forlán,Montevideo,Uruguay,legend,False,46.2,0.9593,European Golden Shoe ×2 · Pichichi Trophy ×2 · World Cup Golden Ball
+55,Alexia Putellas,Mollet del Vallès,Spain,legend,False,40.8,0.9575,Ballon d'Or ×2 · Ballon d'Or Féminin ×2 · The Best FIFA Women's Player ×2 · FIFA Women's World Cup
+56,Michel Platini,Jœuf,France,legend,False,41.4,0.9569,Ballon d'Or ×3 · UEFA European Championship
+57,Phil Foden,Stockport,United Kingdom,legend,True,51.9,0.9566,FIFA Ballon d'Or · PFA Young Player of the Year
+58,Toni Kroos,Greifswald,Germany,legend,False,44.9,0.9558,FIFA World Cup · German Footballer of the Year ×2
+59,David Villa,Langreo (near Oviedo),Spain,legend,False,44.0,0.9552,FIFA World Cup · UEFA European Championship
+60,Fabio Cannavaro,Naples,Italy,legend,False,40.5,0.9537,Ballon d'Or · FIFA World Player of the Year · FIFA World Cup · Serie A
+61,Rivaldo,Recife,Brazil,legend,False,40.7,0.9535,Ballon d'Or · FIFA World Player of the Year · FIFA World Cup
+62,Alessandro Del Piero,Conegliano,Italy,legend,False,43.5,0.9534,FIFA World Cup · Italian Footballer of the Year ×2
+63,James Rodríguez,Cúcuta,Colombia,legend,True,56.2,0.9526,Portuguese Golden Ball · World Cup Golden Boot
+64,George Best,Belfast,United Kingdom,legend,False,55.0,0.952,Ballon d'Or
+65,Patrick Vieira,Dakar,Senegal,legend,False,44.4,0.9515,FIFA World Cup · UEFA European Championship
+66,Pedro,Santa Cruz de Tenerife,Spain,legend,False,45.8,0.9503,FIFA World Cup · UEFA European Championship
+67,George Weah,Monrovia,Liberia,legend,False,49.8,0.95,Ballon d'Or
+68,Franck Ribéry,Boulogne-sur-Mer,France,legend,False,41.9,0.9498,UEFA Champions League · French Player of the Year · German Footballer of the Year · UEFA Men's Player of the Year Award
+69,Megan Rapinoe,Redding,United States,legend,False,38.3,0.9495,Ballon d'Or Féminin · The Best FIFA Women's Player · FIFA Women's World Cup
+70,Miroslav Klose,Opole,Poland,legend,False,39.0,0.9483,FIFA World Cup · European Golden Shoe · German Footballer of the Year
+71,Gerd Müller,Nördlingen,Germany,legend,False,38.0,0.9483,Ballon d'Or · FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
+72,Romelu Lukaku,Antwerp,Belgium,legend,True,74.8,0.9477,
+73,Kevin De Bruyne,Drongen,Belgium,legend,True,75.3,0.9461,German Footballer of the Year
+74,Lothar Matthäus,Erlangen,Germany,legend,False,36.9,0.9448,Ballon d'Or · FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
+75,Sergio Busquets,Sabadell,Spain,legend,False,40.7,0.9442,FIFA World Cup · UEFA European Championship
+76,Edin Džeko,Sarajevo,Bosnia and Herzegovina,legend,True,52.1,0.9431,
+77,Lev Yashin,Moscow,Russia,legend,False,41.2,0.9425,Ballon d'Or · UEFA European Championship
+78,Frank Lampard,Romford (near Ilford),United Kingdom,legend,False,89.5,0.9419,FWA Footballer of the Year
+79,Roberto Carlos,Garça,Brazil,legend,False,45.3,0.9415,FIFA World Cup
+80,Javier Hernández,Guadalajara,Mexico,legend,False,41.4,0.9414,UEFA Champions League ×2 · Premier League ×2
+81,Thomas Müller,Weilheim in Oberbayern,Germany,legend,True,57.8,0.9411,European Golden Shoe
+82,Mario Balotelli,Palermo,Italy,legend,True,62.6,0.9396,UEFA Champions League · Serie A ×3 · Premier League
+83,Vincent Kompany,Uccle,Belgium,legend,False,45.5,0.9392,Belgian Youth Football Player of the Year ×2 · Belgian Golden Shoe
+84,Andrea Pirlo,Brescia,Italy,legend,False,42.4,0.9391,FIFA World Cup · Serie A
+85,Ruud van Nistelrooy,Oss,Netherlands,legend,False,44.2,0.9389,PFA Players' Player of the Year · Pichichi Trophy · Premier League Golden Boot
+86,Eden Hazard,La Louvière,Belgium,legend,False,67.9,0.9377,PFA Players' Player of the Year
+87,Eusébio,Maputo,Mozambique,legend,False,40.4,0.9371,Ballon d'Or
+88,Didier Deschamps,Bayonne,France,legend,False,38.8,0.9369,FIFA World Cup · UEFA European Championship
+89,Robin van Persie,Rotterdam,Netherlands,legend,False,58.1,0.9368,Premier League Golden Boot
+90,Karl-Heinz Rummenigge,Lippstadt,Germany,legend,False,33.2,0.9345,Ballon d'Or ×2 · UEFA European Championship · German Footballer of the Year · Swiss Footballer of the Year
+91,Nicolas Anelka,Le Chesnay,France,legend,False,52.2,0.9339,UEFA European Championship · PFA Young Player of the Year
+92,Arjen Robben,Bedum,Netherlands,legend,False,44.0,0.9336,Dutch Footballer of the Year · German Footballer of the Year
+93,Paolo Maldini,Milan,Italy,legend,False,53.7,0.9317,Ballon d'Or Dream Team
+94,Aitana Bonmatí,Sant Pere de Ribes,Spain,legend,False,31.6,0.9313,Ballon d'Or Féminin ×2 · Ballon d'Or · The Best FIFA Women's Player · FIFA Women's World Cup
+95,Lukas Podolski,Gliwice,Poland,legend,False,35.3,0.931,FIFA World Cup
+96,Olivier Giroud,Chambéry,France,legend,True,69.3,0.9307,
+97,Pierre-Emerick Aubameyang,Laval,France,legend,True,73.8,0.9303,African Footballer of the Year
+98,Son Heung-min,Chuncheon,South Korea,legend,True,62.3,0.9299,
+99,Yaya Touré,Bouaké,Ivory Coast,legend,False,57.1,0.9291,Africa Cup of Nations
+100,Lamine Yamal,Esplugues de Llobregat,Spain,legend,True,146.8,0.927,Kopa Trophy · La Liga
+101,Robbie Keane,Tallaght (near Dublin),Ireland,legend,False,46.0,0.9265,
+102,Alexis Sánchez,Tocopilla,Chile,legend,True,51.6,0.9256,
+103,Riyad Mahrez,Clichy,France,legend,True,49.6,0.9256,PFA Players' Player of the Year
+104,Michael Ballack,Görlitz,Germany,legend,False,34.7,0.9218,German Footballer of the Year ×3 · Bayer 04 Leverkusen versus SC Freiburg 2001–02 Fußball-Bundesliga
+105,Antoine Griezmann,Mâcon,France,legend,True,66.8,0.9216,
+106,Sadio Mané,Bambali,Senegal,legend,True,57.2,0.9211,
+107,Ferenc Puskás,Budapest,Hungary,legend,False,42.2,0.921,Pichichi Trophy
+108,Hristo Stoichkov,Plovdiv,Bulgaria,legend,False,31.5,0.9191,Ballon d'Or · European Golden Shoe
+109,Jürgen Klinsmann,Göppingen,Germany,legend,False,29.3,0.9175,FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
+110,Robinho,São Vicente,Brazil,legend,False,44.3,0.9167,Copa América
+111,Bastian Schweinsteiger,Kolbermoor,Germany,legend,False,31.7,0.9165,FIFA World Cup · German Footballer of the Year
+112,Carles Puyol,La Pobla de Segur,Spain,legend,False,32.0,0.9164,FIFA World Cup · UEFA European Championship
+113,Alex Morgan,San Dimas,United States,legend,False,28.6,0.9155,FIFA Women's World Cup ×2
+114,Virgil van Dijk,Breda,Netherlands,legend,True,66.4,0.9153,UEFA Men's Player of the Year Award
+115,Victor Osimhen,Lagos,Nigeria,legend,True,43.0,0.9147,African Footballer of the Year · World Cup Golden Boot
+116,Raphaël Varane,Lille,France,legend,False,36.4,0.9141,FIFA World Cup
+117,Gareth Bale,Cardiff,United Kingdom,legend,False,69.9,0.9139,
+118,Jude Bellingham,Stourbridge,United Kingdom,legend,True,107.2,0.9118,Kopa Trophy
+119,Pavel Nedvěd,Cheb,Czech Republic,legend,False,31.5,0.9099,Ballon d'Or
+120,Gennaro Gattuso,Corigliano Calabro,Italy,legend,False,36.9,0.9098,FIFA World Cup
+121,Oliver Kahn,Karlsruhe,Germany,legend,False,29.9,0.9092,UEFA European Championship · German Footballer of the Year ×2 · World Cup Golden Ball
+122,Edinson Cavani,Salto,Uruguay,legend,False,44.9,0.909,
+123,Lilian Thuram,Pointe-à-Pitre,France,legend,False,29.4,0.9089,FIFA World Cup · UEFA European Championship
+124,Filippo Inzaghi,Piacenza,Italy,legend,False,34.0,0.9086,FIFA World Cup
+125,Peter Schmeichel,Gladsaxe,Denmark,legend,False,36.6,0.9078,UEFA European Championship
+126,Gary Lineker,Leicester,United Kingdom,legend,False,61.0,0.9075,
+127,Philipp Lahm,Munich,Germany,legend,False,30.2,0.9063,FIFA World Cup · German Footballer of the Year
+128,Christian Eriksen,Middelfart,Denmark,legend,False,45.5,0.905,
+129,Pepe Reina,Madrid,Spain,legend,False,28.1,0.905,FIFA World Cup · UEFA European Championship ×2
+130,Ángel Di María,Rosario,Argentina,legend,True,52.6,0.9047,
+131,Raúl González,Madrid,Spain,legend,False,33.2,0.904,Pichichi Trophy ×2
+132,Robert Pires,Reims,France,legend,False,28.2,0.9014,FIFA World Cup · UEFA European Championship
+133,Memphis Depay,Moordrecht (near Rotterdam),Netherlands,legend,False,46.1,0.9007,
+134,Bruno Fernandes,Maia,Portugal,legend,True,72.6,0.8998,
+135,Deco,São Bernardo do Campo,Brazil,legend,False,36.4,0.8998,UEFA European Championship · UEFA Club Footballer of the Year
+136,Fabien Barthez,Lavelanet,France,legend,False,28.1,0.8995,FIFA World Cup · UEFA European Championship
+137,Paolo Rossi,Prato,Italy,legend,False,25.1,0.898,Ballon d'Or · FIFA World Cup · World Cup Golden Ball
+138,Sami Khedira,Stuttgart,Germany,legend,False,32.2,0.8977,FIFA World Cup
+139,Marcel Desailly,Accra,Ghana,legend,False,27.2,0.8974,FIFA World Cup · UEFA European Championship
+140,Mesut Özil,Gelsenkirchen,Germany,legend,False,60.0,0.8957,
+141,David Trezeguet,Rouen,France,legend,False,26.4,0.8951,FIFA World Cup · UEFA European Championship
+142,Jérôme Boateng,West Berlin,Germany,legend,False,28.4,0.8946,FIFA World Cup · German Footballer of the Year
+143,Garrincha,Magé,Brazil,legend,False,25.1,0.8932,FIFA World Cup ×2
+144,Mats Hummels,Bergisch Gladbach,Germany,legend,False,27.3,0.8925,FIFA World Cup · German football championship ×9
+145,Ronald Koeman,Zaandam,Netherlands,legend,False,39.3,0.8921,UEFA European Championship
+146,Marco Reus,Dortmund,Germany,legend,True,38.5,0.892,German Footballer of the Year ×2
+147,Hugo Sánchez,Mexico City,Mexico,legend,False,24.6,0.8912,Pichichi Trophy ×5 · European Golden Shoe
+148,Kenny Dalglish,Glasgow,United Kingdom,legend,False,50.4,0.8911,
+149,Jay-Jay Okocha,Enugu,Nigeria,legend,False,41.1,0.8909,Africa Cup of Nations
+150,Dani Alves,Juazeiro,Brazil,legend,False,37.3,0.8909,Copa América
+151,Lautaro Martínez,Bahía Blanca,Argentina,legend,True,50.3,0.8906,
+152,Pedri,Tegueste,Spain,legend,True,51.6,0.8898,Kopa Trophy
+153,Granit Xhaka,Basel,Switzerland,legend,True,45.3,0.8898,
+154,Álvaro Morata,Madrid,Spain,legend,True,52.6,0.8897,
+155,Pepe,Maceió,Brazil,legend,False,33.6,0.8895,UEFA European Championship
+156,Franco Baresi,Travagliato,Italy,legend,False,30.5,0.8895,FIFA World Cup
+157,Leonardo Bonucci,Viterbo,Italy,legend,False,24.7,0.8895,UEFA European Championship · Serie A ×10
+158,Nani,Praia,Cape Verde,legend,False,33.0,0.8885,UEFA European Championship
+159,Daniele De Rossi,Rome,Italy,legend,False,26.9,0.8885,FIFA World Cup
+160,Gheorghe Hagi,Săcele,Romania,legend,False,33.3,0.8883,
+161,Juan Román Riquelme,San Fernando,Argentina,legend,False,25.3,0.888,Footballer of the Year of Argentina ×4 · South American Footballer of the Year
+162,Víctor Valdés,L'Hospitalet de Llobregat,Spain,legend,False,26.7,0.8862,FIFA World Cup · UEFA European Championship
+163,Henrik Larsson,Helsingborg,Sweden,legend,False,32.4,0.8859,European Golden Shoe
+164,Landon Donovan,"Ontario, California",United States,legend,False,31.4,0.8859,
+165,Mia Hamm,Selma,United States,legend,False,27.8,0.8859,
+166,Stanley Matthews,Hanley (near Stoke-on-Trent),United Kingdom,legend,False,26.8,0.8842,Ballon d'Or
+167,Laurent Blanc,Alès,France,legend,False,24.4,0.884,FIFA World Cup · UEFA European Championship
+168,Ivan Perišić,Split,Croatia,legend,True,37.8,0.8839,
+169,Bobby Moore,Barking,United Kingdom,legend,False,27.2,0.8834,FIFA World Cup
+170,Thibaut Courtois,Bree,Belgium,legend,True,63.0,0.8814,
+171,Raheem Sterling,Kingston,Jamaica,legend,False,102.1,0.8806,
+172,Adil Rami,Bastia,France,legend,False,30.3,0.8802,FIFA World Cup
+173,Matthijs de Ligt,Leiderdorp,Netherlands,legend,True,37.7,0.8796,Kopa Trophy · Premio Golden Boy
+174,Denis Law,Aberdeen,United Kingdom,legend,False,24.9,0.879,Ballon d'Or
+175,Dimitar Berbatov,Blagoevgrad,Bulgaria,legend,False,42.5,0.8788,
+176,David Alaba,Vienna,Austria,legend,True,49.5,0.8773,
+177,Luca Toni,Pavullo nel Frignano,Italy,legend,False,24.8,0.877,FIFA World Cup · European Golden Shoe
+178,Mario Kempes,Bell Ville,Argentina,legend,False,24.4,0.876,FIFA World Cup · Pichichi Trophy
+179,Jonathan David,Brooklyn,United States,legend,True,42.4,0.875,
+180,Ciro Immobile,Torre Annunziata,Italy,legend,False,28.6,0.8748,UEFA European Championship · European Golden Shoe
+181,Youri Tielemans,Sint-Pieters-Leeuw,Belgium,legend,True,49.9,0.8745,
+182,Gabriel Batistuta,Reconquista,Argentina,legend,False,38.1,0.8742,
+183,Raúl Jiménez,Tepeji del Río de Ocampo,Mexico,legend,False,34.7,0.8739,
+184,Frank Rijkaard,Amsterdam,Netherlands,legend,False,34.4,0.8736,UEFA European Championship
+185,Jimmy Greaves,Manor Park,United Kingdom,legend,False,24.2,0.8733,FIFA World Cup
+186,Alan Shearer,Newcastle upon Tyne,United Kingdom,legend,False,53.2,0.8731,
+187,Sandro Mazzola,Turin,Italy,legend,False,33.0,0.8728,UEFA European Championship
+188,Bernardo Silva,Lisbon,Portugal,legend,True,48.5,0.8722,
+189,İlkay Gündoğan,Gelsenkirchen,Germany,legend,True,36.3,0.8717,German Footballer of the Year
+190,Alessandro Nesta,Rome,Italy,legend,False,26.4,0.8717,FIFA World Cup
+191,Diego Simeone,Buenos Aires,Argentina,legend,False,54.9,0.871,
+192,Jesús Navas,Los Palacios y Villafranca,Spain,legend,False,23.2,0.871,FIFA World Cup · UEFA European Championship
+193,Marcus Rashford,Manchester,United Kingdom,legend,True,84.5,0.8707,
+194,Matthias Sammer,Dresden,Germany,legend,False,20.8,0.8705,Ballon d'Or · UEFA European Championship · German Footballer of the Year ×2
+195,Ferran Torres,Foios (near Valencia),Spain,legend,True,80.5,0.8699,
+196,Christian Pulisic,Hershey,United States,legend,True,41.9,0.8697,
+197,Filipe Luís,Jaraguá do Sul,Brazil,legend,False,39.3,0.8697,Copa América
+198,Gary Cahill,Dronfield,United Kingdom,legend,False,24.1,0.8696,UEFA Europa League ×2 · Premier League ×2
+199,Emmanuel Petit,Dieppe,France,legend,False,22.7,0.8687,FIFA World Cup · UEFA European Championship
+200,Tim Cahill,Sydney,Australia,legend,False,25.2,0.8681,AFC Asian Cup
+201,Thiago Silva,Rio de Janeiro,Brazil,legend,True,40.8,0.8679,
+202,Arturo Vidal,Santiago,Chile,legend,False,32.7,0.8665,
+203,Guillermo Ochoa,Guadalajara,Mexico,legend,False,27.6,0.865,CONCACAF Gold Cup
+204,Jordi Alba,L'Hospitalet de Llobregat,Spain,legend,False,30.7,0.8644,UEFA European Championship
+205,Ricardo Carvalho,Amarante,Portugal,legend,False,24.5,0.8638,UEFA European Championship ×2
+206,Daley Blind,Amsterdam,Netherlands,legend,False,27.6,0.8627,Eredivisie ×5
+207,Emmanuel Adebayor,Lomé,Togo,legend,False,39.4,0.8625,
+208,Geoff Hurst,Ashton-under-Lyne,United Kingdom,legend,False,23.9,0.8624,FIFA World Cup
+209,Teemu Pukki,Kotka,Finland,legend,False,21.5,0.8624,Finnish FA's Men's Footballer of the Year ×2 · Finnish Sports Journalists' Footballer of the Year
+210,Kolo Touré,Bouaké,Ivory Coast,legend,False,28.6,0.8621,Africa Cup of Nations
+211,Radamel Falcao,Santa Marta,Colombia,legend,True,35.2,0.8618,
+212,Henrikh Mkhitaryan,Yerevan,Armenia,legend,True,37.9,0.8615,
+213,Jean-Pierre Papin,Boulogne-sur-Mer,France,legend,False,22.1,0.8612,Ballon d'Or
+214,Dennis Bergkamp,Amsterdam,Netherlands,legend,False,37.4,0.861,
+215,Wesley Sneijder,Utrecht,Netherlands,legend,False,32.6,0.8602,
+216,Eric Cantona,Marseille,France,legend,False,53.0,0.8592,
+217,Ricardo Quaresma,Lisbon,Portugal,legend,False,30.5,0.8592,UEFA European Championship
+218,Rudi Völler,Hanau,Germany,legend,False,20.1,0.8589,FIFA World Cup · German Footballer of the Year
+219,Georginio Wijnaldum,Rotterdam,Netherlands,legend,True,38.2,0.8587,
+220,Mario Götze,Memmingen,Germany,legend,False,33.6,0.8587,Golden Boy
+221,Aleksandar Mitrović,Smederevo,Serbia,legend,False,29.9,0.8582,
+222,Jupp Heynckes,Mönchengladbach,Germany,legend,False,20.9,0.8579,FIFA World Cup · UEFA European Championship
+223,O. J. Simpson,San Francisco,United States,legend,False,118.1,0.8578,AP NFL Offensive Player of the Year Award
+224,Gabriel Jesus,São Paulo,Brazil,legend,True,91.9,0.8575,
+225,John McGinn,Glasgow,United Kingdom,legend,True,42.3,0.8575,
+226,Mario Gómez,Riedlingen,Germany,legend,False,22.1,0.857,UEFA Champions League · German Footballer of the Year · German football championship ×4
+227,Kai Havertz,Aachen,Germany,legend,True,56.8,0.8567,
+228,Javier Mascherano,San Lorenzo,Argentina,legend,False,33.7,0.8559,
+229,Hugo Lloris,Nice,France,legend,True,38.5,0.8555,
+230,Rafael Márquez,Zamora de Hidalgo,Mexico,legend,False,32.4,0.8553,
+231,Jordan Ayew,Marseille,France,legend,False,33.2,0.855,
+232,Achraf Hakimi,Madrid,Spain,legend,True,44.6,0.8542,
+233,Giorgio Chiellini,Pisa,Italy,legend,False,26.7,0.8536,UEFA European Championship
+234,Christian Vieri,Bologna,Italy,legend,False,32.6,0.853,Pichichi Trophy
+235,Xherdan Shaqiri,Gjilan,Kosovo,legend,False,31.3,0.853,
+236,Rui Costa,Amadora,Portugal,legend,False,25.3,0.8527,UEFA European Championship
+237,Philippe Coutinho,Rio de Janeiro,Brazil,legend,True,55.1,0.8524,
+238,Jürgen Klopp,Stuttgart,Germany,legend,False,78.4,0.8523,
+239,Clint Dempsey,Nacogdoches,United States,legend,False,26.1,0.8523,
+240,Marco Materazzi,Lecce,Italy,legend,False,23.7,0.8521,FIFA World Cup
+241,Jack Wilshere,Stevenage,United Kingdom,legend,False,47.8,0.8509,PFA Young Player of the Year
+242,Roy Keane,Cork,Ireland,legend,False,58.7,0.8506,
+243,Petr Čech,Plzeň,Czech Republic,legend,False,44.1,0.8506,
+244,Alexander Isak,Stockholm,Sweden,legend,True,68.4,0.85,
+245,Mikel Oyarzabal,Eibar,Spain,legend,True,43.0,0.85,
+246,Fernando Llorente,Pamplona,Spain,legend,False,20.4,0.85,FIFA World Cup · UEFA European Championship
+247,Cody Gakpo,Eindhoven,Netherlands,legend,True,55.9,0.8495,
+248,Jordan Henderson,Sunderland,United Kingdom,legend,True,82.7,0.8489,
+249,Gonzalo Higuaín,Brest,France,legend,False,38.3,0.8484,
+250,Kazuyoshi Miura,Shizuoka,Japan,legend,False,29.6,0.8484,
+251,Gavi,Los Palacios y Villafranca,Spain,legend,True,39.0,0.8473,Kopa Trophy
+252,Anthony Martial,Massy,France,legend,True,48.6,0.8472,Golden Boy
+253,Mateo Kovačić,Linz,Austria,legend,True,39.3,0.8472,
+254,Giuseppe Meazza,Milan,Italy,legend,False,18.1,0.847,FIFA World Cup ×2
+255,Marta,Dois Riachos,Brazil,legend,False,22.8,0.8469,The Best FIFA Women's Player
+256,Bukayo Saka,Ealing,United Kingdom,legend,True,71.9,0.8463,
+257,Mario Mandžukić,Slavonski Brod,Croatia,legend,False,26.4,0.8463,Croatian Footballer of the Year
+258,Per Mertesacker,Hanover,Germany,legend,False,20.7,0.8463,FIFA World Cup
+259,Keisuke Honda,Settsu,Japan,legend,False,31.0,0.846,
+260,Andy Robertson,Glasgow,United Kingdom,legend,True,50.8,0.8455,
+261,Samuel Umtiti,Yaoundé,Cameroon,legend,False,22.9,0.8455,FIFA World Cup
+262,Dominik Szoboszlai,Székesfehérvár,Hungary,legend,True,52.9,0.8452,
+263,Casemiro,São José dos Campos,Brazil,legend,True,49.1,0.845,
+264,Patrick Kluivert,Amsterdam,Netherlands,legend,False,31.2,0.845,
+265,Bebeto,Salvador,Brazil,legend,False,18.8,0.845,FIFA World Cup · Pichichi Trophy
+266,Aaron Ramsey,Caerphilly,United Kingdom,legend,False,37.8,0.8449,
+267,Leon Goretzka,Bochum,Germany,legend,True,54.2,0.8443,
+268,Jan Koller,Smetanova Lhota,Czech Republic,legend,False,23.1,0.844,Belgian Golden Shoe
+269,Fabio Grosso,Rome,Italy,legend,False,22.0,0.8434,FIFA World Cup
+270,Chris Wood,Auckland,New Zealand,legend,False,29.2,0.8432,
+271,Nicolás Otamendi,Buenos Aires,Argentina,legend,False,32.4,0.8431,
+272,Ashley Cole,Stepney,United Kingdom,legend,False,43.8,0.8427,
+273,Joshua Kimmich,Rottweil,Germany,legend,True,36.2,0.8418,
+274,Youri Djorkaeff,Lyon,France,legend,False,18.2,0.8418,FIFA World Cup · UEFA European Championship
+275,Bixente Lizarazu,Saint-Jean-de-Luz,France,legend,False,18.5,0.8415,FIFA World Cup · UEFA European Championship
+276,Edwin van der Sar,Voorhout,Netherlands,legend,False,37.6,0.8411,
+277,Julián Alvarez,Calchín,Argentina,legend,True,80.2,0.8406,
+278,Khvicha Kvaratskhelia,Tbilisi,Georgia,legend,True,54.6,0.8403,
+279,Declan Rice,Kingston upon Thames,United Kingdom,legend,True,55.6,0.8397,
+280,Jonny Evans,Belfast,United Kingdom,legend,False,20.2,0.8397,UEFA Champions League · Premier League ×4 · EFL Championship
+281,Lucy Bronze,Berwick-upon-Tweed,United Kingdom,legend,False,18.3,0.8397,The Best FIFA Women's Player · BBC Women's Footballer of the Year ×2 · UEFA Women's Championship
+282,Mikel John Obi,Jos,Nigeria,legend,False,25.5,0.8389,Africa Cup of Nations
+283,Hernán Crespo,Florida,Argentina,legend,False,35.3,0.8378,
+284,Damien Duff,Ballyboden (near Dublin),Ireland,legend,False,24.0,0.8372,
+285,André Schürrle,Ludwigshafen,Germany,legend,False,19.8,0.8368,FIFA World Cup
+286,Teddy Sheringham,Highams Park,United Kingdom,legend,False,30.7,0.836,Premier League Golden Boot
+287,Zico,Quintino Bocaiuva (near São João de Meriti),Brazil,legend,False,29.0,0.8358,
+288,Abby Wambach,Rochester,United States,legend,False,18.9,0.8357,
+289,Richarlison,Nova Venécia,Brazil,legend,True,59.3,0.8348,
+290,Luis Díaz,Barrancas,Colombia,legend,True,36.8,0.8342,
+291,Gianluca Zambrotta,Como,Italy,legend,False,19.4,0.834,FIFA World Cup
+292,Blaise Matuidi,Toulouse,France,legend,False,19.4,0.834,FIFA World Cup
+293,Paul Scholes,Salford,United Kingdom,legend,False,41.2,0.8334,
+294,Jorginho,Imbituba,Brazil,legend,False,31.2,0.8332,UEFA Men's Player of the Year Award
+295,Javi Martínez,Estella-Lizarra,Spain,legend,False,18.6,0.8329,FIFA World Cup · UEFA European Championship
+296,Javier Zanetti,Buenos Aires,Argentina,legend,False,28.4,0.8326,
+297,Oleg Blokhin,Kyiv,Ukraine,legend,False,17.2,0.8325,Ballon d'Or
+298,Clarence Seedorf,Paramaribo,Suriname,legend,False,43.3,0.8323,
+299,Alberto Gilardino,Biella,Italy,legend,False,19.3,0.8314,FIFA World Cup
+300,Rio Ferdinand,Camberwell (near City of Westminster),United Kingdom,legend,False,43.4,0.8312,
+301,Renato Sanches,Lisbon,Portugal,legend,False,37.9,0.8306,Golden Boy
+302,Michael Laudrup,Frederiksberg,Denmark,legend,False,26.5,0.8305,
+303,Marquinhos,São Paulo,Brazil,legend,False,34.6,0.8292,
+304,Shkodran Mustafi,Bad Hersfeld,Germany,legend,False,21.1,0.8292,FIFA World Cup
+305,Hakan Çalhanoğlu,Mannheim,Germany,legend,False,29.2,0.8291,
+306,Gordon Banks,Sheffield,United Kingdom,legend,False,19.3,0.8285,FIFA World Cup
+307,Mark van Bommel,Maasbracht,Netherlands,legend,False,46.5,0.828,
+308,Vinícius Júnior,São Gonçalo,Brazil,legend,True,78.2,0.8279,
+309,Kyle Walker,Sheffield,United Kingdom,legend,True,48.0,0.8279,
+310,Davor Šuker,Osijek,Croatia,legend,False,27.6,0.8276,
+311,Peter Shilton,Leicester,United Kingdom,legend,False,34.4,0.8272,
+312,John Stones,Barnsley,United Kingdom,legend,True,45.0,0.8269,
+313,Raymond Kopa,Nœux-les-Mines,France,legend,False,17.8,0.8266,Ballon d'Or
+314,Kasper Schmeichel,Copenhagen,Denmark,legend,False,36.0,0.8265,
+315,Ali Daei,Ardabil,Iran,legend,False,19.8,0.8265,
+316,Arda Turan,Fatih (near Istanbul),Turkey,legend,False,32.0,0.8259,
+317,Axel Witsel,Liège,Belgium,legend,False,22.4,0.8256,Belgian Golden Shoe
+318,John Terry,Barking,United Kingdom,legend,False,44.2,0.8251,
+319,Jari Litmanen,Lahti,Finland,legend,False,23.2,0.8251,
+320,Viktor Gyökeres,Hägerstens,Sweden,legend,True,54.1,0.8248,
+321,Dunga,Ijuí,Brazil,legend,False,18.0,0.823,FIFA World Cup
+322,Craig Bellamy,Cardiff,United Kingdom,legend,False,34.2,0.8228,
+323,Rogério Ceni,Pato Branco,Brazil,legend,False,20.4,0.8228,FIFA World Cup
+324,Gilberto Silva,Lagoa da Prata,Brazil,legend,False,18.1,0.8228,FIFA World Cup
+325,Marko Arnautović,Vienna,Austria,legend,False,22.3,0.8226,
+326,Daniel Passarella,"Chacabuco, Buenos Aires",Argentina,legend,False,15.2,0.8223,FIFA World Cup ×2
+327,Ryan Giggs,Cardiff,United Kingdom,legend,False,55.8,0.822,
+328,Gianni Rivera,Alessandria,Italy,legend,False,15.7,0.822,Ballon d'Or · UEFA European Championship
+329,Gary Neville,Bury,United Kingdom,legend,False,46.2,0.8214,
+330,Dino Zoff,Mariano del Friuli,Italy,legend,False,18.7,0.821,FIFA World Cup · UEFA European Championship
+331,Franck Kessié,Ouragahio,Ivory Coast,legend,False,30.3,0.8208,
+332,Martin Ødegaard,Drammen,Norway,legend,True,55.7,0.8207,
+333,Nicolò Barella,Cagliari,Italy,legend,False,23.0,0.8207,UEFA European Championship
+334,Enner Valencia,San Lorenzo,Ecuador,legend,False,23.3,0.8205,
+335,Alisson Becker,Novo Hamburgo,Brazil,legend,True,48.7,0.82,
+336,Omar Marmoush,Cairo,Egypt,legend,True,61.2,0.8194,
+337,Giovanni van Bronckhorst,Rotterdam,Netherlands,legend,False,33.9,0.8194,
+338,Ivan Rakitić,Rheinfelden,Switzerland,legend,False,27.7,0.8194,
+339,Breel Embolo,Yaoundé,Cameroon,legend,False,27.9,0.8187,
+340,Gylfi Sigurðsson,Reykjavík,Iceland,legend,False,29.1,0.8182,
+341,Dida,Irará,Brazil,legend,False,17.9,0.8182,FIFA World Cup
+342,Rúben Dias,Amadora,Portugal,legend,True,50.7,0.818,
+343,João Cancelo,Barreiro,Portugal,legend,True,51.5,0.8164,
+344,Antonio Rüdiger,Berlin,Germany,legend,False,46.9,0.8164,
+345,Dušan Tadić,Bačka Topola,Serbia,legend,False,25.6,0.8164,
+346,Jack Charlton,Ashington,United Kingdom,legend,False,18.6,0.8164,FIFA World Cup
+347,Carli Lloyd,Delran Township,United States,legend,False,14.2,0.816,FIFA World Player of the Year · The Best FIFA Women's Player · FIFA Women's World Cup ×2
+348,Jordan Pickford,Washington,United Kingdom,legend,True,45.4,0.8156,
+349,Rodrigo De Paul,Sarandí,Argentina,legend,True,42.5,0.815,
+350,Rafael van der Vaart,Heemskerk,Netherlands,legend,False,25.2,0.815,
+351,Alex Iwobi,Lagos,Nigeria,legend,False,31.5,0.8141,
+352,Keylor Navas,Cartago,Costa Rica,legend,False,30.1,0.8139,
+353,Idrissa Gueye,Dakar,Senegal,legend,False,25.9,0.8139,
+354,Presnel Kimpembe,Beaumont-sur-Oise,France,legend,False,18.8,0.8134,FIFA World Cup
+355,Andrés Guardado,Guadalajara,Mexico,legend,False,16.8,0.8133,CONCACAF Gold Cup
+356,Timo Werner,Stuttgart,Germany,legend,True,36.5,0.8131,
+357,Alexander Sørloth,Trondheim,Norway,legend,False,29.4,0.8131,
+358,Rivellino,São Paulo,Brazil,legend,False,16.0,0.8125,FIFA World Cup
+359,Dejan Stanković,Belgrade,Serbia,legend,False,21.4,0.8124,
+360,Ole Gunnar Solskjær,Kristiansund,Norway,legend,False,33.6,0.8122,
+361,Bryan Robson,Chester-le-Street,United Kingdom,legend,False,26.8,0.8118,
+362,Emiliano Martínez,Mar del Plata,Argentina,legend,True,97.6,0.8102,
+363,Mário Zagallo,Atalaia,Brazil,legend,False,14.5,0.8101,FIFA World Cup ×2
+364,Roberto Firmino,Maceió,Brazil,legend,True,45.6,0.8096,
+365,Danny Welbeck,Manchester,United Kingdom,legend,True,70.1,0.8093,
+366,Scott McTominay,Lancaster,United Kingdom,legend,True,36.2,0.8091,
+367,Luis Enrique,Gijón,Spain,legend,False,48.0,0.809,
+368,Peter Crouch,Macclesfield,United Kingdom,legend,False,47.9,0.8088,
+369,Park Ji-sung,Seoul,South Korea,legend,False,28.9,0.8088,
+370,Andrey Arshavin,Saint Petersburg,Russia,legend,False,33.6,0.8084,
+371,Eiður Guðjohnsen,Reykjavík,Iceland,legend,False,26.4,0.8082,
+372,Berti Vogts,Büttgen (near Neuss),Germany,legend,False,14.1,0.8082,FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
+373,Shinji Kagawa,Tarumi-ku,Japan,legend,False,24.0,0.8081,
+374,Leroy Sané,Essen,Germany,legend,False,35.0,0.8078,
+375,Dwight Yorke,"Canaan, Tobago",Trinidad and Tobago,legend,False,32.4,0.8076,
+376,Victor Moses,Lagos,Nigeria,legend,False,22.4,0.8075,Africa Cup of Nations
+377,João Moutinho,Portimão,Portugal,legend,False,23.6,0.8068,
+378,Carlos Vela,Cancun,Mexico,legend,False,21.4,0.8067,MLS Golden Boot
+379,Dirk Kuyt,Katwijk,Netherlands,legend,False,24.3,0.8064,
+380,Pep Guardiola,Santpedor,Spain,legend,False,121.5,0.8062,
+381,Dani Olmo,Terrassa,Spain,legend,True,47.3,0.8059,
+382,Klaas-Jan Huntelaar,Voor-Drempt (near Arnhem),Netherlands,legend,False,23.5,0.8059,
+383,Sam Kerr,East Fremantle (near Perth),Australia,legend,False,22.8,0.8058,
+384,Christian Karembeu,Lifou,New Caledonia,legend,False,14.9,0.8053,FIFA World Cup · UEFA European Championship
+385,Federico Valverde,Montevideo,Uruguay,legend,True,39.1,0.8052,
+386,Shay Given,Lifford,Ireland,legend,False,26.6,0.8052,
+387,Raphinha,Porto Alegre,Brazil,legend,True,94.7,0.805,
+388,Gervinho,Anyama,Ivory Coast,legend,False,18.8,0.8044,Africa Cup of Nations
+389,Uli Hoeneß,Ulm,Germany,legend,False,14.8,0.8044,FIFA World Cup · UEFA European Championship
+390,Milan Baroš,Valašské Meziříčí,Czech Republic,legend,False,22.3,0.8042,
+391,Raphaël Guerreiro,Le Blanc-Mesnil,France,legend,False,21.1,0.8038,UEFA European Championship
+392,Enzo Fernández,General San Martín (near Isidro Casanova),Argentina,legend,True,95.1,0.8035,
+393,Vivianne Miedema,Hoogeveen,Netherlands,legend,False,16.1,0.8033,European Golden Shoe · UEFA Women's Championship
+394,Nwankwo Kanu,Owerri,Nigeria,legend,False,25.2,0.803,Serie A
+395,Roger Milla,Yaoundé,Cameroon,legend,False,15.2,0.803,Africa Cup of Nations ×2
+396,N'Golo Kanté,Paris,France,legend,True,58.6,0.8027,
+397,Oliver Bierhoff,Karlsruhe,Germany,legend,False,15.9,0.8025,UEFA European Championship · German Footballer of the Year
+398,Julie Ertz,Mesa,United States,legend,False,14.1,0.8024,FIFA Women's World Cup ×2
+399,Hakim Ziyech,Dronten,Netherlands,legend,False,30.6,0.8022,
+400,João Félix,Viseu,Portugal,legend,True,53.1,0.8018,
+401,Tim Howard,North Brunswick,United States,legend,False,26.3,0.8015,
+402,Roy Makaay,Wijchen,Netherlands,legend,False,19.9,0.8015,European Golden Shoe · Pichichi Trophy
+403,Vozinha,Mindelo,Cape Verde,legend,True,38.7,0.8013,
+404,Harry Maguire,Sheffield,United Kingdom,legend,True,50.9,0.8012,
+405,Hakan Şükür,Adapazarı,Turkey,legend,False,19.9,0.801,
+406,Roque Santa Cruz,Asunción,Paraguay,legend,False,21.5,0.8004,
+407,Denzel Dumfries,Rotterdam,Netherlands,legend,True,35.8,0.8001,
+408,Donyell Malen,Wieringen,Netherlands,legend,True,46.3,0.7996,
+409,Yann Sommer,Morges,Switzerland,legend,True,37.1,0.7986,
+410,Gianluigi Donnarumma,Castellammare di Stabia,Italy,legend,True,55.1,0.7983,
+411,Diogo Jota,Freguesia de Massarelos (near Porto),Portugal,legend,False,50.0,0.7976,
+412,Marek Hamšík,Banská Bystrica,Slovakia,legend,False,20.3,0.7969,
+413,Dominik Livaković,Zadar,Croatia,legend,True,44.0,0.7963,
+414,Joan Capdevila,Tàrrega,Spain,legend,False,14.1,0.7961,FIFA World Cup · UEFA European Championship
+415,Miralem Pjanić,Tuzla,Bosnia and Herzegovina,legend,False,22.7,0.7959,
+416,Marouane Fellaini,Etterbeek,Belgium,legend,False,26.6,0.7953,
+417,Leandro Paredes,San Justo,Argentina,legend,True,37.5,0.795,
+418,John O'Shea,Waterford,Ireland,legend,False,26.4,0.795,
+419,Wojciech Szczęsny,Warsaw,Poland,legend,True,42.4,0.7947,
+420,Oleksandr Zinchenko,Radomyshl,Ukraine,legend,False,33.0,0.7946,
+421,André Ayew,Seclin,France,legend,False,21.3,0.7946,
+422,Mikel Merino,Pamplona,Spain,legend,True,41.4,0.7943,
+423,Omar Sívori,San Nicolás de los Arroyos,Argentina,legend,False,14.7,0.7943,Ballon d'Or
+424,Diego Godín,Rosario,Uruguay,legend,False,20.4,0.7938,
+425,Fernandinho,Londrina,Brazil,legend,False,20.3,0.7929,Copa América
+426,Alexis Mac Allister,Santa Rosa,Argentina,legend,True,50.5,0.791,
+427,Stevan Jovetić,Podgorica,Montenegro,legend,False,20.9,0.7909,
+428,Giovani dos Santos,Monterrey,Mexico,legend,False,22.6,0.7904,
+429,Salomon Kalou,Oumé,Ivory Coast,legend,False,16.4,0.7903,Africa Cup of Nations
+430,Niko Kovač,West Berlin,Germany,legend,False,28.0,0.79,
+431,Juliano Belletti,Cascavel,Brazil,legend,False,16.0,0.7892,FIFA World Cup
+432,Serge Gnabry,Stuttgart,Germany,legend,False,27.2,0.7889,
+433,Asamoah Gyan,Accra,Ghana,legend,False,18.6,0.7889,
+434,Igor Belanov,Odesa,Ukraine,legend,False,14.5,0.7886,Ballon d'Or
+435,Mark Hughes,Wrexham,United Kingdom,legend,False,29.8,0.7884,
+436,Mehdi Taremi,Bushehr,Iran,legend,False,17.9,0.7884,
+437,Florian Wirtz,Pulheim,Germany,legend,True,48.0,0.7883,
+438,Brian Laudrup,Vienna,Austria,legend,False,17.3,0.7883,UEFA European Championship
+439,Yossi Benayoun,Dimona,Israel,legend,False,21.6,0.7881,
+440,Flórián Albert,Hercegszántó,Hungary,legend,False,13.4,0.7877,Ballon d'Or
+441,Andrea Barzagli,Fiesole,Italy,legend,False,14.8,0.7875,FIFA World Cup
+442,Shinji Okazaki,Takarazuka,Japan,legend,False,17.1,0.7874,Premier League
+443,Juan Cuadrado,Necoclí,Colombia,legend,False,22.8,0.7872,
+444,Séamus Coleman,Donegal,Ireland,legend,False,39.3,0.7869,
+445,Ian Wright,Woolwich,United Kingdom,legend,False,69.0,0.786,
+446,Nicklas Bendtner,Copenhagen,Denmark,legend,False,22.4,0.786,
+447,Andreas Brehme,Hamburg,Germany,legend,False,14.1,0.786,FIFA World Cup
+448,Sepp Maier,Metten,Germany,legend,False,12.0,0.7852,FIFA World Cup · UEFA European Championship · German Footballer of the Year ×3
+449,Salomón Rondón,Caracas,Venezuela,legend,False,17.6,0.7847,
+450,Frank Leboeuf,Marseille,France,legend,False,13.1,0.7844,FIFA World Cup · UEFA European Championship
+451,José María Giménez,Toledo (near Montevideo),Uruguay,legend,False,25.3,0.7835,
+452,Rafael Leão,Almada,Portugal,legend,True,60.4,0.7829,
+453,Paul Gascoigne,Gateshead,United Kingdom,legend,False,41.7,0.7829,
+454,Leonardo Araújo,Niterói,Brazil,legend,False,14.4,0.7829,FIFA World Cup
+455,Micah Richards,Birmingham,United Kingdom,legend,False,42.6,0.7828,Premier League ×2
+456,Frenkie de Jong,Arkel,Netherlands,legend,True,37.4,0.7824,
+457,Ben Davies,Neath,United Kingdom,legend,False,29.5,0.7823,
+458,Jozy Altidore,Livingston,United States,legend,False,18.4,0.7823,
+459,Ali Krieger,Alexandria,United States,legend,False,26.6,0.7821,
+460,Allan Simonsen,Vejle,Denmark,legend,False,13.2,0.7818,Ballon d'Or
+461,Edgar Davids,Paramaribo,Suriname,legend,False,34.3,0.7815,
+462,Didi,Campos dos Goytacazes,Brazil,legend,False,11.9,0.7814,FIFA World Cup ×2
+463,Carlos Alberto Torres,Rio de Janeiro,Brazil,legend,False,14.1,0.7768,FIFA World Cup
+464,Christine Sinclair,Burnaby,Canada,legend,False,13.0,0.7763,
+465,Gigi Riva,Leggiuno,Italy,legend,False,16.2,0.776,UEFA European Championship
+466,Ada Hegerberg,Molde,Norway,legend,False,12.2,0.7745,Ballon d'Or Féminin · BBC Women's Footballer of the Year · UEFA Women's Player of the Year Award
+467,Siniša Mihajlović,Vukovar,Croatia,legend,False,17.7,0.7716,Serbian Footballer of the Year
+468,Jairzinho,Rio de Janeiro,Brazil,legend,False,14.9,0.7679,FIFA World Cup
+469,Sócrates,Belém,Brazil,legend,False,24.9,0.7673,
+470,Uwe Seeler,Hamburg,Germany,legend,False,11.9,0.767,German Footballer of the Year ×3
+471,Luis Suárez,A Coruña,Spain,legend,False,11.1,0.7643,Ballon d'Or · UEFA European Championship
+472,Carlos Valderrama,Santa Marta,Colombia,legend,False,19.4,0.7613,
+473,Homare Sawa,Fuchū,Japan,legend,False,8.6,0.743,FIFA Women's World Cup
+474,Michelle Akers,Santa Clara,United States,legend,False,11.0,0.7389,
+475,Majed Abdullah,Jeddah,Saudi Arabia,legend,False,11.7,0.737,
+476,Hidetoshi Nakata,Kofu,Japan,legend,False,21.0,0.7366,
+477,Sándor Kocsis,Budapest,Hungary,legend,False,13.0,0.7363,
+478,Nílton Santos,Rio de Janeiro,Brazil,legend,False,7.8,0.7334,FIFA World Cup ×2 · Copa América
+479,Giacinto Facchetti,Treviglio,Italy,legend,False,12.5,0.7312,UEFA European Championship
+480,Fritz Walter,Kaiserslautern,Germany,legend,False,8.8,0.73,FIFA World Cup
+481,Kristine Lilly,New York City,United States,legend,False,8.8,0.7271,
+482,Birgit Prinz,Frankfurt,Germany,legend,False,6.9,0.7263,FIFA World Player of the Year ×3 · Female football player of the year ×8
+483,Enzo Francescoli,Montevideo,Uruguay,legend,False,17.0,0.7154,
+484,Zbigniew Boniek,Bydgoszcz,Poland,legend,False,12.8,0.707,
+485,Kazimierz Deyna,Starogard Gdański,Poland,legend,False,10.1,0.6971,
+486,Grzegorz Lato,Malbork,Poland,legend,False,9.8,0.697,
+487,Josef Bican,Vienna,Austria,legend,False,15.7,0.6933,
+488,Hans Krankl,Vienna,Austria,legend,False,8.5,0.6817,Pichichi Trophy
+489,Nadine Angerer,Lohr am Main,Germany,legend,False,4.9,0.672,FIFA Women's World Cup
+490,Johan Neeskens,Heemstede,Netherlands,legend,False,15.8,0.6685,
+491,Just Fontaine,Marrakech,Morocco,legend,False,16.1,0.6675,
+492,Teófilo Cubillas,Lima,Peru,legend,False,10.1,0.6655,
+493,Dejan Savićević,Podgorica,Montenegro,legend,False,13.5,0.6606,
+494,Dragan Džajić,Ub,Serbia,legend,False,9.4,0.6562,
+495,Sun Wen,Shanghai,China,legend,False,4.5,0.6481,
+496,Formiga,Salvador,Brazil,legend,False,7.5,0.6367,
+497,Ernst Happel,Vienna,Austria,legend,False,12.1,0.5899,
+498,Ferenc Bene,Balatonújlak,Hungary,legend,False,4.1,0.5867,
+499,Elías Figueroa,Valparaíso,Chile,legend,False,7.0,0.5068,
+500,Rinus Michels,Amsterdam,Netherlands,legend,False,14.9,0.4758,

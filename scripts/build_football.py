@@ -93,7 +93,7 @@ SEEDS = [
     "Raymond Kopa", "Just Fontaine", "Jean-Pierre Papin", "Eric Cantona", "Patrick Vieira", "Lilian Thuram",
     "Antoine Griezmann", "Kevin De Bruyne", "Eden Hazard", "Arjen Robben", "Wesley Sneijder", "Clarence Seedorf",
     "Edwin van der Sar", "Ruud van Nistelrooy", "Robin van Persie", "Virgil van Dijk", "Johan Neeskens",
-    "Rinus Michels", "Josef Bican", "Ernst Happel", "Hans Krankl", "Ferenc Bene", "Sándor Kocsis",
+    "Josef Bican", "Ernst Happel", "Hans Krankl", "Ferenc Bene", "Sándor Kocsis",
     "Kazimierz Deyna", "Zbigniew Boniek", "Grzegorz Lato", "Dragan Džajić", "Dejan Savićević", "Siniša Mihajlović",
     "Ali Daei", "Majed Abdullah", "Tim Cahill", "Landon Donovan", "Christian Pulisic", "Marta", "Mia Hamm",
     "Abby Wambach", "Alex Morgan", "Megan Rapinoe", "Birgit Prinz", "Sun Wen", "Christine Sinclair",
@@ -232,6 +232,23 @@ def clubs(ids):
     return out
 
 
+def award_years(ids):
+    """{qid: {award label: [years]}} from award statements that carry a date: the cleanest count of how many
+    times someone won something (the award items themselves also list winners, which double-counts)."""
+    out = {q: {} for q in ids}
+    for batch in in_batches(ids, 40):
+        rows = sparql(f"""SELECT ?p ?aLabel (GROUP_CONCAT(DISTINCT STR(YEAR(?t)); separator="|") AS ?years) WHERE {{
+          VALUES ?p {{ {values(batch)} }}
+          ?p p:P166 ?st . ?st ps:P166 ?a ; pq:P585 ?t .
+          SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,mul". }}
+        }} GROUP BY ?p ?aLabel""")
+        for r in rows:
+            if not is_qid_label(val(r, "aLabel")):
+                out[qid(val(r, "p"))][val(r, "aLabel")] = sorted({int(y) for y in (val(r, "years") or "").split("|") if y})
+        time.sleep(1)
+    return out
+
+
 def titles(ids):
     """Team titles: seasons and tournaments the player took part in (P1344) whose winner (P1346) is a team
     they played for (P54). Returns {qid: [[event label, competition label, winner team, year], ...]}."""
@@ -293,17 +310,20 @@ def with_team_then(spells, team, year):
     return False
 
 
-def achievement(awards, won, spells):
+def achievement(awards, won, spells, years=None):
     """(points, [readable achievements]) following the formula at the top of this file."""
     pts, items, minor = 0.0, [], 0
-    counts = {}
+    # Wikidata often records the same award twice: as an award (P166, sometimes duplicated) and as the
+    # winner of that year's event ("2018 Ballon d'Or"), and the award item lists its winners too. Count the
+    # distinct years on the dated award statements; failing that, the winner records, then the statements.
+    by_kind = {"award": {}, "win": {}}
     for label, n, kind, sports in awards:
-        if kind == "win" and not FOOTBALLISH.search(label + " " + (sports or "")):
-            continue
-        if kind == "award" and not FOOTBALLISH.search(label + " " + (sports or "")):
+        if not FOOTBALLISH.search(label + " " + (sports or "")):
             continue
         base = re.sub(r"^\d{4}([–-]\d{2,4})?\s+|\s+\d{4}([–-]\d{2,4})?$", "", label).strip()
-        counts[base] = counts.get(base, 0) + n
+        by_kind[kind][base] = by_kind[kind].get(base, 0) + n
+    counts = {b: len((years or {}).get(b) or []) or by_kind["win"].get(b) or by_kind["award"].get(b, 0)
+              for b in set(by_kind["award"]) | set(by_kind["win"])}
     for base, n in counts.items():
         if TOP_INDIVIDUAL.search(base):
             pts += 30 * n; items.append((base, n, 100))
@@ -332,6 +352,14 @@ def achievement(awards, won, spells):
     pts += min(20, caps * 0.1) + min(15, goals * 0.2)
     items.sort(key=lambda x: (-x[2], -x[1], x[0]))
     return round(pts, 1), [f"{label} ×{n}" if n > 1 else label for label, n, _ in items], caps, goals
+
+
+def display_name(label, title):
+    """The English Wikipedia title ("Ronaldo (Brazilian footballer)" → "Ronaldo"), which is better looked after
+    than the Wikidata label (we found a Greek capital alpha in "Arda Güler" and "Andrcu Onana")."""
+    if not title:
+        return label
+    return re.sub(r"\s*\([^)]*\)$", "", title)
 
 
 def fame(sitelinks, views):
@@ -416,6 +444,14 @@ def nearest(places, lat, lng, max_rank, max_km, skip=""):
     return best
 
 
+def tidy_place(label):
+    """'16th arrondissement of Marseille' → 'Marseille'; 'Molde Municipality' → 'Molde'; 'Lanús Partido' → 'Lanús'."""
+    m = re.search(r"arrondissement of (.+)$", label)
+    if m:
+        return m.group(1)
+    return re.sub(r"\s+(municipality|partido|församling|kommune|kommun|district|parish)$", "", label, flags=re.I)
+
+
 def radius_for(area_m2, population):
     area = float(area_m2) / 1e6 if area_m2 else 0
     if 0 < area <= 3000:
@@ -430,6 +466,9 @@ def radius_for(area_m2, population):
 # overseas territories drawn as their own shapes on the map, and the country Wikidata gives for them
 TERRITORIES = {"New Caledonia": "France", "Fr. Polynesia": "France", "French Polynesia": "France", "Puerto Rico": "United States",
                "Greenland": "Denmark", "Faeroe Is.": "Denmark", "Faroe Islands": "Denmark", "Curaçao": "Netherlands", "Aruba": "Netherlands"}
+# countries that no longer exist, and the country their land is in today (only used to read the map shapes)
+SUCCESSOR = {"West Germany": "Germany", "East Germany": "Germany", "allied-occupied Germany": "Germany"}
+MAX_PLACE_KM2 = 20000  # a "birthplace" bigger than this is a region, not a town (Shanghai is 6,340 km², Sydney 12,368)
 SAME_PLACE_KM = 20  # two recorded birthplaces this close are one place at two levels (a town and its district)
 BORDER_KM = 15      # the country outlines are simplified, so a border town can land just over the line
 
@@ -468,7 +507,11 @@ def birthplace(d, sizes, shapes, places, current):
     if len(p["countries"]) > 1:
         # Wikidata keeps old countries too (Rome: Vatican City; Prague: Bohemia). Use the one the place is in today.
         names = next((n for name, n, _ in shapes if name == found), set()) if found else set()
-        today = [c for c in p["countries"] if c.lower() in names]
+        listed = [SUCCESSOR.get(c, c) for c in p["countries"]]
+        today = [c for c in listed if c.lower() in names]
+        if not today and found is None:  # a point on water (Stockholm sits between islands): the nearest listed country
+            near = sorted((km_to_country(shapes, c, lat, lng) or 1e9, c) for c in listed)
+            today = [near[0][1]] if near and near[0][0] <= 25 else []
         if not today:
             return None, f"{p['label']} is in several countries on Wikidata: {', '.join(p['countries'])}"
         country = today[0]
@@ -487,8 +530,10 @@ def birthplace(d, sizes, shapes, places, current):
     if not country:
         return None, f"no country for {p['label']}"
     area, pop = (sizes.get(pid) or [None, None])
+    if (area and float(area) / 1e6 > MAX_PLACE_KM2) or p["label"] in p["countries"] or any(p["label"].lower() in n for _, n, _ in shapes):
+        return None, f"place of birth is a whole region or country: {p['label']}"
     r = radius_for(area, pop)
-    out = {"birth_place": p["label"], "birth_country": country, "lat": round(lat, 4), "lng": round(lng, 4), "radius_km": r}
+    out = {"birth_place": tidy_place(p["label"]), "birth_country": country, "lat": round(lat, 4), "lng": round(lng, 4), "radius_km": r}
     if also:  # the other recorded place, inside the circle
         out["also_recorded"] = [a[0] for a in also]
         out["radius_km"] = round(min(MAX_RADIUS + 10, max(r, max(km_between(lat, lng, *a[1]) for a in also) + 5)), 1)
@@ -550,10 +595,11 @@ def main():
     won = batched("fb-titles", shortlist, 30, titles, fresh)
     awards = batched("fb-awards", shortlist, 40, achievements, fresh)
     prof = batched("fb-profile", shortlist, 80, profile, fresh)
+    years = batched("fb-years", shortlist, 40, award_years, fresh)
 
     scored = {}
     for q in shortlist:
-        pts, items, caps, goals = achievement(awards.get(q, []), won.get(q, []), spells.get(q, []))
+        pts, items, caps, goals = achievement(awards.get(q, []), won.get(q, []), spells.get(q, []), years.get(q))
         scored[q] = {"fame": fame(info[q]["sl"], views.get(q, 0)), "ach": pts, "items": items, "caps": caps, "goals": goals}
     fame_p = percentiles({q: s["fame"] for q, s in scored.items()})
     ach_p = percentiles({q: math.log1p(s["ach"]) for q, s in scored.items()})
@@ -601,7 +647,7 @@ def main():
                          for c in spells.get(q, []) if not NATIONAL.search(c["name"])],
                         key=lambda c: (c["from"] or 9999, c["club"]))
         entries.append({
-            "id": "wd-" + q, "name": d["name"], "type": "athlete", "sport": "Football",
+            "id": "wd-" + q, "name": display_name(d["name"], more.get(q, {}).get("title")), "type": "athlete", "sport": "Football",
             "list": "legend" if q in legends else "current", "current": q in current,
             "female": d["female"],
             **where[q],

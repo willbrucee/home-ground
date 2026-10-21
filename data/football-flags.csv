@@ -1,113 +1,155 @@
 id,name,problem,legend score,fame
-wd-Q529207,Ronaldo,several places of birth 59 km apart: Rio de Janeiro / Itaguaí,0.9962,105.2
-wd-Q20110,Francesco Totti,"Rome is in several countries on Wikidata: Italy, Vatican City",0.9762,64.2
-wd-Q178683,Cafu,several places of birth 30 km apart: São Paulo / Itaquaquecetuba,0.9203,31.0
-wd-Q151260,Jérôme Boateng,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.8932,28.4
-wd-Q168497,Daniele De Rossi,"Rome is in several countries on Wikidata: Italy, Vatican City",0.8872,26.9
+wd-Q529207,Ronaldo,several places of birth 59 km apart: Rio de Janeiro / Itaguaí,0.9969,105.2
+wd-Q178683,Cafu,several places of birth 30 km apart: São Paulo / Itaquaquecetuba,0.9236,31.0
 wd-Q185225,Santi Cazorla,place of birth has no English name,0.8808,27.1
-wd-Q227892,Alessandro Nesta,"Rome is in several countries on Wikidata: Italy, Vatican City",0.8712,26.1
-wd-Q196219,Henrikh Mkhitaryan,"Yerevan is in several countries on Wikidata: Armenia, Safavid Iran, Bagratid Armenia, Ottoman Empire",0.8607,37.9
-wd-Q23759917,Alexander Isak,"Stockholm is in several countries on Wikidata: Sweden, Kalmar Union",0.8506,68.8
-wd-Q30134278,Dominik Szoboszlai,"Székesfehérvár is in several countries on Wikidata: Austria–Hungary, Hungary",0.8458,53.1
-wd-Q230529,Fabio Grosso,"Rome is in several countries on Wikidata: Italy, Vatican City",0.8437,22.0
-wd-Q156822,Lúcio,several places of birth 31 km apart: Brasília / Planaltina,0.8318,18.8
+wd-Q156822,Lúcio,several places of birth 31 km apart: Brasília / Planaltina,0.8322,18.8
 wd-Q219354,Ian Rush,several places of birth 21 km apart: St Asaph / Flint,0.8271,31.1
-wd-Q28065104,Omar Marmoush,"Cairo is in several countries on Wikidata: Egypt, Medieval Egypt, Kingdom of Egypt, Mamluk Sultanate of Egypt",0.8204,61.2
-wd-Q44458,Paul Breitner,several places of birth 49 km apart: Munich / Kolbermoor,0.8083,14.6
-wd-Q310373,Osvaldo Ardiles,several places of birth 196 km apart: Córdoba / Bell Ville,0.8033,16.2
-wd-Q286511,Christian Karembeu,"coordinates for Lifou fall in New Caledonia, but Wikidata says France",0.8005,14.7
-wd-Q336916,Abedi Pele,Dome has several coordinates far apart,0.7956,17.3
-wd-Q154305,Niko Kovač,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.7906,28.0
-wd-Q29162,Tomáš Rosický,"Prague is in several countries on Wikidata: Czech Republic, Bohemia",0.7769,19.8
-wd-Q151025,Jakub Błaszczykowski,"several places of birth 21 km apart: Częstochowa / Truskolasy, Silesian Voivodeship",0.763,16.1
-wd-Q23908113,Unai Simón,"Vitoria-Gasteiz is in several countries on Wikidata: Spain, Kingdom of Castile",0.7611,36.6
-wd-Q16910257,Patrik Schick,"Prague is in several countries on Wikidata: Czech Republic, Bohemia",0.7537,21.9
-wd-Q129109,Matthias Ginter,"Freiburg im Breisgau is in several countries on Wikidata: Germany, French occupation zone in Germany",0.7468,11.7
-wd-Q203002,Igor Akinfeev,"Vidnoye is in several countries on Wikidata: Soviet Union, Russia",0.7468,20.2
-wd-Q211451,Aleksandar Kolarov,"Zemun is in several countries on Wikidata: Kingdom of Serbs, Croats and Slovenes, Austria, Ottoman Empire, Kingdom of Hungary, Socialist Federal Republic of Yugoslavia, Serbia, Kingdom of Yugoslavia",0.744,19.3
-wd-Q18817134,Rodrigo Bentancur,"Colonia del Sacramento is in several countries on Wikidata: Uruguay, Empire of Brazil",0.7418,25.0
-wd-Q45567,Fernando Morientes,several places of birth 80 km apart: Cáceres / Cilleros,0.7416,21.1
-wd-Q47516,Pierre Littbarski,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.7411,10.1
-wd-Q344759,Ľubomír Moravčík,"Nitra is in several countries on Wikidata: Kingdom of Hungary, Slovakia",0.7384,19.8
-wd-Q155911,Thomas Häßler,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.7364,8.3
-wd-Q201900,Rüştü Reçber,several places of birth 48 km apart: Antalya / Korkuteli,0.7358,11.6
-wd-Q1378371,Alessandro Florenzi,"Rome is in several countries on Wikidata: Italy, Vatican City",0.7248,13.2
-wd-Q215963,Andoni Zubizarreta,"Vitoria-Gasteiz is in several countries on Wikidata: Spain, Kingdom of Castile",0.7135,14.7
-wd-Q204978,Antonín Panenka,"Prague is in several countries on Wikidata: Czech Republic, Bohemia",0.7044,10.4
-wd-Q155049,Ron-Robert Zieler,several places of birth 249 km apart: Cologne / Hanover,0.7013,8.9
-wd-Q15065431,Aleksandr Golovin,"Kaltan is in several countries on Wikidata: Soviet Union, Russia",0.6925,19.8
-wd-Q202404,Giorgos Samaras,"Heraklion is in several countries on Wikidata: Ottoman Empire, Greece, Emirate of Crete, Republic of Venice, Byzantine Empire",0.6923,15.4
-wd-Q147172,Vincent Enyeama,several places of birth 614 km apart: Kaduna / Akwa Ibom State,0.6911,8.8
-wd-Q44181,Anatolii Tymoshchuk,"Lutsk is in several countries on Wikidata: Soviet Union, Ukraine, Russian Empire",0.6909,11.2
-wd-Q294806,César Azpilicueta,no coordinates for Euskadi Ta Askatasuna,0.6894,28.3
-wd-Q4406552,Alireza Jahanbakhsh,"Qazvin is in several countries on Wikidata: Safavid Iran, Iran",0.683,11.7
-wd-Q77305,Guido Buchwald,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.6778,5.9
-wd-Q44917,Jürgen Grabowski,"Wiesbaden is in several countries on Wikidata: Germany, Prussia",0.6772,5.1
-wd-Q204059,Mateja Kežman,"Zemun is in several countries on Wikidata: Kingdom of Serbs, Croats and Slovenes, Austria, Ottoman Empire, Kingdom of Hungary, Socialist Federal Republic of Yugoslavia, Serbia, Kingdom of Yugoslavia",0.6676,15.5
-wd-Q168029,Roman Pavlyuchenko,"Mostovskoy, Krasnodar Krai is in several countries on Wikidata: Soviet Union, Russia, Russian Empire",0.6647,13.9
-wd-Q201866,Aleksandr Kerzhakov,"Kingisepp is in several countries on Wikidata: Tsardom of Russia, Russia, Soviet Union, Russian Empire",0.6558,8.4
-wd-Q193702,Walter Samuel,several places of birth 132 km apart: Firmat / Laborde,0.6545,16.8
-wd-Q210616,Andrés Escobar,no coordinates for Rasht and Khomam,0.6519,19.5
-wd-Q191151,Alberto Aquilani,"Rome is in several countries on Wikidata: Italy, Vatican City",0.6464,20.0
-wd-Q97999586,Riccardo Calafiori,"Rome is in several countries on Wikidata: Italy, Vatican City",0.6392,37.2
-wd-Q460924,Caroline Seger,place of birth has no English name,0.6386,4.5
-wd-Q235068,Claudio Ranieri,"Rome is in several countries on Wikidata: Italy, Vatican City",0.6226,27.3
-wd-Q151034,Kevin-Prince Boateng,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.6213,27.7
-wd-Q19773058,Lorenzo Pellegrini,"Rome is in several countries on Wikidata: Italy, Vatican City",0.6096,15.6
-wd-Q311155,Lorik Cana,"Pristina is in several countries on Wikidata: Serbia, Kosovo",0.6038,8.5
-wd-Q246417,Denis Cheryshev,"Nizhny Novgorod is in several countries on Wikidata: Principality of Gorodets, Russia",0.603,13.5
-wd-Q271882,Robert Kovač,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.5978,9.3
-wd-Q217389,Valon Behrami,"Mitrovica is in several countries on Wikidata: Kosovo, Serbia",0.589,8.4
-wd-Q20469,Alan Dzagoev,"Beslan is in several countries on Wikidata: Soviet Union, Russia, Russian Empire",0.5875,9.3
-wd-Q32556,Antonio Candreva,"Rome is in several countries on Wikidata: Italy, Vatican City",0.5752,9.1
-wd-Q435749,Alpay Özalan,"İzmir is in several countries on Wikidata: Kingdom of Greece, Turkey, Ottoman Empire",0.5733,6.0
-wd-Q39233,Aleksandr Kokorin,"Valuyki is in several countries on Wikidata: Russian Empire, Russia, Tsardom of Russia",0.5641,8.2
-wd-Q77538,Fatmire Alushi,"Gjurakoc is in several countries on Wikidata: Serbia, Kosovo",0.5543,2.2
-wd-Q539394,Margrét Lára Viðarsdóttir,coordinates for Vestmannaeyjar are outside any country (in the sea?),0.5536,1.7
-wd-Q451349,Ariane Hingst,"West Berlin is in several countries on Wikidata: West Germany, allied-occupied Germany",0.5498,1.2
-wd-Q311739,Leônidas,several places of birth 357 km apart: São Paulo / Rio de Janeiro,0.5437,8.1
-wd-Q201910,Miloš Krasić,"Mitrovica is in several countries on Wikidata: Kosovo, Serbia",0.5255,8.0
-wd-Q371652,Albin Ekdal,"Stockholm is in several countries on Wikidata: Sweden, Kalmar Union",0.5241,5.5
-wd-Q206607,Roman Shirokov,"Dedovsk is in several countries on Wikidata: Russian Empire, Soviet Union, Russia",0.522,4.4
-wd-Q795017,Alessio Romagnoli,coordinates for Anzio are outside any country (in the sea?),0.5125,13.7
-wd-Q699557,Stanislav Cherchesov,"Alagir is in several countries on Wikidata: Russian Empire, Russia, Soviet Union",0.5093,7.2
-wd-Q454702,Lisa Dahlkvist,"Stockholm is in several countries on Wikidata: Sweden, Kalmar Union",0.4992,1.7
-wd-Q299736,Tomáš Necid,"Prague is in several countries on Wikidata: Czech Republic, Bohemia",0.4925,3.9
-wd-Q314053,Luigi Di Biagio,"Rome is in several countries on Wikidata: Italy, Vatican City",0.4905,8.1
-wd-Q57641,Viktor Orbán,"Székesfehérvár is in several countries on Wikidata: Austria–Hungary, Hungary",0.4821,56.5
-wd-Q5210783,Daler Kuzyayev,"Naberezhnye Chelny is in several countries on Wikidata: Tsardom of Russia, Russia",0.4712,3.9
-wd-Q314386,Denis Glushakov,"Millerovo is in several countries on Wikidata: Russia, Soviet Union, Russian Empire",0.4679,3.0
-wd-Q315309,İlhan Mansız,"Kempten is in several countries on Wikidata: Germany, Kingdom of Bavaria",0.4646,6.2
-wd-Q378275,Semih Şentürk,"İzmir is in several countries on Wikidata: Kingdom of Greece, Turkey, Ottoman Empire",0.4588,4.6
-wd-Q1030271,Sara Däbritz,"Amberg is in several countries on Wikidata: Kingdom of Bavaria, Germany",0.4435,4.5
-wd-Q1195303,Shoji Jo,coordinates for Muroran are outside any country (in the sea?),0.4278,2.8
-wd-Q1317909,Elisa Bartoli,"Rome is in several countries on Wikidata: Italy, Vatican City",0.4139,1.9
-wd-Q44395063,Kaoru Mitoma,several places of birth 840 km apart: Kawasaki / Hita,0.4058,25.6
-wd-Q166710,Michael Baur,"Innsbruck is in several countries on Wikidata: Austria–Hungary, Austria",0.3926,1.8
-wd-Q44655,Paolo Di Canio,"Rome is in several countries on Wikidata: Italy, Vatican City",0.3875,22.4
-wd-Q31377,Pavel Horváth,"Prague is in several countries on Wikidata: Czech Republic, Bohemia",0.38,3.7
-wd-Q216147,Petr Jiráček,several places of birth 74 km apart: Sokolov / Tuchořice,0.3785,2.3
-wd-Q4935824,Jonna Andersson,place of birth has no English name,0.3762,1.9
-wd-Q208673,Federico Macheda,"Rome is in several countries on Wikidata: Italy, Vatican City",0.3729,20.1
-wd-Q458493,Igor Lediakhov,"Sochi is in several countries on Wikidata: Russian Empire, Russia, Soviet Union",0.3584,2.3
-wd-Q26276,Klemen Lavrič,several places of birth 25 km apart: Velenje / Trbovlje,0.3463,1.5
-wd-Q694542,Mazinho Oliveira,coordinates for Guarujá are outside any country (in the sea?),0.3365,2.6
-wd-Q113351,Tomislav Marić,"Heilbronn is in several countries on Wikidata: Germany, German Reich",0.3187,2.2
-wd-Q1673547,Isabel Kerschowski,"coordinates for East Berlin fall in Germany, but Wikidata says East Germany",0.2946,1.1
-wd-Q11722657,Aleksei Miranchuk,"Slavyansk-na-Kubani is in several countries on Wikidata: Russian Empire, Soviet Union, Russia",0.2853,11.5
-wd-Q2092754,Ryota Morioka,several places of birth 57 km apart: Hyōgo Prefecture / Jōyō-shi,0.2792,2.1
-wd-Q1807705,Laura Benkarth,"Freiburg im Breisgau is in several countries on Wikidata: Germany, French occupation zone in Germany",0.2233,1.6
-wd-Q2535880,Yuji Kishioku,coordinates for Muroran are outside any country (in the sea?),0.2219,0.8
-wd-Q60823232,Amanda Nildén,"Stockholm is in several countries on Wikidata: Sweden, Kalmar Union",0.221,6.4
-wd-Q236026,Libertad Lamarque,several places of birth 172 km apart: Santa Fe Province / Rosario,0.2201,6.3
-wd-Q284584,Mitsugu Nomura,coordinates for Muroran are outside any country (in the sea?),0.2019,0.7
-wd-Q2319910,Shigemitsu Sudo,"Hokkaidō is in several countries on Wikidata: Empire of Japan, Japan",0.1937,0.6
-wd-Q21832683,Arianna Caruso,"Rome is in several countries on Wikidata: Italy, Vatican City",0.1909,4.5
-wd-Q239638,Chioma Ajunwa,no place of birth on Wikidata,0.1612,3.2
-wd-Q459979,Patrizia Panico,"Rome is in several countries on Wikidata: Italy, Vatican City",0.1273,2.1
-wd-Q22099576,Chan Yuen-ting,"coordinates for British Hong Kong fall in Hong Kong, but Wikidata says United Kingdom",0.1024,1.6
-wd-Q456314,Antonia Göransson,"Stockholm is in several countries on Wikidata: Sweden, Kalmar Union",0.0437,0.9
-wd-Q7155030,Pauline Hammarlund,"Stockholm is in several countries on Wikidata: Sweden, Kalmar Union",0.0437,0.9
-wd-Q11367685,Manami Nakano,"Hokkaidō is in several countries on Wikidata: Empire of Japan, Japan",0.0304,0.8
-wd-Q31213386,Ernestina Abambila,coordinates for Takoradi are outside any country (in the sea?),0.0304,0.8
-wd-Q61926127,Arisa Matsubara,"Hokkaidō is in several countries on Wikidata: Empire of Japan, Japan",0.0168,0.7
+wd-Q44458,Paul Breitner,several places of birth 49 km apart: Munich / Kolbermoor,0.8108,14.6
+wd-Q310373,Osvaldo Ardiles,several places of birth 196 km apart: Córdoba / Bell Ville,0.8025,16.2
+wd-Q336916,Abedi Pele,Dome has several coordinates far apart,0.7961,17.4
+wd-Q100144350,Nicolas Jackson,place of birth is a whole region or country: Senegal,0.765,56.4
+wd-Q151025,Jakub Błaszczykowski,"several places of birth 21 km apart: Częstochowa / Truskolasy, Silesian Voivodeship",0.7639,16.2
+wd-Q45567,Fernando Morientes,several places of birth 80 km apart: Cáceres / Cilleros,0.7415,21.3
+wd-Q201900,Rüştü Reçber,several places of birth 48 km apart: Antalya / Korkuteli,0.7352,11.6
+wd-Q19116103,Andrcu Onana,place of birth is a whole region or country: Centre,0.7278,36.2
+wd-Q155049,Ron-Robert Zieler,several places of birth 249 km apart: Cologne / Hanover,0.7008,8.9
+wd-Q147172,Vincent Enyeama,several places of birth 614 km apart: Kaduna / Akwa Ibom State,0.6905,8.8
+wd-Q294806,César Azpilicueta,no coordinates for Euskadi Ta Askatasuna,0.687,28.3
+wd-Q193702,Walter Samuel,several places of birth 132 km apart: Firmat / Laborde,0.6525,16.8
+wd-Q210616,Andrés Escobar,no coordinates for Rasht and Khomam,0.6499,19.5
+wd-Q460924,Caroline Seger,place of birth has no English name,0.6378,4.5
+wd-Q311739,Leônidas,several places of birth 357 km apart: São Paulo / Rio de Janeiro,0.5416,8.1
+wd-Q716772,Liu Ailing,place of birth is a whole region or country: Baotou,0.5012,1.2
+wd-Q44395063,Kaoru Mitoma,several places of birth 840 km apart: Kawasaki / Hita,0.4056,25.4
+wd-Q23005609,Tomoki Iwata,place of birth is a whole region or country: Usa,0.3863,8.3
+wd-Q61608697,Maya Le Tissier,place of birth is a whole region or country: Guernsey,0.3811,21.4
+wd-Q216147,Petr Jiráček,several places of birth 74 km apart: Sokolov / Tuchořice,0.3745,2.3
+wd-Q4935824,Jonna Andersson,place of birth has no English name,0.3722,1.9
+wd-Q26276,Klemen Lavrič,several places of birth 25 km apart: Velenje / Trbovlje,0.3424,1.5
+wd-Q694542,Mazinho Oliveira,coordinates for Guarujá are outside any country (in the sea?),0.3323,2.6
+wd-Q2535706,Hiroshi Ninomiya,place of birth is a whole region or country: Japan,0.294,1.1
+wd-Q1673547,Isabel Kerschowski,"coordinates for East Berlin fall in Germany, but Wikidata says East Germany",0.2906,1.1
+wd-Q2092754,Ryota Morioka,several places of birth 57 km apart: Hyōgo Prefecture / Jōyō-shi,0.274,2.1
+wd-Q2522372,Koji Sasaki,place of birth is a whole region or country: Japan,0.2373,0.9
+wd-Q98089588,Agnes Beever-Jones,place of birth is a whole region or country: England,0.2159,6.1
+wd-Q97747736,Ana Maria Marković,place of birth is a whole region or country: Switzerland,0.2151,6.0
+wd-Q2382192,Toshio Takabayashi,place of birth is a whole region or country: Japan,0.21,0.7
+wd-Q600398,Koji Miyata,place of birth is a whole region or country: Japan,0.1967,0.9
+wd-Q1811954,Shigemi Ishii,place of birth is a whole region or country: Japan,0.1964,0.6
+wd-Q2522609,Yoshiichi Watanabe,place of birth is a whole region or country: Japan,0.1929,0.8
+wd-Q2319910,Shigemitsu Sudo,place of birth is a whole region or country: Hokkaidō,0.1899,0.6
+wd-Q661449,Ko Arima,place of birth is a whole region or country: Japan,0.1847,1.0
+wd-Q603478,Ryuzo Shimizu,place of birth is a whole region or country: Japan,0.1829,0.9
+wd-Q2106640,Masafumi Hara,place of birth is a whole region or country: Japan,0.178,0.8
+wd-Q558890,Shusaku Nishikawa,place of birth is a whole region or country: Usa,0.1741,3.7
+wd-Q119949462,Anna Sandberg,place of birth is a whole region or country: Sweden,0.1714,3.6
+wd-Q378554,Yasukazu Tanaka,place of birth is a whole region or country: Japan,0.1694,0.8
+wd-Q2177840,Ikuo Takahara,place of birth is a whole region or country: Japan,0.1685,0.6
+wd-Q2516814,Hisataka Okamoto,place of birth is a whole region or country: Japan,0.1642,0.7
+wd-Q2522108,Takeshi Ono,place of birth is a whole region or country: Japan,0.1609,0.8
+wd-Q748862,Megumu Tamura,place of birth is a whole region or country: Japan,0.1609,0.8
+wd-Q239638,Chioma Ajunwa,no place of birth on Wikidata,0.1608,3.2
+wd-Q71396,Momodu Mutairu,place of birth is a whole region or country: Nigeria,0.1599,0.9
+wd-Q1352329,Jovana Damnjanović,place of birth is a whole region or country: Serbia and Montenegro,0.1563,3.0
+wd-Q2522365,Norio Yoshimizu,place of birth is a whole region or country: Japan,0.155,0.5
+wd-Q50374691,Miho Kaneda,place of birth is a whole region or country: Japan,0.1536,0.6
+wd-Q2242187,Mitsuo Kato,place of birth is a whole region or country: Japan,0.1516,1.0
+wd-Q2313946,Takeshi Natori,place of birth is a whole region or country: Japan,0.1471,0.7
+wd-Q643034,Tatsuya Shiji,place of birth is a whole region or country: Japan,0.1471,0.7
+wd-Q765077,Shiro Azumi,place of birth is a whole region or country: Japan,0.1471,0.7
+wd-Q2287684,Hiroshi Kanazawa,place of birth is a whole region or country: Japan,0.1464,0.8
+wd-Q2313992,Teruo Abe,place of birth is a whole region or country: Japan,0.1464,0.8
+wd-Q2535871,Nagayasu Honda,place of birth is a whole region or country: Japan,0.145,0.6
+wd-Q50374688,Yuriko Shima,place of birth is a whole region or country: Japan,0.145,0.6
+wd-Q50374690,Nobuko Kondo,place of birth is a whole region or country: Japan,0.145,0.6
+wd-Q50374608,Masuyo Shiraishi,place of birth is a whole region or country: Japan,0.1411,0.5
+wd-Q2313898,Takashi Kawanishi,place of birth is a whole region or country: Japan,0.1365,0.6
+wd-Q2313982,Shiro Misaki,place of birth is a whole region or country: Japan,0.1365,0.6
+wd-Q2073877,Masao Takada,place of birth is a whole region or country: Japan,0.1326,0.7
+wd-Q2202206,Masuzo Madono,place of birth is a whole region or country: Japan,0.1326,0.7
+wd-Q2313966,Jiro Miyake,place of birth is a whole region or country: Japan,0.1326,0.7
+wd-Q2314145,Tamotsu Asakura,place of birth is a whole region or country: Japan,0.1326,0.7
+wd-Q2374667,Kenji Tochio,place of birth is a whole region or country: Japan,0.1326,0.7
+wd-Q2535380,Haruo Arima,place of birth is a whole region or country: Japan,0.1326,0.7
+wd-Q2026110,Takashi Mizuno,place of birth is a whole region or country: Japan,0.1278,0.8
+wd-Q2077146,Kazu Naoki,place of birth is a whole region or country: Japan,0.1278,0.8
+wd-Q1917370,Shigeru Takahashi,place of birth is a whole region or country: Japan,0.122,0.6
+wd-Q1928712,Setsu Sawagata,place of birth is a whole region or country: Japan,0.122,0.6
+wd-Q2222742,Hifuyo Uchida,place of birth is a whole region or country: Japan,0.122,0.6
+wd-Q2313873,Shunichi Kumai,place of birth is a whole region or country: Japan,0.122,0.6
+wd-Q2313912,Yoshimatsu Oyama,place of birth is a whole region or country: Empire of Japan,0.122,0.6
+wd-Q2314003,Junji Nishikawa,place of birth is a whole region or country: Japan,0.122,0.6
+wd-Q2314028,Fukusaburo Harada,place of birth is a whole region or country: Japan,0.122,0.6
+wd-Q2314117,Usaburo Hidaka,place of birth is a whole region or country: Japan,0.122,0.6
+wd-Q2076746,Toshio Hirabayashi,place of birth is a whole region or country: Japan,0.1181,0.5
+wd-Q2314057,Toshio Miyaji,place of birth is a whole region or country: Japan,0.1181,0.5
+wd-Q2384413,Yanosuke Watanabe,place of birth is a whole region or country: Japan,0.1181,0.5
+wd-Q660722,Kikuzo Kisaka,place of birth is a whole region or country: Japan,0.1181,0.5
+wd-Q2314019,Saburo Shinosaki,place of birth is a whole region or country: Japan,0.114,0.7
+wd-Q947777,Yoshio Fujiwara,place of birth is a whole region or country: Japan,0.114,0.7
+wd-Q982035,Ken Noritake,place of birth is a whole region or country: Japan,0.114,0.7
+wd-Q1977508,Shumpei Inoue,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q2213693,Kinjiro Shimizu,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q2314171,Yozo Aoki,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q2442484,Michio Yasuda,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q2462067,Takao Nishiyama,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q2535723,Nobuyuki Kato,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q578228,Michiyo Taki,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q971423,Kiyonosuke Marutani,place of birth is a whole region or country: Japan,0.1034,0.6
+wd-Q22099576,Chan Yuen-ting,"coordinates for British Hong Kong fall in Hong Kong, but Wikidata says United Kingdom",0.1016,1.6
+wd-Q64364632,Chidinma Okeke,place of birth is a whole region or country: Nigeria,0.1016,1.6
+wd-Q2146461,Sakae Takahashi,place of birth is a whole region or country: Japan,0.0996,0.5
+wd-Q2313954,Takashi Kasahara,place of birth is a whole region or country: Japan,0.0996,0.5
+wd-Q27532687,Mayumi Kaji,place of birth is a whole region or country: Japan,0.0542,1.0
+wd-Q27532082,Kyoko Kuroda,place of birth is a whole region or country: Japan,0.0439,0.9
+wd-Q11367685,Manami Nakano,place of birth is a whole region or country: Hokkaidō,0.0304,0.8
+wd-Q11898452,Tuija Hyyrynen,place of birth is a whole region or country: Finland,0.0304,0.8
+wd-Q23416443,Kae Nishina,place of birth is a whole region or country: Japan,0.0304,0.8
+wd-Q27517076,Kaoru Nagadome,place of birth is a whole region or country: Japan,0.0304,0.8
+wd-Q27517199,Tsuru Morimoto,place of birth is a whole region or country: Japan,0.0304,0.8
+wd-Q27532749,Michiko Matsuda,place of birth is a whole region or country: Japan,0.0304,0.8
+wd-Q27532757,Yumi Watanabe,place of birth is a whole region or country: Japan,0.0304,0.8
+wd-Q50375379,Kazuko Hironaka,place of birth is a whole region or country: Japan,0.0304,0.8
+wd-Q23416268,Maki Haneta,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q23418954,Kaoru Kadohara,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q27517063,Inesu Emiko Takeoka,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q27517131,Mayumi Omatsu,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q27517163,Naoko Nishigai,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q50374610,Chieko Homma,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q50374685,Chieko Hase,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q50374705,Sanae Mishima,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q50374753,Emiko Kubo,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q50377658,Noriko Ishibashi,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q50377665,Tomoko Matsunaga,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q50410416,Akemi Iwata,place of birth is a whole region or country: Japan,0.0166,0.7
+wd-Q61926127,Arisa Matsubara,place of birth is a whole region or country: Hokkaidō,0.0166,0.7
+wd-Q27532739,Yoko Takahagi,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50374606,Maho Shimizu,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50374645,Mihoko Iwaya,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50374647,Junko Ishida,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50374687,Shiho Kaneda,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50374830,Mami Kaneda,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50378226,Yuko Morimoto,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50378239,Miki Sugawara,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q50378377,Mari Miyamoto,place of birth is a whole region or country: Japan,0.006,0.6
+wd-Q27680053,Yoshie Kasajima,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50374754,Kaoru Kakinami,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50374895,Kimiko Shiratori,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50375033,Yuko Oita,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50378210,Yumi Umeoka,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50380289,Megumi Torigoe,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50380293,Kazumi Kishi,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50410441,Shoko Hamada,place of birth is a whole region or country: Japan,0.0021,0.5
+wd-Q50374642,Nobuko Jashima,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50374794,Keiko Saito,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50375119,Taeko Kawasumi,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50375120,Akiko Hayakawa,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50377925,Minako Takashima,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50377926,Yuki Fushimi,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50377927,Terumi Nagae,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50377941,Etsuko Tahara,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50380282,Megumi Ogawa,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50380416,Hiroko Sano,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50410419,Masako Yoshida,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50410426,Tomomi Seo,place of birth is a whole region or country: Japan,0.0,0.0
+wd-Q50410553,Natsumi Hara,place of birth is a whole region or country: Japan,0.0,0.0

@@ -78,6 +78,19 @@ def sources():
         for f in ("name", "display_name", "city", "country", "achievement", "hint"):
             if e.get(f):
                 items.append((f"players.json {e['id']} {f}", e[f], False, True))
+    if (data / "football-players.json").exists():  # Football mode
+        for e in json.loads((data / "football-players.json").read_text(encoding="utf-8"))["players"]:
+            for f in ("name", "birth_place", "birth_country", "metro", "club_now"):
+                if e.get(f):
+                    items.append((f"football-players.json {e['id']} {f}", e[f], False, True))
+            for f in ("achievements", "positions", "nationality"):
+                for x in e.get(f) or []:
+                    items.append((f"football-players.json {e['id']} {f}", x, False, True))
+    if (data / "football-vault.json").exists():
+        for k, v in json.loads((data / "football-vault.json").read_text(encoding="utf-8")).items():
+            for f in ("summary", "nickname"):
+                if v.get(f):
+                    items.append((f"football-vault.json {k} {f}", v[f], False, True))
     for u in json.loads((data / "facts.json").read_text(encoding="utf-8"))["units"]:
         items.append((f"facts.json {u['key']}", f"{u['one']}. {u['many']}.", False, True))
     if (data / "vault.json").exists():

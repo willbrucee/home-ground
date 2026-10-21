@@ -79,3 +79,9 @@ magicJack
 defenceman
 defenseman
 kickboxer
+Arial
+centerhalf
+nel
+les
+los
+ter

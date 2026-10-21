@@ -1,0 +1,279 @@
+Home Ground Football: review of data/football-players.json (as of 2026-10-21)
+588 players: 500 legends, 200 current (112 in both lists)
+women: 23 (22 legends, 1 current)
+
+=== LEGEND LIST (500): top 40 ===
+  1. Cristiano Ronaldo · Funchal, Portugal · fame 321.2 · FIFA Ballon d'Or ×2 · Ballon d'Or · FIFA World Player of the Year · UEFA Men's P
+  2. Lionel Messi · Rosario, Argentina · fame 312.7 · Ballon d'Or ×4 · FIFA Ballon d'Or ×4 · FIFA World Player of the Year · The Best 
+  3. Zinedine Zidane · Marseille, France · fame 118.3 · FIFA World Player of the Year ×3 · Ballon d'Or · FIFA World Cup · UEFA European 
+  4. Ronaldinho · Porto Alegre, Brazil · fame 110.0 · FIFA World Player of the Year ×2 · Ballon d'Or · FIFA World Cup · South American
+  5. Pelé · Três Corações, Brazil · fame 112.2 · FIFA World Cup ×3 · Ballon d'Or Dream Team · South American Footballer of the Ye
+  6. Mohamed Salah · Nagrig (near Kafr ash Shaykh), Egypt · fame 112.1 · The Best FIFA Men's Player · Premier League Golden Boot ×4 · African Footballer 
+  7. Thierry Henry · Les Ulis, France · fame 89.7 · FIFA World Cup · UEFA European Championship · Premier League Golden Boot ×4 · FW
+  8. Robert Lewandowski · Warsaw, Poland · fame 113.8 · German Footballer of the Year ×2 · European Golden Shoe · UEFA Men's Player of t
+  9. Luka Modrić · Zadar, Croatia · fame 97.6 · Ballon d'Or · FIFA World Player of the Year · UEFA Men's Player of the Year Awar
+ 10. Zlatan Ibrahimović · Västra Skrävlinge (near Malmö), Sweden · fame 101.7 · Serie A Footballer of the Year ×3 · Serie A Foreign Footballer of the Year ×3
+ 11. Johan Cruyff · Amsterdam, Netherlands · fame 74.5 · Ballon d'Or ×3 · Dutch Footballer of the Year ×3
+ 12. Kevin Keegan · Armthorpe, United Kingdom · fame 96.2 · Ballon d'Or ×2
+ 13. Xabi Alonso · Tolosa, Spain · fame 93.1 · FIFA World Cup · UEFA European Championship ×2
+ 14. David Beckham · London, United Kingdom · fame 112.9 · MLS Comeback Player of the Year Award · PFA Young Player of the Year · Sir Matt 
+ 15. Sergio Ramos · Camas, Spain · fame 72.8 · FIFA World Cup · UEFA European Championship ×2
+ 16. Karim Benzema · Lyon, France · fame 94.3 · Ballon d'Or · French Player of the Year
+ 17. Xavi · Terrassa, Spain · fame 74.5 · FIFA World Cup · UEFA European Championship ×2
+ 18. Kaká · Gama, Brazil · fame 59.5 · Ballon d'Or · FIFA World Player of the Year · FIFA World Cup · Serie A Foreign F
+ 19. Diego Maradona · Lanús, Argentina · fame 115.2 · FIFA World Cup · World Cup Golden Ball
+ 20. Neymar · Mogi das Cruzes, Brazil · fame 134.5 · South American Footballer of the Year ×2
+ 21. Francesco Totti · Rome, Italy · fame 64.2 · FIFA World Cup · Italian Footballer of the Year ×5 · Serie A Footballer of the Y
+ 22. Kylian Mbappé · Paris, France · fame 160.2 · European Golden Shoe · Golden Boy · Kopa Trophy
+ 23. Erling Haaland · Leeds, United Kingdom · fame 157.2 · European Golden Shoe · FWA Footballer of the Year · Golden Boy
+ 24. Cesc Fàbregas · Arenys de Mar, Spain · fame 69.6 · FIFA World Cup · UEFA European Championship ×2
+ 25. Wayne Rooney · Liverpool, United Kingdom · fame 99.9 · FWA Footballer of the Year · Golden Boy · PFA Players' Player of the Year
+ 26. Álvaro Arbeloa · Salamanca, Spain · fame 71.5 · FIFA World Cup · UEFA European Championship ×2
+ 27. Harry Kane · Walthamstow, United Kingdom · fame 150.0 · European Golden Shoe · Premier League Golden Boot
+ 28. Franz Beckenbauer · Munich, Germany · fame 53.2 · Ballon d'Or · FIFA World Cup · UEFA European Championship · German Footballer of
+ 29. Samuel Eto'o · Douala, Cameroon · fame 65.7 · Africa Cup of Nations ×2 · Pichichi Trophy
+ 30. Fernando Torres · Fuenlabrada, Spain · fame 56.6 · FIFA World Cup · UEFA European Championship ×2
+ 31. Michael Owen · Chester, United Kingdom · fame 83.2 · Ballon d'Or
+ 32. Gerard Piqué · Barcelona, Spain · fame 63.5 · FIFA World Cup · UEFA European Championship
+ 33. Gianluigi Buffon · Carrara, Italy · fame 56.8 · FIFA World Cup · UEFA Club Footballer of the Year
+ 34. Andrés Iniesta · Fuentealbilla, Spain · fame 52.9 · FIFA World Cup · UEFA European Championship ×2 · UEFA Men's Player of the Year A
+ 35. Luis Suárez · Salto, Uruguay · fame 54.0 · European Golden Shoe ×2 · PFA Players' Player of the Year · Pichichi Trophy · Pr
+ 36. Carlos Tevez · Ciudadela (near Isidro Casanova), Argentina · fame 52.9 · South American Footballer of the Year ×3 · Footballer of the Year of Argentina ×
+ 37. Marco van Basten · Utrecht, Netherlands · fame 48.5 · Ballon d'Or ×3 · FIFA World Player of the Year · UEFA European Championship
+ 38. Sergio Agüero · Buenos Aires, Argentina · fame 56.4 · FIFA World Cup · Premier League Golden Boot
+ 39. David Silva · Arguineguín, Spain · fame 50.7 · FIFA World Cup · UEFA European Championship ×2
+ 40. Luís Figo · Lisbon, Portugal · fame 48.1 · Ballon d'Or · FIFA World Player of the Year · UEFA European Championship · CNID 
+
+--- legend: random 40 (outside the top 40) ---
+ 60. Fabio Cannavaro · Naples, Italy · fame 40.5 · Ballon d'Or · FIFA World Player of the Year · FIFA World Cup · Serie A
+ 64. George Best · Belfast, United Kingdom · fame 55.0 · Ballon d'Or
+ 65. Patrick Vieira · Dakar, Senegal · fame 44.4 · FIFA World Cup · UEFA European Championship
+ 66. Pedro · Santa Cruz de Tenerife, Spain · fame 45.8 · FIFA World Cup · UEFA European Championship
+ 70. Miroslav Klose · Opole, Poland · fame 39.0 · FIFA World Cup · European Golden Shoe · German Footballer of the Year
+ 71. Gerd Müller · Nördlingen, Germany · fame 38.0 · Ballon d'Or · FIFA World Cup · UEFA European Championship · German Footballer of
+ 72. Romelu Lukaku · Antwerp, Belgium · fame 74.8
+ 76. Edin Džeko · Sarajevo, Bosnia and Herzegovina · fame 52.1
+ 78. Frank Lampard · Romford (near Ilford), United Kingdom · fame 89.5 · FWA Footballer of the Year
+ 85. Ruud van Nistelrooy · Oss, Netherlands · fame 44.2 · PFA Players' Player of the Year · Pichichi Trophy · Premier League Golden Boot
+ 87. Eusébio · Maputo, Mozambique · fame 40.4 · Ballon d'Or
+ 89. Robin van Persie · Rotterdam, Netherlands · fame 58.1 · Premier League Golden Boot
+104. Michael Ballack · Görlitz, Germany · fame 34.7 · German Footballer of the Year ×3 · Bayer 04 Leverkusen versus SC Freiburg 2001–0
+109. Jürgen Klinsmann · Göppingen, Germany · fame 29.3 · FIFA World Cup · UEFA European Championship · German Footballer of the Year ×2
+114. Virgil van Dijk · Breda, Netherlands · fame 66.4 · UEFA Men's Player of the Year Award
+118. Jude Bellingham · Stourbridge, United Kingdom · fame 107.2 · Kopa Trophy
+150. Dani Alves · Juazeiro, Brazil · fame 37.3 · Copa América
+154. Álvaro Morata · Madrid, Spain · fame 52.6
+155. Pepe · Maceió, Brazil · fame 33.6 · UEFA European Championship
+164. Landon Donovan · Ontario, California, United States · fame 31.4
+189. İlkay Gündoğan · Gelsenkirchen, Germany · fame 36.3 · German Footballer of the Year
+206. Daley Blind · Amsterdam, Netherlands · fame 27.6 · Eredivisie ×5
+228. Javier Mascherano · San Lorenzo, Argentina · fame 33.7
+243. Petr Čech · Plzeň, Czech Republic · fame 44.1
+244. Alexander Isak · Stockholm, Sweden · fame 68.4
+255. Marta · Dois Riachos, Brazil · fame 22.8 · The Best FIFA Women's Player
+258. Per Mertesacker · Hanover, Germany · fame 20.7 · FIFA World Cup
+263. Casemiro · São José dos Campos, Brazil · fame 49.1
+300. Rio Ferdinand · Camberwell (near City of Westminster), United Kingdom · fame 43.4
+315. Ali Daei · Ardabil, Iran · fame 19.8
+317. Axel Witsel · Liège, Belgium · fame 22.4 · Belgian Golden Shoe
+323. Rogério Ceni · Pato Branco, Brazil · fame 20.4 · FIFA World Cup
+326. Daniel Passarella · Chacabuco, Buenos Aires, Argentina · fame 15.2 · FIFA World Cup ×2
+330. Dino Zoff · Mariano del Friuli, Italy · fame 18.7 · FIFA World Cup · UEFA European Championship
+336. Omar Marmoush · Cairo, Egypt · fame 61.2
+339. Breel Embolo · Yaoundé, Cameroon · fame 27.9
+340. Gylfi Sigurðsson · Reykjavík, Iceland · fame 29.1
+362. Emiliano Martínez · Mar del Plata, Argentina · fame 97.6
+363. Mário Zagallo · Atalaia, Brazil · fame 14.5 · FIFA World Cup ×2
+374. Leroy Sané · Essen, Germany · fame 35.0
+
+--- legend: bottom 40 ---
+461. Edgar Davids · Paramaribo, Suriname · fame 34.3
+462. Didi · Campos dos Goytacazes, Brazil · fame 11.9 · FIFA World Cup ×2
+463. Carlos Alberto Torres · Rio de Janeiro, Brazil · fame 14.1 · FIFA World Cup
+464. Christine Sinclair · Burnaby, Canada · fame 13.0
+465. Gigi Riva · Leggiuno, Italy · fame 16.2 · UEFA European Championship
+466. Ada Hegerberg · Molde, Norway · fame 12.2 · Ballon d'Or Féminin · BBC Women's Footballer of the Year · UEFA Women's Player o
+467. Siniša Mihajlović · Vukovar, Croatia · fame 17.7 · Serbian Footballer of the Year
+468. Jairzinho · Rio de Janeiro, Brazil · fame 14.9 · FIFA World Cup
+469. Sócrates · Belém, Brazil · fame 24.9
+470. Uwe Seeler · Hamburg, Germany · fame 11.9 · German Footballer of the Year ×3
+471. Luis Suárez · A Coruña, Spain · fame 11.1 · Ballon d'Or · UEFA European Championship
+472. Carlos Valderrama · Santa Marta, Colombia · fame 19.4
+473. Homare Sawa · Fuchū, Japan · fame 8.6 · FIFA Women's World Cup
+474. Michelle Akers · Santa Clara, United States · fame 11.0
+475. Majed Abdullah · Jeddah, Saudi Arabia · fame 11.7
+476. Hidetoshi Nakata · Kofu, Japan · fame 21.0
+477. Sándor Kocsis · Budapest, Hungary · fame 13.0
+478. Nílton Santos · Rio de Janeiro, Brazil · fame 7.8 · FIFA World Cup ×2 · Copa América
+479. Giacinto Facchetti · Treviglio, Italy · fame 12.5 · UEFA European Championship
+480. Fritz Walter · Kaiserslautern, Germany · fame 8.8 · FIFA World Cup
+481. Kristine Lilly · New York City, United States · fame 8.8
+482. Birgit Prinz · Frankfurt, Germany · fame 6.9 · FIFA World Player of the Year ×3 · Female football player of the year ×8
+483. Enzo Francescoli · Montevideo, Uruguay · fame 17.0
+484. Zbigniew Boniek · Bydgoszcz, Poland · fame 12.8
+485. Kazimierz Deyna · Starogard Gdański, Poland · fame 10.1
+486. Grzegorz Lato · Malbork, Poland · fame 9.8
+487. Josef Bican · Vienna, Austria · fame 15.7
+488. Hans Krankl · Vienna, Austria · fame 8.5 · Pichichi Trophy
+489. Nadine Angerer · Lohr am Main, Germany · fame 4.9 · FIFA Women's World Cup
+490. Johan Neeskens · Heemstede, Netherlands · fame 15.8
+491. Just Fontaine · Marrakech, Morocco · fame 16.1
+492. Teófilo Cubillas · Lima, Peru · fame 10.1
+493. Dejan Savićević · Podgorica, Montenegro · fame 13.5
+494. Dragan Džajić · Ub, Serbia · fame 9.4
+495. Sun Wen · Shanghai, China · fame 4.5
+496. Formiga · Salvador, Brazil · fame 7.5
+497. Ernst Happel · Vienna, Austria · fame 12.1
+498. Ferenc Bene · Balatonújlak, Hungary · fame 4.1
+499. Elías Figueroa · Valparaíso, Chile · fame 7.0
+500. Rinus Michels · Amsterdam, Netherlands · fame 14.9
+
+=== CURRENT LIST (200): top 40 ===
+  1. Cristiano Ronaldo · Funchal, Portugal · fame 321.2 · FIFA Ballon d'Or ×2 · Ballon d'Or · FIFA World Player of the Year · UEFA Men's P
+  2. Lionel Messi · Rosario, Argentina · fame 312.7 · Ballon d'Or ×4 · FIFA Ballon d'Or ×4 · FIFA World Player of the Year · The Best 
+  3. Kylian Mbappé · Paris, France · fame 160.2 · European Golden Shoe · Golden Boy · Kopa Trophy
+  4. Erling Haaland · Leeds, United Kingdom · fame 157.2 · European Golden Shoe · FWA Footballer of the Year · Golden Boy
+  5. Harry Kane · Walthamstow, United Kingdom · fame 150.0 · European Golden Shoe · Premier League Golden Boot
+  6. Lamine Yamal · Esplugues de Llobregat, Spain · fame 146.8 · Kopa Trophy · La Liga
+  7. Neymar · Mogi das Cruzes, Brazil · fame 134.5 · South American Footballer of the Year ×2
+  8. Robert Lewandowski · Warsaw, Poland · fame 113.8 · German Footballer of the Year ×2 · European Golden Shoe · UEFA Men's Player of t
+  9. Mohamed Salah · Nagrig (near Kafr ash Shaykh), Egypt · fame 112.1 · The Best FIFA Men's Player · Premier League Golden Boot ×4 · African Footballer 
+ 10. Jude Bellingham · Stourbridge, United Kingdom · fame 107.2 · Kopa Trophy
+ 11. Luka Modrić · Zadar, Croatia · fame 97.6 · Ballon d'Or · FIFA World Player of the Year · UEFA Men's Player of the Year Awar
+ 12. Emiliano Martínez · Mar del Plata, Argentina · fame 97.6
+ 13. Enzo Fernández · General San Martín (near Isidro Casanova), Argentina · fame 95.1
+ 14. Raphinha · Porto Alegre, Brazil · fame 94.7
+ 15. Bradley Barcola · Villeurbanne, France · fame 92.6
+ 16. Michael Olise · London, United Kingdom · fame 92.0
+ 17. Gabriel Jesus · São Paulo, Brazil · fame 91.9
+ 18. Jamie Vardy · Sheffield, United Kingdom · fame 88.7
+ 19. Rodri · Madrid, Spain · fame 88.3 · Ballon d'Or
+ 20. Marcus Rashford · Manchester, United Kingdom · fame 84.5
+ 21. Trinity Rodman · Newport Beach, United States · fame 83.9
+ 22. Jordan Henderson · Sunderland, United Kingdom · fame 82.7
+ 23. Ferran Torres · Foios (near Valencia), Spain · fame 80.5
+ 24. Julián Alvarez · Calchín, Argentina · fame 80.2
+ 25. Vinícius Júnior · São Gonçalo, Brazil · fame 78.2
+ 26. Anthony Gordon · Liverpool, United Kingdom · fame 78.0
+ 27. Kevin De Bruyne · Drongen, Belgium · fame 75.3 · German Footballer of the Year
+ 28. Romelu Lukaku · Antwerp, Belgium · fame 74.8
+ 29. Pierre-Emerick Aubameyang · Laval, France · fame 73.8 · African Footballer of the Year
+ 30. Bruno Fernandes · Maia, Portugal · fame 72.6
+ 31. Jack Grealish · Birmingham, United Kingdom · fame 72.6
+ 32. Bukayo Saka · Ealing, United Kingdom · fame 71.9
+ 33. Karim Adeyemi · Munich, Germany · fame 71.5
+ 34. Danny Welbeck · Manchester, United Kingdom · fame 70.1
+ 35. Ousmane Dembélé · Vernon, France · fame 69.8 · Ballon d'Or
+ 36. Olivier Giroud · Chambéry, France · fame 69.3
+ 37. Alexander Isak · Stockholm, Sweden · fame 68.4
+ 38. Antoine Griezmann · Mâcon, France · fame 66.8
+ 39. Virgil van Dijk · Breda, Netherlands · fame 66.4 · UEFA Men's Player of the Year Award
+ 40. Gabriel Martinelli · Guarulhos, Brazil · fame 65.9
+
+--- current: random 40 (outside the top 40) ---
+ 45. Ollie Watkins · Torquay, United Kingdom · fame 62.9
+ 46. Mario Balotelli · Palermo, Italy · fame 62.6 · UEFA Champions League · Serie A ×3 · Premier League
+ 47. Son Heung-min · Chuncheon, South Korea · fame 62.3
+ 48. Omar Marmoush · Cairo, Egypt · fame 61.2
+ 49. Rafael Leão · Almada, Portugal · fame 60.4
+ 50. Paulo Dybala · Laguna Larga, Argentina · fame 59.6
+ 52. Yan Diomande · Abidjan, Ivory Coast · fame 59.3
+ 53. N'Golo Kanté · Paris, France · fame 58.6
+ 56. Kai Havertz · Aachen, Germany · fame 56.8
+ 58. Cody Gakpo · Eindhoven, Netherlands · fame 55.9
+ 60. Declan Rice · Kingston upon Thames, United Kingdom · fame 55.6
+ 68. Luis Suárez · Salto, Uruguay · fame 54.0 · European Golden Shoe ×2 · PFA Players' Player of the Year · Pichichi Trophy · Pr
+ 69. João Félix · Viseu, Portugal · fame 53.1
+ 71. Mykhailo Mudryk · Berestyn, Ukraine · fame 52.8
+ 78. Trent Alexander-Arnold · Liverpool, United Kingdom · fame 51.8
+ 82. Arda Güler · Altındağ, Turkey · fame 51.4
+ 87. Rúben Dias · Amadora, Portugal · fame 50.7
+ 91. Youri Tielemans · Sint-Pieters-Leeuw, Belgium · fame 49.9
+ 94. David Alaba · Vienna, Austria · fame 49.5
+ 95. Marc-André ter Stegen · Mönchengladbach, Germany · fame 49.3
+ 96. Folarin Balogun · New York City, United States · fame 49.2
+105. Florian Wirtz · Pulheim, Germany · fame 48.0
+109. Dominic Calvert-Lewin · Sheffield, United Kingdom · fame 46.1
+111. Darwin Núñez · Artigas, Uruguay · fame 45.5
+112. Jordan Pickford · Washington, United Kingdom · fame 45.4
+113. Granit Xhaka · Basel, Switzerland · fame 45.3
+114. John Stones · Barnsley, United Kingdom · fame 45.0
+115. Fermín López · El Campillo, Spain · fame 44.8
+121. Robert Sánchez · Cartagena, Spain · fame 43.9
+124. Ben Chilwell · Milton Keynes, United Kingdom · fame 43.7
+131. Rodrigo De Paul · Sarandí, Argentina · fame 42.5
+133. Wojciech Szczęsny · Warsaw, Poland · fame 42.4
+134. John McGinn · Glasgow, United Kingdom · fame 42.3
+137. Ismaïla Sarr · Saint-Louis, Senegal · fame 41.8
+145. Thiago Silva · Rio de Janeiro, Brazil · fame 40.8
+146. Dean Huijsen · Amsterdam, Netherlands · fame 40.6
+149. Matheus Cunha · João Pessoa, Brazil · fame 39.5
+150. Eberechi Eze · Greenwich, United Kingdom · fame 39.4
+156. Dušan Vlahović · Belgrade, Serbia · fame 38.9
+158. Nico Williams · Pamplona, Spain · fame 38.7
+
+--- current: bottom 40 ---
+161. Alejandro Balde · Barcelona, Spain · fame 38.5
+162. Rasmus Højlund · Copenhagen, Denmark · fame 38.5
+163. Gonçalo Ramos · Olhão, Portugal · fame 38.4
+164. Ansu Fati · Bissau, Guinea-Bissau · fame 38.4
+165. Marcos Llorente · Barcelona, Spain · fame 38.3
+166. Benjamin Šeško · Radeče, Slovenia · fame 38.3
+167. Georginio Wijnaldum · Rotterdam, Netherlands · fame 38.2
+168. Tammy Abraham · Camberwell (near City of Westminster), United Kingdom · fame 38.2
+169. Marc Guéhi · Abidjan, Ivory Coast · fame 38.2
+170. Henrikh Mkhitaryan · Yerevan, Armenia · fame 37.9
+171. Ivan Perišić · Split, Croatia · fame 37.8
+172. Ibrahima Konaté · Paris, France · fame 37.8
+173. Harvey Elliott · Chertsey, United Kingdom · fame 37.8
+174. Matthijs de Ligt · Leiderdorp, Netherlands · fame 37.7 · Kopa Trophy · Premio Golden Boy
+175. Antony · Osasco, Brazil · fame 37.7
+176. Leandro Paredes · San Justo, Argentina · fame 37.5
+177. Frenkie de Jong · Arkel, Netherlands · fame 37.4
+178. Alex Oxlade-Chamberlain · Portsmouth, United Kingdom · fame 37.3
+179. Riccardo Calafiori · Rome, Italy · fame 37.2
+180. Yann Sommer · Morges, Switzerland · fame 37.1
+181. Luis Díaz · Barrancas, Colombia · fame 36.8
+182. Christopher Nkunku · Lagny-sur-Marne, France · fame 36.6
+183. Unai Simón · Vitoria-Gasteiz, Spain · fame 36.6
+184. William Saliba · Bondy, France · fame 36.6
+185. Timo Werner · Stuttgart, Germany · fame 36.5
+186. Noni Madueke · Barnet, United Kingdom · fame 36.4
+187. İlkay Gündoğan · Gelsenkirchen, Germany · fame 36.3 · German Footballer of the Year
+188. Joshua Kimmich · Rottweil, Germany · fame 36.2
+189. Scott McTominay · Lancaster, United Kingdom · fame 36.2
+190. Denzel Dumfries · Rotterdam, Netherlands · fame 35.8
+191. Eric Dier · Cheltenham, United Kingdom · fame 35.8
+192. Leandro Trossard · Maasmechelen, Belgium · fame 35.8
+193. David Luiz · Diadema, Brazil · fame 35.6
+194. Gabriel Magalhães · São Paulo, Brazil · fame 35.3
+195. Moise Kean · Vercelli, Italy · fame 35.3
+196. Jérémy Doku · Antwerp, Belgium · fame 35.3
+197. Radamel Falcao · Santa Marta, Colombia · fame 35.2
+198. Aymeric Laporte · Agen, France · fame 35.2
+199. Reece James · Redbridge (near Ilford), United Kingdom · fame 35.2
+200. Stephan El Shaarawy · Savona, Italy · fame 35.1
+
+=== Birth continent (all 588) ===
+Europe                        408  (69%)
+South America                  99  (17%)
+Africa                         33  (6%)
+North and Central America      30  (5%)
+Asia                           14  (2%)
+Oceania                         4  (1%)
+
+=== Top 10 birth countries ===
+United Kingdom       86
+Spain                52
+Brazil               50
+Germany              49
+France               45
+Italy                35
+Netherlands          32
+Argentina            26
+United States        18
+Portugal             15
+
+birth countries in all: 70
+villages counted with a nearby city (metro): 21 · two recorded birthplaces merged: 10
+scoring radius km: min 8 · median 8 · max 25
