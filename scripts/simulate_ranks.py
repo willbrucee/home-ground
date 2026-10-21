@@ -65,9 +65,9 @@ CURVE = {"full": 25, "scale": 4400, "power": 0.6}
 THRESHOLDS = [0, 1500, 2600, 3400, 4200, 4800]
 TIER_KM = [25, 150, 500, 1200, 2500, 5000]  # Hole in one … Air ball; anything further is Own goal
 TIER_NAMES = ["Hole in one", "Top corner", "Slam dunk", "On the board", "Off the pace", "Air ball", "Own goal"]
-# Football mode's own settings (js/modes.js): the same until calibrated.
-FOOTBALL_CURVE = dict(CURVE)
-FOOTBALL_THRESHOLDS = list(THRESHOLDS)
+# Football mode's own settings (js/modes.js), found with --football --search.
+FOOTBALL_CURVE = dict(CURVE, scale=1600)
+FOOTBALL_THRESHOLDS = [0, 1000, 1800, 2400, 4100, 4600]
 FOOTBALL_TIER_KM = list(TIER_KM)
 if FOOTBALL:
     CURVE, THRESHOLDS, TIER_KM = FOOTBALL_CURVE, FOOTBALL_THRESHOLDS, FOOTBALL_TIER_KM

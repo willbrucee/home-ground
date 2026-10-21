@@ -22,6 +22,10 @@ export const MODES = {
       { d: 1, list: "legend" }, { d: 1, list: "current" }, { d: 2, list: "legend" }, { d: 2, list: "current" },
       { d: 3, list: "legend" },
     ],
+    // Calibrated with scripts/simulate_ranks.py --football: birthplaces cluster in small European countries,
+    // so knowing only the country gets close. A steeper curve and these thresholds keep that at All-star.
+    curve: { full: 25, scale: 1600, power: 0.6 },
+    scale: { rankMin: [0, 1000, 1800, 2400, 4100, 4600] },
   },
 };
 
