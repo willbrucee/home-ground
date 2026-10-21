@@ -332,7 +332,7 @@ def main():
 
     # Four lookups at a time: much faster, still polite to Wikidata (its limit is 5 at once).
     todo = [e for e in pool if not overrides.get(e["id"], {}).get("none")]
-    with ThreadPoolExecutor(max_workers=3) as workers:
+    with ThreadPoolExecutor(max_workers=6) as workers:
         found = {}
         for n, (e, picks) in enumerate(zip(todo, workers.map(picks_for, todo)), 1):
             found[e["id"]] = picks
