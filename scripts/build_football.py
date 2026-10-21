@@ -125,6 +125,7 @@ LEAGUE = re.compile(r"liga|league|division|bundesliga|serie|championship|eredivi
 FOOTBALLISH = re.compile(r"football|soccer|fifa|uefa|ballon|golden (ball|shoe|boot|boy)|pichichi|capocannoniere|"
                          r"kopa|yashin|torjäger|conmebol|concacaf|caf |afc ", re.I)
 NATIONAL = re.compile(r"national", re.I)
+FOOTBALL_DESC = re.compile(r"football|soccer|goalkeeper", re.I)
 YOUTH = re.compile(r"under-\d+|u-?\d\d|youth|olympic|amateur|\bb\b", re.I)
 
 
@@ -259,6 +260,27 @@ def titles(ids):
     return out
 
 
+def place_countries(ids):
+    """{place id: [current country names]}: country statements with no end date (Wikidata also keeps
+    historical ones, like West Germany or Austria-Hungary)."""
+    out = {}
+    for batch in in_batches(ids, 150):
+        rows = sparql(f"""SELECT ?c ?countryLabel WHERE {{
+          VALUES ?c {{ {values(batch)} }}
+          ?c p:P17 ?st . ?st ps:P17 ?country . FILTER NOT EXISTS {{ ?st pq:P582 ?end . }}
+          SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,mul". }}
+        }}""")
+        for r in rows:
+            label = val(r, "countryLabel")
+            if label and not is_qid_label(label):
+                out.setdefault(qid(val(r, "c")), [])
+                name = COUNTRY_NAMES.get(label, label)
+                if name not in out[qid(val(r, "c"))]:
+                    out[qid(val(r, "c"))].append(name)
+        time.sleep(1)
+    return out
+
+
 # ── Stage 3: scoring ───────────────────────────────────────────────────────────
 def with_team_then(spells, team, year):
     """Was the player at `team` in `year`? (Spells without dates count; Wikidata often leaves them out.)"""
@@ -369,7 +391,7 @@ def km_to_country(shapes, country, lat, lng):
     """Rough distance (km) from a point to the nearest border vertex of `country` (None if unknown)."""
     for name, names, boxes in shapes:
         if country.lower() in names:
-            return min(km_between(lat, lng, p[1], p[0]) for *_, ring in boxes for p in ring[::3])
+            return min(km_between(lat, lng, p[1], p[0]) for *_, ring in boxes for p in ring)
     return None
 
 
@@ -405,34 +427,61 @@ def radius_for(area_m2, population):
     return round(min(MAX_RADIUS, max(MIN_RADIUS, r)), 1)
 
 
-def birthplace(d, sizes, shapes, places):
+# overseas territories drawn as their own shapes on the map, and the country Wikidata gives for them
+TERRITORIES = {"New Caledonia": "France", "Fr. Polynesia": "France", "French Polynesia": "France", "Puerto Rico": "United States",
+               "Greenland": "Denmark", "Faeroe Is.": "Denmark", "Faroe Islands": "Denmark", "Curaçao": "Netherlands", "Aruba": "Netherlands"}
+SAME_PLACE_KM = 20  # two recorded birthplaces this close are one place at two levels (a town and its district)
+BORDER_KM = 15      # the country outlines are simplified, so a border town can land just over the line
+
+
+def birthplace(d, sizes, shapes, places, current):
     """(fields, problem): where they were born and how big a circle counts, or why we can't say."""
-    places_ = d["places"]
-    if not places_:
+    places_ = {k: v for k, v in d["places"].items() if v["coords"]}
+    if not d["places"]:
         return None, "no place of birth on Wikidata"
+    if not places_:
+        return None, "no coordinates for " + " / ".join(p["label"] for p in d["places"].values())
+    also = None
     if len(places_) > 1:
-        return None, "several places of birth: " + " / ".join(p["label"] for p in places_.values())
+        pts = [p["coords"][0] for p in places_.values()]
+        far = max(km_between(a[0], a[1], b[0], b[1]) for a in pts for b in pts)
+        if far > SAME_PLACE_KM:
+            return None, f"several places of birth {far:.0f} km apart: " + " / ".join(p["label"] for p in places_.values())
+        # one place at two levels: the bigger one is the answer, and the circle takes in the other
+        pop = lambda k: float((sizes.get(k) or [None, None])[1] or 0)  # noqa: E731
+        main = max(places_, key=pop)
+        also = [(p["label"], p["coords"][0]) for k, p in places_.items() if k != main]
+        places_ = {main: places_[main]}
     pid, p = next(iter(places_.items()))
+    p = dict(p, countries=current.get(pid) or p["countries"])
     if is_qid_label(p["label"]):
         return None, "place of birth has no English name"
     if not p["coords"]:
         return None, f"no coordinates for {p['label']}"
-    if len(p["coords"]) > 1 and max(km_between(a[0], a[1], b[0], b[1]) for a in p["coords"] for b in p["coords"]) > 5:
+    if len(p["coords"]) > 1 and max(km_between(a[0], a[1], b[0], b[1]) for a in p["coords"] for b in p["coords"]) > SAME_PLACE_KM:
         return None, f"{p['label']} has several coordinates far apart"
     lat, lng = p["coords"][0]
     if abs(lat) < 0.01 and abs(lng) < 0.01:
         return None, "coordinates are 0,0"
+    found = country_at(shapes, lat, lng)
     country = p["countries"][0] if p["countries"] else None
     if len(p["countries"]) > 1:
-        return None, f"{p['label']} is in several countries on Wikidata: {', '.join(p['countries'])}"
-    found = country_at(shapes, lat, lng)
+        # Wikidata keeps old countries too (Rome: Vatican City; Prague: Bohemia). Use the one the place is in today.
+        names = next((n for name, n, _ in shapes if name == found), set()) if found else set()
+        today = [c for c in p["countries"] if c.lower() in names]
+        if not today:
+            return None, f"{p['label']} is in several countries on Wikidata: {', '.join(p['countries'])}"
+        country = today[0]
     if found is None:
         near = km_to_country(shapes, country, lat, lng) if country else None
         if near is None or near > 25:
             return None, f"coordinates for {p['label']} are outside any country (in the sea?)"
     elif country and found.lower() != country.lower():
         names = next((n for name, n, _ in shapes if name == found), set())
-        if country.lower() not in names:
+        near = km_to_country(shapes, country, lat, lng)
+        if TERRITORIES.get(found) == country:
+            country = found  # New Caledonia, not France: so "Reveal country" lights up the right place
+        elif country.lower() not in names and (near is None or near > BORDER_KM):
             return None, f"coordinates for {p['label']} fall in {found}, but Wikidata says {country}"
     country = country or found
     if not country:
@@ -440,6 +489,9 @@ def birthplace(d, sizes, shapes, places):
     area, pop = (sizes.get(pid) or [None, None])
     r = radius_for(area, pop)
     out = {"birth_place": p["label"], "birth_country": country, "lat": round(lat, 4), "lng": round(lng, 4), "radius_km": r}
+    if also:  # the other recorded place, inside the circle
+        out["also_recorded"] = [a[0] for a in also]
+        out["radius_km"] = round(min(MAX_RADIUS + 10, max(r, max(km_between(lat, lng, *a[1]) for a in also) + 5)), 1)
     # A village next to a big city: the city counts too.
     small = (pop and float(pop) < VILLAGE_POP) or (not pop and (not area or float(area) / 1e6 < 20))
     if small:
@@ -477,6 +529,12 @@ def main():
     info = batched("fb-details", ids, 60, details, fresh)
     ids = [q for q in ids if q in info and not is_qid_label(info[q]["name"])]
     more = batched("fb-extras", ids, 150, extras, fresh)
+    # Footballers first and foremost: some politicians and writers are on Wikidata as footballers too
+    # (Viktor Orbán played for Felcsút). Their English description has to be about football.
+    not_footballers = [info[q]["name"] for q in ids if not FOOTBALL_DESC.search(more.get(q, {}).get("desc", ""))
+                       and q not in seed_ids and info[q]["sl"] >= 60]
+    ids = [q for q in ids if FOOTBALL_DESC.search(more.get(q, {}).get("desc", "")) or q in seed_ids]
+    print(f"   left out as not mainly footballers: {', '.join(not_footballers[:15])}{' …' if len(not_footballers) > 15 else ''}")
 
     # Pageviews only for those with a chance: by language editions, plus all seeds and all women asked for.
     women = {q for q in ids if info[q]["female"]}
@@ -505,13 +563,14 @@ def main():
     print("Birthplaces…")
     place_ids = sorted({pid for q in shortlist for pid in info[q]["places"]})
     sizes = batched("fb-sizes", place_ids, 60, city_sizes, fresh)
+    current = batched("fb-countries", place_ids, 150, place_countries, fresh)
     shapes, places = load_countries(), load_places()
     fixes = overrides.get("fix_birthplace", {})
     where, flags = {}, []
     for q in shortlist:
         if q in fixes:
             where[q] = dict(fixes[q]); continue
-        fields, problem = birthplace(info[q], sizes, shapes, places)
+        fields, problem = birthplace(info[q], sizes, shapes, places, current)
         if problem:
             flags.append((q, info[q]["name"], problem))
         else:
