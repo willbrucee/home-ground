@@ -56,3 +56,11 @@ export const LADDER = [
 export function rankFor(total) {
   return [...LADDER].reverse().find((r) => total >= r.min);
 }
+
+// Each game mode can have its own tier distances and rank thresholds (js/modes.js). Changed in place, so
+// everything that imported TIERS and LADDER (the map, the scorecard, the Climb) follows.
+const DEFAULT_TIER_KM = TIERS.map((t) => t.maxKm), DEFAULT_RANK_MIN = LADDER.map((r) => r.min);
+export function useScale({ tierKm = DEFAULT_TIER_KM, rankMin = DEFAULT_RANK_MIN } = {}) {
+  TIERS.forEach((t, i) => (t.maxKm = tierKm[i] ?? t.maxKm));
+  LADDER.forEach((r, i) => (r.min = rankMin[i] ?? r.min));
+}
