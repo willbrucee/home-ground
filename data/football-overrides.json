@@ -1,0 +1,12 @@
+{
+ "_readme": "Corrections for scripts/build_football.py. exclude: Wikidata ids (like \"Q615\") never to use. include: ids always to consider as legends. fix_birthplace: { \"Q123\": { \"birth_place\": \"Town\", \"birth_country\": \"Country\", \"lat\": 0.0, \"lng\": 0.0, \"radius_km\": 10 } } replaces what Wikidata says. Then run: python3 scripts/build_football.py",
+ "exclude": [],
+ "include": [
+  "Q26517",
+  "Q270367",
+  "Q22717",
+  "Q43666"
+ ],
+ "fix_birthplace": {},
+ "_include_names": "Q26517 Luis Suárez (Uruguay), Q270367 Luis Suárez (Spain, 1935–2023), Q22717 Fritz Walter, Q43666 Thomas Müller: seed names that matched more than one person"
+}

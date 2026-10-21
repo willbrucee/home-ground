@@ -2,6 +2,9 @@
 
     python3 scripts/pick_images.py            # pick pictures, move entries without one to data/reserve.json
     python3 scripts/pick_images.py --fresh    # ignore cached Commons answers
+    python3 scripts/pick_images.py --football # the same for Football mode: data/football-players.json, with
+                                              # its reserve in data/football-reserve.json. Photos whose text
+                                              # names the birth town or country are turned down too.
 
 How a picture is chosen
   Athletes: candidates come from three places, then each is scored:
@@ -43,6 +46,11 @@ ANSWER_WORDS = ROOT / "data" / "answer-words.json"  # place names per entry, wri
 WIDTH = 600         # logos: Commons serves a resized copy this wide
 PHOTO_WIDTH = 1280  # athlete photos: large enough to stay sharp in the 4:5 card frame (a standard Commons size)
 REPORT = ROOT / "data" / "image-report.json"  # face box and numbers per picture, for contact-sheet.html
+REJECTS_CSV = ROOT / "data" / "image-rejects.csv"
+FOOTBALL = "--football" in sys.argv
+if FOOTBALL:
+    PLAYERS, RESERVE = ROOT / "data" / "football-players.json", ROOT / "data" / "football-reserve.json"
+    REPORT, REJECTS_CSV = ROOT / "data" / "football-image-report.json", ROOT / "data" / "football-image-rejects.csv"
 
 FREE_LICENCE = re.compile(r"^(cc[ -]?by|cc0|public domain|pd\b|pd-|attribution)", re.I)
 PHOTO_FILE = re.compile(r"\.(jpe?g|png|webp)$", re.I)
@@ -156,7 +164,7 @@ def wikidata_refs(ids):
 def score(entry, title, meta, source):
     """How good a picture this is for the game. None means 'never use it'."""
     text = plain(f"{title} {meta['desc']}")
-    city_words = [w for w in re.findall(r"[a-z]+", plain(entry["city"])) if len(w) > 3]
+    city_words = [w for w in re.findall(r"[a-z]+", plain(entry.get("city") or entry.get("birth_place", ""))) if len(w) > 3]
     name_words = set(re.findall(r"[a-z]+", plain(entry["name"])))
     words = set(re.findall(r"[a-z]+", text))
     # rejected outright
@@ -221,7 +229,7 @@ def athlete_text_score(entry, title, meta, source):
     """(tier, points) from the file's name, description, size and source; None = never use it.
     tier 1 = looks like an action shot, tier 2 = posed or unclear."""
     text = plain(f"{title} {meta['desc']}")
-    city_words = [w for w in re.findall(r"[a-z]+", plain(entry["city"])) if len(w) > 3]
+    city_words = [w for w in re.findall(r"[a-z]+", plain(entry.get("city") or entry.get("birth_place", ""))) if len(w) > 3]
     name_words = set(re.findall(r"[a-z]+", plain(entry["name"])))
     words = set(re.findall(r"[a-z]+", text))
     if not FREE_LICENCE.search(meta["licence"]) or not re.search(r"\.jpe?g$", title, re.I):
@@ -305,12 +313,15 @@ def pick_for_team(entry, refs, rejects):
 def main():
     fresh = "--fresh" in sys.argv
     players = json.loads(PLAYERS.read_text())
+    meta = {}
+    if isinstance(players, dict):  # football-players.json: {"as_of": ..., "players": [...]}
+        meta, players = {k: v for k, v in players.items() if k != "players"}, players["players"]
     reserve = json.loads(RESERVE.read_text()) if RESERVE.exists() else []
     overrides = {k: v for k, v in (json.loads(OVERRIDES.read_text()) if OVERRIDES.exists() else {}).items() if not k.startswith("_")}
     pool = players + [e for e in reserve if e["id"] not in {p["id"] for p in players}]  # give the reserve another chance
 
     print(f"Wikidata picture references for {len(pool)} entries…")
-    refs = cached(f"imgrefs-{len(pool)}", lambda: wikidata_refs([e["id"][3:] for e in pool]), fresh)
+    refs = cached(f"imgrefs-{'fb-' if FOOTBALL else ''}{len(pool)}", lambda: wikidata_refs([e["id"][3:] for e in pool]), fresh)
 
     def picks_for(e):
         """All usable candidates for one entry, best first (cached per entry). None = Wikidata too busy."""
@@ -346,7 +357,8 @@ def main():
     def vet(e):
         picks = found.get(e["id"]) or []
         rejects = set(overrides.get(e["id"], {}).get("reject", []))
-        words = answer_words.get(e["id"], [e["city"], e["country"]]) + ([e["name"]] if e["type"] == "team" else [])
+        words = ([w for w in (e.get("birth_place"), e.get("metro"), e.get("birth_country")) if w] if FOOTBALL
+                 else answer_words.get(e["id"], [e["city"], e["country"]]) + ([e["name"]] if e["type"] == "team" else []))
         turned_down = []
         for p in [p for p in picks if p[1] not in rejects][:8]:
             if p[3] == "chosen by hand":
@@ -412,18 +424,25 @@ def main():
             removed.append((e, "no clean logo")); continue
         keep.append(e)
 
-    # difficulty over the final pool: the most famous 70% are 1 (household names), the rest 2
-    keep.sort(key=lambda e: -e.get("fame", 0))
-    for k, e in enumerate(keep):
-        e["difficulty"] = 1 if k < len(keep) * 0.7 else 2
-    PLAYERS.write_text(json.dumps(keep, ensure_ascii=False, indent=1) + "\n")
+    if FOOTBALL:  # Football: thirds by fame (1 = most famous), in each list's own order
+        keep.sort(key=lambda e: -e["fame_score"])
+        for k, e in enumerate(keep):
+            e["difficulty"] = 1 + min(2, k * 3 // len(keep))
+        keep.sort(key=lambda e: (e["list"] != "legend", -(e["legend_score"] if e["list"] == "legend" else e["fame_score"])))
+        PLAYERS.write_text(json.dumps(dict(meta, players=keep), ensure_ascii=False, indent=1) + "\n")
+    else:
+        # difficulty over the final pool: the most famous 70% are 1 (household names), the rest 2
+        keep.sort(key=lambda e: -e.get("fame", 0))
+        for k, e in enumerate(keep):
+            e["difficulty"] = 1 if k < len(keep) * 0.7 else 2
+        PLAYERS.write_text(json.dumps(keep, ensure_ascii=False, indent=1) + "\n")
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=0) + "\n")
-    with open(ROOT / "data" / "image-rejects.csv", "w", newline="", encoding="utf-8") as f:  # for checking by eye
+    with open(REJECTS_CSV, "w", newline="", encoding="utf-8") as f:  # for checking by eye
         import csv
         w = csv.writer(f)
         w.writerow(["entry", "file", "why"])
         w.writerows(ocr_log)
-    print(f"{len(ocr_log)} pictures turned down because of their text (see data/image-rejects.csv).")
+    print(f"{len(ocr_log)} pictures turned down because of their text (see {REJECTS_CSV.relative_to(ROOT)}).")
     RESERVE.write_text(json.dumps([dict(e, reserveReason=why) for e, why in removed], ensure_ascii=False, indent=1) + "\n")
 
     by_sport = {}

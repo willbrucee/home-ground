@@ -11,6 +11,7 @@ import { createSummaryMap } from "./summarymap.js";
 import { createClimb } from "./climb.js";
 import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect } from "./vault.js";
 import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, loadFacts } from "./units.js";
+import { MODES, modeFromUrl, normalise } from "./modes.js";
 
 const $ = (s) => document.querySelector(s);
 
@@ -41,7 +42,11 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 
 // ── state ───────────────────────────────────────────────
 const today = dayNumber();
-const dailyKey = `hg:day:${today}`;
+// The mode being played (Daily mix or Football). Each keeps its own results, streak and stats on the device.
+let MODE = MODES.mix;
+const key = (name) => MODE.prefix + name;            // "hg:stats" in the mix, "hg:fb:stats" in Football
+const dailyKey = () => key(`day:${today}`);
+const picksFor = (day) => ({ rounds: MODE.rounds(day), salt: MODE.salt });
 let players = [];
 let countryIndex = new Map(); // lower-case country name or alias → { name, fit } of its map shape
 let countryShapes = [];       // the GeoJSON features themselves (for the Full time map)
@@ -82,19 +87,19 @@ function placeGuess(p) {
 
 function startDaily() {
   mode = "daily";
-  items = dailyPicks(players, today);
-  results = store.get(dailyKey, []);
+  items = dailyPicks(players, today, picksFor(today));
+  results = store.get(dailyKey(), []);
   round = results.length;
   if (round >= ROUNDS) { phase = "done"; renderAll(); showSummary(); return; }
   beginRound();
 }
 // Play today's five again. Nothing is saved, so the streak, stats and today's recorded score stay as they were.
 function startReplay() {
-  mode = "replay"; items = dailyPicks(players, today); results = []; round = 0;
+  mode = "replay"; items = dailyPicks(players, today, picksFor(today)); results = []; round = 0;
   hideSheet(); beginRound();
 }
 function startPractice() {
-  mode = "practice"; items = practicePicks(players, today, PREVIEW); results = []; round = 0;
+  mode = "practice"; items = practicePicks(players, today, PREVIEW, picksFor); results = []; round = 0;
   hideSheet(); beginRound();
 }
 function beginRound() {
@@ -122,9 +127,9 @@ async function lockIn() {
   const played = results.length + 1;
   const at = { lat: +guess.lat.toFixed(3), lng: +guess.lng.toFixed(3) }; // kept for the Full time map
   results.push({ id: it.id, guess: at, km, rawKm, inside, pts, hint: hintUsed, line: reactionFor(tier, inside), sports: pickSportsUnit(km, it.sport, results.map((x) => x.sports)) });
-  if (mode === "daily") store.set(dailyKey, results);
+  if (mode === "daily") store.set(dailyKey(), results);
   const card = collect(it.id, pts, today); // the card you win: "new", "upgrade" or ""
-  loadVault(); // fetch the Vault's facts in the background, ready for the button
+  loadVault(MODE.vault); // fetch the Vault's facts in the background, ready for the button
   phase = "reveal";
   setFolded(true); // fold the ticket to just the name, to make room for the result
   renderAll();
@@ -155,16 +160,16 @@ function nextRound() {
 }
 function finish() {
   if (mode === "daily") {
-    const st = store.get("hg:stats", { played: 0, streak: 0, best: 0, last: null });
+    const st = store.get(key("stats"), { played: 0, streak: 0, best: 0, last: null });
     if (st.last !== today) {
       st.streak = st.last === today - 1 ? st.streak + 1 : 1;
       st.played += 1; st.last = today;
       st.best = Math.max(st.best, total());
       st.maxStreak = Math.max(st.maxStreak || 0, st.streak);
-      store.set("hg:stats", st);
-      const history = store.get("hg:history", {}); // every finished daily's total, for the stats screen
+      store.set(key("stats"), st);
+      const history = store.get(key("history"), {}); // every finished daily's total, for the stats screen
       history[today] = total();
-      store.set("hg:history", history);
+      store.set(key("history"), history);
     }
   }
   renderAll(); showSummary();
@@ -177,8 +182,9 @@ function renderAll() {
   $("#puzzleNo").textContent = mode === "daily"
     ? `Daily #${today + 1} · ${new Date().toLocaleDateString(undefined, { day: "numeric", month: "short" })}`
     : mode === "replay" ? `Daily #${today + 1} · replay` : "Practice round";
+  $("#modeBtn").textContent = MODE.name;
   // Streak: days in a row with the daily set finished. It's still "alive" until a full day is missed.
-  const st = store.get("hg:stats", { streak: 0, last: null });
+  const st = store.get(key("stats"), { streak: 0, last: null });
   const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
   $("#streakBox").hidden = streak < 1;
   $("#streak").textContent = streak;
@@ -198,14 +204,16 @@ function renderAll() {
   const it = items[Math.min(round, ROUNDS - 1)];
   $("#roundLbl").textContent = phase === "done" ? "Full time" : `Round ${round + 1} / ${ROUNDS}`;
   $("#unitBtn").title = "Switch km / miles";
-  $("#kindLbl").textContent = it.type === "team" ? "Team" : "Athlete";
+  // Football: "Legend" or "Current player" (nothing that hints at the place)
+  $("#kindLbl").textContent = it.list ? (it.list === "legend" ? "Legend" : "Current player") : it.type === "team" ? "Team" : "Athlete";
   // the sport's icon next to its name (sportIcon returns trusted, hand-written SVG)
   $("#sportLbl").innerHTML = `${sportIcon(it.sport)}<span>${esc(it.sport)}</span>`;
   const revealed = phase !== "guess";
   $("#who").textContent = phase === "done" ? `${total().toLocaleString()} points` : shownName(it, revealed);
   document.title = phase === "done" ? "Full time · Home Ground" : `${shownName(it, revealed)} · Home Ground`;
   $("#ask").innerHTML = phase === "done" ? "<b>Full time</b>The scorecard's in."
-    : it.type === "team" ? "<b>Where's home?</b>Pin the city they play in." : "<b>Where were they born?</b>Pin the city on the map.";
+    : it.type === "team" ? "<b>Where's home?</b>Pin the city they play in."
+    : `<b>Where was ${it.female === true ? "she" : it.female === false ? "he" : "they"} born?</b>Pin the town on the map.`;
   if (phase === "done") { $("#kindLbl").textContent = mode === "practice" ? "Practice" : "Daily set"; $("#sportLbl").textContent = `${ROUNDS} rounds`; }
 
   renderPortrait(phase === "done" ? null : it, revealed);
@@ -234,7 +242,7 @@ function renderDock() {
         <div class="stat big"><b id="distNow">${formatNumber(r.km)}</b><span>${r.inside ? "inside the city" : `${getUnit()} from the city`}</span></div>
         <div class="stat"><b id="ptsNow">${r.pts.toLocaleString()}</b><span>points${r.hint ? " · hint" : ""}</span></div>
         <div class="stamp">${t.name}</div>
-        <div class="place">${esc(it.city)} <small>${esc(it.country)}${it.hint ? ` · ${esc(it.hint.replace(/^Home ground: /, ""))}` : ""}</small></div>
+        <div class="place">${placeLine(it)}</div>
         <div class="line">${r.inside ? "Inside the city limits. " : ""}${esc(r.line || "")}</div>
         <button class="go next" id="nextBtn">${round + 1 >= ROUNDS ? "Full time" : "Next round"}</button>
         ${it.achievement ? `<div class="honours"><span>Honours</span> ${esc(it.achievement)}</div>` : ""}
@@ -248,6 +256,15 @@ function renderDock() {
       <button class="go" id="sumBtn">Scorecard</button>`;
     $("#sumBtn").onclick = showSummary;
   }
+}
+
+// The answer on the result card. Football: "Born in Rosario, Argentina", and the nearest big city
+// ("near Buenos Aires" for a suburb, "300 km from Buenos Aires" further out), so a guess there makes sense.
+function placeLine(it) {
+  if (!it.list) return `${esc(it.city)} <small>${esc(it.country)}${it.hint ? ` · ${esc(it.hint.replace(/^Home ground: /, ""))}` : ""}</small>`;
+  const near = it.metro ? `near ${esc(it.metro)}`
+    : it.near_city && it.near_city.km >= 10 ? `${formatDistance(it.near_city.km)} from ${esc(it.near_city.name)}` : "";
+  return `<span class="born">Born in</span> ${esc(it.city)} <small>${esc(it.country)}${near ? ` · ${near}` : ""}</small>`;
 }
 
 // Fold the ticket down to just the name (the player can do this to see more map).
@@ -304,7 +321,7 @@ function creditLine(it) {
 
 // Short enough to paste anywhere: the day, total and rank; one square per round; the link.
 function shareText() {
-  const head = mode === "daily" ? `Home Ground #${today + 1}` : mode === "replay" ? `Home Ground #${today + 1} (replay)` : "Home Ground (practice)";
+  const head = mode === "daily" ? `${MODE.share} #${today + 1}` : mode === "replay" ? `${MODE.share} #${today + 1} (replay)` : `${MODE.share} (practice)`;
   const done = results.length === ROUNDS;
   return [
     `${head} · ${total().toLocaleString()}${done ? ` · ${rankFor(total()).name}` : ""}`,
@@ -339,7 +356,7 @@ function showSummary({ instant = false } = {}) {
   ftTimers.forEach(clearTimeout); ftTimers = [];
   sheetKind = "summary";
   const calm = instant || matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const st = store.get("hg:stats", { played: 0, streak: 0, best: 0 });
+  const st = store.get(key("stats"), { played: 0, streak: 0, best: 0 });
   const rows = items.map((it, i) => {
     const r = results[i], t = tierFor(r.km);
     return `<li class="ft-row" style="--c:${t.color};--c-ink:${t.ink}" data-round="${i}" tabindex="0" aria-label="Round ${i + 1}: show it on the map">
@@ -353,7 +370,7 @@ function showSummary({ instant = false } = {}) {
   const title = mode === "daily" ? "Full time" : mode === "replay" ? "Replay over" : "Practice over";
   openSheet(`<div class="ft${calm ? " settled" : ""}" role="dialog" aria-labelledby="ftTitle">
     <header class="ft-top">
-      <small class="ft-brand"><img src="favicon.svg" width="26" height="26" alt="">Home Ground · ${esc($("#puzzleNo").textContent)}</small>
+      <small class="ft-brand"><img src="favicon.svg" width="26" height="26" alt="">Home Ground · ${esc(MODE.name)} · ${esc($("#puzzleNo").textContent)}</small>
       <h2 id="ftTitle">${title}</h2>
       <div class="ft-score"><b id="ftTotal">${calm ? total().toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
       ${calm ? "" : `<button class="ft-skip" id="skipAnim" type="button">Skip animation</button>`}
@@ -476,8 +493,8 @@ function showSummary({ instant = false } = {}) {
 // like Wordle's guess distribution), with today's rank picked out.
 function showStats() {
   sheetKind = "stats";
-  const st = store.get("hg:stats", { played: 0, streak: 0, best: 0, last: null });
-  const history = store.get("hg:history", {});
+  const st = store.get(key("stats"), { played: 0, streak: 0, best: 0, last: null });
+  const history = store.get(key("history"), {});
   const totals = Object.values(history);
   const avg = totals.length ? Math.round(totals.reduce((a, b) => a + b, 0) / totals.length) : 0;
   const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
@@ -488,7 +505,7 @@ function showStats() {
       <span class="st-name">${r.name}</span>
       <span class="st-bar" style="--w:${Math.max(counts[i] / most, counts[i] ? 0.08 : 0) * 100}%"><b>${counts[i]}</b></span></li>`).reverse().join("");
   openSheet(`<div class="card stats-card" role="dialog" aria-labelledby="statsTitle">
-    <h2 id="statsTitle">Your stats</h2>
+    <h2 id="statsTitle">Your stats</h2><p class="st-mode">${esc(MODE.name)}</p>
     <div class="stats st-numbers">
       <div><b>${totals.length}</b><span>Played</span></div><div><b>${avg.toLocaleString()}</b><span>Average</span></div>
       <div><b>${(st.best || 0).toLocaleString()}</b><span>Best</span></div><div><b>${streak}</b><span>Streak</span></div>
@@ -505,7 +522,7 @@ function showStats() {
 // The Vault for one round: the card you won and the five levels of facts.
 let vaultRound = 0;
 async function showVault(i, { back = false } = {}) {
-  await loadVault();
+  await loadVault(MODE.vault);
   sheetKind = "vault"; vaultRound = i;
   const it = items[i], r = results[i];
   openSheet(`<div class="card vault-card" role="dialog" aria-labelledby="vaultTitle" style="--rar:var(--r-${rarityKey(r.pts)})">
@@ -571,8 +588,10 @@ function showHelp() {
 }
 
 // ── wiring (each listener is attached exactly once, here) ─────────
-$("#sheet").addEventListener("click", (e) => { if (e.target.id === "sheet") hideSheet(); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) hideSheet(); });
+// The start screen can't be dismissed until a game is picked (there'd be nothing behind it).
+const dismissable = () => !(sheetKind === "picker" && !players.length);
+$("#sheet").addEventListener("click", (e) => { if (e.target.id === "sheet" && dismissable()) hideSheet(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden && dismissable()) hideSheet(); });
 $("#helpBtn").onclick = showHelp;
 $("#statsBtn").onclick = showStats;
 // "Show country": costs half the round's points, names the country and lights it up on the map.
@@ -616,16 +635,59 @@ $("#creditBtn").onclick = () => {
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 
 // ── start ───────────────────────────────────────────────
+// The start screen: two big cards, Daily mix and Football. ?mode=football (or ?mode=mix) skips it.
+function modeStatus(m) {
+  const res = store.get(`${m.prefix}day:${today}`, []);
+  const st = store.get(`${m.prefix}stats`, { streak: 0, last: null });
+  const streak = st.last === today || st.last === today - 1 ? st.streak : 0;
+  const pts = res.reduce((s, r) => s + r.pts, 0);
+  const state = res.length >= ROUNDS ? `Played today: ${pts.toLocaleString()}` : res.length ? `Round ${res.length + 1} of ${ROUNDS} next` : "Today's five are ready";
+  return `${state}${streak ? ` · ${streak}-day streak` : ""}`;
+}
+function showPicker() {
+  sheetKind = "picker";
+  openSheet(`<div class="card picker" role="dialog" aria-labelledby="pickTitle">
+    <h2 id="pickTitle">Pick your game</h2>
+    <div class="modes">${Object.values(MODES).map((m) => `
+      <button class="mode-card" data-mode="${m.key}" type="button">
+        <span class="mode-art" aria-hidden="true"></span>
+        <b>${esc(m.name)}</b>
+        <span class="mode-blurb">${esc(m.blurb)}</span>
+        <span class="mode-state">${esc(modeStatus(m))}</span>
+        <span class="mode-go">Play ${esc(m.name)}</span>
+      </button>`).join("")}</div>
+    <p class="st-note">Each game has its own daily five, streak and stats.</p>
+  </div>`);
+  document.querySelectorAll(".mode-card").forEach((b) => (b.onclick = () => startMode(b.dataset.mode)));
+}
+
+const loaded = {}; // each mode's player list, fetched once
+async function startMode(key) {
+  MODE = MODES[key];
+  document.body.dataset.mode = key;
+  const url = new URL(location.href);
+  url.searchParams.set("mode", key);
+  history.replaceState(null, "", url); // a reload, or a shared link, comes back to this mode
+  hideSheet();
+  if (!loaded[key]) loaded[key] = (await (await fetch(MODE.data)).json());
+  const list = loaded[key];
+  players = (Array.isArray(list) ? list : list.players).map(normalise);
+  $("#ticket").hidden = false;
+  if (PREVIEW) startPractice(); else startDaily();
+  if (!store.get("hg:seenHelp", false) && phase !== "done") showHelp();
+}
+$("#modeBtn").onclick = showPicker;
+
 async function boot() {
-  const [playersRes, countriesRes] = await Promise.all([fetch("data/players.json"), fetch("data/countries.geojson"), loadFacts()]);
-  players = await playersRes.json();
+  const [countriesRes] = await Promise.all([fetch("data/countries.geojson"), loadFacts()]);
   countryShapes = (await countriesRes.json()).features;
   for (const f of countryShapes) {
     const { name, aliases, fit } = f.properties;
     for (const key of [name.toLowerCase(), ...aliases]) countryIndex.set(key, { name, fit });
   }
-  if (PREVIEW) startPractice(); else startDaily();
-  if (!store.get("hg:seenHelp", false) && phase !== "done") showHelp();
+  const chosen = modeFromUrl();
+  if (chosen) await startMode(chosen);
+  else showPicker();
 }
 boot().catch((err) => {
   console.error(err);

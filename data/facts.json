@@ -58,6 +58,22 @@
    "source": "Wembley Stadium: the arch spans 315 m"
   },
   {
+   "key": "pitch-diagonal",
+   "sport": "Football",
+   "m": 125.1,
+   "one": "corner-to-corner dash across a pitch",
+   "many": "corner-to-corner dashes across a pitch",
+   "source": "FIFA Stadium Guidelines pitch, 105 m x 68 m: the diagonal is 125.1 m"
+  },
+  {
+   "key": "ball",
+   "sport": "Football",
+   "m": 0.22,
+   "one": "football laid end to end",
+   "many": "footballs laid end to end",
+   "source": "IFAB Laws of the Game, Law 2: circumference 68 to 70 cm, so about 22 cm across"
+  },
+  {
    "key": "nba-court",
    "sport": "Basketball",
    "m": 28.65,

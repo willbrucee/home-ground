@@ -11,6 +11,8 @@ so city sizes (a pin inside the city scores in full) are as in the game.
 
   python3 scripts/simulate_ranks.py              # the table for the current settings
   python3 scripts/simulate_ranks.py --search     # also try other curves and thresholds
+  python3 scripts/simulate_ranks.py --football   # the same on data/football-players.json, with Football's
+                                                 # thresholds (FOOTBALL_* below; keep js/modes.js in step)
 """
 import json
 import math
@@ -19,7 +21,9 @@ import random
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-POOL = json.loads((ROOT / "data" / "players.json").read_text())
+FOOTBALL = "--football" in sys.argv
+_data = json.loads((ROOT / "data" / ("football-players.json" if FOOTBALL else "players.json")).read_text())
+POOL = _data["players"] if isinstance(_data, dict) else _data
 GAMES = 5000
 PLAYERS = {  # median miss to the city centre (km), spread (log-normal sigma), chance of a pin inside the city
     "casual": (2500, 0.75, 0.01),
@@ -31,6 +35,14 @@ RANKS = ["Wooden spoon", "Reserve", "Starter", "All-star", "Captain", "Hall of F
 # The settings in js/game.js and js/tiers.js (keep them in step).
 CURVE = {"full": 25, "scale": 4400, "power": 0.6}
 THRESHOLDS = [0, 1500, 2600, 3400, 4200, 4800]
+TIER_KM = [25, 150, 500, 1200, 2500, 5000]  # Hole in one … Air ball; anything further is Own goal
+TIER_NAMES = ["Hole in one", "Top corner", "Slam dunk", "On the board", "Off the pace", "Air ball", "Own goal"]
+# Football mode's own settings (js/modes.js): the same until calibrated.
+FOOTBALL_CURVE = dict(CURVE)
+FOOTBALL_THRESHOLDS = list(THRESHOLDS)
+FOOTBALL_TIER_KM = list(TIER_KM)
+if FOOTBALL:
+    CURVE, THRESHOLDS, TIER_KM = FOOTBALL_CURVE, FOOTBALL_THRESHOLDS, FOOTBALL_TIER_KM
 
 
 def points(km, curve):
@@ -40,7 +52,11 @@ def points(km, curve):
     return round(1000 * math.exp(-((km - curve["full"]) / curve["scale"]) ** curve["power"]))
 
 
-def play(kind, curve, rng):
+def tier_of(km, tier_km):
+    return next((i for i, m in enumerate(tier_km) if km < m), len(tier_km))
+
+
+def play(kind, curve, rng, tiers=None, tier_km=None):
     median, sigma, inside = PLAYERS[kind]
     total = 0
     for e in rng.sample(POOL, 5):
@@ -51,27 +67,38 @@ def play(kind, curve, rng):
             raw = median * math.exp(rng.gauss(0, sigma))
             km = max(0, raw - radius)
         total += points(km, curve)
+        if tiers is not None:
+            tiers[tier_of(km, tier_km or TIER_KM)] += 1
     return total
 
 
-def table(curve, thresholds, seed=1):
+def table(curve, thresholds, seed=1, tier_km=None, tiers_out=None):
     rng = random.Random(seed)
     out = {}
     for kind in PLAYERS:
         counts = [0] * len(RANKS)
+        tiers = [0] * len(TIER_NAMES)
         for _ in range(GAMES):
-            t = play(kind, curve, rng)
+            t = play(kind, curve, rng, tiers, tier_km)
             counts[max(i for i, m in enumerate(thresholds) if t >= m)] += 1
         out[kind] = [c / GAMES for c in counts]
+        if tiers_out is not None:
+            tiers_out[kind] = [c / (GAMES * 5) for c in tiers]
     return out
 
 
-def show(curve, thresholds):
-    res = table(curve, thresholds)
+def show(curve, thresholds, tier_km=None):
+    tiers = {}
+    res = table(curve, thresholds, tier_km=tier_km or TIER_KM, tiers_out=tiers)
+    print(f"pool: {'football-players.json' if FOOTBALL else 'players.json'} ({len(POOL)} entries), {GAMES:,} games per player")
     print(f"curve: full marks within {curve['full']} km, then 1000 × exp(−(km/{curve['scale']})^{curve['power']})")
     print("thresholds: " + ", ".join(f"{n} {m:,}+" for n, m in zip(RANKS, thresholds)))
     print(f"{'':8}" + "".join(f"{n:>14}" for n in RANKS))
     for kind, shares in res.items():
+        print(f"{kind:8}" + "".join(f"{s:>14.1%}" for s in shares))
+    print("tiers (share of rounds): " + ", ".join(f"{n} <{m:,} km" for n, m in zip(TIER_NAMES, tier_km or TIER_KM)))
+    print(f"{'':8}" + "".join(f"{n:>14}" for n in TIER_NAMES))
+    for kind, shares in tiers.items():
         print(f"{kind:8}" + "".join(f"{s:>14.1%}" for s in shares))
     return res
 

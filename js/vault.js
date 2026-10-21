@@ -19,10 +19,12 @@ export const levelFor = (pts) => LEVELS.filter((l) => pts >= l.min).length - 1; 
 export const rarityKey = (pts) => LEVELS[levelFor(pts)].card.toLowerCase();
 
 // ── data ────────────────────────────────────────────────
+// Each game mode has its own file (data/vault.json, data/football-vault.json); each is fetched once.
 let vault = null;
-export async function loadVault() {
-  if (vault) return vault;
-  try { vault = await (await fetch("data/vault.json")).json(); } catch { vault = {}; }
+const vaults = {};
+export async function loadVault(path = "data/vault.json") {
+  if (!vaults[path]) vaults[path] = fetch(path).then((r) => r.json()).catch(() => ({}));
+  vault = await vaults[path];
   return vault;
 }
 
@@ -39,7 +41,31 @@ function yourShot(it, r) {
   return `<p class="shot"><b>Your shot</b> ${esc(units)} ${esc(cityFact(r.km, it.city, it.radius_km))}</p>`;
 }
 
+// Football: the same five levels, with the club career, caps and honours from Wikidata.
+const plural = (n, one, many) => `${n.toLocaleString()} ${n === 1 ? one : many}`;
+function footballBody(key, it, v, r) {
+  switch (key) {
+    case "programme":
+      return `${yourShot(it, r)}<dl>${fact("Born", v.born ? `${esc(longDate(v.born))}${!v.died && /^\d{4}-\d\d-\d\d$/.test(v.born) ? ` <small>(age ${ageOn(v.born)})</small>` : ""}` : "") +
+        fact("Died", v.died ? esc(longDate(v.died)) : "") +
+        fact("Nationality", esc((it.nationality || []).join(", ") || v.country)) + fact("Position", esc((it.positions || []).join(", ") || v.position)) +
+        fact("Now at", esc(it.club_now))}</dl>`;
+    case "statline": {
+      const honours = (v.honours || it.achievements || []).map((h) => `<li>${esc(h)}</li>`).join("");
+      return honours ? `<ul class="honours-list">${honours}</ul><p class="source">Trophies and awards on Wikidata.</p>` : "<p>No trophies or awards on Wikidata yet.</p>";
+    }
+    case "film": {
+      const spells = (v.career || []).map((c) => `<li><b>${c.from}${c.to ? (c.to !== c.from ? `–${c.to}` : "") : "–"}</b> ${esc(c.club)}${c.apps != null ? ` <small>${plural(c.apps, "game", "games")}${c.goals != null ? `, ${plural(c.goals, "goal", "goals")}` : ""}</small>` : ""}</li>`).join("");
+      const intl = v.caps ? `<p class="intl"><b>International:</b> ${plural(v.caps, "cap", "caps")}${v.intlGoals != null ? `, ${plural(v.intlGoals, "goal", "goals")}` : ""}</p>` : "";
+      return spells || intl ? `${spells ? `<ol class="timeline">${spells}</ol>` : ""}${intl}` : "<p>No dated club career on Wikidata.</p>";
+    }
+    default:
+      return levelBody(key, { ...it, list: null }, v, r);
+  }
+}
+
 function levelBody(key, it, v, r) {
+  if (it.list) return footballBody(key, it, v, r);
   const team = it.type === "team";
   switch (key) {
     case "programme":

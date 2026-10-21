@@ -20,6 +20,8 @@ from build_players import sparql, val, qid, values, in_batches, cached  # noqa: 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PLAYERS = ROOT / "data" / "players.json"
 OUT = ROOT / "data" / "vault.json"
+FOOTBALL = ROOT / "data" / "football-players.json"
+FOOTBALL_OUT = ROOT / "data" / "football-vault.json"
 
 
 def year(v):
@@ -186,7 +188,11 @@ def trim(text, n=3):
 
 def main():
     fresh = "--fresh" in sys.argv
-    players = json.loads(PLAYERS.read_text())
+    # --football: the Football mode's players (data/football-players.json) → data/football-vault.json
+    football = "--football" in sys.argv
+    src, out = (FOOTBALL, FOOTBALL_OUT) if football else (PLAYERS, OUT)
+    players = json.loads(src.read_text())
+    players = players["players"] if isinstance(players, dict) else players
     ids = [e["id"][3:] for e in players if e["id"].startswith("wd-")]
     athletes = [e["id"][3:] for e in players if e["type"] == "athlete" and e["id"].startswith("wd-")]
     teams = [e["id"][3:] for e in players if e["type"] == "team" and e["id"].startswith("wd-")]
@@ -225,6 +231,10 @@ def main():
             v["country"] = ", ".join(f.get("countries", [])[:2]) or None
             v["position"] = ", ".join(f.get("positions", [])[:2]) or None
             v["timeline"] = dedupe(timeline)[:10]
+            if football:  # the club career with years (and games and goals where Wikidata has them), caps
+                v["career"] = [c for c in e.get("career", []) if c.get("from")][:14]
+                v["caps"], v["intlGoals"] = e.get("caps"), e.get("intl_goals")
+                v["honours"] = e.get("achievements", [])
         else:
             f = tf.get(q, {})
             v.update({k: f.get(k) for k in ("founded", "nickname", "ground", "capacity", "groundOpened", "league", "coach", "hometownUrl", "sitelinks")})
@@ -236,8 +246,8 @@ def main():
             v["timeline"] = sorted(tl, key=lambda x: x["from"])
         vault[e["id"]] = {k: x for k, x in v.items() if x not in (None, "", [])}
 
-    OUT.write_text(json.dumps(vault, ensure_ascii=False, separators=(",", ":")) + "\n")
-    print(f"Wrote {OUT}: {len(vault)} entries, {len(vault) - short} with a Wikipedia summary.")
+    out.write_text(json.dumps(vault, ensure_ascii=False, separators=(",", ":")) + "\n")
+    print(f"Wrote {out}: {len(vault)} entries, {len(vault) - short} with a Wikipedia summary.")
     print("Next: python3 scripts/spellcheck.py (or run everything with sh scripts/build_all.sh)")
 
 
