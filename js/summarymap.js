@@ -36,7 +36,7 @@ export function createSummaryMap(container, rounds, { onSelect, start = 0 } = {}
   });
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-  map.on("error", (e) => { if (!["satellite", "places", "roads"].includes(e.sourceId)) console.error(e.error || e); });
+  map.on("error", (e) => { if (e.sourceId !== "satellite") console.error(e.error || e); });
 
   let gone = false, frame = 0, selected = -1, all = false;
   const markers = [];

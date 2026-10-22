@@ -1,6 +1,6 @@
 // Everything to do with the map. The MapLibre map is created ONCE and reused for every round;
 // rounds only change the data inside a few layers, which is what keeps it smooth.
-import { SATELLITE, LABELS, PROJECTION, MAP_MAX_ZOOM } from "./config.js";
+import { SATELLITE, PROJECTION, MAP_MAX_ZOOM } from "./config.js";
 import { greatCircle, circle } from "./geo.js";
 import { sportIcon } from "./sporticons.js";
 import { color, withAlpha } from "./palette.js";
@@ -17,12 +17,12 @@ export function buildStyle(projection) {
   const sources = {};
   const layers = [{ id: "ocean", type: "background", paint: { "background-color": color("--sea") } }];
 
+  // No labels, roads, borders or grids anywhere: only the imagery, the reveal-country highlight and the arcs.
   // Country shapes. Drawn plainly underneath the imagery: normally the tiles cover them, but if tiles
   // can't load (offline, blocked, or a page that doesn't allow outside images) the map still works.
   sources.countries = { type: "geojson", data: "data/countries.geojson" };
   layers.push(
     { id: "land", type: "fill", source: "countries", paint: { "fill-color": color("--land") } },
-    { id: "borders", type: "line", source: "countries", paint: { "line-color": color("--muted"), "line-width": 0.6, "line-opacity": 0.6 } },
   );
 
   // Satellite imagery on top of those plain shapes.
@@ -38,14 +38,6 @@ export function buildStyle(projection) {
       layout: { "line-join": "round" }, paint: { "line-color": color("--border"), "line-width": 4, "line-opacity": 0 } },
     { id: "country-line", type: "line", source: "countries", filter: NO_COUNTRY,
       layout: { "line-join": "round" }, paint: { "line-color": color("--primary"), "line-width": 2, "line-opacity": 0 } },
-  );
-
-  // Labels, like a hybrid map: roads (from zoom 5), then borders and every city and town name on top.
-  sources.roads = { type: "raster", tiles: [LABELS.roads], tileSize: 256, maxzoom: LABELS.maxzoom };
-  sources.places = { type: "raster", tiles: [LABELS.places], tileSize: 256, maxzoom: LABELS.maxzoom };
-  layers.push(
-    { id: "roads", type: "raster", source: "roads", minzoom: LABELS.roadsFrom, paint: { "raster-fade-duration": 0, "raster-opacity": 0.85 } },
-    { id: "places", type: "raster", source: "places", paint: { "raster-fade-duration": 0 } },
   );
 
   // The city area: everything inside this circle counts as "in the city" (a Bullseye).
@@ -132,7 +124,6 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
   // too, we switch the imagery off and the game carries on with the plain land map underneath.
   let tileFailures = 0, tileTemplate = SATELLITE.tiles;
   map.on("error", (e) => {
-    if (e.sourceId === "places" || e.sourceId === "roads") return; // a missing labels tile just leaves that square unlabelled
     if (e.sourceId !== "satellite") { console.error(e.error || e); return; }
     tileFailures++;
     if (tileFailures === 6 && tileTemplate !== SATELLITE.fallbackTiles) {

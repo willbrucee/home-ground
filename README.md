@@ -274,12 +274,12 @@ data) are listed in `data/football-flags.csv` and left out until you settle them
 birthplaces. Football photos are judged on Commons' 330 px copy (Commons stopped making new 500 px copies for
 us); the sharpness limit is translated from the 500 px one (see `scripts/imagecheck.py`).
 
-### Map labels
+### The map
 
-The satellite map carries labels like a hybrid map (Google Maps' satellite view, GeoGuessr's map): Esri's
-World Boundaries and Places layer (country, state and province borders, every city and town name) and,
-from zoom 5, Esri's World Transportation layer (roads). Both are on all the time, while guessing too, so you
-can find your way around; the settings are `LABELS` in `js/config.js`.
+Satellite imagery only: no labels, roads, borders, city dots or grid lines, so the map never gives the answer
+away. The imagery stops at zoom 10 (`SATELLITE.maxzoom` and `MAP_MAX_ZOOM` in `js/config.js`), where a city
+and its suburbs fill the screen but individual roads can't be made out. The only things drawn on top are the
+"Reveal country" highlight, the city circle, the pins and the arcs.
 
 ### Tests
 

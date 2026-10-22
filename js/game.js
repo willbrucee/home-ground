@@ -251,7 +251,7 @@ function renderAll() {
   document.title = phase === "done" ? "Full time · Home Ground" : `${shownName(it, revealed)} · Home Ground`;
   $("#ask").innerHTML = phase === "done" ? "<b>Full time</b>The scorecard's in."
     : it.type === "team" ? "<b>Where's home?</b>Pin the city they play in."
-    : `<b>Where was ${it.female === true ? "she" : it.female === false ? "he" : "they"} born?</b>Pin the town on the map.`;
+    : `<b>${it.female === true ? "Where was she" : it.female === false ? "Where was he" : "Where were they"} born?</b>Pin the town on the map.`;
   if (phase === "done") { $("#kindLbl").textContent = mode === "practice" ? "Practice" : "Daily set"; $("#sportLbl").textContent = `${ROUNDS} rounds`; }
 
   renderPortrait(phase === "done" ? null : it, revealed);
@@ -668,8 +668,7 @@ function showHelp() {
     <div class="tier-scale">${TIERS.map((t, i) => `<div><i style="background:${t.color}"></i><b>${t.name}</b><span>${tierRange(i)}</span></div>`).join("")}</div>
     <details class="credits"><summary>Credits</summary><ul>
       <li>Satellite imagery: Esri, Maxar, Earthstar Geographics and the GIS User Community</li>
-      <li>Borders, place names and roads: Esri World Boundaries and Places, Esri World Transportation</li>
-      <li>Country shapes: Natural Earth</li>
+            <li>Country shapes: Natural Earth</li>
       <li>Players and teams: Wikidata. Vault facts: Wikidata and Wikipedia (summaries CC BY-SA 4.0)</li>
       <li>Photos and logos: Wikimedia Commons. Each picture's author and licence are behind the (i) on it.</li>
       <li>Map engine: MapLibre GL JS</li>

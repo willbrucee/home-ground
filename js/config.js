@@ -30,20 +30,11 @@ export const SATELLITE = {
   tiles: `https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}${key}`,
   // used automatically if the clarity host stops answering
   fallbackTiles: `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}${key}`,
-  // The sharpest tiles we ask for. Zoom 12 already shows a whole city in detail; beyond that the map
-  // stretches these tiles instead of downloading four times as many.
-  maxzoom: 12,
+  // The sharpest tiles we ask for: zoom 10 shows a whole city and its suburbs, but individual roads
+  // can't be made out (they'd be clues). The map never zooms past this.
+  maxzoom: 10,
   attribution: "Powered by Esri · Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
 };
 
-// Labels over the imagery, like a hybrid map (Google Maps' satellite view, GeoGuessr's map): Esri's reference
-// layers with country, state and province borders, every city and town name, and roads once you zoom in.
-export const LABELS = {
-  places: `https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}${key}`,
-  roads: `https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}${key}`,
-  roadsFrom: 5,   // roads appear from this zoom (the world view stays clean)
-  maxzoom: 13,
-};
-
-// How far players can zoom in (a little past the sharpest tiles, so cities can fill the screen).
-export const MAP_MAX_ZOOM = 12.5;
+// How far players can zoom in: city scale, no further (see SATELLITE.maxzoom).
+export const MAP_MAX_ZOOM = 10;
