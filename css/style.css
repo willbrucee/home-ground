@@ -65,10 +65,14 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .stage { position: fixed; inset: 0; }
 #map { position: absolute; inset: 0; background: var(--sea); }
 #map .maplibregl-canvas { cursor: crosshair; }
-.maplibregl-ctrl-top-right { top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 8px); right: max(8px, env(safe-area-inset-right, 0px)); }
+/* zoom and reset buttons: bottom right on desktop (the rank staircase has the top right), clear of the credit line */
+#map .maplibregl-ctrl-top-right { top: auto; bottom: 40px; right: max(12px, env(safe-area-inset-right, 0px)); }
+.maplibregl-ctrl-group button { width: 38px !important; height: 38px !important; }
 .maplibregl-ctrl-group { border-radius: var(--hard) !important; background: var(--surface) !important; box-shadow: none !important; border: 2px solid var(--border); }
+.reset-view svg { width: 18px; height: 18px; fill: none; stroke: var(--text); stroke-width: 1.6; }
+.pin-guess { cursor: grab; touch-action: none; } /* draggable: fine-tune before locking in */
+.pin-guess:active { cursor: grabbing; }
 .maplibregl-ctrl-group button + button { border-top: 1px solid var(--line) !important; }
-.maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(1); }
 
 /* ── Scoreboard strip ──────────────────────────────── */
 .bar {
@@ -411,6 +415,9 @@ body[data-mode="football"] .bar > * { position: relative; z-index: 1; }
 /* Phones */
 @media (max-width: 720px) {
   :root { --bar-h: 52px; }
+  /* phones: under the staircase strip at the top (the dock and the question card take the bottom) */
+  #map .maplibregl-ctrl-top-right { bottom: auto; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 112px); right: 8px; }
+  .maplibregl-ctrl-group button { width: 34px !important; height: 34px !important; }
   .clock { width: 46px; height: 46px; }
   .clock b { font-size: 20px; }
   .clock::before { inset: 5px; }
@@ -445,7 +452,7 @@ body[data-mode="football"] .bar > * { position: relative; z-index: 1; }
 
   .dock { left: 0; right: 0; transform: none; width: auto; max-width: none; bottom: 0; padding: 10px var(--edge) calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-top: 2px solid var(--border); justify-content: space-between; }
   .dock .status { display: none; }
-  .go { min-width: 0; flex: 1; height: 56px; font-size: 26px; box-shadow: none; }
+  .go { min-width: 0; flex: 1; height: 56px; padding: 0 12px; font-size: 23px; white-space: nowrap; box-shadow: none; }
   .go:disabled { font-size: 19px; }
   .minor { box-shadow: none; font-size: 15px; }
 
@@ -740,7 +747,6 @@ body[data-mode="football"] .ft-mode { background: var(--secondary); color: var(-
   .climb-hero .cl-side { padding-bottom: 0; justify-items: center; }
   .cl-rank b, .has-trophy .cl-rank b { font-size: 40px; }
   .esri-mark { top: calc(var(--bar-h) + 112px); }
-  #map .maplibregl-ctrl-top-right { top: 104px; } /* below the staircase strip */
   .toast { top: calc(var(--bar-h) + 106px); }
 }
 

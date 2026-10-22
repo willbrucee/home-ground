@@ -98,7 +98,12 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
   map.touchZoomRotate.disableRotation(); // two-finger pinch zooms but won't twist the map
   map.dragPan.enable({ linearity: 0.25, maxSpeed: 1600, deceleration: 2200 }); // gentle inertia when you let go
   map.scrollZoom.setWheelZoomRate(1 / 300); // slightly calmer mouse-wheel zoom
+  map.scrollZoom.setZoomRate(1 / 160);       // and trackpads: smooth, not jumpy
+  // Double-click and double-tap zoom in, pinch zooms, one finger drags, and arrow keys and + / − work once
+  // the map has focus (MapLibre's own handlers, all on).
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  map.addControl(new ResetControl(() => map.easeTo({ center: [15, 25], zoom: fitWorldZoom(openArea(container.getBoundingClientRect(), insets())),
+    duration: reduceMotion() ? 0 : 900 })), "top-right");
 
   // A click gives the exact point. wrap() brings longitudes back into -180..180
   // (on the flat map you can click a "copy" of the world off to the side).
@@ -152,7 +157,12 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
   // The guess pin: a small badge with the current round's sport icon (a generic ball if there's none).
   const guessEl = document.createElement("div");
   guessEl.className = "pin-guess";
-  const guessMarker = new maplibregl.Marker({ element: guessEl });
+  // Draggable, so a pin can be fine-tuned before it's locked in (it stays put until "Lock in guess").
+  const guessMarker = new maplibregl.Marker({ element: guessEl, draggable: true });
+  guessMarker.on("dragend", () => {
+    const { lat, lng } = guessMarker.getLngLat().wrap();
+    onPick({ lat, lng });
+  });
   // The answer pin has an inner head (which does the bounce) and a ring (which pulses).
   // We animate these children, never the marker element itself: MapLibre positions markers with
   // a CSS transform on that element, and animating it too would fight MapLibre and make it jitter.
@@ -196,6 +206,7 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
       const still = () => run === animation;
       const quick = reduceMotion();
 
+      guessMarker.setDraggable(false); // the pin is locked in
       const coords = greatCircle(guess, lineEnd);
       const area = radiusKm > 0 ? circle(answer, radiusKm) : null;
       map.getSource("arc").setData({ type: "Feature", geometry: { type: "LineString", coordinates: coords } });
@@ -298,6 +309,7 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
       animation++; // cancels any reveal still running
       await ready;
       guessMarker.remove();
+      guessMarker.setDraggable(true);
       guessShown = false;
       answerMarker.remove();
       answerEl.classList.remove("landed");
@@ -313,6 +325,20 @@ export function createMap(container, { onPick, insets = () => ({ top: 0, right: 
 
 
   };
+}
+
+// A "back to the whole world" button under the zoom buttons.
+class ResetControl {
+  constructor(onReset) { this.onReset = onReset; }
+  onAdd() {
+    this.el = document.createElement("div");
+    this.el.className = "maplibregl-ctrl maplibregl-ctrl-group";
+    this.el.innerHTML = `<button type="button" class="reset-view" title="Whole world" aria-label="Back to the whole world">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5M12 3.5C9.4 5.9 8.1 8.7 8.1 12s1.3 6.1 3.9 8.5"/></svg></button>`;
+    this.el.querySelector("button").onclick = this.onReset;
+    return this.el;
+  }
+  onRemove() { this.el.remove(); }
 }
 
 // The part of the map not covered by overlays (never smaller than 160 px each way).

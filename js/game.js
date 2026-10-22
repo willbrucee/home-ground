@@ -258,7 +258,7 @@ function renderAll() {
   renderDock();
 }
 
-// The dock: big "lock it in" button while guessing, the result panel after.
+// The dock: big "Lock in guess" button while guessing, the result panel after.
 function renderDock() {
   const dock = $("#dock");
   dock.classList.toggle("result-mode", phase === "reveal");
@@ -268,7 +268,7 @@ function renderDock() {
       <div class="clock" id="clock" role="timer" aria-label="${ROUND_SECONDS} seconds left"><b>${Math.max(0, Math.ceil(clockLeft / 1000))}</b><i aria-hidden="true"></i></div>
       ${hintUsed ? `<div class="status"><b>Country: ${esc(it.country)}.</b> Half points now.</div>`
         : `<button class="minor" id="hintBtn" title="Shows the country on the map. Halves this round's points.">Reveal country <span>−50%</span></button>`}
-      <button class="go" id="lockBtn" ${guess ? "" : "disabled"}>${guess ? "Lock it in" : "Drop a pin first"}</button>`;
+      <button class="go" id="lockBtn" ${guess ? "" : "disabled"}>${guess ? "Lock in guess" : "Drop a pin first"}</button>`;
     $("#lockBtn").onclick = () => lockIn();
     drawClock();
     if (!hintUsed) $("#hintBtn").onclick = revealCountry;
@@ -663,7 +663,7 @@ function showHelp() {
   openSheet(`<div class="card" role="dialog" aria-labelledby="helpTitle">
     <h2 id="helpTitle">How it works</h2>
     <p>Five names a day, the same five for everyone. Athletes go where they were born. Teams go where they play home games.</p>
-    <p>You have ${ROUND_SECONDS} seconds a round. Drop a pin and lock it in (when time runs out, your pin is locked in; no pin scores 0). Anywhere inside the city counts as a hole in one. Outside it, closer means more points, up to 1,000 a round. Revealing the country halves the round.</p>
+    <p>You have ${ROUND_SECONDS} seconds a round. Tap or click the map to drop a pin, drag it to fine-tune, then press Lock in guess (when time runs out, your pin is locked in; no pin scores 0). Anywhere inside the city counts as a hole in one. Outside it, closer means more points, up to 1,000 a round. Revealing the country halves the round.</p>
     <p>Your daily total earns a rank, from wooden spoon to Hall of Fame. Finish every day to keep your streak going.</p>
     <div class="tier-scale">${TIERS.map((t, i) => `<div><i style="background:${t.color}"></i><b>${t.name}</b><span>${tierRange(i)}</span></div>`).join("")}</div>
     <details class="credits"><summary>Credits</summary><ul>
