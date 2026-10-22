@@ -22,18 +22,16 @@ export const ROUND_DIFFICULTY = [1, 1, 1, 1, 2];
 
 const key = ESRI_API_KEY ? `?token=${ESRI_API_KEY}` : "";
 
-// Esri World Imagery: satellite photos with no labels (no city, country or road names).
-// The attribution line is required by Esri's terms and is shown on the map.
+// Sentinel-2 cloudless 2020 by EOX: bright, cloud-free satellite colour with no labels, roads or dots.
+// Licence CC BY-NC-SA 4.0: free for this non-commercial site with the credit below (a commercial site would
+// need EOX's licence). If EOX stops answering, the game falls back to Esri World Imagery.
 export const SATELLITE = {
-  // Esri's "clarity" host serves the same imagery over HTTP/2, so the browser can fetch dozens of
-  // tiles at once. The classic host only speaks HTTP/1.1 (6 tiles at a time), which made zooming slow.
-  tiles: `https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}${key}`,
-  // used automatically if the clarity host stops answering
-  fallbackTiles: `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}${key}`,
+  tiles: "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg",
+  fallbackTiles: `https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}${key}`,
   // The sharpest tiles we ask for: zoom 10 shows a whole city and its suburbs, but individual roads
   // can't be made out (they'd be clues). The map never zooms past this.
   maxzoom: 10,
-  attribution: "Powered by Esri · Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+  attribution: '<a href="https://s2maps.eu" target="_blank" rel="noopener">Sentinel-2 cloudless</a> by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2020)',
 };
 
 // How far players can zoom in: city scale, no further (see SATELLITE.maxzoom).

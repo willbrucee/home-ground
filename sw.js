@@ -1,9 +1,9 @@
 // Service worker: keeps satellite tiles the player has already seen, so they show instantly next time.
 // It only touches map tiles; the game's own files always come fresh from the server.
 
-const CACHE = "hg-tiles-v1";
+const CACHE = "hg-tiles-v2";
 const MAX_TILES = 2000; // roughly 40 MB; the oldest are dropped beyond this
-const TILE_HOSTS = ["clarity.maptiles.arcgis.com", "server.arcgisonline.com"]; // satellite imagery
+const TILE_HOSTS = ["tiles.maps.eox.at", "clarity.maptiles.arcgis.com"]; // satellite imagery (EOX, Esri fallback)
 
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));

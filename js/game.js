@@ -667,7 +667,7 @@ function showHelp() {
     <p>Your daily total earns a rank, from wooden spoon to Hall of Fame. Finish every day to keep your streak going.</p>
     <div class="tier-scale">${TIERS.map((t, i) => `<div><i style="background:${t.color}"></i><b>${t.name}</b><span>${tierRange(i)}</span></div>`).join("")}</div>
     <details class="credits"><summary>Credits</summary><ul>
-      <li>Satellite imagery: Esri, Maxar, Earthstar Geographics and the GIS User Community</li>
+      <li>Satellite imagery: Sentinel-2 cloudless by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2020), CC BY-NC-SA 4.0</li>
             <li>Country shapes: Natural Earth</li>
       <li>Players and teams: Wikidata. Vault facts: Wikidata and Wikipedia (summaries CC BY-SA 4.0)</li>
       <li>Photos and logos: Wikimedia Commons. Each picture's author and licence are behind the (i) on it.</li>
