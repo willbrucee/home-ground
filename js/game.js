@@ -420,7 +420,7 @@ function showSummary({ instant = false } = {}) {
         aria-label="Round ${i + 1}: ${esc(it.name)}, ${esc(tier.name)}, ${r.pts.toLocaleString()} points. Show details">
         <span class="pc-av" data-kind="${it.type}"><span aria-hidden="true">${esc(initials)}</span>${pic}</span>
         <b class="pc-name">${esc(it.name)}</b>
-        <span class="pc-meta">${esc(it.sport)} · <span class="pc-tier">${esc(tier.name)}</span></span>
+        <span class="pc-meta">${esc(it.list ? (it.list === "legend" ? "Legend" : "Current player") : it.sport)} · <span class="pc-tier">${esc(tier.name)}</span></span>
         <span class="pc-nums"><b>${r.pts.toLocaleString()}</b> pts · ${r.noPin ? "no pin" : r.inside ? "inside" : formatDistance(r.km)}</span>
         ${tag}
       </button>

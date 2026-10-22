@@ -302,5 +302,161 @@
    "San Francisco 49ers logo.svg"
   ],
   "note": "review: logo is the city's initials (SF)"
+ },
+ "wd-Q514427": {
+  "reject": [
+   "Granit Xhaka (cropped).jpg"
+  ],
+  "note": "review: small face"
+ },
+ "wd-Q386876": {
+  "reject": [
+   "Emmanuel Adebayor - Lech - Manchester 026.jpg"
+  ],
+  "note": "review: beanie, soft"
+ },
+ "wd-Q17499": {
+  "reject": [
+   "2023 - Centre Stage SAM 9660 (53332430634).jpg"
+  ],
+  "note": "review: small face"
+ },
+ "wd-Q483629": {
+  "reject": [
+   "Netherlands v sovietunion final 1988 01.jpg"
+  ],
+  "note": "review: group, small face"
+ },
+ "wd-Q186478": {
+  "reject": [
+   "Luca Toni Bayern.jpg"
+  ],
+  "note": "review: small face"
+ },
+ "wd-Q170376": {
+  "reject": [
+   "Gabriel Batistuta en interview avec Florent Torchut.jpg"
+  ],
+  "note": "review: seated, soft"
+ },
+ "wd-Q187198": {
+  "reject": [
+   "Kenny Dalglish in september 2010.jpg"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q26259982": {
+  "reject": [
+   "Matthijs de Ligt.jpg"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q1925465": {
+  "reject": [
+   "Raúl Jiménez 01112025 (2).jpg"
+  ],
+  "note": "review: soft"
+ },
+ "wd-Q180642": {
+  "reject": [
+   "Garrincha jogando sinuca.jpg"
+  ],
+  "note": "review: soft, small face"
+ },
+ "wd-Q152832": {
+  "reject": [
+   "Kevin keegan panini card.jpg"
+  ],
+  "note": "review: sticker card naming the country"
+ },
+ "wd-Q466989": {
+  "reject": [
+   "Ali Krieger Gotham NC Courage Mar 21 2026-177.jpg"
+  ],
+  "note": "review: looking up"
+ },
+ "wd-Q189686": {
+  "reject": [
+   "Kluivert7Sep2006.jpg"
+  ],
+  "note": "review: soft"
+ },
+ "wd-Q208104": {
+  "reject": [
+   "Los Caminos del fútbol. Xabi Alonso (39480409675).jpg"
+  ],
+  "note": "review: small face, soft"
+ },
+ "wd-Q11584": {
+  "reject": [
+   "2021 - Behind the scenes SAM 1278 (51649987334).jpg"
+  ],
+  "note": "review: small face, dark"
+ },
+ "wd-Q178649": {
+  "reject": [
+   "Romário Brazil V Morocco 13 June 2026-29.jpg"
+  ],
+  "note": "review: country name on the shirt"
+ },
+ "wd-Q45626": {
+  "reject": [
+   "Van Nistelrooy (2007).JPG"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q173139": {
+  "reject": [
+   "2019 July 4 Celebration (4).jpg"
+  ],
+  "note": "review: flag behind"
+ },
+ "wd-Q15915040": {
+  "reject": [
+   "Andy Robertson Scotland v Bolivia 6 June 2026-43.jpg"
+  ],
+  "note": "review: flag behind"
+ },
+ "wd-Q213879": {
+  "reject": [
+   "Gordon Banks México 70.jpg"
+  ],
+  "note": "review: sticker card naming the country"
+ },
+ "wd-Q27995553": {
+  "reject": [
+   "2019-05-17 Fußball, Frauen, UEFA Women's Champions League, Olympique Lyonnais - FC Barcelona StP 0804 LR10 by Stepro (cropped).jpg"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q172720": {
+  "reject": [
+   "Barcelona players, December 6, 2008.jpg"
+  ],
+  "note": "review: group, face hidden"
+ },
+ "wd-Q110644260": {
+  "reject": [
+   "Endrick seleção vs inglaterra.jpg"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q31981": {
+  "reject": [
+   "David Alaba at Exhibition game of Austria vs. Romania, June 2012.jpg"
+  ],
+  "note": "review: region name on the shirt"
+ },
+ "wd-Q1918": {
+  "reject": [
+   "2019147183112 2019-05-27 Fussball 1.FC Kaiserslautern vs FC Bayern München - Sven - 1D X MK II - 0218 - B70I8517.jpg"
+  ],
+  "note": "review: hand at the face"
+ },
+ "wd-Q233565": {
+  "reject": [
+   "Denis Law (geograph 3143643).jpg"
+  ],
+  "note": "review: statue"
  }
 }
