@@ -354,63 +354,69 @@ body[data-mode="football"] .bar > * { position: relative; z-index: 1; }
 .credits summary { cursor: pointer; font-weight: 700; }
 .credits ul { margin: 6px 0 0; padding-left: 16px; display: grid; gap: 4px; }
 
-/* the ladder (scorecard) */
-/* ── The Climb: the rank staircase ─────────────────── */
-/* step colours, bottom to top */
-.climb { --rk-0: var(--t-frozen); --rk-1: var(--sky); --rk-2: var(--t-warm); --rk-3: var(--t-hot); --rk-4: var(--accent); --rk-5: var(--primary); }
-.cl-svg { display: block; width: 100%; height: auto; overflow: visible; }
-.cl-step rect { fill: var(--surface-2); stroke: var(--border); stroke-width: 2; transition: fill 250ms; }
-.cl-step[data-i="0"] { --rk: var(--rk-0); } .cl-step[data-i="1"] { --rk: var(--rk-1); } .cl-step[data-i="2"] { --rk: var(--rk-2); }
-.cl-step[data-i="3"] { --rk: var(--rk-3); } .cl-step[data-i="4"] { --rk: var(--rk-4); } .cl-step[data-i="5"] { --rk: var(--rk-5); }
-.cl-step.lit rect { fill: var(--rk); }
-.cl-tick { fill: none; stroke: var(--text); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
-.cl-step.lit .cl-tick { opacity: 1; }
-.cl-step.ticked .cl-tick { animation: tick-in 260ms ease-out; }
-@keyframes tick-in { from { opacity: 0; transform: translateY(4px); } }
-.cl-name { fill: var(--text); font: 800 16px var(--f-display); text-transform: uppercase; text-anchor: middle; letter-spacing: 0.01em; }
-.cl-min { fill: var(--muted); font: 600 13px var(--f-body); text-anchor: middle; font-variant-numeric: tabular-nums; }
-.cl-step.here .cl-name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
-.cl-ball circle { fill: var(--surface); stroke: var(--border); stroke-width: 2.5; }
-.cl-ball path { fill: none; stroke: var(--border); stroke-width: 1.5; }
-.cl-ball.settle circle { animation: settle 260ms ease-out; }
-@keyframes settle { 40% { transform: scale(1.15, 0.85) translateY(2px); } }
-.cl-flag, .cl-trophy { opacity: 0; }
-.cl-flag .pole { stroke: var(--border); stroke-width: 3; stroke-linecap: round; }
-.cl-flag .cloth { fill: var(--accent); stroke: var(--border); stroke-width: 2; stroke-linejoin: round; }
-.cl-trophy path { fill: var(--primary); stroke: var(--border); stroke-width: 2; stroke-linejoin: round; }
-.landed .cl-flag { opacity: 1; animation: plant 380ms cubic-bezier(0.3, 1.5, 0.5, 1); transform-box: fill-box; transform-origin: bottom; }
-.landed.has-trophy .cl-flag { opacity: 0; animation: none; }
-.landed.has-trophy .cl-trophy { opacity: 1; animation: rise 600ms cubic-bezier(0.3, 1.4, 0.5, 1); }
-@keyframes plant { from { transform: scaleY(0); } }
-@keyframes rise { from { opacity: 0; transform: translateY(30px); } }
+/* ── The trophy cabinet: the ranks as trophies on a shelf ── */
+.cabinet { --shelf: color-mix(in srgb, var(--r-bronze) 55%, var(--text)); }
+.cab-shelf { list-style: none; margin: 0; padding: 0 0 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px;
+  border-bottom: 6px solid var(--shelf); position: relative; }
+.cab-slot { position: relative; display: grid; justify-items: center; align-content: end; gap: 4px; padding: 6px 2px 0; }
+.cab-art { position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; }
+.cab-art svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* the drawings: flat fills, a bold outline, one highlight */
+.tr-art .f { fill: var(--tf); stroke: var(--border); stroke-width: 3; stroke-linejoin: round; }
+.tr-art .t { fill: var(--tt); stroke: var(--border); stroke-width: 3; stroke-linejoin: round; }
+.tr-art path.t[fill="none"] { fill: none; stroke: var(--tt); }
+.tr-art .hl { fill: var(--surface); opacity: 0.7; }
+/* locked: a dark silhouette with a "?" (shape, not colour, tells them apart) */
+.tr-dark .f, .tr-dark .t { fill: var(--text); stroke: var(--text); }
+.tr-dark path.t[fill="none"] { stroke: var(--muted); fill: none; }
+.tr-dark .hl { display: none; }
+.tr-dark .q { fill: var(--surface); font: 900 34px var(--f-display); text-anchor: middle; dominant-baseline: middle; }
+.tr-lit { clip-path: inset(100% 0 0 0); }
+.cab-slot.open .tr-lit { clip-path: inset(0 0 0 0); }
+.cab-slot.open .tr-dark { visibility: hidden; }
+.cab-slot.uncover .tr-dark { visibility: visible; }
+.cab-slot.uncover .tr-lit { animation: wipe-up 480ms cubic-bezier(.3,.8,.3,1) both; }
+.cab-slot.uncover .cab-art::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, color-mix(in srgb, var(--surface) 85%, transparent) 50%, transparent 65%) -150% 0 / 250% 100% no-repeat;
+  animation: shine 520ms 380ms ease-out both; }
+@keyframes wipe-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes shine { to { background-position: 150% 0; } }
+.cab-label { display: grid; justify-items: center; text-align: center; line-height: 1.1; }
+.cab-label b { font: 800 14px/1.05 var(--f-display); text-transform: uppercase; color: var(--text); min-height: 2.1em; display: flex; align-items: flex-start; justify-content: center; }
+.cab-label small { font: 700 12px var(--f-body); color: var(--muted); font-variant-numeric: tabular-nums; }
+.cab-slot:not(.open) .cab-label b { color: var(--muted); }
+.cab-slot.here .cab-label small { color: var(--text); }
+.cab-slot.here::before { content: ""; position: absolute; left: 10%; right: 10%; bottom: -6px; height: 6px; background: var(--primary); z-index: 1; }
+/* the end screen's spotlight and the final trophy's lift */
+.cab-glow { position: absolute; inset: -10% -6% 30%; border-radius: 50%; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--primary) 70%, transparent), transparent); transition: opacity 250ms; }
+.cab-slot.spot .cab-glow, .cab-slot.cab-final .cab-glow { opacity: 1; }
+.cab-slot.cab-final .cab-art { animation: lift 560ms cubic-bezier(.3,1.5,.5,1) both; }
+@keyframes lift { 40% { transform: translateY(-10px); } to { transform: none; } }
 
-/* compact, during the game: top right on desktop, a strip under the header on phones */
-.ladder-live { position: fixed; z-index: 8; right: 14px; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 96px); width: 360px;
-  padding: 8px 12px 10px; background: var(--surface); border-radius: var(--hard); }
-.climb-compact { display: grid; gap: 4px; }
-.climb-compact .cl-name { font-size: 11px; }
-.climb-compact .cl-min { font-size: 10px; }
-.climb-compact .cl-ball circle { stroke-width: 2; }
-.climb-compact .cl-side { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-.cl-score { margin: 0; font: 600 12px var(--f-body); color: var(--muted); }
-.cl-score b { font: 900 20px var(--f-display); color: var(--text); font-variant-numeric: tabular-nums; }
-.cl-next { margin: 0; font: 700 13px var(--f-body); color: var(--text); text-align: right; }
+/* compact, in the game: top right on desktop, a strip under the header on phones */
+.ladder-live { position: fixed; z-index: 8; right: 14px; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px) + 96px); width: 340px;
+  padding: 8px 12px 8px; background: var(--surface); border-radius: var(--hard); }
+.cab-compact { display: grid; gap: 6px; }
+.cab-compact .cab-shelf { gap: 4px; border-bottom-width: 4px; }
+.cab-compact .cab-art { width: 78%; }
+.cab-compact .cab-label b { display: none; }
+.cab-compact .cab-label small { font-size: 11px; }
+.cab-compact .tr-dark .q { font-size: 40px; }
+.cab-next { margin: 0; font: 700 13px var(--f-body); color: var(--text); text-align: center; }
 .ladder-live[hidden] { display: none; }
 
-/* the hero of the Full time screen */
-.ft-hero { justify-self: center; width: min(880px, 100%); }
-.climb-hero { display: grid; grid-template-columns: minmax(0, 600px) minmax(170px, 1fr); gap: 20px 28px; align-items: end; }
-.climb-hero .cl-side { display: grid; gap: 10px; justify-items: start; padding-bottom: 54px; }
-.cl-rank { margin: 0; opacity: 0; transition: opacity 300ms; }
-.landed .cl-rank { opacity: 1; animation: stamp-in 420ms cubic-bezier(0.3, 1.4, 0.5, 1); }
-.cl-rank small { display: block; font: 700 12px var(--f-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-.cl-rank b { display: block; padding: 4px 12px 6px; border: 3px solid var(--border); background: var(--primary); color: var(--on-primary);
-  font: 900 46px/0.95 var(--f-display); text-transform: uppercase; transform: rotate(-3deg); }
-.has-trophy .cl-rank b { font-size: 60px; }
+/* the end screen: the cabinet with the rank stamp beside it */
+.cab-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 24px; align-items: end; }
+.cab-hero .cab-art { width: 86%; }
+.cab-side { padding-bottom: 30px; }
+.cab-stamp { margin: 0; opacity: 0; }
+.cabinet.landed .cab-stamp { opacity: 1; animation: stamp-in 420ms cubic-bezier(0.3, 1.4, 0.5, 1); }
+.cab-stamp small { display: block; font: 700 12px var(--f-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.cab-stamp b { display: block; padding: 4px 12px 6px; border: 3px solid var(--border); background: var(--primary); color: var(--on-primary);
+  font: 900 40px/0.95 var(--f-display); text-transform: uppercase; transform: rotate(-3deg); box-shadow: 4px 4px 0 var(--border); white-space: nowrap; }
 @keyframes stamp-in { from { transform: scale(1.6); opacity: 0; } }
-.cl-skip { padding: 4px 10px; background: none; color: var(--muted); font: 700 13px var(--f-body); text-decoration: underline; }
-.cl-skip[hidden] { display: none; }
-.ft .cl-skip { display: none; } /* the end screen has its own "Skip animation" */
+@media (prefers-reduced-motion: reduce) { .cabinet * { animation: none !important; transition: none !important; } }
 
 /* Phones */
 @media (max-width: 720px) {
@@ -577,14 +583,8 @@ body[data-mode="football"] .ft-mode { background: var(--secondary); color: var(-
 .ft-total { display: flex; align-items: baseline; gap: 10px; }
 .ft-total b { font: 900 clamp(64px, 9vw, 104px)/0.85 var(--f-display); font-variant-numeric: tabular-nums; }
 .ft-total span { font: 700 22px var(--f-display); color: var(--muted); text-transform: uppercase; }
-.ft-rank { display: grid; justify-items: center; gap: 4px; }
-.ft-rank small { font: 700 12px var(--f-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-.ft-rank b { padding: 4px 14px 6px; border: 3px solid var(--border); background: var(--primary); color: var(--on-primary);
-  font: 900 clamp(34px, 4.5vw, 48px)/1 var(--f-display); text-transform: uppercase; transform: rotate(-2deg); box-shadow: 4px 4px 0 var(--border); }
 /* the staircase, small: it must never crowd the pitch */
-.ft-ladder { justify-self: center; width: min(520px, 100%); }
-.ft-ladder .cl-score { display: none; }
-.ft-ladder .cl-side { justify-content: center; }
+.ft-ladder { justify-self: center; width: min(820px, 100%); }
 
 /* the pitch: striped grass, white lines, five cards in a 2-1-2 */
 .ft-pitchwrap h3 { margin: 0 0 10px; font: 900 28px var(--f-display); text-transform: uppercase; text-align: center; }
@@ -739,13 +739,16 @@ body[data-mode="football"] .ft-mode { background: var(--secondary); color: var(-
 .sm-dist[hidden] { display: none; }
 
 @media (max-width: 720px) {
-  .ladder-live { left: 0; right: 0; width: auto; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px)); padding: 4px 10px 6px; border-radius: 0; }
-  .ladder-live .cl-svg { max-height: 74px; }
-  .ladder-live .cl-score { display: none; } /* the header already shows the score */
-  .climb-compact .cl-side { justify-content: center; }
-  .climb-hero { grid-template-columns: 1fr; }
-  .climb-hero .cl-side { padding-bottom: 0; justify-items: center; }
-  .cl-rank b, .has-trophy .cl-rank b { font-size: 40px; }
+  .ladder-live { left: 0; right: 0; width: auto; top: calc(var(--bar-h) + env(safe-area-inset-top, 0px)); padding: 4px 16px 6px; border-radius: 0; }
+  .ladder-live .cab-art { width: 58%; }
+  .cab-compact .cab-next { font-size: 12px; }
+  /* the end screen: two rows of three, the stamp under them */
+  .cab-hero { grid-template-columns: 1fr; justify-items: center; }
+  .cab-hero .cab-shelf { grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 0; row-gap: 14px; width: 100%; }
+  .cab-hero .cab-slot { border-bottom: 5px solid var(--shelf); padding-bottom: 4px; }
+  .cab-hero .cab-art { width: 62%; }
+  .cab-side { padding-bottom: 0; }
+  .cab-stamp b { font-size: 32px; }
   .esri-mark { top: calc(var(--bar-h) + 112px); }
   .toast { top: calc(var(--bar-h) + 106px); }
 }

@@ -8,7 +8,7 @@ import { initEffects, playEffect, clearEffects } from "./effects.js";
 import { sportIcon } from "./sporticons.js";
 import { loadPlaces, describeSpot } from "./fulltime.js";
 import { createSummaryMap } from "./summarymap.js";
-import { createClimb } from "./climb.js";
+import { createCabinet } from "./cabinet.js";
 import { LEVELS, levelFor, rarityKey, loadVault, vaultHtml, cardHtml, collect } from "./vault.js";
 import { getUnit, toggleUnit, formatNumber, formatDistance, pickSportsUnit, loadFacts, sportsDistance, cityFact } from "./units.js";
 import { awards, ticketData, ticketHtml, ticketPng, leagueHtml } from "./endscreen.js";
@@ -60,7 +60,7 @@ let phase = "guess"; // "guess" → "reveal" → (next round) … → "done"
 let guess = null, hintUsed = false;
 
 const gameMap = createMap($("#map"), { onPick: placeGuess, insets: coveredEdges });
-let live = createClimb($("#ladderLive"), { compact: true }); // the rank staircase during the game (redrawn per mode)
+let live = createCabinet($("#ladderLive"), { compact: true }); // the trophy cabinet during the game (redrawn per mode)
 
 // How much of each screen edge the overlays cover, so the camera frames results in the open map.
 function coveredEdges() {
@@ -141,7 +141,7 @@ async function lockIn({ timedOut = false } = {}) {
   phase = "reveal";
   setFolded(true); // fold the ticket to just the name, to make room for the result
   renderAll();
-  live.set(before, played - 1); // the ball hops up once the result is in (below)
+  live.set(before, played - 1); // any new trophy is uncovered once the result is in (below)
 
   // Numbers start at 0 and count up in step with the line drawing across the map.
   const kmBefore = totalKm() - (noPin ? 0 : km);
@@ -158,7 +158,7 @@ async function lockIn({ timedOut = false } = {}) {
   await gameMap.showResult(from, answer, { color: tier.color, onProgress: show, radiusKm: radius, lineEnd });
   if (phase !== "reveal" || results.length !== round + 1) return; // player already moved on
   show(1); // land on the exact numbers
-  live.climb(before, before + pts, played); // the ball hops up the staircase
+  live.climb(before, before + pts, played); // uncover any trophy just won
   playEffect(tier, gameMap.toScreen(answer));
   if (card) toast(`${card === "new" ? "New card" : "Card upgraded"}: ${LEVELS[levelFor(pts)].card}`);
 }
@@ -386,11 +386,11 @@ let sheetKind = null; // which overlay is open, so a unit switch can redraw it
 
 // ── Full time ───────────────────────────────────────────
 // One calm scroll, top to bottom: a slim strip (the day and the game), the total and the rank with a compact
-// staircase, "Your starting five" (the five rounds as cards on a pitch, 2-1-2), the match ticket beside your
+// trophy cabinet, "Your starting five" (the five rounds as cards on a pitch, 2-1-2), the match ticket beside your
 // league table, then sharing and the countdown. Tapping a card opens its details below the pitch.
 // It plays once: the cards slide on (150 ms apart), the awards stamp on, the ticket slides in, then nothing
 // moves. Reopening, reduced motion or "Skip animation" shows it all at once.
-let hero = null; // the compact staircase at the top
+let hero = null; // the trophy cabinet at the top
 const cancelHero = () => { hero?.stop(); hero = null; };
 let summaryMap = null;      // the small map in the details panel; removed before it's drawn again
 function dropSummaryMap() { summaryMap?.destroy(); summaryMap = null; }
@@ -437,9 +437,8 @@ function showSummary({ instant = false } = {}) {
     <section class="ft-score-row" aria-labelledby="ftTitle">
       <h2 id="ftTitle" class="sr">Full time</h2>
       <div class="ft-total"><b id="ftTotal">${calm ? t.toLocaleString() : 0}</b><span>of ${(ROUNDS * 1000).toLocaleString()}</span></div>
-      <div class="ft-rank"><small>Rank</small><b>${esc(rank.name)}</b></div>
     </section>
-    <section class="ft-ladder" id="ftHero" aria-label="Rank ladder"></section>
+    <section class="ft-ladder" id="ftHero" aria-label="Trophy cabinet: ${esc(rank.name)}"></section>
     <section class="ft-pitchwrap" aria-labelledby="pitchTitle">
       <h3 id="pitchTitle">Your starting five</h3>
       <div class="pitch">${items.map(card).join("")}</div>
@@ -474,8 +473,10 @@ function showSummary({ instant = false } = {}) {
   document.querySelectorAll(".pc").forEach((b) => (b.onclick = () => toggleDetail(+b.dataset.round)));
   if (openRound >= 0 && calm) toggleDetail(openRound, { keep: true }); // a redraw (km/miles) keeps the open card open
 
-  // The sequence: count-up and the compact staircase together, the cards slide on, awards stamp, the ticket.
-  hero = createClimb($("#ftHero"), { compact: true });
+  // The sequence: the count-up and the cabinet together (a spotlight uncovers each trophy won, about half a
+  // second each, then the rank stamp lands), the cards slide on, the awards stamp, the ticket. Then stillness.
+  hero = createCabinet($("#ftHero"));
+  const won = LADDER.indexOf(rank), cabinetMs = 500 * won;
   const ft = $(".ft");
   const settle = () => {
     ftTimers.forEach(clearTimeout); ftTimers = [];
@@ -489,15 +490,15 @@ function showSummary({ instant = false } = {}) {
   } else {
     const start = performance.now();
     const count = (now) => {
-      const el = $("#ftTotal"), p = Math.min(1, Math.max(0, (now - start) / 1000));
+      const el = $("#ftTotal"), p = Math.min(1, Math.max(0, (now - start) / Math.max(1000, cabinetMs)));
       if (!el || ft.classList.contains("settled")) return;
       el.textContent = Math.round(t * (1 - (1 - p) ** 2)).toLocaleString();
       if (p < 1) requestAnimationFrame(count);
     };
     requestAnimationFrame(count);
-    hero.climb(0, t, ROUNDS, { ms: 1000 });
+    hero.climb(0, t, ROUNDS, { ms: cabinetMs });
     ft.classList.add("play"); // CSS: cards 150 ms apart, then the awards, then the ticket (see .ft.play)
-    ftTimers.push(setTimeout(settle, 2600));
+    ftTimers.push(setTimeout(settle, Math.max(2600, cabinetMs + 900)));
     $("#skipAnim").onclick = settle;
   }
 
@@ -758,7 +759,7 @@ const loaded = {}; // each mode's player list, fetched once
 async function startMode(key) {
   MODE = MODES[key];
   useScale(MODE.scale); // this mode's tier distances and rank thresholds (the mix's if it has none)
-  live.stop(); live = createClimb($("#ladderLive"), { compact: true }); // so the staircase shows this mode's thresholds
+  live.stop(); live = createCabinet($("#ladderLive"), { compact: true }); // so the cabinet shows this mode's thresholds
   document.body.dataset.mode = key;
   const url = new URL(location.href);
   url.searchParams.set("mode", key);

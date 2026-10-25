@@ -35,7 +35,7 @@ js/geo.js               distance and great-circle maths
 js/units.js             km / miles display (everything is stored in km)
 js/tiers.js             result tiers, colours and reaction lines
 js/effects.js           the short celebration effects
-js/climb.js             "The Climb": the rank staircase (in game and at full time)
+js/cabinet.js           the trophy cabinet: the ranks as six trophies (in game and at full time)
 js/summarymap.js        the small map in a Full time card's details, one round at a time
 js/endscreen.js         Full time's awards, match ticket (and its PNG) and league table
 js/modes.js             the two games (Daily mix, Football): data, storage keys, daily rounds, share text
@@ -230,8 +230,11 @@ The daily total earns a rank: Wooden spoon, Reserve (1,500+), Starter (2,600+), 
 fall) and these thresholds come from `python3 scripts/simulate_ranks.py`, which plays 5,000 games each for a
 casual, a good and an expert player on the real pool.
 
-"The Climb" (`js/climb.js`) draws the ranks as a staircase with every name and threshold showing: a small
-one during the game ("1,350 to Captain"), and the big one at full time.
+The trophy cabinet (`js/cabinet.js`) shows the ranks as six trophies on a shelf, each drawn in our own style
+(no real trophy's design, no competition marks): Wooden spoon, Championship trophy, League title, Domestic cup,
+Continental cup and World trophy. Trophies not yet won are dark silhouettes with a "?" and their threshold. In
+the game a small row sits near the top ("Next trophy: Domestic cup, 763 to go"); at full time a spotlight
+uncovers each trophy won, then the rank stamp lands beside the cabinet.
 
 ### Stats
 
@@ -242,7 +245,7 @@ practice never change the stats, the streak or the table, and missing a day rese
 
 ### Full time
 
-One calm scroll: the day and the game, the total and rank with a compact staircase, "Your starting five"
+One calm scroll: the day and the game, the total, the trophy cabinet with the rank stamp, "Your starting five"
 (the five rounds as cards on a pitch, 2-1-2), the match ticket beside your last seven days, then sharing.
 Tap a card for its details (your pin, the answer, a small map, the distance fact, its Vault levels).
 Awards: Man of the match (most points; ties go to the closer pin, then the earlier round) and Disaster
