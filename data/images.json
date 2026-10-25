@@ -230,9 +230,10 @@
  },
  "wd-Q44473": {
   "reject": [
-   "O.J. Simpson (11282520885).jpg"
+   "O.J. Simpson (11282520885).jpg",
+   "O.J. Simpson talking to reporters, 1967 (cropped).jpg"
   ],
-  "note": "review: bronze bust"
+  "note": "review: bronze bust; review: not a footballer"
  },
  "wd-Q213919": {
   "reject": [
@@ -458,5 +459,83 @@
    "Denis Law (geograph 3143643).jpg"
   ],
   "note": "review: statue"
+ },
+ "wd-Q223827": {
+  "reject": [
+   "Gary Cahill 20170315.jpg"
+  ],
+  "note": "review: colour fringe beside the face"
+ },
+ "wd-Q50600": {
+  "reject": [
+   "Carlos Tevez, UEFA CL match Celtic vs Manchester - by Tsutomu Takasu (Light).jpg"
+  ],
+  "note": "review: colour fringe beside the head"
+ },
+ "wd-Q168497": {
+  "reject": [
+   "Daniele De Rossi BGR-ITA 2012.jpg"
+  ],
+  "note": "review: colour fringe beside the face"
+ },
+ "wd-Q56085180": {
+  "reject": [
+   "RC Lens - Lille OSC (08-10-2023) 42 (cropped).jpg"
+  ],
+  "note": "review: face half in shadow"
+ },
+ "wd-Q21621168": {
+  "reject": [
+   "Ruben Dias, 14 November 2024 (4) (cropped).jpg"
+  ],
+  "note": "review: colour fringe round the head"
+ },
+ "wd-Q616664": {
+  "reject": [
+   "Anna Mariana Casemiro walking into Manchester United for the derby game against Manchester City.jpg"
+  ],
+  "note": "review: wrong person in the picture (sunglasses)"
+ },
+ "wd-Q28801927": {
+  "reject": [
+   "Cody Gakpo 06042025 (1) (cropped).jpg"
+  ],
+  "note": "review: face half in shadow, turned away"
+ },
+ "wd-Q19518278": {
+  "reject": [
+   "Diogo Jota 2025 Cropped.jpg"
+  ],
+  "note": "review: red band over the head"
+ },
+ "wd-Q6186603": {
+  "reject": [
+   "240609 FC 서울 팬사인회 (Jesse Lingard).jpg"
+  ],
+  "note": "review: lettering on the cap"
+ },
+ "wd-Q16174734": {
+  "reject": [
+   "Lee Kangin 2019.png"
+  ],
+  "note": "review: looking down"
+ },
+ "wd-Q154708": {
+  "reject": [
+   "Kagawa Shinji, Japanese footballer 1 (cropped).jpg"
+  ],
+  "note": "review: yellow shirt shows under the chin"
+ },
+ "wd-Q171583": {
+  "reject": [
+   "2015-02-06 Sir Bobby Charlton 0288.JPG"
+  ],
+  "note": "review: colour fringe beside the face"
+ },
+ "wd-Q44297797": {
+  "reject": [
+   "Ferran Torres 2019.png"
+  ],
+  "note": "review: face in shadow, turned away"
  }
 }

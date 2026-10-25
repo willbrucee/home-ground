@@ -307,7 +307,8 @@ def main():
     overrides = {k: v for k, v in (json.loads(OVERRIDES.read_text()) if OVERRIDES.exists() else {}).items() if not k.startswith("_")}
     # everyone gets another chance: the live pool, plus the reserve (except those you've ruled out)
     pool = players + [e for e in reserve if e["id"] not in {p["id"] for p in players}]
-    pool = [e for e in pool if e.get("type", "athlete") == "athlete" and not overrides.get(e["id"], {}).get("none")]
+    excluded = set() if MIX else {"wd-" + q for q in json.loads((ROOT / "data" / "football-overrides.json").read_text()).get("exclude", [])}
+    pool = [e for e in pool if e.get("type", "athlete") == "athlete" and not overrides.get(e["id"], {}).get("none") and e["id"] not in excluded]
     teams = [e for e in players if e.get("type") == "team"]
     refs = cached(f"cutrefs-{'mix' if MIX else 'fb'}-{len(pool)}", lambda: wikidata_refs([e["id"][3:] for e in pool]), False)
     keep, out, report = [], [], {}

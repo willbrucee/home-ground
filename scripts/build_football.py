@@ -125,7 +125,7 @@ LEAGUE = re.compile(r"liga|league|division|bundesliga|serie|championship|eredivi
 FOOTBALLISH = re.compile(r"football|soccer|fifa|uefa|ballon|golden (ball|shoe|boot|boy)|pichichi|capocannoniere|"
                          r"kopa|yashin|torjäger|conmebol|concacaf|caf |afc ", re.I)
 NATIONAL = re.compile(r"national", re.I)
-FOOTBALL_DESC = re.compile(r"football|soccer|goalkeeper", re.I)
+FOOTBALL_DESC = re.compile(r"association football|footballer|soccer|goalkeeper|(?<!american )(?<!gaelic )(?<!australian rules )(?<!canadian )football player", re.I)
 YOUTH = re.compile(r"under-\d+|u-?\d\d|youth|olympic|amateur|\bb\b", re.I)
 
 
