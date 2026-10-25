@@ -65,10 +65,19 @@ NATIONAL = re.compile(r"national (football |soccer )?team|\bnational\b.*\bteam\b
                       r"european championship|copa am[eé]rica|africa(n)? cup of nations|\bafcon\b|asian cup|gold cup|"
                       r"olympic|olympics|olympia|qualif|nations league|confederations cup|friendly match|international "
                       r"friendly", re.I)
-# "Spain v Italy", "Germany vs. Argentina": a match between two countries (club matches are fine)
-VERSUS = re.compile(r"([a-z]+(?: [a-z]+)?) (?:vs?\.?|versus|[-–]) ([a-z]+(?: [a-z]+)?)")
+# "Spain v Italy", "Germany vs. Argentina", "Nederland tegen Polen": a match between two countries (club
+# matches are fine). Archive captions are often in Dutch, German, French, Spanish or Italian.
+VERSUS = re.compile(r"([a-z]+(?: [a-z]+)?) (?:vs?\.?|versus|against|tegen|gegen|contre|contra|contro|[-–]) ([a-z]+(?: [a-z]+)?)")
 COUNTRY_WORDS = {plain(n) for f in json.loads((pathlib.Path(__file__).resolve().parent.parent / "data" / "countries.geojson").read_text())["features"]
-                 for n in [f["properties"]["name"], *f["properties"]["aliases"]]} | {"england", "scotland", "wales", "northern ireland"}
+                 for n in [f["properties"]["name"], *f["properties"]["aliases"]]} | {"england", "scotland", "wales", "northern ireland"} | {
+    "nederland", "holland", "polen", "duitsland", "deutschland", "alemania", "allemagne", "germania", "frankrijk", "frankreich",
+    "francia", "italie", "italien", "espana", "spanje", "spanien", "espagne", "spagna", "brasil", "brasilien", "bresil",
+    "belgie", "belgien", "belgique", "engeland", "inglaterra", "angleterre", "inghilterra", "schotland", "schottland",
+    "schweiz", "zwitserland", "suisse", "svizzera", "oostenrijk", "osterreich", "autriche", "ungarn", "hongarije",
+    "hongrie", "ungheria", "tsjechoslowakije", "tschechoslowakei", "joegoslavie", "jugoslawien", "yougoslavie",
+    "sovjet-unie", "sowjetunion", "urss", "cccp", "denemarken", "danemark", "danimarca", "zweden", "schweden", "suede",
+    "svezia", "noorwegen", "norwegen", "norvege", "argentinie", "argentinien", "mexiko", "mexique", "portogallo", "turkije",
+    "turkei", "griekenland", "griechenland", "grece", "grecia", "ierland", "irland", "irlande", "polonia", "pologne"}
 KIT_FREE = re.compile(r"award|gala|ballon|ceremony|press conference|news conference|conference|interview|signing|"
                       r"presentation|charity|premiere|red carpet|visit|meets|reception|event|portrait|launch|summit|forum", re.I)
 
@@ -236,6 +245,19 @@ def make_card(entry, title, meta):
     loud = (chroma_off > 30) & (lab[..., 0] > 60) & (rows > y + fh * 0.3)
     inner = (np.abs(cols - cx) < fw * 0.38) & (rows < y + fh * 0.95)
     keep = keep * ~(loud & ~inner)
+    # Beside the jaw, from the mouth down, only skin stays: collar points and lapels rise there. (A soft
+    # face ellipse is left alone, and shadowed jaw skin still passes.) Collar points that touch the jaw can
+    # survive this, so every card is still looked at on the review sheet.
+    face = ((cols - cx) / (fw * 0.56)) ** 2 + ((rows - (y + fh * 0.5)) / (fh * 0.62)) ** 2
+    outside = np.clip((face - 1) / 0.3, 0, 1) * np.clip((rows - (y + fh * 0.7)) / (fh * 0.1), 0, 1)
+    loose_skin = np.clip((30 - d) / 8, 0, 1)
+    keep = keep * (1 - outside) + keep * loose_skin * outside
+    # Anything no longer joined to the head (a scrap of collar, a microphone) goes.
+    n2, pieces, _ = components(keep > 0.3)
+    mine = pieces[min(cy, im.height - 1), min(cx, im.width - 1)]
+    if mine:
+        joined = cv2.dilate((pieces == mine).astype(np.uint8), np.ones((5, 5), np.uint8)).astype(np.float32)
+        keep = keep * joined
     # head and neck, 4:5: from above the hair to a little under the chin
     top = y - fh * 0.48
     bottom = y + fh * 1.26
@@ -284,7 +306,7 @@ def make_card(entry, title, meta):
 
 def judge(entry, title, meta):
     """The cached verdict for one candidate (making the card file if it passes and isn't saved yet)."""
-    key = CACHE / "cut" / (hashlib.md5(f"cut1|{entry['id']}|{title}".encode()).hexdigest() + ".json")
+    key = CACHE / "cut" / (hashlib.md5(f"cut3|{entry['id']}|{title}".encode()).hexdigest() + ".json")
     out = OUT_DIR / f"{entry['id'][3:]}.webp"
     if key.exists():
         v = json.loads(key.read_text())

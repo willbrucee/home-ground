@@ -104,3 +104,14 @@ deild
 karla
 von
 GeoGuessr
+EOX
+GmbH
+ETOPO
+GMTED
+Mapzen
+OpenFreeMap
+OpenMapTiles
+OpenStreetMap
+SRTM
+ctrl
+maplibregl

@@ -1,0 +1,2301 @@
+{
+"wd-Q1835": {
+"name": "Zinedine Zidane",
+"file": "Zidane BW.jpg",
+"kit": {
+"national": 0.006,
+"club": 0.019,
+"suit": 0.05,
+"plain": 0.925
+},
+"marks": {
+"mark": 0.095,
+"clean": 0.905
+},
+"cloth": null,
+"neck": 0.044,
+"sharp": 496.1,
+"faceH": 206,
+"tried": 4
+},
+"wd-Q17163": {
+"name": "Johan Cruyff",
+"file": "Cruyff a la banqueta del Camp Nou.jpg",
+"kit": {
+"national": 0.05,
+"club": 0.067,
+"suit": 0.149,
+"plain": 0.735
+},
+"marks": {
+"mark": 0.119,
+"clean": 0.881
+},
+"cloth": null,
+"neck": 0.092,
+"sharp": 245.0,
+"faceH": 136,
+"tried": 7
+},
+"wd-Q10520": {
+"name": "David Beckham",
+"file": "David-Beckham3.jpg",
+"kit": {
+"national": 0.069,
+"club": 0.12,
+"suit": 0.751,
+"plain": 0.06
+},
+"marks": {
+"mark": 0.363,
+"clean": 0.637
+},
+"cloth": null,
+"neck": 0.08,
+"sharp": 382.7,
+"faceH": 163,
+"tried": 11
+},
+"wd-Q1912": {
+"name": "Karim Benzema",
+"file": "Karim Benzema during an interview in 2021 (2) (cropped).jpg",
+"kit": {
+"national": 0.046,
+"club": 0.12,
+"suit": 0.539,
+"plain": 0.295
+},
+"marks": {
+"mark": 0.294,
+"clean": 0.706
+},
+"cloth": null,
+"neck": 0.216,
+"sharp": 540.2,
+"faceH": 183,
+"tried": 5
+},
+"wd-Q17500": {
+"name": "Xavi",
+"file": "Xavi Hernandez (31521652051).jpg",
+"kit": {
+"national": 0.006,
+"club": 0.012,
+"suit": 0.976,
+"plain": 0.006
+},
+"marks": {
+"mark": 0.296,
+"clean": 0.704
+},
+"cloth": null,
+"neck": 0.048,
+"sharp": 338.7,
+"faceH": 170,
+"tried": 3
+},
+"wd-Q21621995": {
+"name": "Kylian Mbappé",
+"file": "Kylian Mbappé (cropped).jpg",
+"kit": {
+"national": 0.143,
+"club": 0.594,
+"suit": 0.11,
+"plain": 0.153
+},
+"marks": {
+"mark": 0.013,
+"clean": 0.987
+},
+"cloth": null,
+"neck": 0.05,
+"sharp": 260.4,
+"faceH": 144,
+"tried": 4
+},
+"wd-Q4457": {
+"name": "Franz Beckenbauer",
+"file": "Franz Beckenbauer - 2019102190253 2019-04-12 Radio Regenbogen Award 2019 - Sven - 1D X MK II - 0369 - AK8I9538.jpg",
+"kit": {
+"national": 0.004,
+"club": 0.002,
+"suit": 0.757,
+"plain": 0.236
+},
+"marks": {
+"mark": 0.012,
+"clean": 0.988
+},
+"cloth": null,
+"neck": 0.048,
+"sharp": 1064.3,
+"faceH": 316,
+"tried": 7
+},
+"wd-Q42731": {
+"name": "Fernando Torres",
+"file": "Fernando Torres 271809.JPG",
+"kit": {
+"national": 0.008,
+"club": 0.014,
+"suit": 0.964,
+"plain": 0.014
+},
+"marks": {
+"mark": 0.143,
+"clean": 0.857
+},
+"cloth": null,
+"neck": 0.16,
+"sharp": 238.8,
+"faceH": 125,
+"tried": 12
+},
+"wd-Q128829": {
+"name": "Michael Owen",
+"file": "Michael Owen (Portrait).jpg",
+"kit": {
+"national": 0.048,
+"club": 0.058,
+"suit": 0.614,
+"plain": 0.281
+},
+"marks": {
+"mark": 0.452,
+"clean": 0.548
+},
+"cloth": null,
+"neck": 0.042,
+"sharp": 198.5,
+"faceH": 180,
+"tried": 1
+},
+"wd-Q483145": {
+"name": "Luís Figo",
+"file": "Luís Figo arriving at IKA Tehran Airport.jpg",
+"kit": {
+"national": 0.053,
+"club": 0.234,
+"suit": 0.694,
+"plain": 0.019
+},
+"marks": {
+"mark": 0.13,
+"clean": 0.87
+},
+"cloth": null,
+"neck": 0.04,
+"sharp": 542.9,
+"faceH": 136,
+"tried": 4
+},
+"wd-Q11584": {
+"name": "Iker Casillas",
+"file": "14-6-2011 Visita Iker Casillas (5833110137) (cropped).jpg",
+"kit": {
+"national": 0.057,
+"club": 0.078,
+"suit": 0.748,
+"plain": 0.117
+},
+"marks": {
+"mark": 0.148,
+"clean": 0.852
+},
+"cloth": null,
+"neck": 0.228,
+"sharp": 447.1,
+"faceH": 173,
+"tried": 5
+},
+"wd-Q107365": {
+"name": "Manuel Neuer",
+"file": "Manuel Neuer1.jpg",
+"kit": {
+"national": 0.082,
+"club": 0.915,
+"suit": 0.002,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.065,
+"clean": 0.935
+},
+"cloth": null,
+"neck": 0.118,
+"sharp": 82.4,
+"faceH": 112,
+"tried": 11
+},
+"wd-Q173972": {
+"name": "Ruud Gullit",
+"file": "25th Laureus World Sports Awards - Ruud Gullit - 240422 131911 (cropped).jpg",
+"kit": {
+"national": 0.024,
+"club": 0.032,
+"suit": 0.867,
+"plain": 0.076
+},
+"marks": {
+"mark": 0.06,
+"clean": 0.94
+},
+"cloth": null,
+"neck": 0.149,
+"sharp": 491.0,
+"faceH": 198,
+"tried": 7
+},
+"wd-Q164546": {
+"name": "Alfredo Di Stéfano",
+"file": "Di Stefano 1959.jpg",
+"kit": {
+"national": 0.124,
+"club": 0.848,
+"suit": 0.007,
+"plain": 0.021
+},
+"marks": {
+"mark": 0.007,
+"clean": 0.993
+},
+"cloth": null,
+"neck": 0.199,
+"sharp": 424.6,
+"faceH": 210,
+"tried": 10
+},
+"wd-Q67964": {
+"name": "Roberto Baggio",
+"file": "Roberto Baggio - Italia '90.jpg",
+"kit": {
+"national": 0.307,
+"club": 0.692,
+"suit": 0.001,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.099,
+"clean": 0.901
+},
+"cloth": null,
+"neck": 0.04,
+"sharp": 474.1,
+"faceH": 192,
+"tried": 4
+},
+"wd-Q4721366": {
+"name": "Alexia Putellas",
+"file": "Brann - Barça Femení CG3A5851 (cropped).jpg",
+"kit": {
+"national": 0.221,
+"club": 0.591,
+"suit": 0.114,
+"plain": 0.073
+},
+"marks": {
+"mark": 0.138,
+"clean": 0.862
+},
+"cloth": null,
+"neck": 0.058,
+"sharp": 223.2,
+"faceH": 143,
+"tried": 9
+},
+"wd-Q624": {
+"name": "Alessandro Del Piero",
+"file": "Alessandro Del Piero (11149462915).jpg",
+"kit": {
+"national": 0.026,
+"club": 0.026,
+"suit": 0.813,
+"plain": 0.136
+},
+"marks": {
+"mark": 0.33,
+"clean": 0.67
+},
+"cloth": null,
+"neck": 0.048,
+"sharp": 260.1,
+"faceH": 182,
+"tried": 1
+},
+"wd-Q164521": {
+"name": "George Best",
+"file": "George best 1976.jpg",
+"kit": {
+"national": 0.0,
+"club": 0.001,
+"suit": 0.952,
+"plain": 0.047
+},
+"marks": {
+"mark": 0.15,
+"clean": 0.85
+},
+"cloth": null,
+"neck": 0.056,
+"sharp": 187.5,
+"faceH": 200,
+"tried": 1
+},
+"wd-Q43744": {
+"name": "Gerd Müller",
+"file": "BOMBERGERDMUELLER.JPG",
+"kit": {
+"national": 0.016,
+"club": 0.023,
+"suit": 0.098,
+"plain": 0.862
+},
+"marks": {
+"mark": 0.032,
+"clean": 0.968
+},
+"cloth": null,
+"neck": 0.13,
+"sharp": 1160.6,
+"faceH": 216,
+"tried": 2
+},
+"wd-Q36386": {
+"name": "Lothar Matthäus",
+"file": "2019-03-30 Fußball, Männer, 1. Bundesliga, RB Leipzig - Hertha BSC StP 3673 LR10 by Stepro.jpg",
+"kit": {
+"national": 0.08,
+"club": 0.02,
+"suit": 0.16,
+"plain": 0.74
+},
+"marks": {
+"mark": 0.304,
+"clean": 0.696
+},
+"cloth": null,
+"neck": 0.051,
+"sharp": 73.0,
+"faceH": 108,
+"tried": 8
+},
+"wd-Q167828": {
+"name": "Lev Yashin",
+"file": "LevYashin.JPG",
+"kit": {
+"national": 0.009,
+"club": 0.01,
+"suit": 0.81,
+"plain": 0.17
+},
+"marks": {
+"mark": 0.053,
+"clean": 0.947
+},
+"cloth": null,
+"neck": 0.046,
+"sharp": 579.0,
+"faceH": 207,
+"tried": 7
+},
+"wd-Q429039": {
+"name": "Roberto Carlos",
+"file": "LS3 1288 (53332367864) (cropped).jpg",
+"kit": {
+"national": 0.018,
+"club": 0.029,
+"suit": 0.938,
+"plain": 0.015
+},
+"marks": {
+"mark": 0.074,
+"clean": 0.926
+},
+"cloth": null,
+"neck": 0.044,
+"sharp": 612.8,
+"faceH": 189,
+"tried": 6
+},
+"wd-Q129700": {
+"name": "Mario Balotelli",
+"file": "Mario Balotelli (15440231808) (cropped) (cropped).jpg",
+"kit": {
+"national": 0.062,
+"club": 0.937,
+"suit": 0.0,
+"plain": 0.0
+},
+"marks": {
+"mark": 0.421,
+"clean": 0.579
+},
+"cloth": null,
+"neck": 0.058,
+"sharp": 92.5,
+"faceH": 131,
+"tried": 6
+},
+"wd-Q201381": {
+"name": "Vincent Kompany",
+"file": "Kompany (cropped).jpg",
+"kit": {
+"national": 0.066,
+"club": 0.933,
+"suit": 0.001,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.196,
+"clean": 0.804
+},
+"cloth": null,
+"neck": 0.047,
+"sharp": 120.8,
+"faceH": 209,
+"tried": 5
+},
+"wd-Q43926": {
+"name": "Andrea Pirlo",
+"file": "Andrea Pirlo in 2008.jpg",
+"kit": {
+"national": 0.086,
+"club": 0.712,
+"suit": 0.115,
+"plain": 0.087
+},
+"marks": {
+"mark": 0.092,
+"clean": 0.908
+},
+"cloth": null,
+"neck": 0.065,
+"sharp": 526.9,
+"faceH": 220,
+"tried": 11
+},
+"wd-Q214204": {
+"name": "Eden Hazard",
+"file": "Eden Hazard at Baku before 2019 UEFA Europe League Final.jpg",
+"kit": {
+"national": 0.198,
+"club": 0.785,
+"suit": 0.011,
+"plain": 0.005
+},
+"marks": {
+"mark": 0.211,
+"clean": 0.789
+},
+"cloth": null,
+"neck": 0.054,
+"sharp": 2725.3,
+"faceH": 262,
+"tried": 12
+},
+"wd-Q162043": {
+"name": "Eusébio",
+"file": "Aankomst Benfica op Schiphol, Eusebio, Bestanddeelnr 925-5025.jpg",
+"kit": {
+"national": 0.01,
+"club": 0.021,
+"suit": 0.585,
+"plain": 0.383
+},
+"marks": {
+"mark": 0.039,
+"clean": 0.961
+},
+"cloth": null,
+"neck": 0.046,
+"sharp": 664.8,
+"faceH": 175,
+"tried": 5
+},
+"wd-Q508711": {
+"name": "Didier Deschamps",
+"file": "Didier Deschamps 2011 (cropped).jpeg",
+"kit": {
+"national": 0.181,
+"club": 0.215,
+"suit": 0.593,
+"plain": 0.011
+},
+"marks": {
+"mark": 0.35,
+"clean": 0.65
+},
+"cloth": null,
+"neck": 0.057,
+"sharp": 61.3,
+"faceH": 107,
+"tried": 3
+},
+"wd-Q152871": {
+"name": "Karl-Heinz Rummenigge",
+"file": "2015-02-06 Rummenigge 0370.JPG",
+"kit": {
+"national": 0.0,
+"club": 0.0,
+"suit": 0.994,
+"plain": 0.006
+},
+"marks": {
+"mark": 0.033,
+"clean": 0.967
+},
+"cloth": null,
+"neck": 0.135,
+"sharp": 270.1,
+"faceH": 145,
+"tried": 2
+},
+"wd-Q27995553": {
+"name": "Aitana Bonmatí",
+"file": "25th Laureus World Sports Awards - 240422 214032.jpg",
+"kit": {
+"national": 0.001,
+"club": 0.018,
+"suit": 0.904,
+"plain": 0.078
+},
+"marks": {
+"mark": 0.151,
+"clean": 0.849
+},
+"cloth": null,
+"neck": 0.155,
+"sharp": 155.0,
+"faceH": 116,
+"tried": 4
+},
+"wd-Q134976": {
+"name": "Lukas Podolski",
+"file": "Lukas Podolski - 2019202170507 2019-07-21 Champions for Charity - 0684 - AK8I4465.jpg",
+"kit": {
+"national": 0.276,
+"club": 0.695,
+"suit": 0.021,
+"plain": 0.008
+},
+"marks": {
+"mark": 0.435,
+"clean": 0.565
+},
+"cloth": null,
+"neck": 0.234,
+"sharp": 191.0,
+"faceH": 126,
+"tried": 8
+},
+"wd-Q44977": {
+"name": "Pierre-Emerick Aubameyang",
+"file": "Pierre-Emerick Aubameyang IMG 1639.jpg",
+"kit": {
+"national": 0.058,
+"club": 0.933,
+"suit": 0.007,
+"plain": 0.002
+},
+"marks": {
+"mark": 0.261,
+"clean": 0.739
+},
+"cloth": null,
+"neck": 0.053,
+"sharp": 53.5,
+"faceH": 115,
+"tried": 8
+},
+"wd-Q11948": {
+"name": "Michael Ballack",
+"file": "Michael Ballack 2022 BHO-0832.jpg",
+"kit": {
+"national": 0.027,
+"club": 0.065,
+"suit": 0.471,
+"plain": 0.436
+},
+"marks": {
+"mark": 0.097,
+"clean": 0.903
+},
+"cloth": null,
+"neck": 0.177,
+"sharp": 780.6,
+"faceH": 232,
+"tried": 1
+},
+"wd-Q482931": {
+"name": "Ferenc Puskás",
+"file": "Ferenc Puskás ai.jpg",
+"kit": {
+"national": 0.001,
+"club": 0.004,
+"suit": 0.638,
+"plain": 0.357
+},
+"marks": {
+"mark": 0.043,
+"clean": 0.957
+},
+"cloth": null,
+"neck": 0.055,
+"sharp": 1409.6,
+"faceH": 286,
+"tried": 6
+},
+"wd-Q17158": {
+"name": "Carles Puyol",
+"file": "Carles Puyol 2011.jpg",
+"kit": {
+"national": 0.343,
+"club": 0.657,
+"suit": 0.0,
+"plain": 0.0
+},
+"marks": {
+"mark": 0.408,
+"clean": 0.592
+},
+"cloth": null,
+"neck": 0.133,
+"sharp": 186.0,
+"faceH": 152,
+"tried": 6
+},
+"wd-Q66241169": {
+"name": "Jude Bellingham",
+"file": "25th Laureus World Sports Awards - Red Carpet - Jude Bellingham - 240422 190551-2 (cropped).jpg",
+"kit": {
+"national": 0.007,
+"club": 0.003,
+"suit": 0.989,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.099,
+"clean": 0.901
+},
+"cloth": null,
+"neck": 0.064,
+"sharp": 234.5,
+"faceH": 177,
+"tried": 3
+},
+"wd-Q131261": {
+"name": "Oliver Kahn",
+"file": "2022-07-30 Fußball, Männer, DFL-Supercup, RB Leipzig - FC Bayern München 1DX 3172 by Stepro.jpg",
+"kit": {
+"national": 0.092,
+"club": 0.03,
+"suit": 0.294,
+"plain": 0.584
+},
+"marks": {
+"mark": 0.317,
+"clean": 0.683
+},
+"cloth": null,
+"neck": 0.071,
+"sharp": 238.9,
+"faceH": 114,
+"tried": 1
+},
+"wd-Q168497": {
+"name": "Daniele De Rossi",
+"file": "Daniele De Rossi 2008.jpg",
+"kit": {
+"national": 0.206,
+"club": 0.574,
+"suit": 0.011,
+"plain": 0.209
+},
+"marks": {
+"mark": 0.012,
+"clean": 0.988
+},
+"cloth": null,
+"neck": 0.125,
+"sharp": 412.6,
+"faceH": 264,
+"tried": 3
+},
+"wd-Q222086": {
+"name": "Mia Hamm",
+"file": "Mia Hamm 2010 cropped.jpg",
+"kit": {
+"national": 0.03,
+"club": 0.113,
+"suit": 0.631,
+"plain": 0.226
+},
+"marks": {
+"mark": 0.342,
+"clean": 0.658
+},
+"cloth": null,
+"neck": 0.045,
+"sharp": 259.1,
+"faceH": 226,
+"tried": 3
+},
+"wd-Q1839": {
+"name": "Laurent Blanc",
+"file": "Laurent blanc 11 11 2013 reves de Clara.jpg",
+"kit": {
+"national": 0.241,
+"club": 0.727,
+"suit": 0.006,
+"plain": 0.025
+},
+"marks": {
+"mark": 0.094,
+"clean": 0.906
+},
+"cloth": null,
+"neck": 0.152,
+"sharp": 134.3,
+"faceH": 161,
+"tried": 7
+},
+"wd-Q458101": {
+"name": "Ciro Immobile",
+"file": "Ciro Immobile crop.jpg",
+"kit": {
+"national": 0.053,
+"club": 0.945,
+"suit": 0.0,
+"plain": 0.002
+},
+"marks": {
+"mark": 0.275,
+"clean": 0.725
+},
+"cloth": null,
+"neck": 0.111,
+"sharp": 185.6,
+"faceH": 124,
+"tried": 3
+},
+"wd-Q170376": {
+"name": "Gabriel Batistuta",
+"file": "Gabriel batistuta.jpg",
+"kit": {
+"national": 0.009,
+"club": 0.056,
+"suit": 0.846,
+"plain": 0.089
+},
+"marks": {
+"mark": 0.036,
+"clean": 0.964
+},
+"cloth": null,
+"neck": 0.196,
+"sharp": 508.5,
+"faceH": 252,
+"tried": 3
+},
+"wd-Q297271": {
+"name": "Jimmy Greaves",
+"file": "Jimmy Greaves (cropped).jpg",
+"kit": {
+"national": 0.003,
+"club": 0.01,
+"suit": 0.805,
+"plain": 0.183
+},
+"marks": {
+"mark": 0.122,
+"clean": 0.878
+},
+"cloth": null,
+"neck": 0.088,
+"sharp": 145.2,
+"faceH": 174,
+"tried": 3
+},
+"wd-Q314856": {
+"name": "Sandro Mazzola",
+"file": "Inter Milan 1971-1972 Sandro Mazzola.jpg",
+"kit": {
+"national": 0.134,
+"club": 0.855,
+"suit": 0.005,
+"plain": 0.006
+},
+"marks": {
+"mark": 0.007,
+"clean": 0.993
+},
+"cloth": null,
+"neck": 0.084,
+"sharp": 843.6,
+"faceH": 189,
+"tried": 6
+},
+"wd-Q258115": {
+"name": "Diego Simeone",
+"file": "Diego Simeone - 01.jpg",
+"kit": {
+"national": 0.014,
+"club": 0.019,
+"suit": 0.957,
+"plain": 0.01
+},
+"marks": {
+"mark": 0.083,
+"clean": 0.917
+},
+"cloth": null,
+"neck": 0.042,
+"sharp": 298.0,
+"faceH": 163,
+"tried": 5
+},
+"wd-Q57183": {
+"name": "Matthias Sammer",
+"file": "Matthias Sammer 2727.jpg",
+"kit": {
+"national": 0.0,
+"club": 0.001,
+"suit": 0.988,
+"plain": 0.01
+},
+"marks": {
+"mark": 0.039,
+"clean": 0.961
+},
+"cloth": null,
+"neck": 0.06,
+"sharp": 248.5,
+"faceH": 159,
+"tried": 5
+},
+"wd-Q269883": {
+"name": "Emmanuel Petit",
+"file": "Emmanuel Petit.jpg",
+"kit": {
+"national": 0.181,
+"club": 0.734,
+"suit": 0.032,
+"plain": 0.054
+},
+"marks": {
+"mark": 0.015,
+"clean": 0.985
+},
+"cloth": null,
+"neck": 0.345,
+"sharp": 143.7,
+"faceH": 223,
+"tried": 2
+},
+"wd-Q187238": {
+"name": "Tim Cahill",
+"file": "Tim Cahill (53557484101).jpg",
+"kit": {
+"national": 0.006,
+"club": 0.022,
+"suit": 0.64,
+"plain": 0.331
+},
+"marks": {
+"mark": 0.024,
+"clean": 0.976
+},
+"cloth": null,
+"neck": 0.168,
+"sharp": 844.6,
+"faceH": 176,
+"tried": 2
+},
+"wd-Q366753": {
+"name": "Teemu Pukki",
+"file": "Teemu Pukki S04.jpg",
+"kit": {
+"national": 0.053,
+"club": 0.946,
+"suit": 0.001,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.016,
+"clean": 0.984
+},
+"cloth": null,
+"neck": 0.076,
+"sharp": 87.1,
+"faceH": 143,
+"tried": 7
+},
+"wd-Q185389": {
+"name": "Dennis Bergkamp",
+"file": "Dennis Bergkamp 1989, Bestanddeelnr 934-4782.jpg",
+"kit": {
+"national": 0.149,
+"club": 0.845,
+"suit": 0.004,
+"plain": 0.002
+},
+"marks": {
+"mark": 0.043,
+"clean": 0.957
+},
+"cloth": null,
+"neck": 0.051,
+"sharp": 772.2,
+"faceH": 200,
+"tried": 6
+},
+"wd-Q170328": {
+"name": "Eric Cantona",
+"file": "Eric Cantona à Namur pour \"UBU ENCHAINE\".jpg",
+"kit": {
+"national": 0.001,
+"club": 0.002,
+"suit": 0.11,
+"plain": 0.887
+},
+"marks": {
+"mark": 0.14,
+"clean": 0.86
+},
+"cloth": null,
+"neck": 0.01,
+"sharp": 539.8,
+"faceH": 125,
+"tried": 7
+},
+"wd-Q187891": {
+"name": "Fernando Llorente",
+"file": "Fernando llorente.jpg",
+"kit": {
+"national": 0.294,
+"club": 0.615,
+"suit": 0.079,
+"plain": 0.012
+},
+"marks": {
+"mark": 0.034,
+"clean": 0.966
+},
+"cloth": null,
+"neck": 0.235,
+"sharp": 302.2,
+"faceH": 240,
+"tried": 6
+},
+"wd-Q273715": {
+"name": "Jordan Henderson",
+"file": "Jordan Henderson 29112025 (4).jpg",
+"kit": {
+"national": 0.136,
+"club": 0.613,
+"suit": 0.014,
+"plain": 0.237
+},
+"marks": {
+"mark": 0.346,
+"clean": 0.654
+},
+"cloth": null,
+"neck": 0.054,
+"sharp": 244.7,
+"faceH": 225,
+"tried": 9
+},
+"wd-Q228616": {
+"name": "Marta",
+"file": "Brasília - DF (5765889453) (cropped).jpg",
+"kit": {
+"national": 0.0,
+"club": 0.001,
+"suit": 0.96,
+"plain": 0.039
+},
+"marks": {
+"mark": 0.223,
+"clean": 0.777
+},
+"cloth": null,
+"neck": 0.04,
+"sharp": 176.6,
+"faceH": 120,
+"tried": 5
+},
+"wd-Q70550": {
+"name": "Per Mertesacker",
+"file": "Per Mertesacker - SV Werder Bremen (1).jpg",
+"kit": {
+"national": 0.08,
+"club": 0.895,
+"suit": 0.011,
+"plain": 0.013
+},
+"marks": {
+"mark": 0.1,
+"clean": 0.9
+},
+"cloth": null,
+"neck": 0.197,
+"sharp": 183.4,
+"faceH": 197,
+"tried": 5
+},
+"wd-Q13308": {
+"name": "Samuel Umtiti",
+"file": "Samuel Umtiti (FC Barcelona) (33759153835) (cropped).jpg",
+"kit": {
+"national": 0.069,
+"club": 0.831,
+"suit": 0.065,
+"plain": 0.035
+},
+"marks": {
+"mark": 0.054,
+"clean": 0.946
+},
+"cloth": null,
+"neck": 0.058,
+"sharp": 236.7,
+"faceH": 170,
+"tried": 8
+},
+"wd-Q213427": {
+"name": "Aaron Ramsey",
+"file": "Aaron Ramsey 2019.jpg",
+"kit": {
+"national": 0.192,
+"club": 0.801,
+"suit": 0.004,
+"plain": 0.003
+},
+"marks": {
+"mark": 0.132,
+"clean": 0.868
+},
+"cloth": null,
+"neck": 0.066,
+"sharp": 698.1,
+"faceH": 177,
+"tried": 1
+},
+"wd-Q230529": {
+"name": "Fabio Grosso",
+"file": "Fabio Grosso 2008.jpg",
+"kit": {
+"national": 0.188,
+"club": 0.378,
+"suit": 0.37,
+"plain": 0.065
+},
+"marks": {
+"mark": 0.082,
+"clean": 0.918
+},
+"cloth": null,
+"neck": 0.221,
+"sharp": 925.0,
+"faceH": 200,
+"tried": 3
+},
+"wd-Q217482": {
+"name": "Youri Djorkaeff",
+"file": "Youri Djorkaeff 2008-10-25.jpg",
+"kit": {
+"national": 0.003,
+"club": 0.003,
+"suit": 0.709,
+"plain": 0.285
+},
+"marks": {
+"mark": 0.014,
+"clean": 0.986
+},
+"cloth": null,
+"neck": 0.089,
+"sharp": 723.6,
+"faceH": 215,
+"tried": 3
+},
+"wd-Q44073": {
+"name": "Bixente Lizarazu",
+"file": "Bixente Lizarazu (cropped).jpg",
+"kit": {
+"national": 0.067,
+"club": 0.071,
+"suit": 0.137,
+"plain": 0.724
+},
+"marks": {
+"mark": 0.179,
+"clean": 0.821
+},
+"cloth": null,
+"neck": 0.043,
+"sharp": 767.8,
+"faceH": 214,
+"tried": 2
+},
+"wd-Q482955": {
+"name": "Edwin van der Sar",
+"file": "Edwin van der Sar 2015.jpg",
+"kit": {
+"national": 0.0,
+"club": 0.001,
+"suit": 0.884,
+"plain": 0.115
+},
+"marks": {
+"mark": 0.309,
+"clean": 0.691
+},
+"cloth": null,
+"neck": 0.155,
+"sharp": 187.5,
+"faceH": 109,
+"tried": 1
+},
+"wd-Q61780902": {
+"name": "Khvicha Kvaratskhelia",
+"file": "Khvicha Kvaratskhelia Rubin Kazan, 2019 (cropped).jpg",
+"kit": {
+"national": 0.111,
+"club": 0.886,
+"suit": 0.003,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.355,
+"clean": 0.645
+},
+"cloth": null,
+"neck": 0.061,
+"sharp": 324.3,
+"faceH": 170,
+"tried": 5
+},
+"wd-Q29495": {
+"name": "Jonny Evans",
+"file": "Evans pictured at the Hawthorns in 2017.jpg",
+"kit": {
+"national": 0.057,
+"club": 0.661,
+"suit": 0.041,
+"plain": 0.241
+},
+"marks": {
+"mark": 0.154,
+"clean": 0.846
+},
+"cloth": null,
+"neck": 0.06,
+"sharp": 346.1,
+"faceH": 234,
+"tried": 5
+},
+"wd-Q45613": {
+"name": "Paul Scholes",
+"file": "Paul Scholes 2008.jpg",
+"kit": {
+"national": 0.036,
+"club": 0.892,
+"suit": 0.002,
+"plain": 0.07
+},
+"marks": {
+"mark": 0.079,
+"clean": 0.921
+},
+"cloth": null,
+"neck": 0.142,
+"sharp": 177.2,
+"faceH": 284,
+"tried": 5
+},
+"wd-Q52876": {
+"name": "Javier Zanetti",
+"file": "Metalist-Inter (2).jpg",
+"kit": {
+"national": 0.083,
+"club": 0.019,
+"suit": 0.852,
+"plain": 0.046
+},
+"marks": {
+"mark": 0.33,
+"clean": 0.67
+},
+"cloth": null,
+"neck": 0.037,
+"sharp": 767.3,
+"faceH": 267,
+"tried": 12
+},
+"wd-Q182451": {
+"name": "Alberto Gilardino",
+"file": "Alberto Gilardino.jpg",
+"kit": {
+"national": 0.03,
+"club": 0.424,
+"suit": 0.343,
+"plain": 0.203
+},
+"marks": {
+"mark": 0.067,
+"clean": 0.933
+},
+"cloth": null,
+"neck": 0.096,
+"sharp": 503.7,
+"faceH": 282,
+"tried": 3
+},
+"wd-Q483417": {
+"name": "Rio Ferdinand",
+"file": "Rio Ferdinand by Walterlan Papetti.jpg",
+"kit": {
+"national": 0.007,
+"club": 0.013,
+"suit": 0.805,
+"plain": 0.175
+},
+"marks": {
+"mark": 0.095,
+"clean": 0.905
+},
+"cloth": null,
+"neck": 0.078,
+"sharp": 285.7,
+"faceH": 164,
+"tried": 1
+},
+"wd-Q188720": {
+"name": "Michael Laudrup",
+"file": "Michael-Laudrup-Nov2008 (cropped).jpg",
+"kit": {
+"national": 0.021,
+"club": 0.077,
+"suit": 0.804,
+"plain": 0.098
+},
+"marks": {
+"mark": 0.201,
+"clean": 0.799
+},
+"cloth": null,
+"neck": 0.078,
+"sharp": 1175.7,
+"faceH": 277,
+"tried": 2
+},
+"wd-Q28973866": {
+"name": "Vinícius Júnior",
+"file": "Vinicius Jr 2021.jpg",
+"kit": {
+"national": 0.227,
+"club": 0.502,
+"suit": 0.243,
+"plain": 0.028
+},
+"marks": {
+"mark": 0.155,
+"clean": 0.845
+},
+"cloth": null,
+"neck": 0.049,
+"sharp": 305.2,
+"faceH": 190,
+"tried": 1
+},
+"wd-Q244799": {
+"name": "Peter Shilton",
+"file": "Peter Shilton.png",
+"kit": {
+"national": 0.015,
+"club": 0.029,
+"suit": 0.88,
+"plain": 0.076
+},
+"marks": {
+"mark": 0.094,
+"clean": 0.906
+},
+"cloth": null,
+"neck": 0.124,
+"sharp": 162.2,
+"faceH": 224,
+"tried": 1
+},
+"wd-Q295797": {
+"name": "Kasper Schmeichel",
+"file": "Kasper Schmeichel Celtic-20240722 (cropped).jpg",
+"kit": {
+"national": 0.116,
+"club": 0.662,
+"suit": 0.199,
+"plain": 0.023
+},
+"marks": {
+"mark": 0.454,
+"clean": 0.546
+},
+"cloth": null,
+"neck": 0.064,
+"sharp": 852.2,
+"faceH": 250,
+"tried": 7
+},
+"wd-Q159622": {
+"name": "Ali Daei",
+"file": "Ali Daei in press conference as Rah Ahan manager.jpg",
+"kit": {
+"national": 0.308,
+"club": 0.034,
+"suit": 0.653,
+"plain": 0.004
+},
+"marks": {
+"mark": 0.136,
+"clean": 0.864
+},
+"cloth": null,
+"neck": 0.045,
+"sharp": 718.6,
+"faceH": 152,
+"tried": 1
+},
+"wd-Q47075606": {
+"name": "Viktor Gyökeres",
+"file": "Viktor Gyökeres 2018.jpg",
+"kit": {
+"national": 0.101,
+"club": 0.889,
+"suit": 0.007,
+"plain": 0.004
+},
+"marks": {
+"mark": 0.237,
+"clean": 0.763
+},
+"cloth": null,
+"neck": 0.19,
+"sharp": 435.8,
+"faceH": 160,
+"tried": 1
+},
+"wd-Q348857": {
+"name": "Gary Neville",
+"file": "Gary Neville University of Salford.jpg",
+"kit": {
+"national": 0.006,
+"club": 0.019,
+"suit": 0.849,
+"plain": 0.126
+},
+"marks": {
+"mark": 0.127,
+"clean": 0.873
+},
+"cloth": null,
+"neck": 0.142,
+"sharp": 441.4,
+"faceH": 151,
+"tried": 1
+},
+"wd-Q173360": {
+"name": "Giovanni van Bronckhorst",
+"file": "Feyenoord-coach Giovanni van Bronckhorst-close-up.jpg",
+"kit": {
+"national": 0.258,
+"club": 0.156,
+"suit": 0.045,
+"plain": 0.54
+},
+"marks": {
+"mark": 0.213,
+"clean": 0.787
+},
+"cloth": null,
+"neck": 0.054,
+"sharp": 123.9,
+"faceH": 186,
+"tried": 2
+},
+"wd-Q13014035": {
+"name": "Jordan Pickford",
+"file": "Jordan Pickford 2022-07-16 1.jpg",
+"kit": {
+"national": 0.061,
+"club": 0.938,
+"suit": 0.0,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.487,
+"clean": 0.513
+},
+"cloth": null,
+"neck": 0.061,
+"sharp": 83.5,
+"faceH": 159,
+"tried": 1
+},
+"wd-Q311511": {
+"name": "Mário Zagallo",
+"file": "Mário Zagallo 1974.jpg",
+"kit": {
+"national": 0.065,
+"club": 0.008,
+"suit": 0.653,
+"plain": 0.274
+},
+"marks": {
+"mark": 0.011,
+"clean": 0.989
+},
+"cloth": null,
+"neck": 0.097,
+"sharp": 483.8,
+"faceH": 255,
+"tried": 1
+},
+"wd-Q222789": {
+"name": "Luis Enrique",
+"file": "Luis enrique.jpg",
+"kit": {
+"national": 0.217,
+"club": 0.226,
+"suit": 0.01,
+"plain": 0.547
+},
+"marks": {
+"mark": 0.114,
+"clean": 0.886
+},
+"cloth": null,
+"neck": 0.105,
+"sharp": 128.9,
+"faceH": 240,
+"tried": 7
+},
+"wd-Q919634": {
+"name": "Sam Kerr",
+"file": "Sam Kerr Gotham v Seattle 18 July 2026-223.jpg",
+"kit": {
+"national": 0.144,
+"club": 0.851,
+"suit": 0.0,
+"plain": 0.005
+},
+"marks": {
+"mark": 0.053,
+"clean": 0.947
+},
+"cloth": null,
+"neck": 0.072,
+"sharp": 154.9,
+"faceH": 146,
+"tried": 11
+},
+"wd-Q286511": {
+"name": "Christian Karembeu",
+"file": "Christian Karembeu.jpg",
+"kit": {
+"national": 0.032,
+"club": 0.016,
+"suit": 0.932,
+"plain": 0.019
+},
+"marks": {
+"mark": 0.296,
+"clean": 0.704
+},
+"cloth": null,
+"neck": 0.044,
+"sharp": 443.6,
+"faceH": 128,
+"tried": 1
+},
+"wd-Q215812": {
+"name": "Shay Given",
+"file": "Shay Given 2021.png",
+"kit": {
+"national": 0.175,
+"club": 0.2,
+"suit": 0.493,
+"plain": 0.132
+},
+"marks": {
+"mark": 0.445,
+"clean": 0.555
+},
+"cloth": null,
+"neck": 0.218,
+"sharp": 29.4,
+"faceH": 189,
+"tried": 6
+},
+"wd-Q44340": {
+"name": "Uli Hoeneß",
+"file": "Uli Hoeness 2505.jpg",
+"kit": {
+"national": 0.115,
+"club": 0.11,
+"suit": 0.569,
+"plain": 0.206
+},
+"marks": {
+"mark": 0.058,
+"clean": 0.942
+},
+"cloth": null,
+"neck": 0.047,
+"sharp": 98.0,
+"faceH": 138,
+"tried": 3
+},
+"wd-Q2754626": {
+"name": "Vivianne Miedema",
+"file": "Vivianne Miedema beim Aufwaermen BL FCB gg. SGS Essen Muenchen-1 (cropped).jpg",
+"kit": {
+"national": 0.143,
+"club": 0.853,
+"suit": 0.0,
+"plain": 0.004
+},
+"marks": {
+"mark": 0.19,
+"clean": 0.81
+},
+"cloth": null,
+"neck": 0.065,
+"sharp": 69.5,
+"faceH": 184,
+"tried": 7
+},
+"wd-Q152844": {
+"name": "Oliver Bierhoff",
+"file": "2019-09-27 DFB Bundestag Oliver Bierhoff by OlafKosinsky MG 4873.jpg",
+"kit": {
+"national": 0.02,
+"club": 0.007,
+"suit": 0.955,
+"plain": 0.019
+},
+"marks": {
+"mark": 0.152,
+"clean": 0.848
+},
+"cloth": null,
+"neck": 0.055,
+"sharp": 75.1,
+"faceH": 119,
+"tried": 9
+},
+"wd-Q327456": {
+"name": "Hakim Ziyech",
+"file": "Hakim Ziyech 2021.jpg",
+"kit": {
+"national": 0.13,
+"club": 0.869,
+"suit": 0.001,
+"plain": 0.0
+},
+"marks": {
+"mark": 0.277,
+"clean": 0.723
+},
+"cloth": null,
+"neck": 0.078,
+"sharp": 1164.2,
+"faceH": 195,
+"tried": 4
+},
+"wd-Q152492": {
+"name": "Roque Santa Cruz",
+"file": "Roque Santa Cruz 2025 (cropped).jpg",
+"kit": {
+"national": 0.015,
+"club": 0.059,
+"suit": 0.008,
+"plain": 0.918
+},
+"marks": {
+"mark": 0.049,
+"clean": 0.951
+},
+"cloth": null,
+"neck": 0.228,
+"sharp": 412.9,
+"faceH": 224,
+"tried": 10
+},
+"wd-Q18207229": {
+"name": "Dominik Livaković",
+"file": "Dominik Livaković 2021.jpg",
+"kit": {
+"national": 0.127,
+"club": 0.66,
+"suit": 0.203,
+"plain": 0.009
+},
+"marks": {
+"mark": 0.061,
+"clean": 0.939
+},
+"cloth": null,
+"neck": 0.094,
+"sharp": 128.5,
+"faceH": 170,
+"tried": 1
+},
+"wd-Q237561": {
+"name": "Juliano Belletti",
+"file": "Belletti 2018.jpg",
+"kit": {
+"national": 0.139,
+"club": 0.647,
+"suit": 0.189,
+"plain": 0.025
+},
+"marks": {
+"mark": 0.173,
+"clean": 0.827
+},
+"cloth": null,
+"neck": 0.167,
+"sharp": 905.5,
+"faceH": 276,
+"tried": 12
+},
+"wd-Q311410": {
+"name": "Igor Belanov",
+"file": "Ihor Belanov2019.jpg",
+"kit": {
+"national": 0.318,
+"club": 0.666,
+"suit": 0.011,
+"plain": 0.005
+},
+"marks": {
+"mark": 0.026,
+"clean": 0.974
+},
+"cloth": null,
+"neck": 0.075,
+"sharp": 89.4,
+"faceH": 134,
+"tried": 10
+},
+"wd-Q17070837": {
+"name": "Mehdi Taremi",
+"file": "Mehdi Taremi - 2015.JPG",
+"kit": {
+"national": 0.304,
+"club": 0.694,
+"suit": 0.002,
+"plain": 0.0
+},
+"marks": {
+"mark": 0.467,
+"clean": 0.533
+},
+"cloth": null,
+"neck": 0.169,
+"sharp": 368.2,
+"faceH": 148,
+"tried": 5
+},
+"wd-Q94699949": {
+"name": "Florian Wirtz",
+"file": "Florian Wirtz, 2022-07-31, Saisoneröffnung Bayer 04, Leverkusen (1).jpg",
+"kit": {
+"national": 0.036,
+"club": 0.96,
+"suit": 0.004,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.244,
+"clean": 0.756
+},
+"cloth": null,
+"neck": 0.123,
+"sharp": 91.0,
+"faceH": 174,
+"tried": 1
+},
+"wd-Q316724": {
+"name": "Séamus Coleman",
+"file": "Séamus Coleman - Everton Football Club.png",
+"kit": {
+"national": 0.013,
+"club": 0.987,
+"suit": 0.0,
+"plain": 0.0
+},
+"marks": {
+"mark": 0.249,
+"clean": 0.751
+},
+"cloth": null,
+"neck": 0.052,
+"sharp": 77.9,
+"faceH": 154,
+"tried": 1
+},
+"wd-Q44194": {
+"name": "Sepp Maier",
+"file": "Sepp Maier en 1970 à Mexico City.jpg",
+"kit": {
+"national": 0.033,
+"club": 0.943,
+"suit": 0.001,
+"plain": 0.022
+},
+"marks": {
+"mark": 0.058,
+"clean": 0.942
+},
+"cloth": null,
+"neck": 0.137,
+"sharp": 1195.7,
+"faceH": 182,
+"tried": 11
+},
+"wd-Q290769": {
+"name": "Frank Leboeuf",
+"file": "Frank Leboeuf.jpeg",
+"kit": {
+"national": 0.014,
+"club": 0.014,
+"suit": 0.921,
+"plain": 0.051
+},
+"marks": {
+"mark": 0.098,
+"clean": 0.902
+},
+"cloth": null,
+"neck": 0.062,
+"sharp": 258.1,
+"faceH": 228,
+"tried": 1
+},
+"wd-Q46741": {
+"name": "Leonardo Araújo",
+"file": "Leonardo Nascimento de Araújo 2013-01-01 (cropped).jpg",
+"kit": {
+"national": 0.027,
+"club": 0.028,
+"suit": 0.931,
+"plain": 0.014
+},
+"marks": {
+"mark": 0.1,
+"clean": 0.9
+},
+"cloth": null,
+"neck": 0.078,
+"sharp": 652.5,
+"faceH": 217,
+"tried": 2
+},
+"wd-Q185115": {
+"name": "Edgar Davids",
+"file": "Edgar Davids.jpg",
+"kit": {
+"national": 0.067,
+"club": 0.022,
+"suit": 0.888,
+"plain": 0.023
+},
+"marks": {
+"mark": 0.037,
+"clean": 0.963
+},
+"cloth": null,
+"neck": 0.084,
+"sharp": 222.4,
+"faceH": 160,
+"tried": 7
+},
+"wd-Q295262": {
+"name": "Carlos Alberto Torres",
+"file": "Carlos Alberto Torres.jpg",
+"kit": {
+"national": 0.015,
+"club": 0.001,
+"suit": 0.936,
+"plain": 0.048
+},
+"marks": {
+"mark": 0.017,
+"clean": 0.983
+},
+"cloth": null,
+"neck": 0.04,
+"sharp": 594.6,
+"faceH": 218,
+"tried": 2
+},
+"wd-Q210102": {
+"name": "Jairzinho",
+"file": "Jairzinho Botafogo 1973.jpg",
+"kit": {
+"national": 0.183,
+"club": 0.815,
+"suit": 0.001,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.333,
+"clean": 0.667
+},
+"cloth": null,
+"neck": 0.145,
+"sharp": 242.4,
+"faceH": 159,
+"tried": 1
+},
+"wd-Q44470": {
+"name": "Uwe Seeler",
+"file": "Aankomst Duitse voetbalelftal in Rottedam, Uwe Seeler, Bestanddeelnr 918-9485 (cropped).jpg",
+"kit": {
+"national": 0.0,
+"club": 0.002,
+"suit": 0.823,
+"plain": 0.175
+},
+"marks": {
+"mark": 0.009,
+"clean": 0.991
+},
+"cloth": null,
+"neck": 0.061,
+"sharp": 163.3,
+"faceH": 162,
+"tried": 2
+},
+"wd-Q270367": {
+"name": "Luis Suárez",
+"file": "Luis Suárez Miramontes 1962.jpg",
+"kit": {
+"national": 0.064,
+"club": 0.706,
+"suit": 0.129,
+"plain": 0.1
+},
+"marks": {
+"mark": 0.074,
+"clean": 0.926
+},
+"cloth": null,
+"neck": 0.057,
+"sharp": 139.1,
+"faceH": 268,
+"tried": 5
+},
+"wd-Q204089": {
+"name": "Carlos Valderrama",
+"file": "Valderrama2010 (cropped).JPG",
+"kit": {
+"national": 0.106,
+"club": 0.1,
+"suit": 0.082,
+"plain": 0.712
+},
+"marks": {
+"mark": 0.17,
+"clean": 0.83
+},
+"cloth": null,
+"neck": 0.104,
+"sharp": 318.5,
+"faceH": 169,
+"tried": 3
+},
+"wd-Q128725": {
+"name": "Hidetoshi Nakata",
+"file": "Hidetoshi Nakata in Okinawa.jpg",
+"kit": {
+"national": 0.018,
+"club": 0.023,
+"suit": 0.596,
+"plain": 0.364
+},
+"marks": {
+"mark": 0.121,
+"clean": 0.879
+},
+"cloth": null,
+"neck": 0.08,
+"sharp": 282.0,
+"faceH": 175,
+"tried": 8
+},
+"wd-Q83329": {
+"name": "Nílton Santos",
+"file": "Nilton Santos - 2004.jpg",
+"kit": {
+"national": 0.039,
+"club": 0.006,
+"suit": 0.81,
+"plain": 0.145
+},
+"marks": {
+"mark": 0.104,
+"clean": 0.896
+},
+"cloth": null,
+"neck": 0.036,
+"sharp": 894.6,
+"faceH": 191,
+"tried": 4
+},
+"wd-Q345702": {
+"name": "Kazimierz Deyna",
+"file": "Kazimierz Deyna.jpg",
+"kit": {
+"national": 0.146,
+"club": 0.716,
+"suit": 0.055,
+"plain": 0.083
+},
+"marks": {
+"mark": 0.039,
+"clean": 0.961
+},
+"cloth": null,
+"neck": 0.06,
+"sharp": 332.7,
+"faceH": 208,
+"tried": 3
+},
+"wd-Q271557": {
+"name": "Grzegorz Lato",
+"file": "Grzegorz Lato (28478756371) (cropped).jpg",
+"kit": {
+"national": 0.213,
+"club": 0.154,
+"suit": 0.012,
+"plain": 0.621
+},
+"marks": {
+"mark": 0.029,
+"clean": 0.971
+},
+"cloth": null,
+"neck": 0.181,
+"sharp": 45.3,
+"faceH": 113,
+"tried": 6
+},
+"wd-Q131529": {
+"name": "Hans Krankl",
+"file": "Hans Krankl - Trainer LASK Linz (quer).jpg",
+"kit": {
+"national": 0.179,
+"club": 0.143,
+"suit": 0.342,
+"plain": 0.337
+},
+"marks": {
+"mark": 0.336,
+"clean": 0.664
+},
+"cloth": null,
+"neck": 0.04,
+"sharp": 114.2,
+"faceH": 136,
+"tried": 2
+},
+"wd-Q233819": {
+"name": "Johan Neeskens",
+"file": "Johan Neeskens 1981.jpg",
+"kit": {
+"national": 0.121,
+"club": 0.657,
+"suit": 0.16,
+"plain": 0.063
+},
+"marks": {
+"mark": 0.179,
+"clean": 0.821
+},
+"cloth": null,
+"neck": 0.055,
+"sharp": 456.9,
+"faceH": 157,
+"tried": 10
+},
+"wd-Q135625": {
+"name": "Dejan Savićević",
+"file": "Dejan Savićević.jpg",
+"kit": {
+"national": 0.048,
+"club": 0.117,
+"suit": 0.814,
+"plain": 0.022
+},
+"marks": {
+"mark": 0.019,
+"clean": 0.981
+},
+"cloth": null,
+"neck": 0.194,
+"sharp": 343.6,
+"faceH": 272,
+"tried": 1
+},
+"wd-Q441135": {
+"name": "Formiga",
+"file": "Formiga preparação Rio 2016.png",
+"kit": {
+"national": 0.288,
+"club": 0.711,
+"suit": 0.001,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.27,
+"clean": 0.73
+},
+"cloth": null,
+"neck": 0.062,
+"sharp": 57.2,
+"faceH": 126,
+"tried": 4
+},
+"wd-Q310981": {
+"name": "Elías Figueroa",
+"file": "Don Elías Figueroa.jpg",
+"kit": {
+"national": 0.009,
+"club": 0.001,
+"suit": 0.763,
+"plain": 0.227
+},
+"marks": {
+"mark": 0.269,
+"clean": 0.731
+},
+"cloth": null,
+"neck": 0.065,
+"sharp": 295.8,
+"faceH": 193,
+"tried": 2
+},
+"wd-Q62050484": {
+"name": "Michael Olise",
+"file": "Olise 2022 crystal palace.jpg",
+"kit": {
+"national": 0.209,
+"club": 0.579,
+"suit": 0.002,
+"plain": 0.21
+},
+"marks": {
+"mark": 0.098,
+"clean": 0.902
+},
+"cloth": null,
+"neck": 0.048,
+"sharp": 360.8,
+"faceH": 236,
+"tried": 1
+},
+"wd-Q61460651": {
+"name": "Gabriel Martinelli",
+"file": "1 Gabriel Martinelli arsenal 2025 (cropped).jpg",
+"kit": {
+"national": 0.293,
+"club": 0.706,
+"suit": 0.001,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.109,
+"clean": 0.891
+},
+"cloth": null,
+"neck": 0.047,
+"sharp": 196.6,
+"faceH": 190,
+"tried": 3
+},
+"wd-Q61986758": {
+"name": "Mason Greenwood",
+"file": "Mason Greenwood (cropped).jpeg",
+"kit": {
+"national": 0.176,
+"club": 0.819,
+"suit": 0.001,
+"plain": 0.004
+},
+"marks": {
+"mark": 0.282,
+"clean": 0.718
+},
+"cloth": null,
+"neck": 0.108,
+"sharp": 275.3,
+"faceH": 205,
+"tried": 2
+},
+"wd-Q160472": {
+"name": "Marc-André ter Stegen",
+"file": "Marc-André ter Stegen (FC Barcelona), Mattias Ekström (EKS) (20910648614) (cropped).jpg",
+"kit": {
+"national": 0.03,
+"club": 0.967,
+"suit": 0.001,
+"plain": 0.002
+},
+"marks": {
+"mark": 0.393,
+"clean": 0.607
+},
+"cloth": null,
+"neck": 0.052,
+"sharp": 113.0,
+"faceH": 155,
+"tried": 5
+},
+"wd-Q27967807": {
+"name": "Aaron Ramsdale",
+"file": "Aaron Ramsdale 2019 (cropped).png",
+"kit": {
+"national": 0.018,
+"club": 0.981,
+"suit": 0.001,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.135,
+"clean": 0.865
+},
+"cloth": null,
+"neck": 0.106,
+"sharp": 35.8,
+"faceH": 152,
+"tried": 4
+},
+"wd-Q58323172": {
+"name": "Bruno Guimarães",
+"file": "Bruno Guimarães.png",
+"kit": {
+"national": 0.018,
+"club": 0.976,
+"suit": 0.001,
+"plain": 0.005
+},
+"marks": {
+"mark": 0.472,
+"clean": 0.528
+},
+"cloth": null,
+"neck": 0.115,
+"sharp": 30.4,
+"faceH": 123,
+"tried": 1
+},
+"wd-Q112184628": {
+"name": "Dean Huijsen",
+"file": "Dean Huijsen 2024.jpg",
+"kit": {
+"national": 0.089,
+"club": 0.907,
+"suit": 0.004,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.173,
+"clean": 0.827
+},
+"cloth": null,
+"neck": 0.103,
+"sharp": 419.0,
+"faceH": 176,
+"tried": 2
+},
+"wd-Q104414736": {
+"name": "Nico Williams",
+"file": "NICO WILLIAMS - ATHLETIC BILBAO v OSASUNA.jpg",
+"kit": {
+"national": 0.303,
+"club": 0.689,
+"suit": 0.006,
+"plain": 0.002
+},
+"marks": {
+"mark": 0.405,
+"clean": 0.595
+},
+"cloth": null,
+"neck": 0.058,
+"sharp": 209.4,
+"faceH": 158,
+"tried": 2
+},
+"wd-Q21130285": {
+"name": "Marcos Llorente",
+"file": "Marcos Llorente 2019.jpg",
+"kit": {
+"national": 0.094,
+"club": 0.9,
+"suit": 0.002,
+"plain": 0.004
+},
+"marks": {
+"mark": 0.393,
+"clean": 0.607
+},
+"cloth": null,
+"neck": 0.05,
+"sharp": 167.4,
+"faceH": 118,
+"tried": 2
+},
+"wd-Q23908113": {
+"name": "Unai Simón",
+"file": "Unai Simón Mendibil.jpg",
+"kit": {
+"national": 0.225,
+"club": 0.773,
+"suit": 0.002,
+"plain": 0.001
+},
+"marks": {
+"mark": 0.318,
+"clean": 0.682
+},
+"cloth": null,
+"neck": 0.157,
+"sharp": 140.0,
+"faceH": 129,
+"tried": 1
+},
+"wd-Q56868118": {
+"name": "William Saliba",
+"file": "1 william saliba arsenal 2025 (cropped).jpg",
+"kit": {
+"national": 0.087,
+"club": 0.912,
+"suit": 0.0,
+"plain": 0.0
+},
+"marks": {
+"mark": 0.26,
+"clean": 0.74
+},
+"cloth": null,
+"neck": 0.049,
+"sharp": 166.0,
+"faceH": 152,
+"tried": 4
+}
+}

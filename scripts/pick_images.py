@@ -217,7 +217,7 @@ def score(entry, title, meta, source):
 
 # Athlete photos. First choice: a sharp action shot with the face big and clear. Second choice: a sharp,
 # close head-and-shoulders photo. Otherwise the athlete sits out. These are never used…
-NEVER = re.compile(r"\bwax\b|tussaud|statue|sculpture|\bbust\b|caricature|mural|stamp|coin|banknote|grave|tomb|"
+NEVER = re.compile(r"\bwax\b|waxwork|wax figure|tussaud|figurita|sticker|panini|trading card|statue|sculpture|\bbust\b|caricature|mural|stamp|coin|banknote|grave|tomb|"
                    r"drawing|painting|cartoon|poster|autograph|signature|team photo|squad|line-?up", re.I)
 # …these mark a posed picture (allowed, but only as the second choice)…
 POSED = re.compile(r"portrait|head ?shot|press conference|news conference|signing|premiere|red carpet|award|gala|"

@@ -140,7 +140,7 @@
  },
  "wd-Q471571": {
   "reject": [
-   "Roberto Durán by Bill Apter.jpg"
+   "Roberto Dur\u00e1n by Bill Apter.jpg"
   ],
   "note": "review: magazine cover"
  },
@@ -330,6 +330,8 @@
  },
  "wd-Q186478": {
   "reject": [
+   "FC Zenit Saint Petersburg vs. Juventus, 20 October 2021 33 (Luca Toni).jpg",
+   "Luca Toni 2017 (cropped).jpg",
    "Luca Toni Bayern.jpg"
   ],
   "note": "review: small face"
@@ -354,7 +356,7 @@
  },
  "wd-Q1925465": {
   "reject": [
-   "Raúl Jiménez 01112025 (2).jpg"
+   "Ra\u00fal Jim\u00e9nez 01112025 (2).jpg"
   ],
   "note": "review: soft"
  },
@@ -384,7 +386,9 @@
  },
  "wd-Q208104": {
   "reject": [
-   "Los Caminos del fútbol. Xabi Alonso (39480409675).jpg"
+   "Los Caminos del f\u00fatbol. Xabi Alonso (39480409675).jpg",
+   "Los Caminos del f\u00fatbol. Xabi Alonso (39666777934) (cropped).jpg",
+   "Los Caminos del f\u00fatbol. Xabi Alonso (39666778464) (cropped).jpg"
   ],
   "note": "review: small face, soft"
  },
@@ -396,7 +400,7 @@
  },
  "wd-Q178649": {
   "reject": [
-   "Romário Brazil V Morocco 13 June 2026-29.jpg"
+   "Rom\u00e1rio Brazil V Morocco 13 June 2026-29.jpg"
   ],
   "note": "review: country name on the shirt"
  },
@@ -420,13 +424,13 @@
  },
  "wd-Q213879": {
   "reject": [
-   "Gordon Banks México 70.jpg"
+   "Gordon Banks M\u00e9xico 70.jpg"
   ],
   "note": "review: sticker card naming the country"
  },
  "wd-Q27995553": {
   "reject": [
-   "2019-05-17 Fußball, Frauen, UEFA Women's Champions League, Olympique Lyonnais - FC Barcelona StP 0804 LR10 by Stepro (cropped).jpg"
+   "2019-05-17 Fu\u00dfball, Frauen, UEFA Women's Champions League, Olympique Lyonnais - FC Barcelona StP 0804 LR10 by Stepro (cropped).jpg"
   ],
   "note": "review: looking down"
  },
@@ -438,7 +442,7 @@
  },
  "wd-Q110644260": {
   "reject": [
-   "Endrick seleção vs inglaterra.jpg"
+   "Endrick sele\u00e7\u00e3o vs inglaterra.jpg"
   ],
   "note": "review: looking down"
  },
@@ -450,7 +454,7 @@
  },
  "wd-Q1918": {
   "reject": [
-   "2019147183112 2019-05-27 Fussball 1.FC Kaiserslautern vs FC Bayern München - Sven - 1D X MK II - 0218 - B70I8517.jpg"
+   "2019147183112 2019-05-27 Fussball 1.FC Kaiserslautern vs FC Bayern M\u00fcnchen - Sven - 1D X MK II - 0218 - B70I8517.jpg"
   ],
   "note": "review: hand at the face"
  },
@@ -468,7 +472,8 @@
  },
  "wd-Q50600": {
   "reject": [
-   "Carlos Tevez, UEFA CL match Celtic vs Manchester - by Tsutomu Takasu (Light).jpg"
+   "Carlos Tevez, UEFA CL match Celtic vs Manchester - by Tsutomu Takasu (Light).jpg",
+   "InddelVal-Boca (4).jpg"
   ],
   "note": "review: colour fringe beside the head"
  },
@@ -510,7 +515,7 @@
  },
  "wd-Q6186603": {
   "reject": [
-   "240609 FC 서울 팬사인회 (Jesse Lingard).jpg"
+   "240609 FC \uc11c\uc6b8 \ud32c\uc0ac\uc778\ud68c (Jesse Lingard).jpg"
   ],
   "note": "review: lettering on the cap"
  },
@@ -528,7 +533,8 @@
  },
  "wd-Q171583": {
   "reject": [
-   "2015-02-06 Sir Bobby Charlton 0288.JPG"
+   "2015-02-06 Sir Bobby Charlton 0288.JPG",
+   "Bobby Charlton.jpg"
   ],
   "note": "review: colour fringe beside the face"
  },
@@ -537,5 +543,265 @@
    "Ferran Torres 2019.png"
   ],
   "note": "review: face in shadow, turned away"
+ },
+ "wd-Q129027": {
+  "reject": [
+   "Paul Pogba at the 2025 Cannes Film Festival 04 (cropped).jpg"
+  ],
+  "note": "review: another face at the edge"
+ },
+ "wd-Q47778": {
+  "reject": [
+   "Gary Lineker (cropped).jpg",
+   "Lineker waxwork.jpg"
+  ],
+  "note": "review: dark background left beside the head"
+ },
+ "wd-Q15221199": {
+  "reject": [
+   "Adama Traor\u00e9 14092024.jpg",
+   "Adama Traor\u00e9 29122024 (2).jpg",
+   "Adama Traor\u00e9 29122024 (4).jpg"
+  ],
+  "note": "review: dark background left above the head"
+ },
+ "wd-Q152107": {
+  "reject": [
+   "Jupp Heynckes 2012 Bayern M\u00fcnchen.jpg",
+   "Jupp Heynckes 2702.jpg",
+   "Jupp Heynckes 2716.jpg"
+  ]
+ },
+ "wd-Q126503": {
+  "reject": [
+   "Filippo Inzaghi 2011.jpg"
+  ]
+ },
+ "wd-Q129118": {
+  "reject": [
+   "2019-05-17 Fu\u00dfball, Frauen, UEFA Women's Champions League, Olympique Lyonnais - FC Barcelona StP 0627 LR10 by Stepro.jpg"
+  ]
+ },
+ "wd-Q4721366": {
+  "reject": [
+   "Premios Goya 2026 - Alexia Putellas (cropped).jpg"
+  ]
+ },
+ "wd-Q43913": {
+  "reject": [
+   "Arjen Robben 2649.jpg"
+  ]
+ },
+ "wd-Q828203": {
+  "reject": [
+   "Berti Vogts 1 (cropped).JPG"
+  ]
+ },
+ "wd-Q296583": {
+  "reject": [
+   "Bryan Robson Thailand 2009-11-01 (2).jpg"
+  ]
+ },
+ "wd-Q192640": {
+  "reject": [
+   "Dejan Stankovic 2020.jpg"
+  ]
+ },
+ "wd-Q180661": {
+  "reject": [
+   "Dino Zoff (1974).jpg"
+  ]
+ },
+ "wd-Q24084301": {
+  "reject": [
+   "DONYELL MALEN \u2013 2023.08.12 (02).jpg"
+  ]
+ },
+ "wd-Q157126": {
+  "reject": [
+   "Ernst Happel 1978.jpg"
+  ]
+ },
+ "wd-Q487155": {
+  "reject": [
+   "Huguito.jpg"
+  ]
+ },
+ "wd-Q312595": {
+  "reject": [
+   "Ian Wright Eng Women 0 Czech Rep 0 11 10 2022-23 (52426854534) (cropped).jpg"
+  ]
+ },
+ "wd-Q313674": {
+  "reject": [
+   "Jack Charlton (cropped).jpg",
+   "Jack Charlton M\u00e9xico 70.png",
+   "Jackie charlton figurita.jpg"
+  ]
+ },
+ "wd-Q209650": {
+  "reject": [
+   "Jari Litmanen 2015.jpg"
+  ]
+ },
+ "wd-Q201752": {
+  "reject": [
+   "Javi Martinez 2019 (cropped).jpg",
+   "Javi Martinez 2019.jpg"
+  ]
+ },
+ "wd-Q192965": {
+  "reject": [
+   "Juan Rom\u00e1n Riquelme - 2019.jpg"
+  ]
+ },
+ "wd-Q151260": {
+  "reject": [
+   "MJK30405 J\u00e9r\u00f4me Boateng (Berlinale 2017).jpg"
+  ]
+ },
+ "wd-Q152871": {
+  "reject": [
+   "2015-02-06 Rummenigge 0353.JPG"
+  ]
+ },
+ "wd-Q331953": {
+  "reject": [
+   "Kazu Miura at Matsuda tribute match 20120122 (cropped).jpg"
+  ]
+ },
+ "wd-Q61780902": {
+  "reject": [
+   "Khvicha Kvaratskhelia cropped.jpg"
+  ]
+ },
+ "wd-Q214513": {
+  "reject": [
+   "Mark Hughes juli 1991.JPG"
+  ]
+ },
+ "wd-Q17070837": {
+  "reject": [
+   "MehdiTaremi.jpg"
+  ]
+ },
+ "wd-Q4261": {
+  "reject": [
+   "Michel Platini 2008.jpg"
+  ]
+ },
+ "wd-Q154305": {
+  "reject": [
+   "2019147182952 2019-05-27 Fussball 1.FC Kaiserslautern vs FC Bayern M\u00fcnchen - Sven - 1D X MK II - 0109 - B70I8408 (cropped).jpg"
+  ]
+ },
+ "wd-Q18976": {
+  "reject": [
+   "Ole Gunnar Solskjaer Trondheim2011-1 crop.jpg",
+   "Ole Gunnar Solskjaer Trondheim2011-1.jpg"
+  ]
+ },
+ "wd-Q186691": {
+  "reject": [
+   "Oleg Blokhin1.jpg"
+  ]
+ },
+ "wd-Q152844": {
+  "reject": [
+   "Oliver Bierhoff 2006.jpg"
+  ]
+ },
+ "wd-Q220700": {
+  "reject": [
+   "1963 Omar S\u00edvori (cropped).jpg"
+  ]
+ },
+ "wd-Q13002": {
+  "reject": [
+   "Paul Gascoigne 2021.png"
+  ]
+ },
+ "wd-Q12897": {
+  "reject": [
+   "Pele by John Mathew Smith.jpg"
+  ]
+ },
+ "wd-Q44977": {
+  "reject": [
+   "1 Pierre-Emerick Aubameyang (cropped).jpg"
+  ]
+ },
+ "wd-Q123118": {
+  "reject": [
+   "Raymond Kopa 1963.jpg"
+  ]
+ },
+ "wd-Q2154479": {
+  "reject": [
+   "Koppen Nederlandse voetballers Rinus Michels, Bestanddeelnr 254-9536 2.jpg",
+   "Rinus Michels (1966).jpg"
+  ]
+ },
+ "wd-Q151269": {
+  "reject": [
+   "Robert Lewandowski FCB.jpg"
+  ]
+ },
+ "wd-Q113156": {
+  "reject": [
+   "Robert Pires 2011 (cropped).jpg",
+   "Robert Pires 2011.jpg",
+   "Robert Pir\u00e8s.jpg"
+  ]
+ },
+ "wd-Q602525": {
+  "reject": [
+   "LFC players after the 2018-UCL final (cropped).jpg"
+  ]
+ },
+ "wd-Q1249859": {
+  "reject": [
+   "Rogerio ceni.jpg"
+  ]
+ },
+ "wd-Q192635": {
+  "reject": [
+   "Ronald Koeman (1983).jpg",
+   "Ronald Koeman 1983.jpg"
+  ]
+ },
+ "wd-Q39444": {
+  "reject": [
+   "2019 - Press conferences - Day 1 ENX 6950 (49019873887) (cropped).jpg",
+   "2019 - Press conferences - Day 1 ENX 6950 (49019873887).jpg",
+   "Ron2016 1.jpg",
+   "Ronaldo de Assis Moreira.jpg"
+  ]
+ },
+ "wd-Q294351": {
+  "reject": [
+   "Sinisa 2015 (cropped).jpg"
+  ]
+ },
+ "wd-Q311403": {
+  "reject": [
+   "Teofilo cubillas panini card (cropped).jpg"
+  ]
+ },
+ "wd-Q252190": {
+  "reject": [
+   "11. Internationale Sportnacht Davos 2013 (10877547835).jpg"
+  ]
+ },
+ "wd-Q68039": {
+  "reject": [
+   "Boniek Zbigniew.jpg",
+   "Nederland tegen Polen 0-0 in Olympisch Stadion in Amsterdam Lazarek, nr. 11, 12, Bestanddeelnr 933-8193 (cropped).jpg"
+  ]
+ },
+ "wd-Q170328": {
+  "reject": [
+   "Eric Cantona Cannes 2009.jpg"
+  ]
  }
 }
