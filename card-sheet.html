@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Player cards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Every head-and-neck card, weakest first, with the kit and flag checks, and a Reject button. */
+  html, body { height: auto; overflow: auto; background: var(--bg); }
+  main { max-width: 1400px; margin: 0 auto; padding: 24px 16px 80px; display: grid; gap: 16px; }
+  h1 { margin: 0; font: 900 44px/1 var(--f-display); text-transform: uppercase; }
+  p { margin: 0; max-width: 90ch; line-height: 1.5; }
+  .bar2 { position: sticky; top: 0; z-index: 2; display: flex; gap: 12px; align-items: center; padding: 10px 0; background: var(--bg); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+  .c { background: var(--surface); border: 2px solid var(--line); border-radius: 4px; padding: 8px; display: grid; gap: 4px; font-size: 12px; }
+  .c.rej { border-color: var(--accent); opacity: 0.55; }
+  .c .pic { aspect-ratio: 4 / 5; background: radial-gradient(circle at 50% 38%, var(--surface) 0 42%, var(--surface-2) 75%); border-radius: 3px; }
+  .c .pic img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .c b { font: 800 16px/1 var(--f-display); text-transform: uppercase; }
+  .c .warn { color: var(--accent); font-weight: 700; }
+  .c button { justify-self: start; padding: 3px 8px; border: 2px solid var(--border); background: var(--surface); font: 700 12px var(--f-body); }
+  .c.rej button { background: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Player cards</h1>
+  <p>Every football card, weakest first: the ones whose kit check (before cutting) or flag-and-crest check (after)
+    came closest to the limit are at the top. Reject any card that still shows a shirt, collar, crest, flag or
+    lettering, then Save: the rejections go into <code>data/images.json</code> and the next run of
+    <code>python3 scripts/make_cutouts.py</code> looks for another picture.</p>
+  <div class="bar2"><button class="go" id="saveBtn" style="min-width:0;height:44px;font-size:20px">Save rejections</button><span id="count"></span></div>
+  <div class="grid" id="grid"></div>
+</main>
+<script type="module">
+  const [players, report] = await Promise.all([fetch("data/football-players.json").then((r) => r.json()), fetch("data/cutout-report.json").then((r) => r.json())]);
+  const KEY = "hg:cardsheet:pending";
+  let pending = {};
+  try { pending = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
+  const keep = () => { try { localStorage.setItem(KEY, JSON.stringify(pending)); } catch {} };
+  const rows = players.players.filter((e) => report[e.id]).map((e) => {
+    const r = report[e.id], nat = r.kit?.national ?? 0, mark = r.marks?.mark ?? 0;
+    return { e, r, worst: Math.max(nat / 0.35, mark / 0.5) };
+  }).sort((a, b) => b.worst - a.worst);
+  const pct = (x) => (x == null ? "–" : `${Math.round(x * 100)}%`);
+  function render() {
+    document.getElementById("grid").innerHTML = rows.map(({ e, r }) => {
+      const rej = pending[e.id]?.includes(r.file);
+      return `<div class="c${rej ? " rej" : ""}">
+        <div class="pic"><img src="${e.image}" alt="${e.name}" loading="lazy"></div>
+        <b>${e.name}</b>
+        <span class="${(r.kit?.national ?? 0) > 0.2 ? "warn" : ""}">National shirt ${pct(r.kit?.national)} · club ${pct(r.kit?.club)}</span>
+        <span class="${(r.marks?.mark ?? 0) > 0.35 ? "warn" : ""}">Flag, crest or text ${pct(r.marks?.mark)}</span>
+        <span>${e.list === "legend" ? "Legend" : "Current"}${e.current && e.list === "legend" ? " (still playing)" : ""} · tried ${r.tried}</span>
+        <button data-id="${e.id}" data-file="${r.file.replace(/"/g, "&quot;")}">${rej ? "Rejected" : "Reject"}</button>
+      </div>`;
+    }).join("");
+    document.getElementById("count").textContent = `${rows.length} cards · ${Object.values(pending).flat().length} rejected, not saved yet`;
+  }
+  document.getElementById("grid").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button"); if (!b) return;
+    const list = new Set(pending[b.dataset.id] || []);
+    list.has(b.dataset.file) ? list.delete(b.dataset.file) : list.add(b.dataset.file);
+    if (list.size) pending[b.dataset.id] = [...list]; else delete pending[b.dataset.id];
+    keep(); render();
+  });
+  // Merge the rejections into data/images.json: write it in place where the browser allows, else download it.
+  document.getElementById("saveBtn").onclick = async () => {
+    const merge = (current) => {
+      for (const [id, files] of Object.entries(pending)) {
+        const o = current[id] || (current[id] = {});
+        o.reject = [...new Set([...(o.reject || []), ...files])];
+      }
+      return JSON.stringify(current, null, 1) + "\n";
+    };
+    try {
+      if (window.showOpenFilePicker) {
+        const [handle] = await showOpenFilePicker({ types: [{ description: "data/images.json", accept: { "application/json": [".json"] } }] });
+        const text = merge(JSON.parse(await (await handle.getFile()).text()));
+        const w = await handle.createWritable(); await w.write(text); await w.close();
+      } else {
+        const text = merge(await (await fetch("data/images.json")).json());
+        Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([text], { type: "application/json" })), download: "images.json" }).click();
+      }
+      pending = {}; keep(); render();
+      alert("Saved. Now run: python3 scripts/make_cutouts.py");
+    } catch (err) { if (err.name !== "AbortError") alert("Couldn't save: " + err.message); }
+  };
+  render();
+</script>
+</body>
+</html>

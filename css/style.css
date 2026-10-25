@@ -763,3 +763,11 @@ body[data-mode="football"] .ft-mode { background: var(--secondary); color: var(-
   .square { width: 30px; height: 30px; font-size: 17px; }
   }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* Player cards: head-and-neck cutouts from assets/players/ (transparent, the bottom already faded out).
+   They sit on the card colour, never cropped, so the face is always whole. */
+#portrait.cutout { background: radial-gradient(circle at 50% 38%, var(--surface) 0 42%, var(--surface-2) 75%); }
+#portrait.cutout img { object-fit: contain; object-position: 50% 100%; }
+img[src^="assets/players/"] { object-fit: contain !important; object-position: 50% 40% !important; }
+.tcard-pic img[src^="assets/players/"] { background: radial-gradient(circle at 50% 40%, var(--surface) 0 40%, var(--surface-2) 75%); }
+.pc-av img[src^="assets/players/"] { object-position: 50% 30% !important; transform: scale(1.25); transform-origin: 50% 30%; background: var(--surface); }

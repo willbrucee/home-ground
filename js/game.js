@@ -347,7 +347,9 @@ function renderPortrait(it, revealed) {
   // Photos come in three sizes so the 4:5 frame is always sharp (a landscape photo cropped to 4:5 shows
   // only its middle, so it needs more pixels than the frame's width). Logos are small and simple.
   const at = (w) => it.image.replace(/width=\d+/, `width=${w}`);
-  if (it.type === "athlete") img.srcset = `${at(500)} 500w, ${at(960)} 960w, ${at(1280)} 1280w`; // Commons' standard sizes
+  const cutout = it.image.startsWith("assets/"); // our own head-and-neck card, served from this site
+  $("#portrait").classList.toggle("cutout", cutout);
+  if (it.type === "athlete" && !cutout) img.srcset = `${at(500)} 500w, ${at(960)} 960w, ${at(1280)} 1280w`; // Commons' standard sizes
   else img.removeAttribute("srcset");
   img.src = it.image;
   credit.innerHTML = creditLine(it);
@@ -356,7 +358,7 @@ function renderPortrait(it, revealed) {
 // "Photo: Jane Doe · CC BY-SA 4.0 · Wikimedia Commons" (licences like CC BY-SA require this)
 function creditLine(it) {
   const what = it.type === "team" ? "Logo" : "Photo";
-  return `${what}: ${esc(it.imageAuthor || "Unknown")} · ${esc(it.imageLicense || "")} · <a href="${esc(it.imagePage)}" target="_blank" rel="noopener">Wikimedia Commons</a>`;
+  return `${what}: ${esc(it.imageAuthor || "Unknown")} · ${esc(it.imageLicense || "")} · <a href="${esc(it.imagePage)}" target="_blank" rel="noopener">Wikimedia Commons</a>${it.imageEdited ? ` · edited: ${esc(it.imageEdited)}` : ""}`;
 }
 
 // The share text: the game, the day, the rank and total, a square and a tier name per round, and the link.
