@@ -129,6 +129,15 @@ def ocr(title, width=500, photo=False):
     return text
 
 
+def ocr_image(im):
+    """All the text tesseract can read in a picture we already have (one pass, as for photos)."""
+    buf = io.BytesIO()
+    im.convert("L").save(buf, format="PNG")
+    res = subprocess.run(["tesseract", "stdin", "stdout", "--psm", "11"], input=buf.getvalue(), capture_output=True,
+                         env={**os.environ, "OMP_THREAD_LIMIT": "1"})
+    return res.stdout.decode("utf-8", "ignore")
+
+
 def words_in(text):
     """Plausible words in OCR output: runs of 4+ letters (OCR noise on graphics is mostly short scraps)."""
     return [w for w in re.findall(r"[^\W\d_]{4,}", fold(text)) if len(set(w)) > 2]
